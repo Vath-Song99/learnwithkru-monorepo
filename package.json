@@ -2,5 +2,13 @@
   "name": "learnwithkru-monorepo",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": "https://github.com/Vath-Song99/learnwithkru-monorepo.git",
+  "author": "Smoeury Songvat <vatgaming287@gmail.com>",
+  "private": false,
+  "workspaces":["packages/*","application/*"],
+
+  "scripts": {
+    "start": "docker-compose up --build"
+  }
 }

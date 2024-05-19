@@ -11,17 +11,29 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+  application:
+    container_name: application_container
+    build: 
+      context: ./application
+      dockerfile: Dockerfile.dev
+    restart: always
+    ports:
+      - 8000:8000
+    volumes:
+      - ./packages/src:/app/src
+    env_file:
+      - ./application/configs/.env
   gateway:
     container_name: gateway_container
     build:
-      context: ../api-gateway
+      context: ./packages/api-gateway
       dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "3000:3000"
     volumes:
-      - ../api-gateway/src:/app/src
-    env_file: ../api-gateway/configs/.env
+      - ./packages/api-gateway/src:/app/src
+    env_file: ./packages/api-gateway/configs/.env
     environment:
       AUTH_SERVICE_URL: http://auth:3001
       TEACHER_SERVICE_URL: "http://teacher:3002"
@@ -31,14 +43,14 @@ services:
   notification:
     container_name: notification_container
     build:
-      context: ../notification
+      context: ./packages/notification
       dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "3005:3005"
     volumes:
-      - ../notification/src:/app/src
-    env_file: ../notification/configs/.env
+      - ./packages/notification/src:/app/src
+    env_file: ./packages/notification/configs/.env
     environment:
       RABBITMQ_ENDPOINT: amqp://myuser:mypassword@rabbitmq_container:5672
     depends_on:
@@ -46,14 +58,14 @@ services:
   auth:
     container_name: auth_container
     build:
-      context: ../auth
+      context: ./packages/auth
       dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "3001:3001"
     volumes:
-      - ../auth/src:/app/src
-    env_file: ../auth/configs/.env
+      - ./packages/auth/src:/app/src
+    env_file: ./packages/auth/configs/.env
     environment:
       USER_SERVICE: http://user:3004
       RABBITMQ_ENDPOINT: amqp://myuser:mypassword@rabbitmq_container:5672
@@ -63,41 +75,41 @@ services:
   user:
     container_name: user_container
     build:
-      context: ../user
+      context: ./packages/user
       dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "3004:3004"
     volumes:
-      - ../user/src:/app/src
-    env_file: ../user/configs/.env
+      - ./packages/user/src:/app/src
+    env_file: ./packages/user/configs/.env
     environment:
       AUTH_SERVICE_GET: http://auth:3001
 
   student:
     container_name: student_container
     build:
-      context: ../student
+      context: ./packages/student
       dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "3003:3003"
     volumes:
-      - ../student/src:/app/src
-    env_file: ../student/configs/.env
+      - ./packages/student/src:/app/src
+    env_file: ./packages/student/configs/.env
     environment:
       USER_SERVICE: http://user:3004
   teacher:
     container_name: teacher_container
     build:
-      context: ../teacher
+      context: ./packages/teacher
       dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "3002:3002"
     volumes:
-      - ../teacher/src:/app/src
-    env_file: ../teacher/configs/.env
+      - ./packages/teacher/src:/app/src
+    env_file: ./packages/teacher/configs/.env
 networks:
   default:
     driver: bridge
