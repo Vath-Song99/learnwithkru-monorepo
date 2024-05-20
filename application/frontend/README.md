@@ -1,32 +1,32 @@
+<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+<a name="readme-top"></a>
+<!--
+*** Thanks for checking out the Best-README-Template. If you have a suggestion
+*** that would make this better, please fork the repo and create a pull request
+*** or simply open an issue with the tag "enhancement".
+*** Don't forget to give the project a star!
+*** Thanks again! Now go create something AMAZING! :D
+-->
+
+
+
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
+
+
+
+
+<!-- PROJECT LOGO -->
+<br />
 <div align="center">
-  <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
-  <a name="readme-top"></a>
-  <!--
-  *** Thanks for checking out the Best-README-Template. If you have a suggestion
-  *** that would make this better, please fork the repo and create a pull request
-  *** or simply open an issue with the tag "enhancement".
-  *** Don't forget to give the project a star!
-  *** Thanks again! Now go create something AMAZING! :D
-  -->
-
-  <!-- PROJECT SHIELDS -->
-  <!--
-  *** I'm using markdown "reference style" links for readability.
-  *** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-  *** See the bottom of this document for the declaration of the reference variables
-  *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-  *** https://www.markdownguide.org/basic-syntax/#reference-style-links
-  -->
-  [![Contributors][contributors-shield]][contributors-url]
-  [![Forks][forks-shield]][forks-url]
-  [![Stargazers][stars-shield]][stars-url]
-  [![Issues][issues-shield]][issues-url]
-  [![MIT License][license-shield]][license-url]
-  [![LinkedIn][linkedin-shield]][linkedin-url]
-
-  <br />
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="https://learnwithkru.com/_next/image?url=%2FLogos%2FKruLogo.png&w=640&q=75" alt="Logo" width="120" height="130">
+    <img src="https://learnwithkru.com/_next/image?url=%2FLogos%2FKruLogo.png&w=640&q=75" alt="Logo" width="90" height="80">
   </a>
   <h1 align="center">Project Learnwithkru</h1>
 </div>
@@ -49,7 +49,11 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -71,6 +75,7 @@ This section lists major frameworks and libraries used in the Learnwithkru proje
 * ![Node.js][Node.js]
 * [![TypeScript][TypeScript]][TypeScript-url]
 * [![Express][Express.js]][Express-url]
+* [![Angular][Angular.io]][Angular-url]
 * [![MongoDB][MongoDB]][MongoDB-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -79,35 +84,8 @@ This section lists major frameworks and libraries used in the Learnwithkru proje
 [Node.js-url]: https://nodejs.org/
 [TypeScript-url]: https://www.typescriptlang.org/
 [Express-url]: https://expressjs.com/
+[Angular-url]: https://angular.io/
 [MongoDB-url]: https://www.mongodb.com/
-
-### Project Structure
-
-The Learnwithkru project follows a monorepo structure. Here’s a brief overview:
-
-```sh
-learnwithkru-monorepo/
-├── application/
-│   └── frontend/ 
-├── packages/
-│   ├── api-gateway/ 
-│   ├── auth/    
-│   ├── notification/     
-│   ├── student/
-│   ├── teacher/
-│   ├── user/
-│   └── volomes/
-├── docker/         
-├── libs/
-│   ├──  shared-libs/
-│   └──  config-libs/
-├── docs/      
-└── README.md      
-```
-Each package has its own set of dependencies and configuration files, allowing for modular development.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-<!-- GETTING STARTED -->
 
 ## Getting Started
 
@@ -119,29 +97,19 @@ Follow these steps to set up this project locally using Docker.
 
 Ensure you have the following software installed before proceeding:
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-* [Node.js](https://nodejs.org/en)
-* [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable)
 
 #### Setup Steps
 
-1. Clone the project:
+1. Navigate to the `volumes` folder:
 
-Open your terminal and run the following command to clone the project repository:
     ```sh
-       git clone https://github.com/Vath-Song99/learnwithkru-monorepo.git
-    ``` 
-
-2. Navigate to the `Learnwithkru-monorepo` folder:
-
-  Open your terminal and change the directory to the Learnwithkru-monorepo folder. Replace path/to with the actual path to the project directory on your machine.
-    ```sh
-       cd path/to/learnwithkru-monorepo
+    cd volumes
     ```
 
-3. Build and run the Docker containers:
-  Use the following command to build and start the Docker containers. This will set up the necessary environment for your project.
+2. Build and run the Docker containers:
+
     ```sh
-     yarn start:docker
+    docker-compose up --build
     ```
 
 After completing these steps, your project will be successfully set up locally!
@@ -150,30 +118,22 @@ After completing these steps, your project will be successfully set up locally!
 
 If you prefer to set up the project without Docker, follow these commands:
 
-1. Clone the project:
+1. Navigate to the specific service directory:
 
-Open your terminal and run the following command to clone the project repository:
     ```sh
-      git clone https://github.com/Vath-Song99/learnwithkru-monorepo.git
+    cd service_name
     ```
 
-2. Navigate to the `Learnwithkru-monorepo` folder:
+2. Install the necessary Node.js modules:
 
-  Open your terminal and change the directory to the Learnwithkru-monorepo folder. Replace path/to with the actual path to the project directory on your machine.
     ```sh
-    cd path/to/learnwithkru-monorepo
+    npm install
     ```
 
-3. Install the necessary Node.js modules:
+3. Start the development server:
 
     ```sh
-    yarn
-    ```
-
-3. Start all the development server:
-
-    ```sh
-    yarn start:all
+    npm run start:dev
     ```
 
 
@@ -222,9 +182,9 @@ _For more examples and detailed instructions, please refer to the [Documentation
 <!-- CONTACT -->
 ## Contact
 
-Smoeury Songvat - (https://www.facebook.com/profile.php?id=100092631759554) - learnwithkru287@gmail.com
+Smoeury Songvat - (https://www.facebook.com/vath.goodboi) - learnwithkru287@gmail.com
 
-Project Link: [Learnwithkru-monorepo](https://github.com/Vath-Song99/learnwithkru-monorepo.git)
+Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
