@@ -5,7 +5,8 @@ FROM node:21-alpine3.18
 WORKDIR /app
 
 # Copy package.json and yarn.lock to the working directory
-COPY package.json yarn.lock ./
+COPY package.json ./
+COPY yarn.lock ./
 
 # Install dependencies using Yarn
 RUN yarn && yarn add -g nodemon

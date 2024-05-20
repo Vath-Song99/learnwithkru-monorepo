@@ -79,8 +79,35 @@ This section lists major frameworks and libraries used in the Learnwithkru proje
 [Node.js-url]: https://nodejs.org/
 [TypeScript-url]: https://www.typescriptlang.org/
 [Express-url]: https://expressjs.com/
-
 [MongoDB-url]: https://www.mongodb.com/
+
+### Project Structure
+
+The Learnwithkru project follows a monorepo structure. Here’s a brief overview:
+
+```sh
+learnwithkru-monorepo/
+├── application/
+│   └── frontend/ 
+├── packages/
+│   ├── api-gateway/   # Contains the frontend application
+│   ├── auth/    # Contains the backend API
+│   ├── notification/     # Shared utilities and configurations
+│   ├── student/
+│   ├── teacher/
+│   ├── user/
+│   └── volomes/
+├── docker/         # Docker configuration files
+├── libs/
+│   ├──  shared-libs/
+│   └──  config-libs/
+├── docs/           # Documentation files
+└── README.md       # Project README file
+```
+Each package has its own set of dependencies and configuration files, allowing for modular development.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<!-- GETTING STARTED -->
 
 ## Getting Started
 
@@ -92,19 +119,30 @@ Follow these steps to set up this project locally using Docker.
 
 Ensure you have the following software installed before proceeding:
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+* [Node.js](https://nodejs.org/en)
+* [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable)
 
 #### Setup Steps
 
-1. Navigate to the `volumes` folder:
+1. Clone the project:
+
+Open your terminal and run the following command to clone the project repository:
 
     ```sh
-    cd volumes
+      git clone https://github.com/Vath-Song99/learnwithkru-monorepo.git
     ```
 
-2. Build and run the Docker containers:
+2. Navigate to the `Learnwithkru-monorepo` folder:
 
+  Open your terminal and change the directory to the Learnwithkru-monorepo folder. Replace path/to with the actual path to the project directory on your machine.
     ```sh
-    docker-compose up --build
+    cd path/to/learnwithkru-monorepo
+    ```
+
+3. Build and run the Docker containers:
+  Use the following command to build and start the Docker containers. This will set up the necessary environment for your project.
+    ```sh
+     yarn start:docker
     ```
 
 After completing these steps, your project will be successfully set up locally!
@@ -113,22 +151,31 @@ After completing these steps, your project will be successfully set up locally!
 
 If you prefer to set up the project without Docker, follow these commands:
 
-1. Navigate to the specific service directory:
+1. Clone the project:
+
+Open your terminal and run the following command to clone the project repository:
 
     ```sh
-    cd service_name
+      git clone https://github.com/Vath-Song99/learnwithkru-monorepo.git
     ```
 
-2. Install the necessary Node.js modules:
+2. Navigate to the `Learnwithkru-monorepo` folder:
 
+  Open your terminal and change the directory to the Learnwithkru-monorepo folder. Replace path/to with the actual path to the project directory on your machine.
     ```sh
-    npm install
+    cd path/to/learnwithkru-monorepo
     ```
 
-3. Start the development server:
+3. Install the necessary Node.js modules:
 
     ```sh
-    npm run start:dev
+    yarn
+    ```
+
+3. Start all the development server:
+
+    ```sh
+    yarn start:all
     ```
 
 
@@ -177,9 +224,9 @@ _For more examples and detailed instructions, please refer to the [Documentation
 <!-- CONTACT -->
 ## Contact
 
-Smoeury Songvat - (https://www.facebook.com/vath.goodboi) - learnwithkru287@gmail.com
+Smoeury Songvat - (https://www.facebook.com/profile.php?id=100092631759554) - learnwithkru287@gmail.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [Learnwithkru-monorepo](https://github.com/Vath-Song99/learnwithkru-monorepo.git)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
