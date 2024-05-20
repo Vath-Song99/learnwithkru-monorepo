@@ -72,6 +72,7 @@ This section lists major frameworks and libraries used in the Learnwithkru proje
 * [![TypeScript][TypeScript]][TypeScript-url]
 * [![Express][Express.js]][Express-url]
 * [![MongoDB][MongoDB]][MongoDB-url]
+* * [![MongoDB][MongoDB]][MongoDB-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
