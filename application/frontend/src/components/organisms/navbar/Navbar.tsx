@@ -155,13 +155,13 @@ const Navbar: React.FC<NavbarProps> = ({
           </Link>
           <Link
             className="text-[#455445] text-sm hover:underline"
-            href={"become-a-teacher-signup-steps"}
+            href={"/become-a-teacher-signup-steps"}
           >
             Become a teacher
           </Link>
           <Link
             className="text-[#455445] text-sm hover:underline"
-            href={"teacher-list"}
+            href={"/teacher-list"}
           >
             Find teacher
           </Link>
