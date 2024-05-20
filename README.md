@@ -128,14 +128,14 @@ Ensure you have the following software installed before proceeding:
 
 Open your terminal and run the following command to clone the project repository:
     ```sh
-      git clone https://github.com/Vath-Song99/learnwithkru-monorepo.git
-    ```
+       git clone https://github.com/Vath-Song99/learnwithkru-monorepo.git
+    ``` 
 
 2. Navigate to the `Learnwithkru-monorepo` folder:
 
   Open your terminal and change the directory to the Learnwithkru-monorepo folder. Replace path/to with the actual path to the project directory on your machine.
     ```sh
-    cd path/to/learnwithkru-monorepo
+       cd path/to/learnwithkru-monorepo
     ```
 
 3. Build and run the Docker containers:
