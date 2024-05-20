@@ -90,19 +90,19 @@ learnwithkru-monorepo/
 ├── application/
 │   └── frontend/ 
 ├── packages/
-│   ├── api-gateway/   # Contains the frontend application
-│   ├── auth/    # Contains the backend API
-│   ├── notification/     # Shared utilities and configurations
+│   ├── api-gateway/ 
+│   ├── auth/    
+│   ├── notification/     
 │   ├── student/
 │   ├── teacher/
 │   ├── user/
 │   └── volomes/
-├── docker/         # Docker configuration files
+├── docker/         
 ├── libs/
 │   ├──  shared-libs/
 │   └──  config-libs/
-├── docs/           # Documentation files
-└── README.md       # Project README file
+├── docs/      
+└── README.md      
 ```
 Each package has its own set of dependencies and configuration files, allowing for modular development.
 
@@ -127,7 +127,6 @@ Ensure you have the following software installed before proceeding:
 1. Clone the project:
 
 Open your terminal and run the following command to clone the project repository:
-
     ```sh
       git clone https://github.com/Vath-Song99/learnwithkru-monorepo.git
     ```
@@ -154,7 +153,6 @@ If you prefer to set up the project without Docker, follow these commands:
 1. Clone the project:
 
 Open your terminal and run the following command to clone the project repository:
-
     ```sh
       git clone https://github.com/Vath-Song99/learnwithkru-monorepo.git
     ```
