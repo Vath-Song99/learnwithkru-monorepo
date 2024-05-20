@@ -20,7 +20,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ./packages/src:/app/src
+      - ./application/src:/app/src
     env_file:
       - ./application/configs/.env
   gateway:
