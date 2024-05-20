@@ -11,18 +11,6 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-  application:
-    container_name: application_container
-    build: 
-      context: ./application
-      dockerfile: Dockerfile.dev
-    restart: always
-    ports:
-      - 8000:8000
-    volumes:
-      - ./application/src:/app/src
-    env_file:
-      - ./application/configs/.env
   gateway:
     container_name: gateway_container
     build:
