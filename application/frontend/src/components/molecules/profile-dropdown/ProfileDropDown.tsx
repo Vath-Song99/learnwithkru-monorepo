@@ -1,5 +1,6 @@
 // components/ProfileDropDown.tsx
 
+import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 interface ProfileDropDownProps {
   children?: React.ReactNode;
@@ -43,7 +44,7 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
     <div className={`relative inline-block ${className}`} ref={dropdownRef}>
       <button
         onClick={toggleDropDown}
-        className="flex items-center justify-center w-[50px] h-[50px] bg-purple-300 rounded-full focus:outline-none"
+        className="flex items-center justify-center w-[24px] h-[24px] bg-purple-300 rounded-full focus:outline-none"
       >
         {/* Add icon here */}
         {icon}
@@ -51,42 +52,42 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
       {isOpen && (
         <div className="absolute -left-14 px-4 mt-2 bg-white border rounded-md shadow-lg z-10 w-[200px]">
           <div className="py-1 flex flex-col justify-center items-center">
-            <a
+            <Link
               href="/"
               className="block px-4 py-2 w-full text-gray-800 hover:bg-gray-400 "
               onClick={handleItemClick}
             >
               Home
-            </a>
-            <a
+            </Link>
+            <Link
               href={"user-setting"}
               className="block px-4 py-2 w-full text-gray-800 hover:bg-gray-400  "
               onClick={handleItemClick}
             >
               Settings
-            </a>
-            <a
+            </Link>
+            <Link
               href={""}
               className="block px-4 py-2 w-full text-gray-800 hover:bg-gray-400  "
               onClick={handleItemClick}
             >
               Favorite
-            </a>
-            <a
+            </Link>
+            <Link
               href={"/teacher-profile"}
               className="block px-4 py-2 w-full text-gray-800 hover:bg-gray-400  "
               onClick={handleItemClick}
             >
               Profile
-            </a>
+            </Link>
             <div className="bg-gray-400 h-[1px] w-full px-10"></div>
-            <a
+            <Link
               href={""}
               className="block mt-20 px-4 py-2  text-red-500  hover:bg-gray-300  "
               onClick={handleItemClick}
             >
               Logout
-            </a>
+            </Link>
           </div>
         </div>
       )}

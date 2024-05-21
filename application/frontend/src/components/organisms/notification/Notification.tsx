@@ -6,54 +6,70 @@ import Image from "next/image";
 import { Mycontext } from "@/context/CardContext";
 interface Notification {
   message: string;
-  date: string;
   time: string;
   profileImage: string;
+  date: string;
 }
 interface NotificationProps {
   className?: string;
   initialNotifications?: Notification[];
 }
 
-const Notification: React.FC<NotificationProps> = ({ className, initialNotifications }) => {
+const Notification: React.FC<NotificationProps> = ({
+  className,
+  initialNotifications,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { currentTime } = useContext(Mycontext);
-  const currentDate = new Date().toLocaleDateString('en-US');
-  // const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  const currentDate = new Date().toLocaleDateString("en-US");
+  const currentTime = new Date().toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
   const [notifications, setNotifications] = useState<Notification[]>([
     {
-      message: "Thank you for being a valued member of our education platform. We're committed to providing you with enriching learning experiences.",
+      message:
+        "Thank you for being a valued member of our education platform. We're committed to providing you with enriching learning experiences.",
       date: currentDate,
       time: currentTime,
       profileImage: "/Profiles/APoy.jpg",
     },
     {
-      message: "Thank you for being a valued member of our education platform. We're committed to providing you with enriching learning experiences.",
+      message:
+        "Thank you for being a valued member of our education platform. We're committed to providing you with enriching learning experiences.",
       date: currentDate,
+
       time: currentTime,
       profileImage: "/Profiles/Ounsart.jpg",
     },
     {
-      message: "Thank you for being a valued member of our education platform. We're committed to providing you with enriching learning experiences.",
+      message:
+        "Thank you for being a valued member of our education platform. We're committed to providing you with enriching learning experiences.",
       date: currentDate,
       time: currentTime,
+
       profileImage: "/Profiles/example1.jpg",
     },
     {
-      message: "Thank you for being a valued member of our education platform. We're committed to providing you with enriching learning experiences.",
+      message:
+        "Thank you for being a valued member of our education platform. We're committed to providing you with enriching learning experiences.",
       date: currentDate,
+
       time: currentTime,
       profileImage: "/Profiles/Teacher2.avif",
     },
     {
-      message: "Thank you for being a valued member of our education platform. We're committed to providing you with enriching learning experiences.",
+      message:
+        "Thank you for being a valued member of our education platform. We're committed to providing you with enriching learning experiences.",
       date: currentDate,
+
       time: currentTime,
       profileImage: "/Profiles/Teacher2.avif",
     },
     {
-      message: "Thank you for being a valued member of our education platform. We're committed to providing you with enriching learning experiences.",
+      message:
+        "Thank you for being a valued member of our education platform. We're committed to providing you with enriching learning experiences.",
       date: currentDate,
+
       time: currentTime,
       profileImage: "/Profiles/Teacher2.avif",
     },
@@ -98,7 +114,7 @@ const Notification: React.FC<NotificationProps> = ({ className, initialNotificat
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          className="w-8 h-8"
+          className="w-6 h-6"
         >
           <path
             stroke-linecap="round"
@@ -109,7 +125,7 @@ const Notification: React.FC<NotificationProps> = ({ className, initialNotificat
       </button>
       {isOpen && (
         // drop down
-        <div className="bg-white absolute -right-24 sm:-right-24 md:right-0 lg:right-0 xl:right-0 mt-1 w-[350px] sm:w-[500px] md:w-[500px] lg:w-[500px] xl:w-[500px] border rounded-lg shadow-lg z-10">
+        <div className=" bg-white  absolute -right-24 sm:-right-24 md:right-0 lg:right-0 xl:right-0 mt-1 w-[350px] sm:w-[500px] md:w-[500px] lg:w-[500px] xl:w-[500px] border rounded-lg shadow-lg z-10">
           <div className="flex justify-between px-5 pt-5">
             <Typography
               fontSize="md"
@@ -118,7 +134,7 @@ const Notification: React.FC<NotificationProps> = ({ className, initialNotificat
               className="mb-10"
             >
               Notification
-            </  Typography>
+            </Typography>
             <button
               onClick={toggleModal}
               className="hover:bg-red-200 hover:rounded-md w-[32px] h-[32px]"
@@ -137,10 +153,18 @@ const Notification: React.FC<NotificationProps> = ({ className, initialNotificat
               </svg>
             </button>
           </div>
-          <div className="w-full p-2 border border-collapse border-gray-200">
+
+          <div className="w-full p-2 ">
+
             <div className="flex">
               <div className="">
-                <div className={notifications.length >= 3 ? "overflow-y-auto h-64" : ""}> {/* Adjust height as needed */}
+                <div
+                  className={
+                    notifications.length >= 3 ? "overflow-y-auto h-60" : ""
+                  }
+                >
+                  {" "}
+                  {/* Adjust height as needed */}
                   {notifications.map((notification, index) => (
                     <div key={index} className="flex mb-2">
                       <Image
@@ -155,21 +179,16 @@ const Notification: React.FC<NotificationProps> = ({ className, initialNotificat
                           {notification.message}
                         </Typography>
                         <div className="flex mt-3">
-                          <Typography align="left" className="text-gray-400 text-[11px]">
-                            {notification.date}
-                          </Typography>
                           <Typography className="ml-5 text-gray-400 text-[11px]">
                             {notification.time}
                           </Typography>
                         </div>
                         <p className="border-b-2 w-full p-2 "></p>
                       </div>
-
                     </div>
                   ))}
                 </div>
               </div>
-
             </div>
           </div>
         </div>
