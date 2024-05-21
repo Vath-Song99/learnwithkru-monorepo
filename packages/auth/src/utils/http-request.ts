@@ -48,7 +48,6 @@ export class RequestUserService {
   async GetUser(authId: string) {
     const url = `${config.userService}${PATH_SERVICE.USER.GET_USER}/${authId}`;
 
-    console.log(url)
     try {
       const response = await axios.get(url);
       if (response.status !== 200) {

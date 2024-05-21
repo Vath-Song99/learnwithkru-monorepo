@@ -83,7 +83,7 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
   });
   useEffect(() => {
     setLimitedTeachers(filteredTeachers.slice(0, 3));
-  }, [search, filteredTeachers]);
+  }, []);
 
 
   return (
