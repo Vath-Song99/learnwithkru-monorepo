@@ -78,13 +78,12 @@ export class AuthServices {
         authId: newUser._id,
         email: newUser!.email as string,
       });
-
     } catch (error: unknown) {
-      logger.error("The erorr accur in Singup() method! : ", error)
-      if(error instanceof BaseCustomError){
-        throw error
+      logger.error("The erorr accur in Singup() method! : ", error);
+      if (error instanceof BaseCustomError) {
+        throw error;
       }
-      throw new ApiError("Songthing went wrong!")
+      throw new ApiError("Songthing went wrong!");
     }
   }
 
@@ -120,7 +119,9 @@ export class AuthServices {
       // step 5
       const messageDetails = {
         receiverEmail: email,
-        verifyLink: `${getConfig().apiGateway}/v1/auth/verify?token=${newAccountVerification.emailVerificationToken}`,
+        verifyLink: `${getConfig().apiGateway}/v1/auth/verify?token=${
+          newAccountVerification.emailVerificationToken
+        }`,
         template: "verifyEmail",
       };
 
@@ -134,11 +135,14 @@ export class AuthServices {
         "Verify email message has been sent to notification service"
       );
     } catch (error) {
-      logger.error("Unexpected error accurs in SendVerifyEmailToken() method! :",error);
-      throw error
+      logger.error(
+        "Unexpected error accurs in SendVerifyEmailToken() method! :",
+        error
+      );
+      throw error;
     }
   }
- 
+
   async VerifyEmailToken(token: string) {
     try {
       const isTokenExist =
@@ -269,11 +273,11 @@ export class AuthServices {
       });
       return { data, jwtToken };
     } catch (error) {
-      logger.error("The error of SigninwithGoogle() method! :", error)
-      if(error instanceof BaseCustomError){
+      logger.error("The error of SigninwithGoogle() method! :", error);
+      if (error instanceof BaseCustomError) {
         throw error;
       }
-      throw new ApiError("Somthing went wrong!")
+      throw new ApiError("Somthing went wrong!");
     }
   }
 
@@ -320,20 +324,22 @@ export class AuthServices {
       const requestUser = new RequestUserService();
       const { data } = await requestUser.GetUser(existingUser._id.toString());
 
-      if(!data){
-        logger.error("No User found in Login() when request data from user db!")
-        throw new ApiError("User doesn't exist!",StatusCode.NOT_FOUND)
+      if (!data) {
+        logger.error(
+          "No User found in Login() when request data from user db!"
+        );
+        throw new ApiError("User doesn't exist!", StatusCode.NOT_FOUND);
       }
       const jwtToken = await generateSignature({
         _id: data._id.toString(),
       });
       return { data, jwtToken };
     } catch (error) {
-        logger.error("Login () method error:", error)
-        if(error instanceof BaseCustomError){
-          throw error;
-        }
-        throw new ApiError("Somthing when wrong!")
+      logger.error("Login () method error:", error);
+      if (error instanceof BaseCustomError) {
+        throw error;
+      }
+      throw new ApiError("Somthing when wrong!");
     }
   }
 

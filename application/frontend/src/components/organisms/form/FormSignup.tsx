@@ -72,10 +72,14 @@ const FormSignup = () => {
     }
   };
 
+  function setLocalStorage(key: string, value: any) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
   async function fetchData(data: AuthForm) {
     try {
       const response = await axios.post(
-        "http://localhost:3000/v1/auth/signup",
+        "http://localhost:3000/v1/auth/signup",         
         data,
         {
           headers: {
@@ -109,11 +113,10 @@ const FormSignup = () => {
   }
 
   // Call the function to make the request
-
   const addNewAuth = async (auth: AuthForm) => {
     try {
       // Call the fetchData function
-      fetchData(auth);
+      await fetchData(auth); // Await added for consistency
       // Optionally fetch data again if rememberMe is not checked
       if (!auth.rememberMe) {
         const responseData = await fetchData(auth);

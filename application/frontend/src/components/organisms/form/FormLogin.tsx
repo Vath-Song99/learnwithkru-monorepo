@@ -70,7 +70,7 @@ const FormLogin = () => {
         );
         console.log(response.data);
       } catch (error) {
-        console.error('Error Hz Preas ery', error)
+        console.error('Error', error)
       }
     };
     // stept 6
