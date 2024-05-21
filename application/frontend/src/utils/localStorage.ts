@@ -7,6 +7,7 @@ export function getLocalStorage(name: string) {
 export function setLocalStorage(name: string, data: any) {
   localStorage.setItem(name, JSON.stringify(data));
 }
-export function getCurrentDateTime(): string {
-  return new Date().toLocaleString();
-}
+
+export const getCurrentDateTime = () => {
+  return new Date().toLocaleString(); // Or any preferred date-time format
+};

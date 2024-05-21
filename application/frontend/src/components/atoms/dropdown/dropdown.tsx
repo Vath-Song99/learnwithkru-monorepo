@@ -15,6 +15,7 @@ interface ShowDropProps {
   className?: string;
   role?: string;
   align?: string;
+  value: string[];
 }
 
 interface LinkDropdownProps {
@@ -86,11 +87,9 @@ const Dropdown: React.FC<DropdownProps> = ({
       </button>
       {isOpen && (
         <div className={`${className}`}>
-          <SelectDropdownnProps >
-            <option value="">
-              {children}
-            </option>
-          </SelectDropdownnProps>
+          <ShowDropdown value={[]} className={className}>
+            {children}
+          </ShowDropdown>
         </div>
       )}
     </div>
@@ -102,16 +101,33 @@ const ShowDropdown: React.FC<ShowDropProps> = ({
   className,
   role,
   align,
+  value, // receive items from props
 }) => {
+  const [selectedItem, setSelectedItem] = useState<string>();
+
+  const handleItemClick = (item: string) => {
+    setSelectedItem(item);
+  };
+
   return (
     <div
-      className={`absolute ${align} right-0 z-10 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none  ${className}`}
+      className={`absolute ${align} right-0 z-10 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${className}`}
       aria-orientation="vertical"
       aria-labelledby="menu-button"
-      role={`${role}`}
+      role={role}
     >
-
-      {children}
+      {/* Render each item as an option */}
+      {value.map((item, index) => (
+        <button
+          key={index}
+          onClick={() => handleItemClick(item)}
+          className={`${
+            selectedItem === item ? 'bg-gray-100' : ''
+          } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
+        >
+          {children}
+        </button>
+      ))}
     </div>
   );
 };

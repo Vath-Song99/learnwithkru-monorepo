@@ -43,7 +43,7 @@ export const Button: FC<ButtonProps> = ({
         return "bg-[#F4F4F8] shadow-sm hover:bg-[#C8C8CC]";
       default:
         return "bg-[#7B2CBF] hover:bg-[#542598] text-white";
-    }
+    }   
   };
 
   const buttonRadius = (radiusParam: string) => {
