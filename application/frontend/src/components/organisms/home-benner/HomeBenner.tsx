@@ -46,7 +46,7 @@ const HomeBenner: React.FC = ({ className }: { className?: string }) => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-8 h-8 bg-[#9243D6] p-1"
+                className="w-8 h-8 bg-[#9243D6] p-1 rounded-full"
               >
                 <path
                   strokeLinecap="round"
@@ -89,7 +89,7 @@ const HomeBenner: React.FC = ({ className }: { className?: string }) => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-8 h-8 bg-[#E5E501] p-1"
+                className="w-8 h-8 bg-[#E5E501] p-1 rounded-full"
               >
                 <path
                   strokeLinecap="round"
