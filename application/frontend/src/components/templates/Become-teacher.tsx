@@ -116,7 +116,7 @@ const BecomeTeacher = () => {
         <TeacherNavbar className="py-2">
           {pages.map((_, index) => (
             // eslint-disable-next-line react/jsx-key
-            <TeacherNavbarComponent className="w-[300px] bg-red-500 flex justify-between">
+            <TeacherNavbarComponent className="w-[300px] flex justify-between">
               <div
                 className={`w-[35px] h-[36px] ${currentPage >= index + 1 ? "bg-green-500 " : "bg-black"
                   } rounded-md text-white flex justify-center items-center`}>
