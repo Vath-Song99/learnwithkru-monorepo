@@ -103,7 +103,7 @@ const ShowDropdown: React.FC<ShowDropProps> = ({
   align,
   value, // receive items from props
 }) => {
-  const [selectedItem, setSelectedItem] = useState<string>(value);
+  const [selectedItem, setSelectedItem] = useState<string>();
 
   const handleItemClick = (item: string) => {
     setSelectedItem(item);
@@ -125,7 +125,7 @@ const ShowDropdown: React.FC<ShowDropProps> = ({
             selectedItem === item ? 'bg-gray-100' : ''
           } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
         >
-          {item}
+          {children}
         </button>
       ))}
     </div>
