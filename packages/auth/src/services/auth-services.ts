@@ -294,7 +294,7 @@ export class AuthServices {
     // 1. find existing user
     // 2. checking user verify or not
     // 3. checking for correct password
-    // 4. generate jwt token
+    // 4. make request to user service for getting user's data
     try {
       const { email, password } = user;
       // step 1

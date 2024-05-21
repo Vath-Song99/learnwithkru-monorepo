@@ -28,8 +28,8 @@ const options = [
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="32"
-        height="32"
+        width="20"
+        height="20"
         viewBox="0 0 64 64"
       >
         <path fill="#ed4c5c" d="M48 6.6C43.3 3.7 37.9 2 32 2v4.6h16z" />
@@ -86,8 +86,8 @@ const options = [
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="32"
-        height="32"
+        width="20"
+        height="20"
         viewBox="0 0 64 64"
       >
         <path
@@ -161,7 +161,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </Link>
           <Link
             className="text-[#455445] text-sm hover:underline"
-            href={"/teacher-list"}
+            href={"teacher-list"}
           >
             Find teacher
           </Link>
@@ -192,7 +192,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-4 h-4"
                 >
                   <path
                     strokeLinecap="round"
@@ -338,7 +338,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   style={{ marginTop: "0.5rem" }}
                 />
               )}
-              <a href={"/"}>Home</a>
+              <Link href={"/"}>Home</Link>
             </li>
             <li
               className="cursor-pointer py-3 hover:underline relative"
@@ -350,7 +350,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   style={{ marginTop: "0.5rem" }}
                 />
               )}
-              <a href={"become-a-teacher-signup-steps"}>Become a teacher</a>
+              <Link href={"become-a-teacher-signup-steps"}>Become a teacher</Link>
             </li>
             <li
               className="cursor-pointer py-3 hover:underline relative"
@@ -362,7 +362,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   style={{ marginTop: "0.5rem" }}
                 />
               )}
-              <a href={"teacher-list"}>Find teacher</a>
+              <Link href={"teacher-list"}>Find teacher</Link>
             </li>
           </ul>
         </nav>
