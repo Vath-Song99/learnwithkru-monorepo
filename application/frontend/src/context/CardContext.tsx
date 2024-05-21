@@ -33,22 +33,6 @@ const CardContext = ({ children }: { children: any }) => {
   const [Data, setData] = useState<CardTeachersTypes[]>([]);
   const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleString());
 
-
-  const fetchingTeachers = async () => {
-    try {
-      const API_ENDPOINT = "http://localhost:3000/v1/teachers";
-      const token = ""; // Replace with your actual token
-      const response = await axios.get(API_ENDPOINT, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    } catch (error: any) {
-      console.error("Error fetching teachers:", error.response ? error.response.data : error.message);
-      throw error;
-    }
-  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -60,6 +44,19 @@ const CardContext = ({ children }: { children: any }) => {
     };
     fetchData(); // Call the fetchData function
   }, []);
+
+  const fetchingTeachers = async () => {
+    try {
+      const API_ENDPOINT = "http://localhost:3000/v1/teachers";
+      const token = ""; // Replace with your actual token
+      const response = await axios.get(API_ENDPOINT);
+      return response.data;
+    } catch (error: any) {
+      console.error("Error fetching teachers:", error.response ? error.response.data : error.message);
+      throw error;
+    }
+  };
+
 
   useEffect(() => {
     // Retrieve stored date and time or set initial value

@@ -46,15 +46,16 @@ app.use(hpp());
 app.use(helmet());
 
 // Only Allow Specific Origin to Access API Gateway (Frontend)
-app.use(
-  cors({
-    origin:
-      getConfig().env === "development" ? "*" : [config.clientUrl as string],
-    credentials: true, // attach token from client
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+// Mock getConfig function. Replace with your actual config logic.
+
+const corsOptions = {
+  origin: config.env === 'development' ? '*' : config.clientUrl,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
 
 // Apply Limit Request
 applyRateLimit(app);
