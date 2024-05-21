@@ -49,7 +49,7 @@ const CardContext = ({ children }: { children: any }) => {
     fetchData(); // Call the fetchData function
   }, []);
 
-
+  
   const handleRequestTeacher = async () => {
     try {
 
@@ -62,17 +62,6 @@ const CardContext = ({ children }: { children: any }) => {
       throw error;
     }   
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const teachers = await handleRequestTeacher();
-        setData(teachers.Data); // Update state with fetched data
-      } catch (error) {
-        console.error("Error in fetchData:", error);
-      }
-    };
-    fetchData(); // Call the fetchData function
-  }, []);
   const toggleFavorite = (id: string) => {
     setData((prevData) => {
       if (!id) return prevData; // Check if item is undefined
@@ -87,6 +76,7 @@ const CardContext = ({ children }: { children: any }) => {
     });
   };
 
+  console.log(Data)
   const contextvalue = {
     Data,
     setData,
