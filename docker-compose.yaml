@@ -3,14 +3,19 @@ version: '3.8'
 services:
   rabbitmq:
     container_name: rabbitmq_container
-    image: rabbitmq:3.13-rc-management-alpine
+    image: rabbitmq:3.13.2-management-alpine
     restart: always
     environment:
-      RABBITMQ_DEFAULT_USER: myuser
-      RABBITMQ_DEFAULT_PASS: mypassword
+      RABBITMQ_DEFAULT_USER: learnwithkru
+      RABBITMQ_DEFAULT_PASS: kruIimage
     ports:
       - "5672:5672"
       - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
   gateway:
     container_name: gateway_container
     build:
@@ -40,9 +45,10 @@ services:
       - ./packages/notification/src:/app/src
     env_file: ./packages/notification/configs/.env
     environment:
-      RABBITMQ_ENDPOINT: amqp://myuser:mypassword@rabbitmq_container:5672
+      RABBITMQ_ENDPOINT: amqp://learnwithkru:kruIimage@rabbitmq_container:5672
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
   auth:
     container_name: auth_container
     build:
@@ -56,9 +62,10 @@ services:
     env_file: ./packages/auth/configs/.env
     environment:
       USER_SERVICE: http://user:3004
-      RABBITMQ_ENDPOINT: amqp://myuser:mypassword@rabbitmq_container:5672
+      RABBITMQ_ENDPOINT: amqp://learnwithkru:kruIimage@rabbitmq_container:5672
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
 
   user:
     container_name: user_container
