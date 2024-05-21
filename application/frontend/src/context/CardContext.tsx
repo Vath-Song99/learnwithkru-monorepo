@@ -65,7 +65,7 @@ const CardContext = ({ children }: { children: any }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const teachers = await fetchingTeachers();
+        const teachers = await handleRequestTeacher();
         setData(teachers.Data); // Update state with fetched data
       } catch (error) {
         console.error("Error in fetchData:", error);
