@@ -22,9 +22,7 @@ const FilterDropdown: React.FC<FilterDropdownTypes> = ({
     <div className={`w-full ${className}`}>
       <Dropdown buttonContent={`Select ${nameDropdown}`} className="w-full">
         <ShowDropdown value={dropdownItems} className=" flex flex-col">
-          {dropdownItems.map((item, index) => (
-            <div key={index} className="dropdown-item">{item}</div>
-          ))}
+          {dropdownItems}
         </ShowDropdown>
       </Dropdown>
     </div>

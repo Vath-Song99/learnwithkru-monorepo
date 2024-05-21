@@ -67,8 +67,8 @@ const FilterTeachers = () => {
     <div className='w-full flex justify-center items-center'>
       <div className="w-[80%] flex justify-between items-start gap-4">
         <FilterDropdown nameDropdown='Subject' itemsDropdown={itemsDropdown} />
-        <FilterDropdown nameDropdown='Time Aviable' itemsDropdown={TimeDropDown} />
-        <FilterDropdown nameDropdown='Province' itemsDropdown={ProvinceDropDown} />
+        <FilterDropdown nameDropdown='TimeAviable' itemsDropdown={TimeDropDown} />
+        <FilterDropdown nameDropdown='Province' itemsDropdown={ProvinceDropDown}/>
         <FilterDropdown nameDropdown='Pricing' itemsDropdown={pricingDropDown} />
       </div>
     </div>
