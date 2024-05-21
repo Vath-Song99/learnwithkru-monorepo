@@ -62,8 +62,10 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
 
   return (
     <div className='w-full flex justify-center items-center flex-wrap'>
+
       <div className='w-[60%] h-auto flex flex-wrap justify-between sm:w-[80%] sm:justify-center md:justify-center lg:justify-between     '>
         {filteredTeachers.map((item, index) => (
+
           <ProfileCard
             key={item.key} // Use unique key from data
             className="p-2 mt-4"

@@ -16,6 +16,7 @@ import { StatusCode } from "./utils/consts";
 import { logger } from "./utils/logger";
 import unless from "./middlewares/unless-route";
 import { verifyUser } from "./middlewares/auth-middleware";
+import cookieParser from "cookie-parser";
 const app: Application = express();
 
 const config = getConfig();
@@ -25,11 +26,12 @@ const config = getConfig();
 // ===================
 app.set("trust proxy", 1);
 app.use(compression());
+app.use(cookieParser())
 app.use(
   cookieSession({
     name: "session",
     keys: [`${config.cookieSecretKeyOne}`, `${config.cookieSecretKeyTwo}`],
-    maxAge: 24 * 7 * 3600000,
+    maxAge: 24 * 60 * 60 * 1000,
     secure: config.env !== "development", // update with value from config
     ...(config.env !== "development" && {
       sameSite: "none",
@@ -49,7 +51,7 @@ app.use(helmet());
 // Mock getConfig function. Replace with your actual config logic.
 
 const corsOptions = {
-  origin: config.env === 'development' ? '*' : config.clientUrl,
+  origin: config.env !== 'development' ? '*' : config.clientUrl,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
