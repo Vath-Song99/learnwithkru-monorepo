@@ -98,7 +98,7 @@ const Notification: React.FC<NotificationProps> = ({ className, initialNotificat
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          className="w-8 h-8"
+          className="w-6 h-6"
         >
           <path
             stroke-linecap="round"
@@ -137,7 +137,8 @@ const Notification: React.FC<NotificationProps> = ({ className, initialNotificat
               </svg>
             </button>
           </div>
-          <div className="w-full p-2 border border-collapse border-gray-200">
+          <div className="border-b-2"></div>
+          <div className="w-full p-2">
             <div className="flex">
               <div className="">
                 <div className={notifications.length >= 3 ? "overflow-y-auto h-64" : ""}> {/* Adjust height as needed */}
