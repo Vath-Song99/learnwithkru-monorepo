@@ -83,12 +83,12 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
   });
   useEffect(() => {
     setLimitedTeachers(filteredTeachers.slice(0, 3));
-  }, [search, filteredTeachers]);
+  }, []);
 
 
   return (
     <div className='w-full flex justify-center items-center flex-wrap'>
-      <div className='w-[60%] h-auto flex flex-wrap justify-between sm:w-[80%] sm:justify-center md:justify-center lg:justify-between     '>
+      <div className='w-[90%] h-auto flex flex-wrap justify-between sm:w-[80%] sm:gap-5 sm:justify-start md:justify-start lg:justify-between'>
         {limitedTeachers.map((item, index) => (
           <ProfileCard
             key={item.key} // Use unique key from data

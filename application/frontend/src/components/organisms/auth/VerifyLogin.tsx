@@ -37,7 +37,7 @@ const VerifyLogin = () => {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="w-10 h-5 bg-[#E9E9E9] rounded-full hover:bg-white cursor-pointer"
+        className="w-7 h-7 bg-[#E9E9E9] rounded-full hover:bg-white cursor-pointer"
         onClick={togglePopup}
       >
         <path
