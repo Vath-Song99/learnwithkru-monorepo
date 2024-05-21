@@ -164,7 +164,6 @@ const proxyConfigs: ProxyConfig = {
               (req as Request).session!.jwt = responseBody.token;
               delete responseBody.token;
             }
-            console.log(responseBody)
             // Modify response to send  the message and user to client to the client
             res.json({
               message: responseBody.message,
