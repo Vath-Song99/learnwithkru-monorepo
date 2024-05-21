@@ -22,13 +22,11 @@ interface ContextProps {
   Data: CardTeachers[];
   setData: React.Dispatch<React.SetStateAction<CardTeachers[]>>;
   toggleFavorite: (id: string) => void;
-  currentTime: string;
 }
 export const Mycontext = createContext<ContextProps>({
   Data: [],
   setData: () => { },
   toggleFavorite: () => { },
-  currentTime: "",
 });
 
 const CardContext = ({ children }: { children: any }) => {
@@ -51,41 +49,30 @@ const CardContext = ({ children }: { children: any }) => {
     fetchData(); // Call the fetchData function
   }, []);
 
+
   const handleRequestTeacher = async () => {
     try {
+
       const API_ENDPOINT = "http://localhost:3000/v1/teachers"; // Replace with your actual token
       const response = await axios.get(API_ENDPOINT ,{ withCredentials: true });
+
       return response.data;
     } catch (error: any) {
       console.error("Error fetching teachers:",error);
       throw error;
-    }
+    }   
   };
-
-
   useEffect(() => {
-    // Retrieve stored date and time or set initial value
-    const storedDateTime = getLocalStorage('storedDateTime');
-    if (storedDateTime) {
-      setCurrentTime(storedDateTime);
-    } else {
-      const initialDateTime = getCurrentDateTime();
-      setCurrentTime(initialDateTime);
-      setLocalStorage('storedDateTime', initialDateTime);
-    }
-
-    // Update current date and time every second
-    const intervalId = setInterval(() => {
-      const newDateTime = getCurrentDateTime();
-      setCurrentTime(newDateTime);
-      // Do not update localStorage here to prevent overwriting
-    }, 1000);
-
-    // Cleanup interval on component unmount
-    return () => clearInterval(intervalId);
+    const fetchData = async () => {
+      try {
+        const teachers = await fetchingTeachers();
+        setData(teachers.Data); // Update state with fetched data
+      } catch (error) {
+        console.error("Error in fetchData:", error);
+      }
+    };
+    fetchData(); // Call the fetchData function
   }, []);
-
-
   const toggleFavorite = (id: string) => {
     setData((prevData) => {
       if (!id) return prevData; // Check if item is undefined
@@ -104,7 +91,6 @@ const CardContext = ({ children }: { children: any }) => {
     Data,
     setData,
     toggleFavorite,
-    currentTime,
 
   };
   return (

@@ -1,6 +1,6 @@
 "use client"
 import { Dropdown } from "@/components/atoms";
-import { SelectDropdownnProps } from "@/components/atoms/dropdown/dropdown";
+import { SelectDropdownnProps, ShowDropdown } from "@/components/atoms/dropdown/dropdown";
 import React from "react";
 interface FilterDropdownTypes {
   className?: React.ReactNode;
@@ -15,11 +15,15 @@ const FilterDropdown: React.FC<FilterDropdownTypes> = ({
   itemsDropdown
 
 }) => {
+  const dropdownItems = itemsDropdown?.map(item => item.itemName) || [];
+  console.log('Dropdown Items:', dropdownItems); // Debugging line
 
   return (
-    <div className={`lg:w-1/5 w-[48%] grid grid-flow-row ${className}`}>
+    <div className={`w-full ${className}`}>
       <Dropdown buttonContent={`Select ${nameDropdown}`} className="w-full">
-        <SelectDropdownnProps options={itemsDropdown?.map(item => item.itemName)} />
+        <ShowDropdown value={dropdownItems} className=" flex flex-col">
+          {dropdownItems}
+        </ShowDropdown>
       </Dropdown>
     </div>
   );
