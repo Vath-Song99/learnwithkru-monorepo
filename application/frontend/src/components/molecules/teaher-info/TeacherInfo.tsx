@@ -4,7 +4,7 @@ import { TeacherInfoTypes } from "./@types";
 
 const TeacherInfo = ({ aboutMe, education, description }: TeacherInfoTypes) => {
   return (
-    <div className="w-[55%] bg-[#FAFAFA] px-4 py-3 grid grid-flow-row gap-4">
+    <div className="w-[100%] p-5 mt-3 bg-[#FAFAFA] flex flex-col ">
       <div className="">
         <Typography className="" align="left" fontSize="md">
           About me
