@@ -24,7 +24,6 @@ const Signup = () => {
   // Example usage: Handling the error at the caller level
   const handleSigninGoogle = async () => {
     setLoading(true);
-    const url = ""
     try {
       await handleSigninWithGoogle();
     } catch (error) {
