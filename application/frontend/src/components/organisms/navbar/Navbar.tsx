@@ -18,7 +18,7 @@ const itemsDropdown = [
   {
     itemName: "English",
   },
-  {
+  { 
     itemName: "Khmer",
   },
 ];
