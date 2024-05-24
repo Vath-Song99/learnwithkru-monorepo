@@ -153,8 +153,10 @@ const Notification: React.FC<NotificationProps> = ({
               </svg>
             </button>
           </div>
+
           <div className="border-b-2"></div>
           <div className="w-full p-2">
+
             <div className="flex">
               <div className="">
                 <div

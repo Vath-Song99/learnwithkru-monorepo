@@ -2,8 +2,10 @@
 import { getCurrentDateTime, getLocalStorage, setLocalStorage } from "@/utils/localStorage";
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
-interface CardTeachersTypes {
+interface CardTeachers {
   id?: string;
+  first_name: string;
+  last_name: string;
   className?: string;
   imageUrl?: any;
   nameSubject?: string;
@@ -17,8 +19,8 @@ interface CardTeachersTypes {
   item?: string;
 }
 interface ContextProps {
-  Data: CardTeachersTypes[];
-  setData: React.Dispatch<React.SetStateAction<CardTeachersTypes[]>>;
+  Data: CardTeachers[];
+  setData: React.Dispatch<React.SetStateAction<CardTeachers[]>>;
   toggleFavorite: (id: string) => void;
 }
 export const Mycontext = createContext<ContextProps>({
@@ -28,20 +30,38 @@ export const Mycontext = createContext<ContextProps>({
 });
 
 const CardContext = ({ children }: { children: any }) => {
-  const [Data, setData] = useState<CardTeachersTypes[]>([]);
-  // const [currentTime, setCurrentTime] = useState<string>(getCurrentDateTime());
+  const [Data, setData] = useState<CardTeachers[]>([]);
+  const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleString());
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const teachers = await fetchingTeachers();
-        setData(teachers.Data); // Update state with fetched data
+        const teachers = await handleRequestTeacher();
+        if(!teachers){
+          console.error("Theare is no teachers found!");
+        }
+        setData(teachers.data); // Update state with fetched data
       } catch (error) {
-        console.error("Error in fetchData:", error);
+        console.error("Unexpected error in fetchData method!:");
+        console.error("Fetching data accurs error:", error);
       }
     };
     fetchData(); // Call the fetchData function
   }, []);
+
+  
+  const handleRequestTeacher = async () => {
+    try {
+
+      const API_ENDPOINT = "http://localhost:3000/v1/teachers"; // Replace with your actual token
+      const response = await axios.get(API_ENDPOINT ,{ withCredentials: true });
+
+      return response.data;
+    } catch (error: any) {
+      console.error("Error fetching teachers:",error);
+      throw error;
+    }   
+  };
   const toggleFavorite = (id: string) => {
     setData((prevData) => {
       if (!id) return prevData; // Check if item is undefined
@@ -56,6 +76,7 @@ const CardContext = ({ children }: { children: any }) => {
     });
   };
 
+  console.log(Data)
   const contextvalue = {
     Data,
     setData,

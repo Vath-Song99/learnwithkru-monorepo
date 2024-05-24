@@ -28,6 +28,7 @@ const FilterDropdown: React.FC<FilterDropdownTypes> = ({
   };
 
   return (
+
     <div className={`lg:w-1/5 w-[48%] grid grid-flow-row ${className}`}>
       <Typography align="left" className="text-xs" colorscheme="secondary">
         {nameDropdown}
@@ -48,6 +49,7 @@ const FilterDropdown: React.FC<FilterDropdownTypes> = ({
               />
             </LinkDropdown>
           ))}
+
         </ShowDropdown>
       </Dropdown>
     </div>
