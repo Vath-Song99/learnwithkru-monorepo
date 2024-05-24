@@ -3,7 +3,7 @@ import { PATH_AUTH } from "../routes/path-defs";
 import { authLoginSchema, userValidateSchema } from "../schemas/auth-validate";
 import { AuthServices } from "../services/auth-services";
 import StatusCode from "../utils/http-status-code";
-import { Login, User } from "../@types/user.type";
+import { Login, ResetPassword, User } from "../@types/user.type";
 import {
   Get,
   Post,
@@ -13,6 +13,7 @@ import {
   Body,
   Query,
 } from "tsoa";
+import { SendVerifyEmailService } from "../services/verify-email-services";
 
 @Route("/api/v1")
 export class AuthController {
@@ -34,16 +35,29 @@ export class AuthController {
 
   @Get(PATH_AUTH.verify)
   @SuccessResponse(StatusCode.OK, "OK")
-  public async VerifyEmail(
+  public async VerifySignupEmail(
     @Query() token: string
   ){
     try {
-      const authService = new AuthServices();
-      const user = await authService.VerifyEmailToken(token);
+      const verifyService = new SendVerifyEmailService()
+      const user = await verifyService.VerifyEmailToken(token);
 
       return user
     } catch (error: unknown) {
       throw error;
+    }
+  }
+
+  @SuccessResponse(StatusCode.OK, "OK")
+  @Get(PATH_AUTH.verifyResetPassword)
+  async VerifyResetPasswordEmail (@Query() token: string){
+    try{
+      const verifyService = new SendVerifyEmailService();
+      const user = await verifyService.VerifyResetPasswordToken(token);
+
+      return user
+    }catch(error: unknown){
+      throw error
     }
   }
 
@@ -91,13 +105,27 @@ export class AuthController {
   }
 
   @SuccessResponse(StatusCode.OK, "OK")
-  @Post(PATH_AUTH.resetPassword)
-  async ResetPassword(requestBody:{email: string} ){
+  @Post(PATH_AUTH.requestResetPassword)
+  async RequestResetPassword(requestBody:{email: string} ){
     const {email} = requestBody
     try{
       const service = new AuthServices();
-      const user = await service.ResetPassword({email});
+      const user = await service.RequestResetPassword({email});
       return user
+    }catch(error: unknown){
+      throw error
+    }
+  }
+  
+  @SuccessResponse(StatusCode.OK, "OK")
+  @Post(PATH_AUTH.ResetPassword)
+  async ConfirmResetPassword (requestBody: ResetPassword , token: string){
+    const userData = {token , ...requestBody}
+    try{
+      const service = new AuthServices();
+      const newUser = await service.ConfirmResetPassword(userData);
+
+      return newUser
     }catch(error: unknown){
       throw error
     }
