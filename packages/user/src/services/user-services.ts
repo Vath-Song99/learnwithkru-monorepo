@@ -77,8 +77,7 @@ export class UserServices {
         throw new ApiError("Unable to find user in database!");
       }
 
-      const { firstname, lastname, email, picture } = user;
-      return { firstname, lastname, email, picture };
+      return user
     } catch (error) {
       if (error instanceof ApiError) {
         throw error;

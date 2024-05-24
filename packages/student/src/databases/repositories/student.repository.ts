@@ -34,12 +34,12 @@ export class StudentRepository {
     }
   }
 
-  async FindOneStudent(authId: string) {
+  async FindOneStudent(studentId: string) {
     try {
-      const student = await StudentModel.find({
-        authId: authId,
+      const student = await StudentModel.findOne({
+        _id: studentId,
       });
-      return student;
+      return await student;
     } catch (error: unknown) {
       throw error;
     }
