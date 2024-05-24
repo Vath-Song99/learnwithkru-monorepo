@@ -1,15 +1,14 @@
 "use client";
-import Link from "next/link";
-import React, { Children, useState } from "react";
-import Image from "next/image";
-import { Button } from "../button";
-import { Values } from "aws-cdk-lib/aws-cloudwatch";
+import React, { useEffect, useRef, useState, ReactElement } from "react";
 
 interface DropdownProps {
   children: React.ReactNode;
   className?: string;
   buttonContent: React.ReactNode;
+  selectedItem: string;
+  onSelect: (item: string) => void;
 }
+
 interface ShowDropProps {
   children: React.ReactNode;
   className?: string;
@@ -27,52 +26,60 @@ interface LinkDropdownPageProps {
   itemDropdown: string;
   className?: string;
   role?: string;
-  href?: string;
-  id?: string;
-}
-interface SelectDropdownnProps {
-  options?: string[];
-  children?: React.ReactNode;
-  className?: string;
-}
-const SelectDropdownnProps: React.FC<SelectDropdownnProps> = ({
-  options,
-  className
-}) => {
-  return (
-    <select name="" id="" className={`${className}`}>
-      {options?.map((option, index) => (
-        <option key={index} value={option}>{option}</option>
-      ))}
-    </select>
-  );
+  onSelect?: (item: string) => void;
+  closeDropdown?: () => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
   children,
   className,
   buttonContent,
+  selectedItem,
+  onSelect,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
+  const closeDropdown = () => {
+    setIsOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div
-      className={`dropdown  relative inline-block ${className || ""}`}
+      className={`dropdown relative inline-block ${className || ""}`}
+      ref={dropdownRef}
     >
-
       <button
-        className='inline-flex w-full justify-between items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-xs font-normal shadow-sm   border  hover:bg-gray-50" id="menu-button" aria-expanded="true'
+        className="inline-flex w-full justify-between items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-xs font-normal shadow-sm border hover:bg-gray-50"
+        id="menu-button"
+        aria-expanded={isOpen}
         onClick={toggleDropdown}
       >
-
-        {buttonContent}
+        {selectedItem ? selectedItem : buttonContent}
         <svg
-          className={`-mr-1 h-5 w-5 text-gray-400 transition-all duration-300 transform ${isOpen ? "rotate-180" : ""
-            }`}
+          className={`-mr-1 h-5 w-5 text-gray-400 transition-all duration-300 transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
           viewBox="0 0 20 20"
           fill="currentColor"
           aria-hidden="true"
@@ -85,13 +92,20 @@ const Dropdown: React.FC<DropdownProps> = ({
         </svg>
       </button>
       {isOpen && (
-        <div className={`${className}`}>
-          <SelectDropdownnProps >
-            <option value="">
-              {children}
-            </option>
-          </SelectDropdownnProps>
-        </div>
+        <ShowDropdown className={className}>
+          {React.Children.map(children, (child) => {
+            if (React.isValidElement(child)) {
+              return React.cloneElement(child,{
+                onSelect: (item: string) => {
+                  onSelect(item);
+                
+                },
+                
+              } as unknown as ReactElement);
+            }
+            return child;
+          })}
+        </ShowDropdown>
       )}
     </div>
   );
@@ -100,18 +114,20 @@ const Dropdown: React.FC<DropdownProps> = ({
 const ShowDropdown: React.FC<ShowDropProps> = ({
   children,
   className,
-  role,
-  align,
+  role = "menu",
+  align = "right-0",
 }) => {
+
   return (
     <div
-      className={`absolute ${align} right-0 z-10 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none  ${className}`}
+      className={`absolute ${align} z-10 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${className}`}
       aria-orientation="vertical"
       aria-labelledby="menu-button"
-      role={`${role}`}
+      role={role}
     >
 
       {children}
+
     </div>
   );
 };
@@ -119,32 +135,40 @@ const ShowDropdown: React.FC<ShowDropProps> = ({
 const LinkDropdown: React.FC<LinkDropdownProps> = ({
   children,
   className,
-  role,
+  role = "menuitem",
 }) => {
   return (
-    <div className={`hover:bg-gray-50 hover:rounded-md ${className}`} role={`${role}`}>
+    <div
+      className={`hover:bg-gray-50 hover:rounded-md ${className}`}
+      role={role}
+    >
       {children}
     </div>
   );
 };
-// dropdown
+
 const LinkDropdownPage: React.FC<LinkDropdownPageProps> = ({
   itemDropdown,
   className,
-  href,
-  id,
-  role,
+  onSelect,
+  role = "menuitem",
+  closeDropdown,
 }) => {
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation(); // Stop event propagation
+    if (onSelect) {
+      onSelect(itemDropdown);
+    }
+    if (closeDropdown) {
+      closeDropdown(); // Close the dropdown after item is selected
+    }
+  };
+
   return (
-    <Link
-      className={`${className}`}
-      href={`${href}`}
-      id={`${id}`}
-      role={`${role}`}
-    >
+    <div className={className} role={role} onClick={handleClick}>
       {itemDropdown}
-    </Link>
+    </div>
   );
 };
 
-export { Dropdown, ShowDropdown, LinkDropdown, LinkDropdownPage, SelectDropdownnProps };
+export { Dropdown, ShowDropdown, LinkDropdown, LinkDropdownPage };

@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
 import StatusCode from "./http-status-code";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { ApiError, BaseCustomError } from "../error/base-custom-error";
 import getConfig from "./config";
 import path from "path";
 import fs from "fs";
+import { logger } from "./logger";
 
 const salt = 10;
 
@@ -57,5 +58,15 @@ export const validatePassword = async ({
     return isPasswordCorrect;
   } catch (error) {
     throw error;
+  }
+};
+
+export const decodedToken = async (token: string) => {
+  try {
+    const data = (await jwt.decode(token)) as JwtPayload;
+    return data.payload;
+  } catch (error: unknown) {
+    logger.error("Unable to decode in decodeToken() method !", error);
+    throw new ApiError("Can't Decode token!");
   }
 };

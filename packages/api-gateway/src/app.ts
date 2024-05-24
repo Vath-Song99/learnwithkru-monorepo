@@ -26,11 +26,12 @@ const config = getConfig();
 // ===================
 app.set("trust proxy", 1);
 app.use(compression());
+app.use(cookieParser())
 app.use(
   cookieSession({
     name: "session",
     keys: [`${config.cookieSecretKeyOne}`, `${config.cookieSecretKeyTwo}`],
-    maxAge: 24 * 7 * 3600000,
+    maxAge: 24 * 60 * 60 * 1000,
     secure: config.env !== "development", // update with value from config
     ...(config.env !== "development" && {
       sameSite: "none",
@@ -49,15 +50,16 @@ app.use(hpp());
 app.use(helmet());
 
 // Only Allow Specific Origin to Access API Gateway (Frontend)
-app.use(
-  cors({
-    origin:
-      getConfig().env === "development" ? "*" : [config.clientUrl as string],
-    credentials: true, // attach token from client
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+// Mock getConfig function. Replace with your actual config logic.
+
+const corsOptions = {
+  origin: config.env !== 'development' ? '*' : config.clientUrl,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
 
 // Apply Limit Request
 applyRateLimit(app);
