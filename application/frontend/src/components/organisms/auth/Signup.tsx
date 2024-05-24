@@ -7,28 +7,39 @@ import React, { useState } from "react";
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [Password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const handleSigninWithGoogle = async () => {
+  const handleSigninWithGoogle = () => {
+    const url = "http://localhost:3000/v1/auth/google";
+    window.location.href = url;
+  };
+  const handleSigninWithFacebook= () => {
+    const url = "http://localhost:3000/v1/auth/facebook";
+    window.location.href = url;
+  };
+  
+  // Example usage: Handling the error at the caller level
+  const handleSigninGoogle = async () => {
+    setLoading(true);
+    const url = ""
     try {
-      const url = "http://localhost:3000/v1/auth/google";
-      const response = await axios.get(url);
-      console.log(response);
-      return response.data;
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        // Axios error (e.g., network error, timeout)
-        console.error("Axios error:", error.message);
-      } else if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error("Server error:", error.response.data);
-      } else {
-        // Something happened in setting up the request that triggered an error
-        console.error("Error:", error.message);
-      }
-      throw error; // Re-throw the error to be handled by the caller if needed
+      await handleSigninWithGoogle();
+    } catch (error) {
+      setLoading(false)
+      console.error("Signin failed:", error);
+      // You can add further user-friendly error handling here
+    }
+  };
+
+  const handleSigninFacebook = async () => {
+    try {
+      await handleSigninWithFacebook();
+    } catch (error) {
+      console.error("Signin failed:", error);
+      // You can add further user-friendly error handling here
     }
   };
 
@@ -50,7 +61,7 @@ const Signup = () => {
           </div>
           <div className="grid gap-3">
             <Button
-              onClick={handleSigninWithGoogle}
+              onClick={handleSigninGoogle} 
               className="flex items-center justify-center  w-[360px] py-2.5  bg-[#f3f3f3] rounded-md hover:bg-[#d2d0d0]"
             >
               <div className="w-[80%] flex justify-evenly items-center gap-x-5">
@@ -79,10 +90,10 @@ const Signup = () => {
                   />
                 </svg>
 
-                <p className="text-sm text-slate-950  ">Continue with Google</p>
+                <p className="text-sm text-slate-950  ">{loading ? 'Signing in...' : 'Sign in with Google'}</p>
               </div>
             </Button>
-            <Button className="flex items-center  justify-center w-[360px] py-2.5   bg-[#f3f3f3] rounded-md  hover:bg-[#d2d0d0] ">
+            <Button onClick={handleSigninFacebook} className="flex items-center  justify-center w-[360px] py-2.5   bg-[#f3f3f3] rounded-md  hover:bg-[#d2d0d0] ">
               <div className="w-[80%] flex justify-evenly  items-center">
                 <svg
                   width="24"
