@@ -1,4 +1,4 @@
-import express, { Application, NextFunction, Request , Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
 import getConfig from "./utils/createConfig";
 import compression from "compression";
 import cookieSession from "cookie-session";
@@ -16,6 +16,7 @@ import { StatusCode } from "./utils/consts";
 import { logger } from "./utils/logger";
 import unless from "./middlewares/unless-route";
 import { verifyUser } from "./middlewares/auth-middleware";
+import cookieParser from "cookie-parser";
 const app: Application = express();
 
 const config = getConfig();
@@ -36,6 +37,8 @@ app.use(
     }),
   })
 );
+
+app.use(cookieParser(config.cookiePersistentSecretKey));
 
 // Prevent HTTP Parameter Pollution attacks
 app.use(hpp());
@@ -66,7 +69,7 @@ app.disable("x-powered-by");
 // JWT Middleware
 // ===================
 app.use(unless("/v1/auth", verifyUser));
--
+
 // ===================
 // Proxy Routes
 // ===================
