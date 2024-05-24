@@ -1,11 +1,9 @@
 import { Student } from "../@types/student.type";
 import { StudentServices } from "../services/student-services";
 
-
-
 export class StudentController {
-    async Signup (requestBody: Student , userId: string){
-        const student = {userId , ...requestBody}
+    async Signup (requestBody: Student , decodeId: string){
+        const student = {decodeId , ...requestBody}
         console.log(student)
         try{
             const service = new StudentServices();

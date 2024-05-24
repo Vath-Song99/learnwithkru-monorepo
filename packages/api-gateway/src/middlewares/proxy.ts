@@ -240,6 +240,7 @@ const proxyConfigs: ProxyConfig = {
             }
             if (responseBody.token) {
               (req as Request).session!.jwt = responseBody.token;
+              delete responseBody.token;
             }
             // Modify response to send only the message to the client
             res.json({
@@ -317,6 +318,7 @@ const proxyConfigs: ProxyConfig = {
             }
             if (responseBody.token) {
               (req as Request).session!.jwt = responseBody.token;
+              delete responseBody.token;
             }
             // Modify response to send only the message to the client
             res.json({

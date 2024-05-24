@@ -55,7 +55,7 @@ export class SendVerifyEmailService {
       } else if (type === "verifyResetPassword") {
         messageDetails = {
           receiverEmail: email,
-          verifyLink: `${getConfig().apiGateway}/v1/auth/verify-reset-token?token=${newAccountVerification.emailVerificationToken}`,
+          verifyLink: `${getConfig().clientUrl}/verify-reset-password?token=${newAccountVerification.emailVerificationToken}`,
           template: "verifyResetPassword",
         };
       }

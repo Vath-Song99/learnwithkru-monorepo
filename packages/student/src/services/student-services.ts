@@ -12,28 +12,27 @@ export class StudentServices {
   }
 
   async Signup({
-    userId,
+    decodeId,
     schoolName,
     education,
     grade,
     studentCard,
   }: StudentService) {
     try {
-      const data = await getUserById(userId) ;
+      const existingStudent = await this.StudentRepo.FindOneStudent(decodeId);
 
-      const { firstname, lastname, email } = data;
-    
-
-      const existingStudent = await this.StudentRepo.FindOneStudent(userId);
-
+      console.log("This error :",existingStudent)
       if (existingStudent) {
         throw new BaseCustomError(
-          "you're already be student",
+          "you're already student",
           StatusCode.BAD_REQUEST
         );
       }
+      const data = await getUserById(decodeId);
+
+      const { firstname, lastname, email } = data;
       const newStudent = await this.StudentRepo.CreateStudent({
-        userId,
+        userId: decodeId,
         firstname,
         lastname,
         email: email as string,
