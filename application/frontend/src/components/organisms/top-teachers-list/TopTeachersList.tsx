@@ -37,41 +37,15 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
       students: 35,
     },
     {
-      key: "003",
+      key: "002",
       imageUrl: "/Profiles/APoy.jpg",
-      username: "Apoy Reakkkk",
-      subjectname: "English",
-      rateStar: 4,
+      username: "Reak",
+      subjectname: "Physic",
+      rateStar: 4.5,
       price: 10,
       students: 35,
     },
-    {
-      key: "004",
-      imageUrl: "/Profiles/APoy.jpg",
-      username: "Finding Hai",
-      subjectname: "English",
-      rateStar: 4,
-      price: 10,
-      students: 325,
-    },
-    {
-      key: "005",
-      imageUrl: "/Profiles/APoy.jpg",
-      username: "Finding Nith",
-      subjectname: "English",
-      rateStar: 4,
-      price: 10,
-      students: 352,
-    },
-    {
-      key: "006",
-      imageUrl: "/Profiles/APoy.jpg",
-      username: "Finding Ming",
-      subjectname: "English",
-      rateStar: 4,
-      price: 10,
-      students: 35,
-    },
+
 
     // Add more data items here
   ];

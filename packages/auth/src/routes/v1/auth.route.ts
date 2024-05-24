@@ -24,7 +24,7 @@ AuthRoute.post(PATH_AUTH.signUp, zodValidate(userValidateSchema) , async (req: R
     
 });
 
-AuthRoute.get(PATH_AUTH.login, zodValidate(authLoginSchema) , async(req: Request, res: Response , _next: NextFunction) =>{
+AuthRoute.post(PATH_AUTH.login, zodValidate(authLoginSchema) , async(req: Request, res: Response , _next: NextFunction) =>{
   const requestBody = req.body
   try{
    
