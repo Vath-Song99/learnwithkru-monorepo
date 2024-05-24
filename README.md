@@ -164,19 +164,19 @@ After completing these steps, your project will be successfully set up locally!
 
 ##### Others command
 
-1. Restart Docker
+- Restart Docker
 
 ```sh
     yarn restart:docker
 ```
 
-1. Stop Docker
+- Stop Docker
 
 ```sh
     yarn stop:docker
 ```
 
-1. Remove Docker Containers
+- Remove Docker Containers
 
 ```sh
     yarn remove:containers
