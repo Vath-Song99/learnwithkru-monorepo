@@ -216,39 +216,58 @@ Open your terminal and change the directory to the Learnwithkru-monorepo folder.
 
 <!-- USAGE EXAMPLES -->
 
-## Usage
+## Services
 
-Our platform supports three types of users, each with distinct features and functionalities:
+1. **Authentication Service**: Securely authenticate users accessing the system.
+2. **Teacher Service**: Manage data and actions related to teachers.
+3. **Student Service**: Handle student-related functionalities.
+4. **User Service**: Manage user accounts and basic user-related functionalities.
+5. **Notification Service**: Handle notifications and communication within the system.
 
-### 1. Normal User
+Each service is designed to be modular, scalable, and easy to integrate with other components of the system.
 
-- **Explore**: Browse through the platform to understand the features and services offered.
-- **Search**: Use the search functionality to find courses, tutors, and resources without registering.
+## Features
 
-### 2. Student
+### Authentication Service
 
-- **Join Classes**:
-  - **Search for Tutors**: Use the search feature to find tutors based on your specific needs and preferences, such as subject, availability, and ratings.
-  - **View Tutor Profiles**: Check detailed profiles of tutors, including their qualifications, teaching style, and reviews from other students.
-  - **Book a Lesson**: Schedule and book lessons at times that suit you through a seamless booking process.
-- **Attend Lessons**:
-  - **Join Lessons**: Participate in scheduled lessons via our secure video platform, enabling real-time interaction with your tutor.
-  - **Access Learning Materials**: Receive customized learning materials from your tutor to aid your learning journey.
-- **Track Progress**: Monitor your learning progress and review past lessons to ensure continuous improvement.
-- **Communicate**: Use our secure messaging system to stay in touch with tutors for any additional support or questions.
+- Secure user authentication mechanisms.
+- Multi-factor authentication (MFA) support.
+- Session management for maintaining authentication state.
 
-### 3. Teacher
+### Teacher Service
 
-- **Create Profile**:
-  - **Post Profile**: List your qualifications, teaching experience, and the subjects you teach to attract students.
-  - **Upload Media**: Add introductory videos and other media to give potential students a better understanding of your teaching style.
-- **Manage Classes**:
-  - **List Available Times**: Specify your availability so students can book lessons at convenient times.
-  - **Conduct Lessons**: Use our secure video platform to conduct one-on-one or group lessons.
-- **Interact with Students**:
-  - **Provide Learning Materials**: Share customized materials to support your students' learning.
-  - **Receive Reviews**: Collect feedback from students to improve your profile and attract more learners.
-- **Track Earnings**: Monitor your earnings and manage payments through our integrated system.
+- Profile management for teachers.
+- Course management functionalities.
+- Grading and feedback tools.
+
+### Student Service
+
+- Enrollment management for students.
+- Assignment submission functionalities.
+- Progress tracking features.
+
+### User Service
+
+- Account creation and management.
+- Integration with the authentication service.
+- Role-based access control.
+
+### Notification Service
+
+- Push and email notifications.
+- Customizable notification templates.
+- Subscription management for users.
+
+## Architecture
+
+- **Microservices Architecture**: Each service is implemented as an independent microservice.
+- **API Gateway**: Handles routing requests and cross-cutting concerns like authentication.
+- **Containerization**: Services are containerized using Docker.
+- **Orchestration**: Kubernetes is used for orchestrating containers.
+- **Logging and Monitoring**: Centralized logging and monitoring solutions are implemented.
+- **Security**: Security best practices are followed, including encryption and regular security audits.
+
+For detailed instructions on setting up and using each service, please refer to their respective README files.
 
 _For more examples and detailed instructions, please refer to the [Documentation](https://example.com)_
 
@@ -258,7 +277,12 @@ _For more examples and detailed instructions, please refer to the [Documentation
 
 ## Contact
 
-Smoeury Songvat - (https://www.facebook.com/profile.php?id=100092631759554) - learnwithkru287@gmail.com
+@Vath-Song99
+@nareth347
+@seaporhai
+@thon1525
+
+Learnwithkru - (https://www.facebook.com/profile.php?id=100092631759554) - learnwithkru287@gmail.com
 
 Project Link: [Learnwithkru-monorepo](https://github.com/Vath-Song99/learnwithkru-monorepo.git)
 
