@@ -5,6 +5,7 @@ import { ClientRequest, IncomingMessage } from "http";
 import getConfig from "../utils/createConfig";
 import { StatusCode } from "../utils/consts";
 import { ROUTE_PATHS } from "@api-gateway/route-defs";
+import { options } from "@api-gateway/utils/persistenCookieOption";
 
 interface ProxyConfig {
   [context: string]: Options<IncomingMessage, Response>;
@@ -46,7 +47,7 @@ const proxyConfigs: ProxyConfig = {
         const token = expressReq.session!.jwt;
         proxyReq.setHeader("Authorization", `Bearer ${token}`);
       },
-      proxyRes: (proxyRes, req, res) => {
+      proxyRes: (proxyRes, _req, res) => {
         let originalBody: Buffer[] = [];
         proxyRes.on("data", function (chunk: Buffer) {
           originalBody.push(chunk);
@@ -80,7 +81,7 @@ const proxyConfigs: ProxyConfig = {
 
             // Store JWT in session
             if (responseBody.token) {
-              (req as Request).session!.jwt = responseBody.token;
+              res.cookie("auth", responseBody.token!, options);
             }
             // Modify response to send  the message and user's data to the client
             res.json({
