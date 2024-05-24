@@ -71,7 +71,7 @@ Whether it's mastering a new language, excelling in academic subjects, or acquir
 
 This section lists major frameworks and libraries used in the Learnwithkru project:
 
-- ![Next.js][Node.js-url]
+- ![Next.js][Next.js]
 - ![Node.js][Node.js]
 - [![TypeScript][TypeScript]][TypeScript-url]
 - [![Express][Express.js]][Express-url]
@@ -329,5 +329,5 @@ Project Link: [Learnwithkru-monorepo](https://github.com/Vath-Song99/learnwithkr
 [TypeScript-url]: https://www.typescriptlang.org/
 [MongoDB]: https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white
 [MongoDB-url]: https://www.mongodb.com/
-[JavaScript-url]: (https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-[Next.js-url]: (https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
+[JavaScript]: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
+[Next.js]: https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white
