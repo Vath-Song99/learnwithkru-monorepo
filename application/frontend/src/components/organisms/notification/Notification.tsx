@@ -154,7 +154,8 @@ const Notification: React.FC<NotificationProps> = ({
             </button>
           </div>
 
-          <div className="w-full p-2 ">
+          <div className="border-b-2"></div>
+          <div className="w-full p-2">
 
             <div className="flex">
               <div className="">
