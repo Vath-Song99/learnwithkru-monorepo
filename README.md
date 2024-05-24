@@ -275,7 +275,7 @@ For detailed instructions on setting up and using each service, please refer to 
 
 This User Interface enhances clarity and usability, ensuring an intuitive experience for users of this project.
 
-[![Figma](Figma)](Figma-url)
+[![Figma]](Figma-url)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
