@@ -51,16 +51,32 @@ AuthRoute.post(PATH_AUTH.logout , async (_req: Request ,res: Response ,_next: Ne
   }
 });
 
-AuthRoute.post(PATH_AUTH.resetPassword, async (req: Request ,res: Response , _next: NextFunction) =>{
+AuthRoute.post(PATH_AUTH.requestResetPassword, async (req: Request ,res: Response , _next: NextFunction) =>{
   const requestBody = req.body
   try{
     const controller = new AuthController();
-    const newUser = await controller.ResetPassword(requestBody)
+    const newUser = await controller.RequestResetPassword(requestBody)
 
     res.status(StatusCode.OK).json({
       message: 'please verify your email',
       token: newUser
     })
+  }catch(error: unknown){
+    _next(error)
+  }
+});
+
+AuthRoute.post(PATH_AUTH.ResetPassword, async(req: Request , res: Response, _next: NextFunction)=>{
+  const token = req.headers.authorization?.split(" ")[1] as string;
+  const requestBody = req.body;
+  try{
+    const controller = new AuthController();
+    await controller.ConfirmResetPassword(requestBody, token);
+
+    res.status(StatusCode.OK).json({
+      message: "ResetPassword Successfully",
+    })
+
   }catch(error: unknown){
     _next(error)
   }
@@ -71,12 +87,26 @@ AuthRoute.get(PATH_AUTH.verify, async (req: Request ,res: Response, _next: NextF
   const token = req.query.token as string
   try{
     const controller = new AuthController();
-    const respone = await controller.VerifyEmail(token)
+    const respone = await controller.VerifySignupEmail(token)
     
     res.status(StatusCode.OK).json({
       message: 'Sign up success',
       data: respone.data,
       token: respone.jwtToken
+    });
+  }catch(error: unknown){
+    _next(error)
+  }
+});
+
+AuthRoute.get(PATH_AUTH.verifyResetPassword, async (req: Request ,res: Response, _next: NextFunction) =>{
+  const token = req.query.token as string
+  try{
+    const controller = new AuthController();
+    const respone = await controller.VerifyResetPasswordEmail(token)
+    
+    res.status(StatusCode.OK).json({
+     message: respone.message
     });
   }catch(error: unknown){
     _next(error)

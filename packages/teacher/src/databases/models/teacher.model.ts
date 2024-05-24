@@ -17,6 +17,9 @@ const teacherSchemas = new mongoose.Schema({
     max: 25,
     require: true,
   },
+  picture: {
+    type: String
+  },
   subject: {
     type: String,
     require: true,

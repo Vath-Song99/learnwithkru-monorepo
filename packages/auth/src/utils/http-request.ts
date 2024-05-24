@@ -2,7 +2,7 @@ import axios from "axios";
 import getConfig from "./config";
 import { ApiError } from "../error/base-custom-error";
 import { logger } from "./logger";
-import { UserService } from "../services/@types/auth-service";
+import { UserService } from "../services/@types/auth-service-type";
 import { PATH_SERVICE } from "../routes/path-defs";
 
 const config = getConfig();
