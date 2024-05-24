@@ -238,13 +238,12 @@ Each service is designed to be modular, scalable, and easy to integrate with oth
 ### Teacher Service
 
 - Profile management for teachers.
-- Course management functionalities.
-- Grading and feedback tools.
+- Listing profile functionalities.
+- feedback tools.
 
 ### Student Service
 
-- Enrollment management for students.
-- Assignment submission functionalities.
+- Joining management for students.
 - Progress tracking features.
 
 ### User Service
@@ -257,14 +256,13 @@ Each service is designed to be modular, scalable, and easy to integrate with oth
 
 - Push and email notifications.
 - Customizable notification templates.
-- Subscription management for users.
 
 ## Architecture
 
 - **Microservices Architecture**: Each service is implemented as an independent microservice.
 - **API Gateway**: Handles routing requests and cross-cutting concerns like authentication.
 - **Containerization**: Services are containerized using Docker.
-- **Orchestration**: Kubernetes is used for orchestrating containers.
+<!-- - **Orchestration**: Kubernetes is used for orchestrating containers. -->
 - **Logging and Monitoring**: Centralized logging and monitoring solutions are implemented.
 - **Security**: Security best practices are followed, including encryption and regular security audits.
 
