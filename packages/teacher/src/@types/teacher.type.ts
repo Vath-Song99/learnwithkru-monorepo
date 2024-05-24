@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 export interface Teacher{
     first_name: string;
     last_name: string;
+    picture: string
     phone_number: string;
     subject: string;
     is_degree: boolean;

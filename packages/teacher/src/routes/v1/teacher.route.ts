@@ -39,7 +39,7 @@ TeacherRoute.get(
 
 TeacherRoute.post(
   PATH_TEACHER.teacherSignup,
-  authorize(["user","student"]),
+  authorize(["user","teacher"]),
   TeacherValidate(teacherSchemas),
   async (req: Request, res: Response, _next: NextFunction) => {
     const requestBody = req.body;
@@ -60,7 +60,7 @@ TeacherRoute.post(
 );
 
 TeacherRoute.get(
-  PATH_TEACHER.teacherProfile ,
+  PATH_TEACHER.teacherProfile,
   async (req: Request, res: Response, _next: NextFunction) => {
     const _id = req.query.id as string;
     try {

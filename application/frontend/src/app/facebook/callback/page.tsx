@@ -39,9 +39,12 @@ const CallbackRedirect = () => {
   };
 
   return (
-    <div>
-      <p className=''
-      >Redirecting...</p>
+    <div className='flex justify-center pt-10'>
+    
+      <p className='w-full flex justify-center'
+      >
+        Loading ...
+      </p>
     </div>
   );
 };
