@@ -146,7 +146,14 @@ Open your terminal and change the directory to the Learnwithkru-monorepo folder.
     cd path/to/learnwithkru-monorepo
 ```
 
-3. Build and run the Docker containers:
+3. Build the Docker images:
+   Use the following command to build the Docker images. This will set up the necessary environment for your project.
+
+```sh
+    yarn build:docker
+```
+
+4. Build and run the Docker containers:
    Use the following command to build and start the Docker containers. This will set up the necessary environment for your project.
 
 ```sh
@@ -154,6 +161,26 @@ Open your terminal and change the directory to the Learnwithkru-monorepo folder.
 ```
 
 After completing these steps, your project will be successfully set up locally!
+
+##### Others command
+
+1. Restart Docker
+
+```sh
+    yarn restart:docker
+```
+
+1. Stop Docker
+
+```sh
+    yarn stop:docker
+```
+
+1. Remove Docker Containers
+
+```sh
+    yarn remove:containers
+```
 
 <!-- ### Without Docker
 
