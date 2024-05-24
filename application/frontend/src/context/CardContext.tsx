@@ -1,6 +1,7 @@
 "use client";
+import { AuthForm } from "@/@types/users/users";
 import { getCurrentDateTime, getLocalStorage, setLocalStorage } from "@/utils/localStorage";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import React, { createContext, useEffect, useState } from "react";
 interface CardTeachers {
   id?: string;
@@ -22,22 +23,25 @@ interface ContextProps {
   Data: CardTeachers[];
   setData: React.Dispatch<React.SetStateAction<CardTeachers[]>>;
   toggleFavorite: (id: string) => void;
+  // addNewAuth: (auth: AuthForm) => Promise<void>;
 }
 export const Mycontext = createContext<ContextProps>({
   Data: [],
   setData: () => { },
   toggleFavorite: () => { },
+  // addNewAuth: async () => { }
 });
 
 const CardContext = ({ children }: { children: any }) => {
+
   const [Data, setData] = useState<CardTeachers[]>([]);
-  const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleString());
+  // const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleString());
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const teachers = await handleRequestTeacher();
-        if(!teachers){
+        if (!teachers) {
           console.error("Theare is no teachers found!");
         }
         setData(teachers.data); // Update state with fetched data
@@ -54,13 +58,13 @@ const CardContext = ({ children }: { children: any }) => {
     try {
 
       const API_ENDPOINT = "http://localhost:3000/v1/teachers"; // Replace with your actual token
-      const response = await axios.get(API_ENDPOINT ,{ withCredentials: true });
+      const response = await axios.get(API_ENDPOINT, { withCredentials: true });
 
       return response.data;
     } catch (error: any) {
-      console.error("Error fetching teachers:",error);
+      console.error("Error fetching teachers:", error);
       throw error;
-    }   
+    }
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -86,6 +90,9 @@ const CardContext = ({ children }: { children: any }) => {
       return newData;
     });
   };
+
+
+ 
 
   const contextvalue = {
     Data,
