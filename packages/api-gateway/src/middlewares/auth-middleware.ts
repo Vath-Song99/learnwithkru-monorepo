@@ -6,21 +6,28 @@ import { verify } from "jsonwebtoken";
 import { publicKey } from "../server";
 
 async function verifyUser(req: Request, _res: Response, _next: NextFunction) {
+  const sessionCookie = req.session?.jwt;
+  const persistentCookie = req.cookies?.persistent;
+  
+  console.log(persistentCookie)
   try {
-    if (!req.session?.jwt) {
-      logger.error(
-        "Token is not available. Gateway Service verifyUser() method error "
-      );
-      throw new APIError(
-        "Please login to access this resource.",
-        StatusCode.Unauthorized
-      );
+    if (!sessionCookie) {
+      if(!persistentCookie){
+        logger.error(
+          "Token is not available. Gateway Service verifyUser() method error "
+        );
+        throw new APIError(
+          "Please login to access this resource.",
+          StatusCode.Unauthorized
+        );
+      }
+      (req as Request).session!.jwt = persistentCookie
     }
-    await verify(req.session!.jwt, publicKey, {
+    await verify(sessionCookie || persistentCookie, publicKey, {
       algorithms: ["RS256"],
     });
-
-    _next();
+     _next();
+   
   } catch (error) {
     _next(error);
   }
