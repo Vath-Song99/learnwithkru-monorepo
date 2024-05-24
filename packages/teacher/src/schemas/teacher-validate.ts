@@ -3,6 +3,7 @@ import { z } from "zod";
 export const teacherSchemas = z.object({
   first_name: z.string().min(2).max(25),
   last_name: z.string().min(2).max(25),
+  picture: z.string(),
   phone_number: z
     .string()
     .min(8)
