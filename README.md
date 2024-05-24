@@ -268,7 +268,14 @@ Each service is designed to be modular, scalable, and easy to integrate with oth
 
 For detailed instructions on setting up and using each service, please refer to their respective README files.
 
-_For more examples and detailed instructions, please refer to the [Documentation](https://example.com)_
+<!-- _For more examples and detailed instructions, please refer to the [Documentation](https://example.com)_ -->
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## UI design
+
+This User Interface enhances clarity and usability, ensuring an intuitive experience for users of this project.
+
+[![Figma](Figma)](Figma-url)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -329,3 +336,5 @@ Project Link: [Learnwithkru-monorepo](https://github.com/Vath-Song99/learnwithkr
 [MongoDB-url]: https://www.mongodb.com/
 [JavaScript]: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
 [Next.js]: https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white
+[Figma]: https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white
+[Figma-url]: https://www.figma.com/design/ij4jlwjEniD1K69xLpaSt0/KRU-UI?m=dev&node-id=13-2&t=JM8rD22nxHWmXm5T-1
