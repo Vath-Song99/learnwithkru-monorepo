@@ -16,6 +16,35 @@ const Login = () => {
   //     [name]: value,
   //   }))
   // }
+  const [loading, setLoading] = useState(false);
+
+  const handleSigninWithGoogle = () => {
+    const url = "http://localhost:3000/v1/auth/google";
+    window.location.href = url;
+  };
+  const handleSigninWithFacebook= () => {
+    const url = "http://localhost:3000/v1/auth/facebook";
+    window.location.href = url;
+  };
+  
+  // Example usage: Handling the error at the caller level
+  const handleSigninGoogle = async () => {
+    try {
+      await handleSigninWithGoogle();
+    } catch (error) {
+      console.error("Signin failed:", error);
+      // You can add further user-friendly error handling here
+    }
+  };
+
+  const handleSigninFacebook = async () => {
+    try {
+      await handleSigninWithFacebook();
+    } catch (error) {
+      console.error("Signin failed:", error);
+      // You can add further user-friendly error handling here
+    }
+  };
   return (
     <div className=" w-full h-[100vh] flex justify-center items-center ">
       <div className="w-[900px] h-[600px] flex justify-between items-center border shadow-md">
@@ -26,7 +55,7 @@ const Login = () => {
             </h1>
             <h1 className="text-xs tracking-wide pb-5 underline  ">
               {" "}
-              don't have an account?{" "}
+              don&apos;t have an account?{" "}
 
               <Link
                 href={"/signup"}
@@ -37,7 +66,7 @@ const Login = () => {
             </h1>
 
             <div className="grid gap-3">
-              <Button className="flex items-center justify-evenly w-[300px] h-[50px]  bg-[#f3f3f3] rounded-md hover:bg-[#d2d0d0]">
+              <Button onClick={handleSigninGoogle} className="flex items-center justify-evenly w-[300px] h-[50px]  bg-[#f3f3f3] rounded-md hover:bg-[#d2d0d0]">
                 <svg
                   width="25"
                   height="24"
@@ -75,10 +104,10 @@ const Login = () => {
                 </svg>
                 <div className="text-sm text-slate-950 mr-[20px] ">
                   {" "}
-                  Continue with Google
+                  <p className="text-sm text-slate-950  ">{loading ? 'Signing in...' : 'Sign in with Google'}</p>
                 </div>
               </Button>
-              <Button className="flex items-center justify-evenly    w-[300px] h-[50px]   bg-[#f3f3f3] rounded-md  hover:bg-[#d2d0d0]">
+              <Button onClick={handleSigninFacebook} className="flex items-center justify-evenly    w-[300px] h-[50px]   bg-[#f3f3f3] rounded-md  hover:bg-[#d2d0d0]">
                 <svg
                   width="25"
                   height="24"
@@ -91,7 +120,7 @@ const Login = () => {
                   />
                 </svg>
                 <div className="text-sm text-slate-950 ">
-                  Continue with Facebook
+                <p className="text-sm text-slate-950  ">{loading ? 'Signing in...' : 'Sign in with Facebook'}</p>
                 </div>
               </Button>
               <div className="flex items-center justify-start">

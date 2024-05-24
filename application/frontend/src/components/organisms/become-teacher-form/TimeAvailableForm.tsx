@@ -654,7 +654,7 @@ const TimeAvailableForm = ({
                     {selectTuesday.map((item, index) => (
                       <div key={index}>
                         <div className="flex justify-between py-2">
-                          <div className="flex flex-col ">
+                          <div className="flex flex-col">
                             <Select
                               borderRadius="md"
                               borderSize="timeSelect"
