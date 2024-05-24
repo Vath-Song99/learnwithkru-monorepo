@@ -17,16 +17,18 @@
   *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
   *** https://www.markdownguide.org/basic-syntax/#reference-style-links
   -->
-  [![Contributors][contributors-shield]][contributors-url]
-  [![Forks][forks-shield]][forks-url]
-  [![Stargazers][stars-shield]][stars-url]
-  [![Issues][issues-shield]][issues-url]
-  [![MIT License][license-shield]][license-url]
-  [![LinkedIn][linkedin-shield]][linkedin-url]
+
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+
+<!-- [![MIT License][license-shield]][license-url] -->
+<!-- [![LinkedIn][linkedin-shield]][linkedin-url] -->
 
   <br />
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="https://learnwithkru.com/_next/image?url=%2FLogos%2FKruLogo.png&w=640&q=75" alt="Logo" width="120" height="130">
+    <img src="https://learnwithkru.com/_next/image?url=%2FLogos%2FKruLogo.png&w=640&q=75" alt="Logo" width="120" height="120">
   </a>
   <h1 align="center">Project Learnwithkru</h1>
 </div>
@@ -54,6 +56,7 @@
 </details>
 
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 In a digitally interconnected world, the demand for personalized education has never been higher. Students and learners of all ages are seeking tailored learning experiences that cater to their individual needs, preferences, and schedules. Meanwhile, educators are looking for flexible platforms that allow them to reach a broader audience and provide impactful, one-on-one instruction. Our project aims to bridge this gap by creating an innovative platform designed to connect students and teachers for personalized, one-on-one educational experiences, similar to the well-established Preply platform.
@@ -68,14 +71,15 @@ Whether it's mastering a new language, excelling in academic subjects, or acquir
 
 This section lists major frameworks and libraries used in the Learnwithkru project:
 
-* ![Node.js][Node.js]
-* [![TypeScript][TypeScript]][TypeScript-url]
-* [![Express][Express.js]][Express-url]
-* [![MongoDB][MongoDB]][MongoDB-url]
+- ![Node.js][Node.js]
+- [![TypeScript][TypeScript]][TypeScript-url]
+- [![Express][Express.js]][Express-url]
+- [![MongoDB][MongoDB]][MongoDB-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- LINKS -->
+
 [Node.js-url]: https://nodejs.org/
 [TypeScript-url]: https://www.typescriptlang.org/
 [Express-url]: https://expressjs.com/
@@ -88,22 +92,23 @@ The Learnwithkru project follows a monorepo structure. Here’s a brief overview
 ```sh
 learnwithkru-monorepo/
 ├── application/
-│   └── frontend/ 
+│   └── frontend/
 ├── packages/
-│   ├── api-gateway/ 
-│   ├── auth/    
-│   ├── notification/     
+│   ├── api-gateway/
+│   ├── auth/
+│   ├── notification/
 │   ├── student/
 │   ├── teacher/
 │   ├── user/
 │   └── volomes/
-├── docker/         
+├── docker/
 ├── libs/
 │   ├──  shared-libs/
 │   └──  config-libs/
-├── docs/      
-└── README.md      
+├── docs/
+└── README.md
 ```
+
 Each package has its own set of dependencies and configuration files, allowing for modular development.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -118,80 +123,84 @@ Follow these steps to set up this project locally using Docker.
 #### Prerequisites
 
 Ensure you have the following software installed before proceeding:
-* [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-* [Node.js](https://nodejs.org/en)
-* [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable)
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Node.js](https://nodejs.org/en)
+- [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable)
 
 #### Setup Steps
 
 1. Clone the project:
 
 Open your terminal and run the following command to clone the project repository:
-    ```sh
-       git clone https://github.com/Vath-Song99/learnwithkru-monorepo.git
-    ``` 
+
+```sh
+    git clone https://github.com/Vath-Song99/learnwithkru-monorepo.git
+```
 
 2. Navigate to the `Learnwithkru-monorepo` folder:
 
-  Open your terminal and change the directory to the Learnwithkru-monorepo folder. Replace path/to with the actual path to the project directory on your machine.
-    ```sh
-       cd path/to/learnwithkru-monorepo
-    ```
+Open your terminal and change the directory to the Learnwithkru-monorepo folder. Replace path/to with the actual path to the project directory on your machine.
+
+```sh
+    cd path/to/learnwithkru-monorepo
+```
 
 3. Build and run the Docker containers:
-  Use the following command to build and start the Docker containers. This will set up the necessary environment for your project.
-    ```sh
-     yarn start:docker
-    ```
+   Use the following command to build and start the Docker containers. This will set up the necessary environment for your project.
+
+```sh
+    yarn start:docker
+```
 
 After completing these steps, your project will be successfully set up locally!
 
-### Without Docker
+<!-- ### Without Docker
 
 If you prefer to set up the project without Docker, follow these commands:
 
 1. Clone the project:
 
 Open your terminal and run the following command to clone the project repository:
-    ```sh
+`sh
       git clone https://github.com/Vath-Song99/learnwithkru-monorepo.git
-    ```
+    `
 
 2. Navigate to the `Learnwithkru-monorepo` folder:
 
-  Open your terminal and change the directory to the Learnwithkru-monorepo folder. Replace path/to with the actual path to the project directory on your machine.
-    ```sh
+Open your terminal and change the directory to the Learnwithkru-monorepo folder. Replace path/to with the actual path to the project directory on your machine.
+`sh
     cd path/to/learnwithkru-monorepo
-    ```
+    `
 
 3. Install the necessary Node.js modules:
 
-    ```sh
-    yarn
-    ```
+   ```sh
+   yarn
+   ```
 
-3. Start all the development server:
+4. Start all the development server:
 
-    ```sh
-    yarn start:all
-    ```
+   ```sh
+   yarn start:all
+   ```
 
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
 Our platform supports three types of users, each with distinct features and functionalities:
 
 ### 1. Normal User
+
 - **Explore**: Browse through the platform to understand the features and services offered.
 - **Search**: Use the search functionality to find courses, tutors, and resources without registering.
 
 ### 2. Student
-- **Join Classes**: 
+
+- **Join Classes**:
   - **Search for Tutors**: Use the search feature to find tutors based on your specific needs and preferences, such as subject, availability, and ratings.
   - **View Tutor Profiles**: Check detailed profiles of tutors, including their qualifications, teaching style, and reviews from other students.
   - **Book a Lesson**: Schedule and book lessons at times that suit you through a seamless booking process.
@@ -202,7 +211,8 @@ Our platform supports three types of users, each with distinct features and func
 - **Communicate**: Use our secure messaging system to stay in touch with tutors for any additional support or questions.
 
 ### 3. Teacher
-- **Create Profile**: 
+
+- **Create Profile**:
   - **Post Profile**: List your qualifications, teaching experience, and the subjects you teach to attract students.
   - **Upload Media**: Add introductory videos and other media to give potential students a better understanding of your teaching style.
 - **Manage Classes**:
@@ -217,9 +227,8 @@ _For more examples and detailed instructions, please refer to the [Documentation
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- CONTACT -->
+
 ## Contact
 
 Smoeury Songvat - (https://www.facebook.com/profile.php?id=100092631759554) - learnwithkru287@gmail.com
@@ -228,19 +237,17 @@ Project Link: [Learnwithkru-monorepo](https://github.com/Vath-Song99/learnwithkr
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
+[contributors-url]: https://github.com/Vath-Song99/learnwithkru-monorepo/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
+[forks-url]: https://github.com/Vath-Song99/learnwithkru-monorepo/forks
 [stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
+[stars-url]: https://github.com/Vath-Song99/learnwithkru-monorepo/stargazers
 [issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
+[issues-url]: https://github.com/Vath-Song99/learnwithkru-monorepo/issues
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
@@ -261,8 +268,7 @@ Project Link: [Learnwithkru-monorepo](https://github.com/Vath-Song99/learnwithkr
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
-
+[JQuery-url]: https://jquery.com
 [Node.js]: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white
 [Node-url]: https://nodejs.org/
 [Express.js]: https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white
