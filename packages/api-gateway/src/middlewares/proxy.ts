@@ -5,7 +5,11 @@ import { ClientRequest, IncomingMessage } from "http";
 import getConfig from "../utils/createConfig";
 import { StatusCode } from "../utils/consts";
 import { ROUTE_PATHS } from "@api-gateway/route-defs";
+<<<<<<< HEAD
 import { options } from "@api-gateway/utils/persistenCookieOption";
+=======
+import { OptionCookie } from "@api-gateway/utils/cookieOption";
+>>>>>>> origin/main
 
 interface ProxyConfig {
   [context: string]: Options<IncomingMessage, Response>;
@@ -81,7 +85,12 @@ const proxyConfigs: ProxyConfig = {
 
             // Store JWT in session
             if (responseBody.token) {
+<<<<<<< HEAD
               res.cookie("auth", responseBody.token!, options);
+=======
+               res.cookie("persistent", responseBody.token, OptionCookie);
+              (req as Request).session!.jwt = responseBody.token;
+>>>>>>> origin/main
             }
             // Modify response to send  the message and user's data to the client
             res.json({
@@ -152,6 +161,7 @@ const proxyConfigs: ProxyConfig = {
             errors?: Array<object>;
           };
           try {
+            logger.info("This is bodystring: ",bodyString)
             responseBody = JSON.parse(bodyString);
             // If Response Error, Not Modified Response
             if (responseBody.errors) {

@@ -16,6 +16,8 @@ const DEFAULT_FORM_VALUE = {
   email: "",
   password: "",
 };
+import { useUser } from "@/context/UserContext";
+
 const FormLogin = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] = useState<UsersFormLogin>(DEFAULT_FORM_VALUE);
@@ -27,6 +29,7 @@ const FormLogin = () => {
   const handleCheckboxChange = () => {
     setRememberMe(!rememberMe);
   };
+  const {setUser} = useUser()
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -69,8 +72,9 @@ const FormLogin = () => {
           }
         );
         console.log(response.data);
+        setUser(response.data.data)
       } catch (error) {
-        console.error('Error Hz Preas ery', error)
+        console.error('Error', error)
       }
     };
     // stept 6

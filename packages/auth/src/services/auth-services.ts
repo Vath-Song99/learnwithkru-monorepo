@@ -1,33 +1,33 @@
-import AccountVerificationModel from "../databases/models/account-verification.model";
-import { generateEmailVerificationToken } from "../utils/account-verification";
 import StatusCode from "../utils/http-status-code";
 import {
+  decodedToken,
   generatePassword,
   generateSignature,
   validatePassword,
 } from "../utils/jwt";
 import { AccountVerificationRepository } from "../databases/repositories/account-verification.repository";
 import { OauthConfig } from "../utils/oauth-configs";
-import { AuthService, UserService } from "./@types/auth-service";
+import {
+  AuthService,
+  ResetPasswordService,
+  UserService,
+} from "./@types/auth-service-type";
 import { AuthRepository } from "../databases/repositories/auth.respository";
-import { ObjectId } from "mongodb";
-import { GenerateTimeExpire } from "../utils/date-generate";
 import { TokenResponse } from "../utils/@types/oauth.type";
 import { Login } from "../@types/user.type";
 import { ApiError, BaseCustomError } from "../error/base-custom-error";
-import { publishDirectMessage } from "../queue/auth.producer";
-import { authChannel } from "../server";
 import { RequestUserService } from "../utils/http-request";
 import { logger } from "../utils/logger";
-import getConfig from "../utils/config";
+import { SendVerifyEmailService } from "./verify-email-services";
 
 export class AuthServices {
   private AuthRepo: AuthRepository;
   private accountVerificationRepo: AccountVerificationRepository;
-
+  private SendVerifyEmailService: SendVerifyEmailService;
   constructor() {
     this.AuthRepo = new AuthRepository();
     this.accountVerificationRepo = new AccountVerificationRepository();
+    this.SendVerifyEmailService = new SendVerifyEmailService();
   }
 
   async Signup(auth: AuthService): Promise<void> {
@@ -56,10 +56,13 @@ export class AuthServices {
         this.accountVerificationRepo.DeleteAccountVerifyByAuthId({
           authId: existingUser._id,
         });
-        this.SendVerifyEmailToken({
-          authId: existingUser._id,
-          email: existingUser.email as string,
-        });
+        this.SendVerifyEmailService.SendVerifyEmailToken(
+          {
+            authId: existingUser._id,
+            email: existingUser.email as string,
+          },
+          "verifyEmail"
+        );
         throw new BaseCustomError(
           "Verification email has been resent. Please check your email to verify.",
           StatusCode.BAD_REQUEST
@@ -74,129 +77,19 @@ export class AuthServices {
         password: hashedPassword,
       });
       // step 4
-      await this.SendVerifyEmailToken({
-        authId: newUser._id,
-        email: newUser!.email as string,
-      });
-
-    } catch (error: unknown) {
-      logger.error("The erorr accur in Singup() method! : ", error)
-      if(error instanceof BaseCustomError){
-        throw error
-      }
-      throw new ApiError("Songthing went wrong!")
-    }
-  }
-
-  async SendVerifyEmailToken({
-    authId,
-    email,
-  }: {
-    authId: ObjectId;
-    email: string;
-  }) {
-    //TODO LIST
-    //********************** */
-    // 1. generate token
-    // 2. generate current date
-    // 3. generate date expire
-    // 4. save user to database verify
-    // 6. send email
-    try {
-      // step 1
-      const emailVerificationToken = generateEmailVerificationToken();
-
-      // step 3
-      const now = new Date();
-      const inTenMinutes = GenerateTimeExpire(now);
-      // step 4
-      const accountVerification = new AccountVerificationModel({
-        authId: authId,
-        emailVerificationToken: emailVerificationToken,
-        expired_at: inTenMinutes,
-      });
-      const newAccountVerification = await accountVerification.save();
-
-      // step 5
-      const messageDetails = {
-        receiverEmail: email,
-        verifyLink: `${getConfig().apiGateway}/v1/auth/verify?token=${newAccountVerification.emailVerificationToken}`,
-        template: "verifyEmail",
-      };
-
-      // console.log(messageDetails)
-      // Publish To Notification Service
-      await publishDirectMessage(
-        authChannel,
-        "learnwithkru-verify-email",
-        "auth-email",
-        JSON.stringify(messageDetails),
-        "Verify email message has been sent to notification service"
+      await this.SendVerifyEmailService.SendVerifyEmailToken(
+        {
+          authId: newUser._id,
+          email: newUser!.email as string,
+        },
+        "verifyEmail"
       );
-    } catch (error) {
-      logger.error("Unexpected error accurs in SendVerifyEmailToken() method! :",error);
-      throw error
-    }
-  }
- 
-  async VerifyEmailToken(token: string) {
-    try {
-      const isTokenExist =
-        await this.accountVerificationRepo.FindVerificationToken({ token });
-
-      if (!isTokenExist) {
-        throw new BaseCustomError(
-          "Verification token is invalid",
-          StatusCode.BAD_REQUEST
-        );
+    } catch (error: unknown) {
+      logger.error("The erorr accur in Singup() method! : ", error);
+      if (error instanceof BaseCustomError) {
+        throw error;
       }
-
-      const now = new Date();
-      if (now > isTokenExist.expired_at) {
-        await this.accountVerificationRepo.DeleteVerificationByToken({ token });
-
-        throw new BaseCustomError(
-          "Verify Token was expire!",
-          StatusCode.UNAUTHORIZED
-        );
-      }
-
-      const user = await this.AuthRepo.FindUserById({
-        id: isTokenExist.authId,
-      });
-
-      if (!user) {
-        throw new BaseCustomError("User does not exist.", StatusCode.NOT_FOUND);
-      }
-
-      user.is_verified = true;
-      const newUser = await user.save();
-
-      const { _id, firstname, lastname, email } = newUser;
-
-      // Create user object for the request
-      const userData = {
-        authId: _id.toString(),
-        firstname: firstname as string,
-        lastname: lastname as string,
-        email: email as string,
-        picture: null,
-      };
-      const requestUser = new RequestUserService();
-      const { data } = await requestUser.CreateUser(userData);
-
-      if (!data) {
-        throw new ApiError("Can't create new user in to user service!");
-      }
-      const jwtToken = await generateSignature({
-        _id: data._id.toString(),
-      });
-
-      await this.accountVerificationRepo.DeleteVerificationByToken({ token });
-
-      return { data, jwtToken };
-    } catch (error) {
-      throw error;
+      throw new ApiError("Songthing went wrong!");
     }
   }
 
@@ -269,11 +162,11 @@ export class AuthServices {
       });
       return { data, jwtToken };
     } catch (error) {
-      logger.error("The error of SigninwithGoogle() method! :", error)
-      if(error instanceof BaseCustomError){
+      logger.error("The error of SigninwithGoogle() method! :", error);
+      if (error instanceof BaseCustomError) {
         throw error;
       }
-      throw new ApiError("Somthing went wrong!")
+      throw new ApiError("Somthing went wrong!");
     }
   }
 
@@ -290,7 +183,7 @@ export class AuthServices {
     // 1. find existing user
     // 2. checking user verify or not
     // 3. checking for correct password
-    // 4. generate jwt token
+    // 4. make request to user service for getting user's data
     try {
       const { email, password } = user;
       // step 1
@@ -320,20 +213,22 @@ export class AuthServices {
       const requestUser = new RequestUserService();
       const { data } = await requestUser.GetUser(existingUser._id.toString());
 
-      if(!data){
-        logger.error("No User found in Login() when request data from user db!")
-        throw new ApiError("User doesn't exist!",StatusCode.NOT_FOUND)
+      if (!data) {
+        logger.error(
+          "No User found in Login() when request data from user db!"
+        );
+        throw new ApiError("User doesn't exist!", StatusCode.NOT_FOUND);
       }
       const jwtToken = await generateSignature({
         _id: data._id.toString(),
       });
       return { data, jwtToken };
     } catch (error) {
-        logger.error("Login () method error:", error)
-        if(error instanceof BaseCustomError){
-          throw error;
-        }
-        throw new ApiError("Somthing when wrong!")
+      logger.error("Login () method error:", error);
+      if (error instanceof BaseCustomError) {
+        throw error;
+      }
+      throw new ApiError("Somthing when wrong!");
     }
   }
 
@@ -401,33 +296,84 @@ export class AuthServices {
     }
   }
 
-  async ResetPassword({ email }: { email: string }) {
-    //***************** */
-    // 1. find exist user
+  async RequestResetPassword({ email }: { email: string }) {
     try {
+      // Find existing user by email
       const existingUser = await this.AuthRepo.FindUserByEmail({ email });
-      if (existingUser) {
-        if (!existingUser.is_verified) {
-          throw new BaseCustomError(
-            "Your Email isn't Verify, Please verify your email!",
-            StatusCode.UNAUTHORIZED
-          );
-        } else {
-          if (!existingUser.password) {
-            throw new BaseCustomError(
-              "Your account is sign up with third-party app",
-              StatusCode.BAD_REQUEST
-            );
-          }
-          this.SendVerifyEmailToken({
-            authId: existingUser._id,
-            email: existingUser.email as string,
-          });
-        }
+
+      // Check if the user exists
+      if (!existingUser) {
+        throw new BaseCustomError("User not found!", StatusCode.NOT_FOUND);
       }
-      throw new BaseCustomError("User not found!", StatusCode.NOT_FOUND);
+
+      // Check if the email is verified
+      if (!existingUser.is_verified) {
+        throw new BaseCustomError(
+          "Your email isn't verified. Please verify your email!",
+          StatusCode.UNAUTHORIZED
+        );
+      }
+
+      // Check if the user has a password (i.e., not signed up via a third-party app)
+      if (!existingUser.password) {
+        throw new BaseCustomError(
+          "Your account is signed up with a third-party app",
+          StatusCode.BAD_REQUEST
+        );
+      }
+
+      // Send verification email token
+      await this.SendVerifyEmailService.SendVerifyEmailToken(
+        {
+          authId: existingUser._id,
+          email: existingUser.email as string,
+        },
+        "verifyResetPassword"
+      );
+    } catch (error) {
+      logger.error("This error accurs in ResetPassword method! :", error);
+      if (error instanceof BaseCustomError) {
+        throw error;
+      }
+      throw new ApiError("Somthing went wrong!");
+    }
+  }
+
+  async ConfirmResetPassword(requestBody: ResetPasswordService) {
+    //**************** */
+    // 1. check old passwrod that exist
+    // 2 hash new password
+    // 3 create new user to database
+    try {
+      const { currentPassword, newPassword, token } = requestBody;
+
+      const { id } = await decodedToken(token);
+
+      const existingUser = await this.AuthRepo.FindUserById({ id });
+
+      if (!existingUser) {
+        throw new BaseCustomError("User not found!", StatusCode.NOT_FOUND);
+      }
+
+      const isPwdCorrect = await validatePassword({
+        enteredPassword: currentPassword,
+        savedPassword: existingUser.password as string,
+      });
+
+      if (!isPwdCorrect) {
+        throw new BaseCustomError("Invalid Password!", StatusCode.BAD_REQUEST);
+      }
+
+      const hashedPassword = await generatePassword(newPassword);
+
+      existingUser.password = hashedPassword;
+      await existingUser.save();
     } catch (error: unknown) {
-      throw error;
+      logger.error("This error accurs in ConfirmResetPassword method!", error);
+      if (error instanceof BaseCustomError) {
+        throw error;
+      }
+      throw new ApiError("Somthing went  wrong!");
     }
   }
 }

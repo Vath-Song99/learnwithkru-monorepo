@@ -11,7 +11,15 @@
     "application/*"
   ],
   "scripts": {
+<<<<<<< HEAD
     "start:docker": "sudo docker-compose up --build", 
+=======
+    
+    "build:docker": "docker-compose up --build",
+    "start:docker": "docker-compose up",
+    "stop:docker": "docker-compose stop",
+
+>>>>>>> origin/main
     "start:app": "yarn workspace learnwithkru-application start:dev",
     "start:api-gateway": "yarn workspace api-gateway start:dev",
     "start:auth-service": "yarn workspace authentication-service start:dev",

@@ -2,7 +2,7 @@ import axios from "axios";
 import getConfig from "./config";
 import { ApiError } from "../error/base-custom-error";
 import { logger } from "./logger";
-import { UserService } from "../services/@types/auth-service";
+import { UserService } from "../services/@types/auth-service-type";
 import { PATH_SERVICE } from "../routes/path-defs";
 
 const config = getConfig();
@@ -48,7 +48,6 @@ export class RequestUserService {
   async GetUser(authId: string) {
     const url = `${config.userService}${PATH_SERVICE.USER.GET_USER}/${authId}`;
 
-    console.log(url)
     try {
       const response = await axios.get(url);
       if (response.status !== 200) {
