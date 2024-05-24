@@ -50,6 +50,7 @@ const FormSignup = () => {
       );
       // Handle successful response
       console.log("Data:", response.data);
+      alert("Check your Email for verificaton!")
       return response.data;
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
