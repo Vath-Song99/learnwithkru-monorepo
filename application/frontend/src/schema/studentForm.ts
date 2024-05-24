@@ -9,14 +9,10 @@ const studentSchema = yup.object().shape({
     .mixed()
     .required("Student card is required")
     .test("fileSize", "File size is too large", (value: any) => {
-      return value && value[0] && value[0].size <= 2000000; // 2MB
+      return value && value.size <= 2000000; // 2MB
     })
     .test("fileType", "Unsupported file format", (value: any) => {
-      return (
-        value &&
-        value[0] &&
-        ["image/jpeg", "image/png", "application/pdf"].includes(value[0].type)
-      );
+      return value && ["image/jpeg", "image/png", "application/pdf"].includes(value.type);
     }),
   grade: yup
     .number()

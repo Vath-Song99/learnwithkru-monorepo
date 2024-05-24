@@ -12,10 +12,10 @@ const SignupToBecomeStudent = () => {
     const [previewURL, setPreviewURL] = useState<string | null>(null);
 
     const [validate, setValidate] = useState({
-        SchoolName: "",
-        StudentCard: undefined, // Assuming StudentCard is a file input, you can initialize it to undefined
-        Grade: "",
-        BIO: "",
+        schoolName: "",
+        studentCard: undefined, // Assuming StudentCard is a file input, you can initialize it to undefined
+        grade: "",
+        bio: "",
     });
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -28,7 +28,7 @@ const SignupToBecomeStudent = () => {
         }
     };
 
-    const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
+    const handleSubmit: React.FormEventHandler<HTMLFormElement | HTMLTextAreaElement> = async (event) => {
         event.preventDefault();
         try {
             await studentSchema.validate(validate, { abortEarly: false });
@@ -89,12 +89,12 @@ const SignupToBecomeStudent = () => {
                                 placeholder="School Name"
                                 borderColor="secondary"
                                 borderRadius="md"
-                                name="SchoolName"
-                                value={validate.SchoolName}
-                                onChange={handleChange}
+                                name="schoolName"
                                 className="border border-[#445455] outline-none w-[300px] h-16 md:w-[350px] sm:w-[350px] lg:w-[500px]"
+                                value={validate.schoolName}
+                                onChange={handleChange}
                             />
-                            {errors.SchoolName && <p className="text-red-500">{errors.SchoolName}</p>}
+                            {errors.schoolName && <p className="text-red-500 text-nowrap">{errors.schoolName}</p>}
                         </div>
                         <div>
                             <Typography className="flex justify-start text-nowrap">
@@ -125,23 +125,23 @@ const SignupToBecomeStudent = () => {
                                 placeholder="Input your Grade"
                                 borderColor="secondary"
                                 borderRadius="md"
-                                name="Grade"
-                                value={validate.Grade}
+                                name="grade"
+                                value={validate.grade}
                                 onChange={handleChange}
                                 className="w-[300px] h-16 md:w-[350px] sm:w-[350px] lg:w-[500px] border border-[#445455] outline-none"
                             />
-                            {errors.Grade && <p className="text-red-500">{errors.Grade}</p>}
+                            {errors.grade && <p className="text-red-500  text-nowrap">{errors.grade}</p>}
                         </div>
                         <div>
                             <Typography className="flex justify-start">BIO</Typography>
                             <textarea
-                                name="BIO"
+                                name="bio"
                                 placeholder="Add text"
-                                value={validate.BIO}
+                                value={validate.bio}
                                 onChange={handleChange}
                                 className="w-[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] h-52 rounded-lg border border-[#445455] outline-none p-3"
                             />
-                            {errors.BIO && <p className="text-red-500">{errors.BIO}</p>}
+                            {errors.bio && <p className="text-red-500  text-nowrap">{errors.bio}</p>}
                         </div>
                         <div className="w-[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] flex justify-center md:justify-center lg:justify-start">
                             <Button
@@ -150,7 +150,7 @@ const SignupToBecomeStudent = () => {
                                 radius="md"
                                 className="py-[8px] md:py-2 mt-4 w-[150px] h-12 text-sm sm:justify-center sm:w-[350px] md:w-[350px] lg:w-[500px]"
                             >
-                                <Link href="/teacher-list">Submit</Link>
+                                <Link href="">Submit</Link>
                             </Button>
                         </div>
                     </form>
