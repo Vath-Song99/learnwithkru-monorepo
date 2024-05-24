@@ -1,34 +1,23 @@
-import { FilterDropdown } from '@/components/molecules'
-import React from 'react'
+import { FilterDropdown } from "@/components/molecules";
+import React from "react";
 
 const itemsDropdown = [
-  {
-    itemName: "English"
-  }, {
-    itemName: "Mathematics"
-  }, {
-    itemName: "Physics"
-  }, {
-    itemName: "Chemistry"
-  },
-]
+  { itemName: "English" },
+  { itemName: "Mathematics" },
+  { itemName: "Physics" },
+  { itemName: "Chemistry" },
+];
+
 const TimeDropDown = [
-  {
-    itemName: "Monday"
-  }, {
-    itemName: "Tuesday"
-  }, {
-    itemName: "Wenesday"
-  }, {
-    itemName: "Thursday"
-  }, {
-    itemName: "Friday"
-  }, {
-    itemName: "Saturday"
-  }, {
-    itemName: "Sunday"
-  }
-]
+  { itemName: "Monday" },
+  { itemName: "Tuesday" },
+  { itemName: "Wednesday" },
+  { itemName: "Thursday" },
+  { itemName: "Friday" },
+  { itemName: "Saturday" },
+  { itemName: "Sunday" },
+];
+
 const ProvinceDropDown = [
   { itemName: "Phnom Penh" },
   { itemName: "Kandal" },
@@ -54,25 +43,34 @@ const ProvinceDropDown = [
   { itemName: "Kep" },
   { itemName: "Kampot" },
   { itemName: "Sihanoukville" },
-  { itemName: "Preah Sihanouk" }
+  { itemName: "Preah Sihanouk" },
 ];
-const pricingDropDown = [
-  { itemName: "$10 - $15" },
-  { itemName: "$20 - $25" },
-  { itemName: "$30 - $35" },
 
+const pricingDropDown = [
+  { itemName: "$10" },
+  { itemName: "$15" },
+  { itemName: "$20" },
+  { itemName: "$25" },
+  { itemName: "$30" },
+  { itemName: "$35" },
+  { itemName: "$40" },
+  { itemName: "$45" },
+  { itemName: "$50" },
 ];
+
 const FilterTeachers = () => {
   return (
-    <div className='w-full flex justify-center items-center'>
-      <div className="w-[80%] flex justify-between items-start gap-4">
-        <FilterDropdown nameDropdown='Subject' itemsDropdown={itemsDropdown} />
-        <FilterDropdown nameDropdown='TimeAviable' itemsDropdown={TimeDropDown} />
-        <FilterDropdown nameDropdown='Province' itemsDropdown={ProvinceDropDown}/>
-        <FilterDropdown nameDropdown='Pricing' itemsDropdown={pricingDropDown} />
+
+    <div className="w-full flex justify-center items-center">
+      <div className="w-[80%] flex justify-between items-start flex-wrap gap-2">
+        <FilterDropdown nameDropdown="Subject" itemsDropdown={itemsDropdown} />
+        <FilterDropdown nameDropdown="Time Available" itemsDropdown={TimeDropDown} />
+        <FilterDropdown nameDropdown="Province" itemsDropdown={ProvinceDropDown} />
+        <FilterDropdown nameDropdown="Pricing" itemsDropdown={pricingDropDown} />
+
       </div>
     </div>
-  )
-}
+  );
+};
 
-export { FilterTeachers } 
+export { FilterTeachers };

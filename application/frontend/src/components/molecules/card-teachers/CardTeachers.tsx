@@ -24,7 +24,6 @@ const CardTeachers: React.FC<CardTeachersTypes> = (props) => {
 
   return (
     <div className="w-full  lg:w-[49%] flex justify-evenly sm:justify-around border-[1.5px] px-1 md:px-0  shadow-sm pt-2 pb-1 md:py-3 hover:border-3 hover:border-[#455445] ">
-
       <div className="flex flex-col items-center gap-1 justify-center md:justify-start w-[100px]  sm:w-[130px] md:w-[140px] lg:w-[120px]">
         <Link
           href={"teacher-profile"}

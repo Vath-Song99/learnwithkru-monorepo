@@ -31,7 +31,8 @@ interface InputProps {
   | "lg"
   | "xl"
   | "2xl"
-  | "full";
+  | "full"
+  | "bio";
   onChange?: (event: any) => void;
   accept?: string;
   ref?: React.MutableRefObject<HTMLInputElement | null>;
@@ -142,9 +143,11 @@ const InputForm: React.FC<InputProps> = ({
       case "xl":
         return "w-[511px] h-[65px]";
       case "2xl":
-        return "w-[564px] h-[50px]";
+        return "w-[564px] h-[65px]";
       case "full":
         return "w-screen h-[65px]";
+      case "bio":
+        return "w-[564px] h-[80px]"
       default:
         return "w-[332px] h-[40px]";
     }
