@@ -170,7 +170,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
       {/* right */}
 
-      {!isLogin ? (
+      {isLogin ? (
         <div className="lg:w-1/3 lg:h-1/3 lg:flex lg:items-center lg:justify-center ">
           <div className="flex items-center">
             <ButtonDropDown
