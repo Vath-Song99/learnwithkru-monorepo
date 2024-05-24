@@ -2,7 +2,7 @@
 import { CardTeachers } from "@/components/molecules";
 import React, { useContext } from "react";
 import { Mycontext } from "@/context/CardContext";
-
+  
 const TeacherListCards = ({ search }: { search: string }) => {
   const { Data } = useContext(Mycontext);
   const filteredData = Data.filter((info) => {

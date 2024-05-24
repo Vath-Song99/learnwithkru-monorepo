@@ -7,11 +7,13 @@ import React, {
   ChangeEvent,
   FormEvent,
   FormEventHandler,
+  useContext,
   useState,
 } from "react";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import { setLocalStorage } from "@/utils/localStorage";
+import { Mycontext } from "@/context/CardContext";
 
 // TODOLIST
 // handle values in a form create state is handle form
@@ -33,6 +35,68 @@ const FormSignup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<AuthForm>(DEFAULT_FORM_VALUE);
   const [rememberMe, setRememberMe] = useState(false);
+
+
+  async function fetchsignupData(data: AuthForm) {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/v1/auth/signup",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // Handle successful response
+      console.log("Data:", response.data);
+      alert("Check your Email for verificaton!")
+      return response.data;
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response) {
+          // Request was made and server responded with a status code
+          console.log("Response data:", axiosError.response.data);
+          console.log("Status code:", axiosError.response.status);
+          console.log("Status message:", axiosError.response.statusText);
+        } else if (axiosError.request) {
+          // Request was made but no response was received
+          console.error("No response received:", axiosError.request);
+        } else {
+          // Something happened in setting up the request that triggered an error
+          console.error("Error:", axiosError.message);
+        }
+      } else {
+        // Regular JavaScript error
+        console.error("Error:", error.message);
+      }
+    }
+  }
+
+  // Call the function to make the request
+  const addNewAuth = async (auth: AuthForm): Promise<void> => {
+    try {
+      // Call the fetchData function
+      await fetchsignupData(auth); // Await added for consistency
+      // Optionally fetch data again if rememberMe is not checked
+
+      const responseData = await fetchsignupData(auth);
+      console.log("Response Data:", responseData); // Logging success data
+
+
+      // Save user data to localStorage
+      const authObject = {  
+        lastname: auth.lastname,
+        firstname: auth.firstname,
+        email: auth.email,
+      };
+      setLocalStorage("user", authObject);
+      console.log("User data saved to localStorage:", authObject);
+    } catch (error) {
+      console.error("Error occurred while adding new authentication:", error);
+    }
+  };
   // stept 1
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -72,70 +136,7 @@ const FormSignup = () => {
     }
   };
 
-  function setLocalStorage(key: string, value: any) {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
 
-  async function fetchData(data: AuthForm) {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/v1/auth/signup",         
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      // Handle successful response
-      console.log("Data:", response.data);
-      alert("Check your Email for verificaton!")
-      return response.data;
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError;
-        if (axiosError.response) {
-          // Request was made and server responded with a status code
-          console.log("Response data:", axiosError.response.data);
-          console.log("Status code:", axiosError.response.status);
-          console.log("Status message:", axiosError.response.statusText);
-        } else if (axiosError.request) {
-          // Request was made but no response was received
-          console.error("No response received:", axiosError.request);
-        } else {
-          // Something happened in setting up the request that triggered an error
-          console.error("Error:", axiosError.message);
-        }
-      } else {
-        // Regular JavaScript error
-        console.error("Error:", error.message);
-      }
-    }
-  }
-
-  // Call the function to make the request
-  const addNewAuth = async (auth: AuthForm) => {
-    try {
-      // Call the fetchData function
-      await fetchData(auth); // Await added for consistency
-      // Optionally fetch data again if rememberMe is not checked
-      if (!auth.rememberMe) {
-        const responseData = await fetchData(auth);
-        console.log("Response Data:", responseData); // Logging success data
-      }
-
-      // Save user data to localStorage
-      const authObject = {
-        lastname: auth.lastname,
-        firstname: auth.firstname,
-        email: auth.email,
-      };
-      setLocalStorage("user", authObject);
-      console.log("User data saved to localStorage:", authObject);
-    } catch (error) {
-      console.error("Error occurred while adding new authentication:", error);
-    }
-  };
 
   // stept 4
   // const addNewAuth = async (auth: AuthForm) => {
