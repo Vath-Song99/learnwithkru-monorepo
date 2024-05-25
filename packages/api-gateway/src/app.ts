@@ -6,17 +6,17 @@ import hpp from "hpp";
 import helmet from "helmet";
 import cors from "cors";
 import { applyRateLimit } from "./middlewares/rate-limit";
-// import { StatusCode } from "./utils/consts";
-// import { logger } from "./utils/logger";
 import applyProxy from "./middlewares/proxy";
-// import { verifyUser } from "./middlewares/auth-middleware";
-// import unless from "./middlewares/unless-route";
 import { errorHandler } from "./middlewares/error-handler";
 import { StatusCode } from "./utils/consts";
 import { logger } from "./utils/logger";
 import unless from "./middlewares/unless-route";
 import { verifyUser } from "./middlewares/auth-middleware";
 import cookieParser from "cookie-parser";
+import swaggerUi from 'swagger-ui-express';
+import axios from "axios";
+import { merge } from 'swagger-merge';
+
 const app: Application = express();
 
 const config = getConfig();
@@ -75,6 +75,36 @@ app.use(unless("/v1/auth", verifyUser));
 // ===================
 applyProxy(app);
 
+
+const swaggerUrls = [
+  'http://localhost:3001/swagger.json',
+  'http://localhost:3002/swagger.json',
+  // Add more URLs as needed
+];
+
+// Function to fetch Swagger JSON from all microservices
+const fetchSwaggerDocs = async () => {
+  const swaggerDocs = await Promise.all(
+    swaggerUrls.map(url => axios.get(url).then(res => res.data))
+  );
+  return swaggerDocs;
+};
+
+// Endpoint to serve aggregated Swagger documentation
+app.get('/swagger.json', async (_req, res) => {
+  try {
+    const swaggerDocs = await fetchSwaggerDocs();
+    const mergedSwaggerDoc = merge(swaggerDocs);
+    res.json(mergedSwaggerDoc);
+  } catch (error) {
+    res.status(500).send('Error aggregating Swagger documentation');
+  }
+});
+
+// Serve Swagger UI
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(undefined, {
+  swaggerUrl: '/swagger.json',
+}));
 // ====================
 // Global Error Handler
 // ====================

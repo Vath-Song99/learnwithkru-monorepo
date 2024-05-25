@@ -12,22 +12,24 @@ import {
   Middlewares,
   Body,
   Query,
+  Controller,
+  Header,
 } from "tsoa";
 import { SendVerifyEmailService } from "../services/verify-email-services";
 
 @Route("/api/v1")
-export class AuthController {
-
+export class AuthController extends Controller {
 
   @Post(PATH_AUTH.signUp)
   @SuccessResponse(StatusCode.CREATED, "Created")
   @Middlewares(zodValidate(userValidateSchema))
-  public async Singup(@Body() requestBody: User): Promise<void>{
+  public async Singup(@Body() requestBody: User): Promise<{message: string}>{
     const {firstname , lastname , email , password } = requestBody;
     try {
       const authService = new AuthServices();
       await authService.Signup({firstname , lastname , email , password});
 
+      return {message: "please verify your Email!"}
     } catch (error) {
       throw error;
     }
@@ -37,7 +39,7 @@ export class AuthController {
   @SuccessResponse(StatusCode.OK, "OK")
   public async VerifySignupEmail(
     @Query() token: string
-  ){
+  ): Promise<{data: any , token: string}>{
     try {
       const verifyService = new SendVerifyEmailService()
       const user = await verifyService.VerifyEmailToken(token);
@@ -50,7 +52,7 @@ export class AuthController {
 
   @SuccessResponse(StatusCode.OK, "OK")
   @Get(PATH_AUTH.verifyResetPassword)
-  async VerifyResetPasswordEmail (@Query() token: string){
+  async VerifyResetPasswordEmail (@Query() token: string): Promise<{message: string}>{
     try{
       const verifyService = new SendVerifyEmailService();
       const user = await verifyService.VerifyResetPasswordToken(token);
@@ -66,7 +68,7 @@ export class AuthController {
   @Middlewares(zodValidate(authLoginSchema))
   public async Login(
     @Body() requestBody: Login
-  ) {
+  ): Promise<{data: object , token: string}> {
     const { email, password } = requestBody;
     try {
       const authService = new AuthServices();
@@ -80,7 +82,7 @@ export class AuthController {
 
   @SuccessResponse(StatusCode.OK, "OK")
   @Post(PATH_AUTH.googleOAuthCallBack)
-  async GoogleOAuth(@Body() code: string): Promise<any> {
+  async GoogleOAuth(@Query() code: string): Promise<{data: object , token: string}> {
     try {
       const authService = new AuthServices();
       const user = await authService.SigninWithGoogleCallBack(code);
@@ -93,7 +95,7 @@ export class AuthController {
 
   @SuccessResponse(StatusCode.OK, "OK")
   @Post(PATH_AUTH.facebookOAuthCallBack)
-  async FacebookOAuth(@Body() code: string): Promise<any> {
+  async FacebookOAuth(@Query() code: string): Promise<any> {
     try {
       const authService = new AuthServices();
       const user = await authService.SigninWithFacebookCallBack(code);
@@ -106,7 +108,7 @@ export class AuthController {
 
   @SuccessResponse(StatusCode.OK, "OK")
   @Post(PATH_AUTH.requestResetPassword)
-  async RequestResetPassword(requestBody:{email: string} ){
+  async RequestResetPassword(@Body() requestBody: {email: string}){
     const {email} = requestBody
     try{
       const service = new AuthServices();
@@ -119,7 +121,7 @@ export class AuthController {
   
   @SuccessResponse(StatusCode.OK, "OK")
   @Post(PATH_AUTH.ResetPassword)
-  async ConfirmResetPassword (requestBody: ResetPassword , token: string){
+  async ConfirmResetPassword (@Body() requestBody: ResetPassword , @Header("authorization") token: string){
     const userData = {token , ...requestBody}
     try{
       const service = new AuthServices();

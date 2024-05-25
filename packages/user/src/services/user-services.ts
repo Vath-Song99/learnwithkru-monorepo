@@ -1,5 +1,5 @@
 import { User } from "../@types/user.type";
-import { UserRepository } from "../databases/repositories/user.repository";
+import { UserRepository } from "../database/repositories/user.repository";
 import { ApiError, BaseCustomError } from "../error/base-custom-error";
 import StatusCode from "../utils/http-status-code";
 import { logger } from "../utils/logger";

@@ -5,14 +5,14 @@ import {
   generateSignature,
   validatePassword,
 } from "../utils/jwt";
-import { AccountVerificationRepository } from "../databases/repositories/account-verification.repository";
+import { AccountVerificationRepository } from "../database/repositories/account-verification.repository";
 import { OauthConfig } from "../utils/oauth-configs";
 import {
   AuthService,
   ResetPasswordService,
   UserService,
 } from "./@types/auth-service-type";
-import { AuthRepository } from "../databases/repositories/auth.respository";
+import { AuthRepository } from "../database/repositories/auth.respository";
 import { TokenResponse } from "../utils/@types/oauth.type";
 import { Login } from "../@types/user.type";
 import { ApiError, BaseCustomError } from "../error/base-custom-error";
@@ -127,13 +127,13 @@ export class AuthServices {
           const { data } = await requestUser.CreateUser(userData);
           const { _id } = data;
           const jwtToken = await generateSignature({ _id: _id.toString() });
-          return { data, jwtToken };
+          return { data, token: jwtToken };
         }
         const requestUser = new RequestUserService();
         const { data } = await requestUser.GetUser(user._id.toString());
         const { _id } = data;
         const jwtToken = await generateSignature({ _id: _id.toString() });
-        return { data, jwtToken };
+        return { data, token: jwtToken };
       }
 
       const newUser = await this.AuthRepo.CreateOauthUser({
@@ -160,7 +160,7 @@ export class AuthServices {
       const jwtToken = await generateSignature({
         _id: data._id.toString(),
       });
-      return { data, jwtToken };
+      return { data, token: jwtToken };
     } catch (error) {
       logger.error("The error of SigninwithGoogle() method! :", error);
       if (error instanceof BaseCustomError) {
@@ -222,7 +222,7 @@ export class AuthServices {
       const jwtToken = await generateSignature({
         _id: data._id.toString(),
       });
-      return { data, jwtToken };
+      return { data, token: jwtToken };
     } catch (error) {
       logger.error("Login () method error:", error);
       if (error instanceof BaseCustomError) {
