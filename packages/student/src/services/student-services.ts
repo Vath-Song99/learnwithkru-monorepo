@@ -1,4 +1,4 @@
-import { StudentRepository } from "../databases/repositories/student.repository";
+import { StudentRepository } from "../database/repositories/student.repository";
 import { BaseCustomError } from "../error/base-custom-error";
 import StatusCode from "../utils/http-status-code";
 import { getUserById } from "../utils/htttp-request";
@@ -43,7 +43,7 @@ export class StudentServices {
       });
 
       const token = await generateSignature({ _id: newStudent._id.toString() });
-      return { newStudent, token };
+      return { data: newStudent, token };
     } catch (error) {
       throw error;
     }

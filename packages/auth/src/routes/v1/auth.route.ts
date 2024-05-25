@@ -34,7 +34,7 @@ AuthRoute.post(PATH_AUTH.login, zodValidate(authLoginSchema) , async(req: Reques
       res.status(StatusCode.OK).json({
       message: 'Login Success',
       data: user.data,
-      token: user.jwtToken
+      token: user.token
     });
   }catch(error: unknown){
     _next(error)
@@ -92,7 +92,7 @@ AuthRoute.get(PATH_AUTH.verify, async (req: Request ,res: Response, _next: NextF
     res.status(StatusCode.OK).json({
       message: 'Sign up success',
       data: respone.data,
-      token: respone.jwtToken
+      token: respone.token
     });
   }catch(error: unknown){
     _next(error)
@@ -142,7 +142,7 @@ AuthRoute.get(
           res.status(StatusCode.OK).json({
             message: 'Create user success',
             data: respone.data,
-            token: respone.jwtToken
+            token: respone.token
           });
         } catch (error: unknown) {
           _next(error);

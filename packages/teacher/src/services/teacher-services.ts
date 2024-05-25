@@ -1,5 +1,5 @@
 import { Paginate } from "../@types/paginate.type";
-import { TeacherRepository } from "../databases/repositories/teacher.repository";
+import { TeacherRepository } from "../database/repositories/teacher.repository";
 import { BaseCustomError } from "../error/base-custom-error";
 import StatusCode from "../utils/http-status-code";
 import { generateSignature } from "../utils/jwt";
