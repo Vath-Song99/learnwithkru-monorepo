@@ -48,21 +48,18 @@ const DescriptionTeachers = Yup.object().shape({
   motivatePotentail: Yup.string()
     .required()
     .min(40, "Motivate potential  at least 40 characters long "),
-  videoTeaching: Yup.string().test(
-    "file-size",
-    "Video size is too large",
-    function (value) {
-      const file =
-        value && this.options.context && this.options.context.files
-          ? this.options.context.files[value]
-          : null;
-
-      if (file && file.size) {
-        return file.size <= 1024 * 1024; // 1MB limit
-      }
-      return true; // No file selected, so validation passes
+  videoTeaching: Yup.string()
+  .test("file-size", "Video size is too large", function (value) {
+    const file =
+      value && this.options.context && this.options.context.files
+        ? this.options.context.files[value]
+        : null;
+    if (file && file.size) {
+      return file.size <= 1024 * 1024;
     }
-  ),
+    return true;
+  })
+  .required("Please upload an Video"),
 });
 
 export { DescriptionTeachers };
