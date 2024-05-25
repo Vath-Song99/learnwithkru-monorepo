@@ -1,15 +1,27 @@
 "use client";
 import { Button, InputForm, Typography } from "@/components/atoms";
-import React, { ChangeEvent, useRef, useState } from "react";
-import { TeachersAvailability, TimeAvailableFormTypes } from "./@types";
-import { TimeSlote } from "@/components/molecules/timeslote";
+import React, { ChangeEvent, FormEvent, FormEventHandler, useEffect, useRef, useState } from "react";
+import { TimeAvailableFormTypes } from "./@types";
 import { Select } from "@/components/atoms/select/select";
+import { cleanupLogGroupName } from "sst/constructs/util/apiGatewayV2AccessLog.js";
 interface DataTimeProp {
   id: string;
   hour: string;
 }
+interface daysOfWeek {
+  monday: {
+    from: string;
+    to: string;
+  };
+}
 
-const dataTime = [
+const initialState: daysOfWeek = {
+  monday: {
+    from: '',
+    to: ''
+  }
+};
+const dataTimenew = [
   {
     id: "1",
     hour: "00:00",
@@ -108,12 +120,6 @@ const dataTime = [
   },
 ];
 
-const DEFAULT_FORM_VALUE = {
-  monday: {
-    from: "",
-    to: "",
-  },
-};
 const TimeAvailableForm = ({
   title,
   description,
@@ -121,16 +127,20 @@ const TimeAvailableForm = ({
   buttonTitle,
   setTimeAvailable,
   setTimeDescription,
+  setdataTutor,
 }: TimeAvailableFormTypes) => {
-  const [selectMonday, setSelectMonday] = useState([{ from: "", to: "" }]);
-  const [selectTuesday, setSelectTuesday] = useState([{ from: "", to: "" }]);
+
+  const [dataTime, setDataTime] = useState<DataTimeProp[]>(dataTimenew);
+
+  const [selectMonday, setSelectMonday] = useState([{ from: "9:00", to: "10:00" }]);
+  const [selectTuesday, setSelectTuesday] = useState([{ from: "9:00", to: "10:00" }]);
   const [selectwednesday, setSelectwednesday] = useState([
-    { from: "", to: "" },
+    { from: "9:00", to: "" },
   ]);
-  const [selectThursday, setSelectThursday] = useState([{ from: "", to: "" }]);
-  const [selectFriday, setSelectFriday] = useState([{ from: "", to: "" }]);
-  const [selectSaturday, setSelectSaturday] = useState([{ from: "", to: "" }]);
-  const [selectSunday, setSelectSunday] = useState([{ from: "", to: "" }]);
+  const [selectThursday, setSelectThursday] = useState([{ from: "9:00", to: "10:00" }]);
+  const [selectFriday, setSelectFriday] = useState([{ from: "9:00", to: "10:00" }]);
+  const [selectSaturday, setSelectSaturday] = useState([{ from: "9:00", to: "10:00" }]);
+  const [selectSunday, setSelectSunday] = useState([{ from: "9:00", to: "10:0" }]);
   const [daysOfWeek, setDaysOfWeek] = useState({
     monday: true,
     tuesday: true,
@@ -140,12 +150,10 @@ const TimeAvailableForm = ({
     saturday: true,
     sunday: true,
   });
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [formData, setFormData] = useState<any>({});
-  // Add Availble Timeslot
+  const [formData, setFormData] =
+  useState<daysOfWeek>();
   const handleAddNewTimeslot = (index: number) => {
-    const newInput = { from: "", to: "" };
-    const indexData = selectMonday[index].from;
+    const newInput = { from: "9:00", to: "10:00" };
     setSelectMonday((prev) => [...prev, newInput]);
   };
   // add avaible timeslot in tuesday
@@ -178,13 +186,13 @@ const TimeAvailableForm = ({
     const newInput = { from: "", to: "" };
     setSelectSunday((prev) => [...prev, newInput]);
   };
+  
   // Update Existed Timeslot monday
   const handleUpdateTimeslot = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
     idx: number
   ) => {
     const { name, value } = e.target;
-
     setSelectMonday((prev) => {
       const newArray = [...prev];
 
@@ -193,26 +201,24 @@ const TimeAvailableForm = ({
         const indexSlotHour = dataTime.findIndex(
           (eachSlot) => eachSlot.hour === value
         );
+    
         newArray[idx] = {
           ...newArray[idx],
           [name]: value,
           to:
-            indexSlotHour !== -1 && indexSlotHour < dataTime.length - 1
+            indexSlotHour !== -1 && indexSlotHour < dataTime.length -1
               ? dataTime[indexSlotHour + 1].hour
               : "",
         };
-
       } else {
         newArray[idx] = { ...newArray[idx], [name]: value };
-        setFormData({
-          ...formData,
-          monday: newArray[idx],
-        });
       }
+         
       return newArray;
     });
-  
   };
+  console.log("Moday data: ", selectMonday)
+
   // update existed Timeslot in setSelectThursday
   const handleUpdateTimeslotTuesday = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
@@ -436,7 +442,21 @@ const TimeAvailableForm = ({
       [name]: checked,
     }));
   };
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (
+    e: FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
 
+    try {
+      setdataTutor((prevFormData: any) => ({
+      ...prevFormData,
+      selectMonday,
+    }));
+  // Add Availble Timeslot
+    } catch (error) {
+   
+    }
+  };
   return (
     <div className="w-[464px] flex flex-col">
       <div className="flex justify-center">
@@ -472,6 +492,7 @@ const TimeAvailableForm = ({
             {setTimeDescription}
           </Typography>
           <div className="flex flex-col">
+            <form action="" onSubmit={handleSubmit}>
             <div className="flex flex-row">
               <div className="flex  pt-[10px]">
                 <InputForm
@@ -557,7 +578,7 @@ const TimeAvailableForm = ({
                                       (eachSlot) =>
                                         eachSlot.hour === selectMonday[index].to
                                     );
-
+                                
                                     // Return only hour greater than the `from` value
                                     if (idx > toIndex - 1) {
                                       return (
@@ -654,7 +675,7 @@ const TimeAvailableForm = ({
                     {selectTuesday.map((item, index) => (
                       <div key={index}>
                         <div className="flex justify-between py-2">
-                          <div className="flex flex-col">
+                          <div className="flex flex-col ">
                             <Select
                               borderRadius="md"
                               borderSize="timeSelect"
@@ -669,7 +690,10 @@ const TimeAvailableForm = ({
                               className="border border-purple-500  outline-none text-xs"
                             >
                               {dataTime.map((datahour) => (
-                                <option key={datahour.id} value={datahour.hour}>
+                                <option key={datahour.id} value={datahour.hour}  defaultValue={
+                                  dataTime.find((item) => item.hour === "9:00")
+                                    ?.hour
+                                }>
                                   {datahour.hour}
                                 </option>
                               ))}
@@ -744,6 +768,7 @@ const TimeAvailableForm = ({
                           <button onClick={() => handleAddNewTimeslotTuesday()}>
                             <small className=" underline font-bold">
                               Add another timeslot
+                              
                             </small>
                           </button>
                         )}
@@ -1462,6 +1487,17 @@ const TimeAvailableForm = ({
                 )}
               </div>
             </div>
+            <div className="flex flex-col">
+            <div className="flex justify-end">
+              <Button
+                type="submit"
+                radius="md"
+                className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ">
+                next
+              </Button>
+            </div>
+            </div>
+            </form>
           </div>
         </div>
       </div>

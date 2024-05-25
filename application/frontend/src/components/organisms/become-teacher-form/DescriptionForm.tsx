@@ -24,6 +24,7 @@ const DescriptionForm = ({
   fileLabel,
   pageIndex,
   setCurrentPage,
+  setdataTutor,
 }: BecomeTeacherFormTypes) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -39,17 +40,10 @@ const DescriptionForm = ({
   };
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const imageFile = event.target.files && event.target.files[0];
-    if (imageFile) {
-      const imageUrl = URL.createObjectURL(imageFile);
-      if (imageFile.size > 1024 * 1024) {
-        // Display error message for file size limit exceeded
-        alert(
-          "Video size is too large. Please select a video file smaller than 1MB."
-        );
-        return; // Stop further processing
+      if (imageFile) {
+        const imageUrl = URL.createObjectURL(imageFile);
+        setFormData({ ...formData, videoTeaching: imageUrl });
       }
-      setFormData({ ...formData, videoTeaching: imageUrl });
-    }
   };
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (
     e: FormEvent<HTMLFormElement>
@@ -59,6 +53,12 @@ const DescriptionForm = ({
     try {
       await DescriptionTeachers.validate(formData, { abortEarly: false });
       setIsFormComplete(true);
+      setdataTutor((prev: any) => {
+        // Spread the previous state
+        const newState = { ...prev, ...formData };
+        // Return the new state
+        return newState;
+      });
       if (pageIndex !== undefined) {
         // use pageIndex here
         setCurrentPage((prevPage) =>
