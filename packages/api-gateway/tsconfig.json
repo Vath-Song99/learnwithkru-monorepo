@@ -10,6 +10,7 @@
     "outDir": "./build",
     "rootDir": ".",
     "strict": true,
+    "skipLibCheck": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -37,5 +38,6 @@
         "src/*"
       ]
     }
-  }
+  },
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

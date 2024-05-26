@@ -71,10 +71,18 @@ const FormLogin = () => {
             },
           }
         );
+        if(response.data.errors){
+          console.log("An error accor: ",response.data.errors)
+          return false
+        }
         console.log(response.data);
-        setUser(response.data.data)
+        setUser(response.data.data);
+        window.location.href = "http://localhost:8000/teacher-list"
       } catch (error) {
-        console.error('Error', error)
+        console.error('Error occurred during login:', error);
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error response:', error.response);
+    }
       }
     };
     // stept 6
