@@ -13,9 +13,6 @@ import { logger } from "./utils/logger";
 import unless from "./middlewares/unless-route";
 import { verifyUser } from "./middlewares/auth-middleware";
 import cookieParser from "cookie-parser";
-import swaggerUi from 'swagger-ui-express';
-import axios from "axios";
-import { merge } from 'swagger-merge';
 
 const app: Application = express();
 
@@ -26,7 +23,7 @@ const config = getConfig();
 // ===================
 app.set("trust proxy", 1);
 app.use(compression());
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(
   cookieSession({
     name: "session",
@@ -53,10 +50,10 @@ app.use(helmet());
 // Mock getConfig function. Replace with your actual config logic.
 
 const corsOptions = {
-  origin: config.env !== 'development' ? '*' : config.clientUrl,
+  origin: config.env !== "development" ? "*" : config.clientUrl,
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
@@ -77,36 +74,6 @@ app.use(unless("/v1/auth", verifyUser));
 // ===================
 applyProxy(app);
 
-
-const swaggerUrls = [
-  'http://localhost:3001/swagger.json',
-  'http://localhost:3002/swagger.json',
-  // Add more URLs as needed
-];
-
-// Function to fetch Swagger JSON from all microservices
-const fetchSwaggerDocs = async () => {
-  const swaggerDocs = await Promise.all(
-    swaggerUrls.map(url => axios.get(url).then(res => res.data))
-  );
-  return swaggerDocs;
-};
-
-// Endpoint to serve aggregated Swagger documentation
-app.get('/swagger.json', async (_req, res) => {
-  try {
-    const swaggerDocs = await fetchSwaggerDocs();
-    const mergedSwaggerDoc = merge(swaggerDocs);
-    res.json(mergedSwaggerDoc);
-  } catch (error) {
-    res.status(500).send('Error aggregating Swagger documentation');
-  }
-});
-
-// Serve Swagger UI
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(undefined, {
-  swaggerUrl: '/swagger.json',
-}));
 // ====================
 // Global Error Handler
 // ====================
