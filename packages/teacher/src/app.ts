@@ -5,6 +5,7 @@ import cors from "cors";
 import TeacherRoute from "./routes/v1/teacher.route";
 import getConfig from "./utils/config";
 import loggerMiddleware from "./middlewares/logger-handler";
+import swaggerUi from 'swagger-ui-express';
 
 //app
 const app: Application = express();
@@ -29,7 +30,16 @@ app.use(loggerMiddleware);
 const ROUTE = "/v1/teachers";
 app.use(ROUTE, TeacherRoute);
 // handle swaggerUi
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(undefined, {
+  swaggerOptions: {
+    url: '/swagger.json', // Point to the generated Swagger JSON file
+  },
+}));
 
+// Serve the generated Swagger JSON file
+app.get('/swagger.json', (_req, res) => {
+  res.sendFile(path.join(__dirname, './swagger-dist/swagger.json'));
+});
 // app.use(AUTH_ROUTE,Routehealths)
 
 //error handler globale middleware
