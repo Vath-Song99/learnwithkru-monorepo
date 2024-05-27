@@ -7,9 +7,10 @@ const userValidateSchema = z.object({
     .string()
     .min(8, "Password must be at least 8 characters long")
     .regex(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/,
-      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+      /^(?=.*\d)(?=.*[a-z]).{8,}$/,
+      "Password must contain at least one lowercase letter and one number"
     ),
+    
 });
 
 export { userValidateSchema };
@@ -20,9 +21,9 @@ const authLoginSchema = z.object({
     .string()
     .min(8, "Password must be at least 8 characters long")
     .regex(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/,
-      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
-    ),
+      /^(?=.*\d)(?=.*[a-z]).{8,}$/,
+      "Password must contain at least one lowercase letter and one number"
+    ),    
 });
 
 export { authLoginSchema };
