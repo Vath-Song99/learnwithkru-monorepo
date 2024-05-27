@@ -62,18 +62,14 @@ const proxyConfigs: ProxyConfig = {
             redirectUrl?: string;
             errors?: Array<object>;
           };
-          if (proxyRes.statusCode === 302 && proxyRes.headers.location) {
-            // If the response is a 302 redirect and a location header exists
-            const redirectUrl = proxyRes.headers.location;
-            // Log a message to indicate the redirection
-            console.log("Redirecting to:", redirectUrl);
-            // Redirect the client to the new location
-            return res.redirect(redirectUrl);
-          }
 
           try {
             logger.info("Res BodyString: ", bodyString);
             responseBody = JSON.parse(bodyString);
+
+            if(responseBody.redirectUrl){
+              return res.redirect(responseBody.redirectUrl);
+            }
 
             // If Response Error, Not Modified Response
             if (responseBody.errors) {

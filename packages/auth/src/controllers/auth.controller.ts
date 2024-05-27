@@ -16,13 +16,16 @@ import {
   Header,
 } from "tsoa";
 import { SendVerifyEmailService } from "../services/verify-email-services";
+import { OauthConfig } from "../utils/oauth-configs";
 
-@Route("/api/v1")
+@Route("/v1/auth")
 export class AuthController extends Controller {
   @Post(PATH_AUTH.signUp)
   @SuccessResponse(StatusCode.CREATED, "Created")
   @Middlewares(zodValidate(userValidateSchema))
-  public async Singup(@Body() requestBody: UserSignup): Promise<{ message: string }> {
+  public async Singup(
+    @Body() requestBody: UserSignup
+  ): Promise<{ message: string }> {
     const { firstname, lastname, email, password } = requestBody;
     try {
       const authService = new AuthServices();
@@ -85,6 +88,36 @@ export class AuthController extends Controller {
         data: { firstname, lastname, email, picture },
         token: user.token,
       };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @SuccessResponse(StatusCode.FOUND, "FOUND")
+  @Get(PATH_AUTH.googleOAuth)
+  public async googleOAuth(): Promise<{ redirectUrl: string }> {
+    const redirectUri = process.env.GOOGLE_REDIRECT_URI as string;
+    const clientId = process.env.GOOGLE_CLIENT_ID as string;
+
+    try {
+      const googleConfig = await OauthConfig.getInstance();
+      const authUrl = await googleConfig.GoogleConfigUrl(clientId, redirectUri);
+      return { redirectUrl: authUrl };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @SuccessResponse(StatusCode.FOUND, "FOUND")
+  @Get(PATH_AUTH.facebookOAuth)
+  public async facebookOAuth(): Promise<{ redirectUrl: string }> {
+    const redirectUri = process.env.FACEBOOK_APP_ID as string;
+    const clientId = process.env.FACEBOOK_APP_SECRET as string;
+
+    try {
+      const googleConfig = await OauthConfig.getInstance();
+      const authUrl = await googleConfig.GoogleConfigUrl(clientId, redirectUri);
+      return { redirectUrl: authUrl };
     } catch (error) {
       throw error;
     }
