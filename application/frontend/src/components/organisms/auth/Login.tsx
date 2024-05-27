@@ -22,11 +22,11 @@ const Login = () => {
     const url = "http://localhost:3000/v1/auth/google";
     window.location.href = url;
   };
-  const handleSigninWithFacebook= () => {
+  const handleSigninWithFacebook = () => {
     const url = "http://localhost:3000/v1/auth/facebook";
     window.location.href = url;
   };
-  
+
   // Example usage: Handling the error at the caller level
   const handleSigninGoogle = async () => {
     try {
@@ -120,7 +120,7 @@ const Login = () => {
                   />
                 </svg>
                 <div className="text-sm text-slate-950 ">
-                <p className="text-sm text-slate-950  ">{loading ? 'Signing in...' : 'Sign in with Facebook'}</p>
+                  <p className="text-sm text-slate-950  ">{loading ? 'Signing in...' : 'Sign in with Facebook'}</p>
                 </div>
               </Button>
               <div className="flex items-center justify-start">
