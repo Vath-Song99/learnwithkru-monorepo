@@ -135,7 +135,7 @@ const Navbar: React.FC<NavbarProps> = ({
     console.log("Selected option:", value);
   };
   // login
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   return (
     <nav
       className={`w-[80%] h-[100px] flex justify-between items-center  ${className}`}
