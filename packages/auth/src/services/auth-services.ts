@@ -14,7 +14,7 @@ import {
 } from "./@types/auth-service-type";
 import { AuthRepository } from "../database/repositories/auth.respository";
 import { TokenResponse } from "../utils/@types/oauth.type";
-import { Login } from "../@types/user.type";
+import { IUser, Login } from "../@types/user.type";
 import { ApiError, BaseCustomError } from "../error/base-custom-error";
 import { RequestUserService } from "../utils/http-request";
 import { logger } from "../utils/logger";
@@ -177,7 +177,7 @@ export class AuthServices {
     return isToken;
   }
 
-  async Login(user: Login) {
+  async Login(user: Login):Promise<{data: IUser , token: string}> {
     // TODO LIST
     //******************* */
     // 1. find existing user
@@ -232,7 +232,7 @@ export class AuthServices {
     }
   }
 
-  async SigninWithFacebookCallBack(code: string) {
+  async SigninWithFacebookCallBack(code: string): Promise <{data: IUser , token: string}> {
     //TODO LIST
     //*********************** */
     // 1. access token from facebook
@@ -261,7 +261,7 @@ export class AuthServices {
 
         const { _id } = data;
         const jwtToken = await generateSignature({ _id: _id.toString() });
-        return { data, jwtToken };
+        return { data, token: jwtToken };
       }
       //step 4
       const newUser = await this.AuthRepo.CreateOauthUser({
@@ -290,7 +290,7 @@ export class AuthServices {
       const jwtToken = await generateSignature({
         _id: user.data._id.toString(),
       });
-      return { data: user.data, jwtToken };
+      return { data: user.data, token: jwtToken };
     } catch (error) {
       throw error;
     }

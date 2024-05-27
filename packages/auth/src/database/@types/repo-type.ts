@@ -1,9 +1,9 @@
-import { User } from "../../@types/user.type";
+import { UserSignup } from "../../@types/user.type";
 
-export interface AuthUserRepo extends User{
+export interface AuthUserRepo extends UserSignup{
    
 }
-export interface OauthUserRepo extends User{
+export interface OauthUserRepo extends UserSignup{
     googleId?: string;
     facebookId?: string;
     verified_email: boolean;
