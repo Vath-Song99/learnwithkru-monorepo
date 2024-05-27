@@ -7,15 +7,26 @@ import { CardTeachersTypes } from "@/@types";
 
 const CardTeachers: React.FC<CardTeachersTypes> = (props) => {
   const {
-    imageUrl,
-    nameSubject,
-    teacherName,
-    rateStars,
-    reviews,
-    students,
-    description,
-    pricing } = props
+    userId,
+    first_name,
+    last_name,
+    picture,
+    subject,
+    phone_number,
+    province,
+    university,
+    year_experience,
+    type_degree,
+    bio,
+    teacher_experience,
+    motivation,
+    date_available,
+    price,
+    video,
+    Degree,
 
+  } = props
+  const fullname = `${first_name} ${last_name}`;
   const [isFavorite, setIsFavorite] = useState(false)
 
   const handleOnToggleFavorite = () => {
@@ -30,10 +41,10 @@ const CardTeachers: React.FC<CardTeachersTypes> = (props) => {
           className="flex flex-col items-center gap-1 justify-center md:justify-start w-[100px]  sm:w-[130px] md:w-[140px] lg:w-[120px]"
         >
           <Image
-            src={`/${imageUrl}`}
+            src={picture}
             width={500}
             height={500}
-            alt={`${teacherName}`}
+            alt={`${first_name} ${last_name}`}
             className="w-full h-[100px] sm:h-[110px] md:h-[140px] lg:h-[120px] object-cover"
           ></Image>
 
@@ -47,7 +58,7 @@ const CardTeachers: React.FC<CardTeachersTypes> = (props) => {
         {/* Name */}
         <div className="flex justify-between gap-14 items-center lg:gap-0">
           <Typography className="font-medium text-md sm:text-xl tracking-normal">
-            {teacherName}
+            {fullname}
           </Typography>
           <button onClick={handleOnToggleFavorite} className="cursor-pointer">
             {!isFavorite ? (
@@ -89,7 +100,8 @@ const CardTeachers: React.FC<CardTeachersTypes> = (props) => {
         {/* Stars */}
 
         <div className="w-full md:w-[75%] flex  items-center ">
-          <Typography className="text-xs ">{rateStars}</Typography>
+          {/* ot ton mean data */}
+          {/* <Typography className="text-xs ">{rateStars}</Typography> */}
 
           <svg
             className="w-20 md:w-24"
@@ -118,9 +130,11 @@ const CardTeachers: React.FC<CardTeachersTypes> = (props) => {
             />
           </svg>
 
-          <Typography className="text-xs flex items-center" align="left">
+          {/* ot ton mean data */}
+
+          {/* <Typography className="text-xs flex items-center" align="left">
             &#40;{reviews} reviews&#41;
-          </Typography>
+          </Typography> */}
         </div>
 
         {/* active Students */}
@@ -143,9 +157,11 @@ const CardTeachers: React.FC<CardTeachersTypes> = (props) => {
               />
             </svg>
 
-            <Typography className="text-xs ml-1" align="left">
-              {students} active students
-            </Typography>
+            {/* ot ton mean data */}
+
+            {/* <Typography className="text-xs ml-1" align="left">
+              {student} active students
+            </Typography> */}
           </div>
           <div className="flex items-center">
             <svg
@@ -173,7 +189,7 @@ const CardTeachers: React.FC<CardTeachersTypes> = (props) => {
             </svg>
 
             <Typography className="text-xs ml-1" align="left">
-              {nameSubject}
+              {subject}
             </Typography>
           </div>
         </div>
@@ -181,7 +197,7 @@ const CardTeachers: React.FC<CardTeachersTypes> = (props) => {
         {/* Description */}
 
         <article className="text-xs text-[#455445] truncate md:text-clip">
-          {description}
+          {bio}
           <span>
             <Link
               href={""}
@@ -204,7 +220,7 @@ const CardTeachers: React.FC<CardTeachersTypes> = (props) => {
           fontSize="sm"
           align="left"
           variant="semibold">
-          {pricing} KHR/month
+          {price} KHR/month
         </Typography>
 
         {/* Button best teacher */}
