@@ -29,7 +29,7 @@ const models: TsoaRoute.Models = {
             "firstname": {"dataType":"string","required":true},
             "lastname": {"dataType":"string","required":true},
             "email": {"dataType":"string"},
-            "picture": {"dataType":"string"},
+            "picture": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
         },
         "additionalProperties": false,
     },

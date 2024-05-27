@@ -2,29 +2,25 @@ import axios from "axios";
 import getConfig from "./config";
 import { ApiError } from "../error/base-custom-error";
 import { logger } from "./logger";
-import { UserService } from "../services/@types/auth-service-type";
 import { PATH_SERVICE } from "../routes/path-defs";
+import { IUser } from "../@types/user.type";
 
 const config = getConfig();
 
 export class RequestUserService {
-  async CreateUser({
-    authId,
-    firstname,
-    lastname,
-    email,
-    picture,
-  }: UserService) {
-    const url = `${config.userService}${PATH_SERVICE.USER.CREATE_USER}`;
+  async CreateUser({ authId, firstname, lastname, email, picture }: IUser) {
+    const url = `http://localhost:3004/v1/users/create`;
     try {
-      const requestData = { authId, firstname, lastname, email, picture };
-      const jsonData = JSON.stringify(requestData);
+      console.log(url);
 
-      const { data } = await axios.post(url, jsonData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const { data } = await axios.post(url, {
+        authId,
+        firstname,
+        lastname,
+        email,
+        picture,
       });
+      console.log(data);
       if (!data) {
         throw new ApiError("User service did not return data.");
       }

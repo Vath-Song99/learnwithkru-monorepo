@@ -23,7 +23,7 @@ export const PATH_CRUD = {
 export const PATH_SERVICE ={
   BASE: "/v1",
   USER: {
-    CREATE_USER: "/v1/users",
+    CREATE_USER: "/v1/users/create",
     GET_USER: "/v1/users/by-auth-id"
   }
 }

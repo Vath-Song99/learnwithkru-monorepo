@@ -47,7 +47,7 @@
 		}
 	},
 	"paths": {
-		"/v1/users": {
+		"/v1/users/create": {
 			"post": {
 				"operationId": "Createuser",
 				"responses": {
