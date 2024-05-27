@@ -101,7 +101,7 @@
 		}
 	},
 	"paths": {
-		"/api/v1/signup": {
+		"/v1/auth/signup": {
 			"post": {
 				"operationId": "Singup",
 				"responses": {
@@ -138,7 +138,7 @@
 				}
 			}
 		},
-		"/api/v1/verify": {
+		"/v1/auth/verify": {
 			"get": {
 				"operationId": "VerifySignupEmail",
 				"responses": {
@@ -182,7 +182,7 @@
 				]
 			}
 		},
-		"/api/v1/password-reset/verify": {
+		"/v1/auth/password-reset/verify": {
 			"get": {
 				"operationId": "VerifyResetPasswordEmail",
 				"responses": {
@@ -218,7 +218,7 @@
 				]
 			}
 		},
-		"/api/v1/login": {
+		"/v1/auth/login": {
 			"post": {
 				"operationId": "Login",
 				"responses": {
@@ -263,7 +263,61 @@
 				}
 			}
 		},
-		"/api/v1/google/callback": {
+		"/v1/auth/google": {
+			"get": {
+				"operationId": "GoogleOAuth",
+				"responses": {
+					"302": {
+						"description": "FOUND",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"redirectUrl": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"redirectUrl"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/v1/auth/facebook": {
+			"get": {
+				"operationId": "FacebookOAuth",
+				"responses": {
+					"302": {
+						"description": "FOUND",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"redirectUrl": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"redirectUrl"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/v1/auth/google/callback": {
 			"post": {
 				"operationId": "GoogleOAuth",
 				"responses": {
@@ -307,7 +361,7 @@
 				]
 			}
 		},
-		"/api/v1/facebook/callback": {
+		"/v1/auth/facebook/callback": {
 			"post": {
 				"operationId": "FacebookOAuth",
 				"responses": {
@@ -351,7 +405,7 @@
 				]
 			}
 		},
-		"/api/v1/password-reset/request": {
+		"/v1/auth/password-reset/request": {
 			"post": {
 				"operationId": "RequestResetPassword",
 				"responses": {
@@ -396,7 +450,7 @@
 				}
 			}
 		},
-		"/api/v1/reset-password": {
+		"/v1/auth/reset-password": {
 			"post": {
 				"operationId": "ConfirmResetPassword",
 				"responses": {

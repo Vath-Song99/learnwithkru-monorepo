@@ -58,6 +58,7 @@ services:
       - "3001:3001"
     volumes:
       - ./packages/auth/src:/app/src
+      - ./packages/auth/public:/app/public
     env_file: ./packages/auth/configs/.env
     environment:
       USER_SERVICE: http://user:3004
@@ -75,7 +76,8 @@ services:
     ports:
       - "3004:3004"
     volumes:
-      - ./packages/user/src:/app/src
+      - ./packages/auth/public:/app/public
+      - ./packages/user/public:/app/public
     env_file: ./packages/user/configs/.env
     environment:
       AUTH_SERVICE_GET: http://auth:3001
@@ -89,7 +91,8 @@ services:
     ports:
       - "3003:3003"
     volumes:
-      - ./packages/student/src:/app/src
+      - ./packages/auth/public:/app/public
+      - ./packages/student/public:/app/public
     env_file: ./packages/student/configs/.env
     environment:
       USER_SERVICE: http://user:3004
@@ -102,7 +105,8 @@ services:
     ports:
       - "3002:3002"
     volumes:
-      - ./packages/teacher/src:/app/src
+      - ./packages/auth/public:/app/public
+      - ./packages/teacher/public:/app/public
     env_file: ./packages/teacher/configs/.env
 networks:
   default:
