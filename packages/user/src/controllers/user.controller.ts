@@ -6,7 +6,7 @@ import { Body, Get, Path, Post, Route, SuccessResponse } from "tsoa";
 
 @Route("/v1")
 export class UserController {
-  @SuccessResponse(StatusCode.OK, "OK")
+  @SuccessResponse(StatusCode.CREATED, "Created")
   @Post(PATH_USER.CREATE_USER)
   async Createuser(
     @Body() requestBody: IUser
@@ -22,7 +22,7 @@ export class UserController {
         picture,
       });
 
-      return { message: "Success Create", data: newUser };
+      return { message: "Success Created", data: newUser };
     } catch (error: unknown) {
       throw error;
     }

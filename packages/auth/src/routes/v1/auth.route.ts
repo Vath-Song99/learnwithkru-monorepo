@@ -172,7 +172,7 @@ AuthRoute.get(
       res.status(StatusCode.OK).json({
         message: 'success',
         data: respone.data,
-        token: respone.jwtToken,
+        token: respone.token,
       });
     }catch(error: unknown){
       _next(error)

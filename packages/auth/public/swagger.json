@@ -7,7 +7,7 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"User": {
+			"UserSignup": {
 				"properties": {
 					"firstname": {
 						"type": "string"
@@ -19,6 +19,31 @@
 						"type": "string"
 					},
 					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"firstname",
+					"lastname"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IUser": {
+				"properties": {
+					"authId": {
+						"type": "string"
+					},
+					"firstname": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"picture": {
 						"type": "string"
 					}
 				},
@@ -106,7 +131,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/User"
+								"$ref": "#/components/schemas/UserSignup"
 							}
 						}
 					}
@@ -126,11 +151,17 @@
 										"token": {
 											"type": "string"
 										},
-										"data": {}
+										"data": {
+											"$ref": "#/components/schemas/IUser"
+										},
+										"message": {
+											"type": "string"
+										}
 									},
 									"required": [
 										"token",
-										"data"
+										"data",
+										"message"
 									],
 									"type": "object"
 								}
@@ -201,13 +232,16 @@
 											"type": "string"
 										},
 										"data": {
-											"additionalProperties": false,
-											"type": "object"
+											"$ref": "#/components/schemas/IUser"
+										},
+										"message": {
+											"type": "string"
 										}
 									},
 									"required": [
 										"token",
-										"data"
+										"data",
+										"message"
 									],
 									"type": "object"
 								}
@@ -243,13 +277,16 @@
 											"type": "string"
 										},
 										"data": {
-											"additionalProperties": false,
-											"type": "object"
+											"$ref": "#/components/schemas/IUser"
+										},
+										"message": {
+											"type": "string"
 										}
 									},
 									"required": [
 										"token",
-										"data"
+										"data",
+										"message"
 									],
 									"type": "object"
 								}
@@ -278,7 +315,25 @@
 						"description": "OK",
 						"content": {
 							"application/json": {
-								"schema": {}
+								"schema": {
+									"properties": {
+										"token": {
+											"type": "string"
+										},
+										"data": {
+											"$ref": "#/components/schemas/IUser"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"token",
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
 							}
 						}
 					}
@@ -301,7 +356,22 @@
 				"operationId": "RequestResetPassword",
 				"responses": {
 					"200": {
-						"description": "OK"
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
 					}
 				},
 				"security": [],
@@ -331,7 +401,22 @@
 				"operationId": "ConfirmResetPassword",
 				"responses": {
 					"200": {
-						"description": "OK"
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
 					}
 				},
 				"security": [],
