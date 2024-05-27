@@ -1,0 +1,262 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"ITeacher": {
+				"properties": {
+					"first_name": {
+						"type": "string"
+					},
+					"last_name": {
+						"type": "string"
+					},
+					"picture": {
+						"type": "string"
+					},
+					"phone_number": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"is_degree": {
+						"type": "boolean"
+					},
+					"university": {
+						"type": "string"
+					},
+					"year_experience": {
+						"type": "number",
+						"format": "double"
+					},
+					"type_degree": {
+						"type": "string"
+					},
+					"specialization": {
+						"type": "string"
+					},
+					"bio": {
+						"type": "string"
+					},
+					"teacher_experience": {
+						"type": "string"
+					},
+					"motivation": {
+						"type": "string"
+					},
+					"date_available": {
+						"additionalProperties": false,
+						"type": "object"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"certificate": {
+						"type": "string"
+					},
+					"video": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"first_name",
+					"last_name",
+					"picture",
+					"phone_number",
+					"subject",
+					"is_degree",
+					"university",
+					"year_experience",
+					"type_degree",
+					"specialization",
+					"bio",
+					"teacher_experience",
+					"motivation",
+					"date_available",
+					"price",
+					"certificate",
+					"video"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Paginate": {
+				"properties": {
+					"pageSize": {
+						"type": "number",
+						"format": "double"
+					},
+					"pageNumber": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"pageSize",
+					"pageNumber"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "teacher-service",
+		"version": "1.0.0",
+		"description": "Learnwithkru api project",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {
+			"name": "Smoeury Songvat"
+		}
+	},
+	"paths": {
+		"/v1/teaches/teachers-list": {
+			"get": {
+				"operationId": "TeacherList",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"items": {
+												"$ref": "#/components/schemas/ITeacher"
+											},
+											"type": "array"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "pageSize",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "pageNumber",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/v1/teaches/teacher-signup": {
+			"post": {
+				"operationId": "TeacherSingup",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"token": {
+											"type": "string"
+										},
+										"data": {
+											"$ref": "#/components/schemas/ITeacher"
+										}
+									},
+									"required": [
+										"token",
+										"data"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ITeacher"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v1/teaches/teacher-profile/{id}": {
+			"get": {
+				"operationId": "FindOneTeacher",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"$ref": "#/components/schemas/ITeacher"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

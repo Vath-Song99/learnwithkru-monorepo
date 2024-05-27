@@ -5,11 +5,8 @@ import { ClientRequest, IncomingMessage } from "http";
 import getConfig from "../utils/createConfig";
 import { StatusCode } from "../utils/consts";
 import { ROUTE_PATHS } from "@api-gateway/route-defs";
-<<<<<<< HEAD
-import { options } from "@api-gateway/utils/persistenCookieOption";
-=======
+
 import { OptionCookie } from "@api-gateway/utils/cookieOption";
->>>>>>> origin/main
 
 interface ProxyConfig {
   [context: string]: Options<IncomingMessage, Response>;
@@ -51,7 +48,7 @@ const proxyConfigs: ProxyConfig = {
         const token = expressReq.session!.jwt;
         proxyReq.setHeader("Authorization", `Bearer ${token}`);
       },
-      proxyRes: (proxyRes, _req, res) => {
+      proxyRes: (proxyRes, req, res) => {
         let originalBody: Buffer[] = [];
         proxyRes.on("data", function (chunk: Buffer) {
           originalBody.push(chunk);
@@ -65,18 +62,14 @@ const proxyConfigs: ProxyConfig = {
             redirectUrl?: string;
             errors?: Array<object>;
           };
-          if (proxyRes.statusCode === 302 && proxyRes.headers.location) {
-            // If the response is a 302 redirect and a location header exists
-            const redirectUrl = proxyRes.headers.location;
-            // Log a message to indicate the redirection
-            console.log("Redirecting to:", redirectUrl);
-            // Redirect the client to the new location
-            return res.redirect(redirectUrl);
-          }
 
           try {
             logger.info("Res BodyString: ", bodyString);
             responseBody = JSON.parse(bodyString);
+
+            if(responseBody.redirectUrl){
+              return res.redirect(responseBody.redirectUrl);
+            }
 
             // If Response Error, Not Modified Response
             if (responseBody.errors) {
@@ -85,12 +78,8 @@ const proxyConfigs: ProxyConfig = {
 
             // Store JWT in session
             if (responseBody.token) {
-<<<<<<< HEAD
-              res.cookie("auth", responseBody.token!, options);
-=======
-               res.cookie("persistent", responseBody.token, OptionCookie);
+              res.cookie("persistent", responseBody.token, OptionCookie);
               (req as Request).session!.jwt = responseBody.token;
->>>>>>> origin/main
             }
             // Modify response to send  the message and user's data to the client
             res.json({
@@ -161,7 +150,7 @@ const proxyConfigs: ProxyConfig = {
             errors?: Array<object>;
           };
           try {
-            logger.info("This is bodystring: ",bodyString)
+            logger.info("This is bodystring: ", bodyString);
             responseBody = JSON.parse(bodyString);
             // If Response Error, Not Modified Response
             if (responseBody.errors) {
@@ -248,6 +237,7 @@ const proxyConfigs: ProxyConfig = {
             }
             if (responseBody.token) {
               (req as Request).session!.jwt = responseBody.token;
+              delete responseBody.token;
             }
             // Modify response to send only the message to the client
             res.json({
@@ -325,6 +315,7 @@ const proxyConfigs: ProxyConfig = {
             }
             if (responseBody.token) {
               (req as Request).session!.jwt = responseBody.token;
+              delete responseBody.token;
             }
             // Modify response to send only the message to the client
             res.json({

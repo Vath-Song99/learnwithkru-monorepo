@@ -5,16 +5,16 @@ import {
   generateSignature,
   validatePassword,
 } from "../utils/jwt";
-import { AccountVerificationRepository } from "../databases/repositories/account-verification.repository";
+import { AccountVerificationRepository } from "../database/repositories/account-verification.repository";
 import { OauthConfig } from "../utils/oauth-configs";
 import {
   AuthService,
   ResetPasswordService,
   UserService,
 } from "./@types/auth-service-type";
-import { AuthRepository } from "../databases/repositories/auth.respository";
+import { AuthRepository } from "../database/repositories/auth.respository";
 import { TokenResponse } from "../utils/@types/oauth.type";
-import { Login } from "../@types/user.type";
+import { IUser, Login } from "../@types/user.type";
 import { ApiError, BaseCustomError } from "../error/base-custom-error";
 import { RequestUserService } from "../utils/http-request";
 import { logger } from "../utils/logger";
@@ -127,13 +127,13 @@ export class AuthServices {
           const { data } = await requestUser.CreateUser(userData);
           const { _id } = data;
           const jwtToken = await generateSignature({ _id: _id.toString() });
-          return { data, jwtToken };
+          return { data, token: jwtToken };
         }
         const requestUser = new RequestUserService();
         const { data } = await requestUser.GetUser(user._id.toString());
         const { _id } = data;
         const jwtToken = await generateSignature({ _id: _id.toString() });
-        return { data, jwtToken };
+        return { data, token: jwtToken };
       }
 
       const newUser = await this.AuthRepo.CreateOauthUser({
@@ -160,7 +160,7 @@ export class AuthServices {
       const jwtToken = await generateSignature({
         _id: data._id.toString(),
       });
-      return { data, jwtToken };
+      return { data, token: jwtToken };
     } catch (error) {
       logger.error("The error of SigninwithGoogle() method! :", error);
       if (error instanceof BaseCustomError) {
@@ -177,7 +177,7 @@ export class AuthServices {
     return isToken;
   }
 
-  async Login(user: Login) {
+  async Login(user: Login):Promise<{data: IUser , token: string}> {
     // TODO LIST
     //******************* */
     // 1. find existing user
@@ -222,7 +222,7 @@ export class AuthServices {
       const jwtToken = await generateSignature({
         _id: data._id.toString(),
       });
-      return { data, jwtToken };
+      return { data, token: jwtToken };
     } catch (error) {
       logger.error("Login () method error:", error);
       if (error instanceof BaseCustomError) {
@@ -232,7 +232,7 @@ export class AuthServices {
     }
   }
 
-  async SigninWithFacebookCallBack(code: string) {
+  async SigninWithFacebookCallBack(code: string): Promise <{data: IUser , token: string}> {
     //TODO LIST
     //*********************** */
     // 1. access token from facebook
@@ -261,7 +261,7 @@ export class AuthServices {
 
         const { _id } = data;
         const jwtToken = await generateSignature({ _id: _id.toString() });
-        return { data, jwtToken };
+        return { data, token: jwtToken };
       }
       //step 4
       const newUser = await this.AuthRepo.CreateOauthUser({
@@ -290,7 +290,7 @@ export class AuthServices {
       const jwtToken = await generateSignature({
         _id: user.data._id.toString(),
       });
-      return { data: user.data, jwtToken };
+      return { data: user.data, token: jwtToken };
     } catch (error) {
       throw error;
     }
