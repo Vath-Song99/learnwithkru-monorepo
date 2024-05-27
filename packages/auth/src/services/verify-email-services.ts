@@ -1,4 +1,4 @@
-import AccountVerificationModel from "../databases/models/account-verification.model";
+import AccountVerificationModel from "../database/models/account-verification.model";
 import { ApiError , BaseCustomError } from "../error/base-custom-error";
 import { publishDirectMessage } from "../queue/auth.producer";
 import { authChannel } from "../server";
@@ -9,8 +9,8 @@ import { RequestUserService } from "../utils/http-request";
 import StatusCode from "../utils/http-status-code";
 import { generateSignature } from "../utils/jwt";
 import { logger } from "../utils/logger";
-import { AccountVerificationRepository } from "../databases/repositories/account-verification.repository";
-import { AuthRepository } from "../databases/repositories/auth.respository";
+import { AccountVerificationRepository } from "../database/repositories/account-verification.repository";
+import { AuthRepository } from "../database/repositories/auth.respository";
 import { ObjectId } from "mongodb";
 
 export class SendVerifyEmailService {
@@ -55,7 +55,7 @@ export class SendVerifyEmailService {
       } else if (type === "verifyResetPassword") {
         messageDetails = {
           receiverEmail: email,
-          verifyLink: `${getConfig().apiGateway}/v1/auth/verify-reset-token?token=${newAccountVerification.emailVerificationToken}`,
+          verifyLink: `${getConfig().clientUrl}/verify-reset-password?token=${newAccountVerification.emailVerificationToken}`,
           template: "verifyResetPassword",
         };
       }
@@ -146,7 +146,7 @@ export class SendVerifyEmailService {
       // Step 7: Delete account verification token from database
       await this.accountVerificationRepo.DeleteVerificationByToken({ token });
 
-      return { data, jwtToken };
+      return { data, token: jwtToken };
     } catch (error) {
       throw error;
     }

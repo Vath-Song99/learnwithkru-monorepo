@@ -6,17 +6,15 @@ import hpp from "hpp";
 import helmet from "helmet";
 import cors from "cors";
 import { applyRateLimit } from "./middlewares/rate-limit";
-// import { StatusCode } from "./utils/consts";
-// import { logger } from "./utils/logger";
 import applyProxy from "./middlewares/proxy";
-// import { verifyUser } from "./middlewares/auth-middleware";
-// import unless from "./middlewares/unless-route";
 import { errorHandler } from "./middlewares/error-handler";
 import { StatusCode } from "./utils/consts";
 import { logger } from "./utils/logger";
 import unless from "./middlewares/unless-route";
 import { verifyUser } from "./middlewares/auth-middleware";
 import cookieParser from "cookie-parser";
+
+
 const app: Application = express();
 
 const config = getConfig();
@@ -26,7 +24,7 @@ const config = getConfig();
 // ===================
 app.set("trust proxy", 1);
 app.use(compression());
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(
   cookieSession({
     name: "session",
@@ -53,10 +51,10 @@ app.use(helmet());
 // Mock getConfig function. Replace with your actual config logic.
 
 const corsOptions = {
-  origin: config.env !== 'development' ? '*' : config.clientUrl,
+  origin: config.env !== "development" ? "*" : config.clientUrl,
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));

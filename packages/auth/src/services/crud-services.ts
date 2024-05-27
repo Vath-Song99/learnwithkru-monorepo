@@ -1,4 +1,4 @@
-import { AuthRepository } from "../databases/repositories/auth.respository"
+import { AuthRepository } from "../database/repositories/auth.respository"
 
 
 export class CrudServices {
