@@ -163,6 +163,7 @@ const proxyConfigs: ProxyConfig = {
               delete responseBody.token;
             }
             // Modify response to send  the message and user to client to the client
+            console.log(responseBody.data)
             res.json({
               message: responseBody.message,
               data: responseBody.data,

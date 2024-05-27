@@ -4,7 +4,7 @@ import { UserServices } from "../services/user-services";
 import { IUser } from "../@types/user.type";
 import { Body, Get, Path, Post, Route, SuccessResponse } from "tsoa";
 
-@Route("/v1")
+@Route("/v1/users")
 export class UserController {
   @SuccessResponse(StatusCode.CREATED, "Created")
   @Post(PATH_USER.CREATE_USER)
