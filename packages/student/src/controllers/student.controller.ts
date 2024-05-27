@@ -14,7 +14,7 @@ import { PATH_STUDENT } from "../routes/path-defs";
 import { authorize } from "../middlewares/authorize";
 import { DecodedUser } from "../@types/express-extend.type";
 
-@Route(PATH_STUDENT.BASE)
+@Route("/v1/students")
 export class StudentController extends Controller {
   @SuccessResponse(StatusCode.OK, "OK")
   @Post(PATH_STUDENT.SIGNUP)

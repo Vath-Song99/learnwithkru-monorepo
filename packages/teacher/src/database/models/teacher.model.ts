@@ -1,83 +1,88 @@
-import mongoose from "mongoose";
-import { Teacher } from "../../@types/teacher.type";
+import mongoose, { Document, Schema } from "mongoose";
+import { ITeacher } from "../../@types/teacher.type";
 
-const teacherSchemas = new mongoose.Schema({
+export interface IteacherDocs extends ITeacher, Document {
+  userId: string;
+}
+const teacherSchema = new Schema({
   userId: {
-    type: String
+    type: String,
   },
   first_name: {
     type: String,
-    min: 2,
-    max: 25,
-    require: true,
+    minlength: 2,
+    maxlength: 25,
+    required: true,
   },
   last_name: {
     type: String,
-    min: 2,
-    max: 25,
-    require: true,
+    minlength: 2,
+    maxlength: 25,
+    required: true,
   },
   picture: {
-    type: String
+    type: String,
   },
   subject: {
     type: String,
-    require: true,
+    required: true,
   },
   phone_number: {
     type: String,
-    require: true,
+    required: true,
   },
-  province:{
+  province: {
     type: String,
-    require: true
+    required: true,
   },
-  university:{
+  university: {
     type: String,
-    min: 50,
-    max: 120,
-    require: true
+    minlength: 50,
+    maxlength: 120,
+    required: true,
   },
   year_experience: {
-    require: true,
     type: Number,
+    required: true,
   },
   type_degree: {
-    require: true,
     type: String,
+    required: true,
   },
   bio: {
     type: String,
-    min: 50,
-    max: 120,
-    require: true
+    minlength: 50,
+    maxlength: 120,
+    required: true,
   },
   teacher_experience: {
-    require: true,
     type: String,
+    required: true,
   },
   motivation: {
-    require: true,
     type: String,
-    min: 25,
-    max: 100,
+    minlength: 25,
+    maxlength: 100,
+    required: true,
   },
   date_available: {
-    require: true,
-    type: Object,
+    type: Object, // Adjusted type
+    required: true,
   },
   price: {
     type: Number,
-    require: true
+    required: true,
   },
   video: {
     type: String,
-    require: true
+    required: true,
   },
   Degree: {
     type: String,
-    require: true
-  }
+    required: true,
+  },
 });
 
-export const teacherModel = mongoose.model<Teacher>("teachers", teacherSchemas);
+const teacherModel = mongoose.model<IteacherDocs>("teachers", teacherSchema);
+
+export default teacherModel;

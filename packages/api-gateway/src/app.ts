@@ -1,4 +1,4 @@
-import express, { Application, NextFunction, Request , Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
 import getConfig from "./utils/createConfig";
 import compression from "compression";
 import cookieSession from "cookie-session";
@@ -13,9 +13,7 @@ import { logger } from "./utils/logger";
 import unless from "./middlewares/unless-route";
 import { verifyUser } from "./middlewares/auth-middleware";
 import cookieParser from "cookie-parser";
-// import swaggerUi from 'swagger-ui-express';
-// import axios from "axios";
-// import { merge } from 'swagger-merge';
+
 
 const app: Application = express();
 
@@ -26,7 +24,7 @@ const config = getConfig();
 // ===================
 app.set("trust proxy", 1);
 app.use(compression());
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(
   cookieSession({
     name: "session",
@@ -38,6 +36,8 @@ app.use(
     }),
   })
 );
+
+app.use(cookieParser(config.cookiePersistentSecretKey));
 
 // Prevent HTTP Parameter Pollution attacks
 app.use(hpp());
@@ -51,10 +51,10 @@ app.use(helmet());
 // Mock getConfig function. Replace with your actual config logic.
 
 const corsOptions = {
-  origin: config.env !== 'development' ? '*' : config.clientUrl,
+  origin: config.env !== "development" ? "*" : config.clientUrl,
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
@@ -69,7 +69,7 @@ app.disable("x-powered-by");
 // JWT Middleware
 // ===================
 app.use(unless("/v1/auth", verifyUser));
--
+
 // ===================
 // Proxy Routes
 // ===================

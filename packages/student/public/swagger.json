@@ -46,7 +46,7 @@
 		}
 	},
 	"paths": {
-		"/undefined/become-student": {
+		"/v1/students/become-student": {
 			"post": {
 				"operationId": "Signup",
 				"responses": {
