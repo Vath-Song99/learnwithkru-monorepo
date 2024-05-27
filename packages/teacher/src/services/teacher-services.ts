@@ -1,9 +1,10 @@
 import { Paginate } from "../@types/paginate.type";
+import { ITeacher } from "../@types/teacher.type";
+import { IteacherDocs } from "../database/models/teacher.model";
 import { TeacherRepository } from "../database/repositories/teacher.repository";
 import { BaseCustomError } from "../error/base-custom-error";
 import StatusCode from "../utils/http-status-code";
 import { generateSignature } from "../utils/jwt";
-import {  TeacherService } from "./@types/auth-service";
 
 export class TeacherServices {
   private teacherRepo: TeacherRepository;
@@ -11,7 +12,7 @@ export class TeacherServices {
     this.teacherRepo = new TeacherRepository();
   }
 
-  async TeacherList(options: Paginate) {
+  async TeacherList(options: Paginate): Promise<ITeacher[]> {
     try {
       const { pageNumber, pageSize } = options as Paginate;
       const skip = (pageNumber - 1) * pageSize;
@@ -25,9 +26,12 @@ export class TeacherServices {
     }
   }
 
-  async CreateTeacher(teacherData: TeacherService){
+  async CreateTeacher(
+    requestBody: ITeacher,
+    userId: string
+  ): Promise<{ data: IteacherDocs; token: string }> {
     try {
-      const { userId } = teacherData;
+      const teacherData = { userId, ...requestBody };
       const existTeacher = await this.teacherRepo.FindTeacherByUserID(userId);
 
       if (existTeacher) {
@@ -39,17 +43,19 @@ export class TeacherServices {
 
       const newTeacher = await this.teacherRepo.CreateTeacher(teacherData);
 
-      const token = await generateSignature({_id: newTeacher._id!.toString()})
+      const token = await generateSignature({
+        _id: newTeacher._id!.toString(),
+      });
 
-      return {newTeacher, token};
+      return { data: newTeacher, token };
     } catch (error: unknown) {
       throw error;
     }
   }
 
-  async FindOneTeacher({ _id }: { _id: string }) {
+  async FindOneTeacher({ id }: { id: string }): Promise<ITeacher> {
     try {
-      const teacher = await this.teacherRepo.FindTeacherById({ _id });
+      const teacher = await this.teacherRepo.FindTeacherById({ id });
 
       return teacher;
     } catch (error: unknown) {

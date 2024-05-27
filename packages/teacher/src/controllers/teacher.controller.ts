@@ -1,32 +1,37 @@
-import {
-  SuccessResponse,
-  Get,
-  Queries,
-  Post,
-  Middlewares,
-  Controller,
-  Body,
-  Request,
-} from "tsoa";
 import StatusCode from "../utils/http-status-code";
 import { TeacherServices } from "../services/teacher-services";
 import { Paginate } from "../@types/paginate.type";
-import { Teacher } from "../@types/teacher.type";
 import { PATH_TEACHER } from "../routes/path-defs";
 import { authorize } from "../middlewares/authorize";
 import { TeacherValidate } from "../middlewares/teacher-validate-input";
 import { teacherSchemas } from "../schemas/teacher-validate";
 import { DecodedUser } from "../@types/express-extend.type";
+import {
+  Body,
+  Controller,
+  Get,
+  Middlewares,
+  Post,
+  Queries,
+  SuccessResponse,
+  Request,
+  Route,
+  Path,
+} from "tsoa";
+import { ITeacher } from "../@types/teacher.type";
 
+@Route("/v1/teaches")
 export class TeacherController extends Controller {
   @SuccessResponse(StatusCode.OK, "OK")
   @Get(PATH_TEACHER.teacherList)
-  public async TeacherList(@Queries() options: Paginate) {
+  public async TeacherList(
+    @Queries() options: Paginate
+  ): Promise<{ message: string; data: ITeacher[] }> {
     try {
       const service = new TeacherServices();
       const newTeacher = await service.TeacherList(options);
 
-      return newTeacher;
+      return { message: "Success retrieve teachers", data: newTeacher };
     } catch (error: unknown) {
       throw error;
     }
@@ -37,15 +42,14 @@ export class TeacherController extends Controller {
   @Middlewares(TeacherValidate(teacherSchemas))
   @Middlewares(authorize(["user", "teacher"]))
   public async TeacherSingup(
-    @Body() requestBody: Teacher,
+    @Body() requestBody: ITeacher,
     @Request() req: Express.Request
-  ) {
+  ): Promise<{ data: ITeacher; token: string }> {
     try {
       const userId = (req.user as DecodedUser).id;
-      const teacherInfo = { userId, ...requestBody };
 
       const service = new TeacherServices();
-      const newUser = await service.CreateTeacher(teacherInfo);
+      const newUser = await service.CreateTeacher(requestBody, userId);
 
       return newUser;
     } catch (error: unknown) {
@@ -55,11 +59,13 @@ export class TeacherController extends Controller {
 
   @SuccessResponse(StatusCode.OK, "OK")
   @Get(PATH_TEACHER.teacherProfile)
-  async FindOneTeacher({ _id }: { _id: string }) {
+  async FindOneTeacher(
+    @Path() id: string
+  ): Promise<{ message: string; data: ITeacher }> {
     try {
       const service = new TeacherServices();
-      const teacher = await service.FindOneTeacher({ _id });
-      return teacher;
+      const teacher = await service.FindOneTeacher({ id });
+      return { message: "Success retrieve teacher", data: teacher };
     } catch (error: unknown) {
       throw error;
     }

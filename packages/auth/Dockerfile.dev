@@ -7,6 +7,8 @@ COPY package*.json ./
 COPY tsconfig.json ./
 COPY src ./src
 COPY private_key.pem ./
+COPY tsoa.json ./
+COPY public ./
 RUN ls -a
 
 # Install dependencies and nodemon

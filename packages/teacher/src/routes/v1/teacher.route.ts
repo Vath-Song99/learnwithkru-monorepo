@@ -61,10 +61,10 @@ TeacherRoute.post(
 TeacherRoute.get(
   PATH_TEACHER.teacherProfile,
   async (req: Request, res: Response, _next: NextFunction) => {
-    const _id = req.query.id as string;
+    const { id } = req.params;
     try {
       const controller = new TeacherController();
-      const teacher = await controller.FindOneTeacher({ _id });
+      const teacher = await controller.FindOneTeacher(id);
 
       res.status(StatusCode.OK).json({
         message: "success",
