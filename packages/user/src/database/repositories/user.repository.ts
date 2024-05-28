@@ -13,6 +13,7 @@ export class UserRepository {
         picture,
       });
 
+      console.log("This is repo data", newUser);
       if (!newUser) {
         throw new ApiError("Unable to create User in db!");
       }
