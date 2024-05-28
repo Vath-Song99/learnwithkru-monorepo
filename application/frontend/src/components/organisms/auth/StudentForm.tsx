@@ -67,12 +67,12 @@ const SignupToBecomeStudent = () => {
 
     return (
         <div className="flex flex-col justify-between items-center h-screen">
-            <div className="w-full sm:w-[75%] md:w-[60%] lg:w-[150vh] flex xl:justify-between justify-center items-center xl:gap-20">
+            <div className="w-full sm:w-[75%] md:w-[60%] lg:w-[150vh] flex xl:justify-between lg:justify-center justify-start items-center xl:gap-20">
                 <div className="w-[80%] md:w-full lg:w-[35%] grid lg:grid-flow-row gap-2 mt-2">
-                    <Typography align="left" fontSize="lg" variant="2-extrabold" className="md:text-[30px] lg:text-[40px]">
+                    <Typography align="left" fontSize="xl" variant="2-extrabold" className="md:text-[30px] lg:text-[40px] flex justify-center">
                         Student Form
                     </Typography>
-                    <Typography align="left" className=" text-wrap text-sm lg:text-nowrap">
+                    <Typography fontSize="sm" variant="normal" className="text-sm lg:text-nowrap w-[390px]">
                         You must fill out all the form conditions to become a student in our community.
                     </Typography>
 
