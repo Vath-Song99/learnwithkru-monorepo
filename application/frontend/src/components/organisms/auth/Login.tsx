@@ -127,9 +127,9 @@ const Login = () => {
                 </div>
               </Button>
               <div className="flex items-center justify-start">
-                <div className="border-t border-black w-[120px] "></div>
+                <div className="border-t border-black w-[125px] "></div>
                 <div className="mx-4 text-black">or</div>
-                <div className="border-t border-black w-[120px] "></div>
+                <div className="border-t border-black w-[125px] "></div>
               </div>
             </div>
             <div className="grid gap-3">
