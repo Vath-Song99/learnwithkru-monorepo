@@ -4,31 +4,32 @@ import { getCurrentDateTime, getLocalStorage, setLocalStorage } from "@/utils/lo
 import axios, { AxiosError } from "axios";
 import React, { createContext, useEffect, useState } from "react";
 interface CardTeachers {
-  id?: string;
-  first_name: string;
-  last_name: string;
-  className?: string;
-  imageUrl?: any;
-  nameSubject?: string;
-  teacherName?: string;
-  rateStars?: number;
-  reviews?: number;
-  students?: number;
-  description?: string;
-  pricing?: number;
-  isFavorite?: boolean;
-  item?: string;
+  userId: string,
+  first_name: string,
+  last_name: string,
+  picture: string,
+  subject: string,
+  phone_number: string,
+  province: string,
+  university: string,
+  year_experience: number,
+  type_degree: string,
+  bio: string,
+  teacher_experience: string,
+  motivation: string,
+  date_available: object;
+  price: string,
+  video: string,
+  Degree: string,
 }
 interface ContextProps {
   Data: CardTeachers[];
   setData: React.Dispatch<React.SetStateAction<CardTeachers[]>>;
-  toggleFavorite: (id: string) => void;
   // addNewAuth: (auth: AuthForm) => Promise<void>;
 }
 export const Mycontext = createContext<ContextProps>({
   Data: [],
   setData: () => { },
-  toggleFavorite: () => { },
   // addNewAuth: async () => { }
 });
 
@@ -40,11 +41,13 @@ const CardContext = ({ children }: { children: any }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const teachers = await handleRequestTeacher();
-        if (!teachers) {
-          console.error("Theare is no teachers found!");
-        }
-        setData(teachers.data); // Update state with fetched data
+        const { data } = await handleRequestTeacher();
+        // Check if teachers is an array
+        if (Array.isArray(data)) {
+          setData(data  ); // Update state with fetched data
+        } else {
+          console.error("Expected an array of data but got:", data);
+        } // Update state with fetched data
       } catch (error) {
         console.error("Unexpected error in fetchData method!:");
         console.error("Fetching data accurs error:", error);
@@ -53,7 +56,7 @@ const CardContext = ({ children }: { children: any }) => {
     fetchData(); // Call the fetchData function
   }, []);
 
-  
+
   const handleRequestTeacher = async () => {
     try {
 
@@ -66,24 +69,27 @@ const CardContext = ({ children }: { children: any }) => {
       throw error;
     }
   };
-  const toggleFavorite = (id: string) => {
-    setData((prevData) => {
-      if (!id) return prevData; // Check if item is undefined
-      const index = prevData.findIndex((d) => d.id === id);
-      if (index === -1) {
-        return prevData;
-      }
-      const newData = [...prevData];
-      // Toggle isFavorite property
-      newData[index].isFavorite = !newData[index].isFavorite;
-      return newData;
-    });
-  };
+  // const toggleFavorite = (id: string) => {
+  //   setData((prevData) => {
+  //     if (!id) return prevData; // Check if item is undefined
+  //     const index = prevData.findIndex((d) => d.id === id);
+  //     if (index === -1) {
+  //       return prevData;
+  //     }
+  //     const newData = [...prevData];
+  //     // Toggle isFavorite property
+  //     newData[index].isFavorite = !newData[index].isFavorite;
+  //     return newData;
+  //   });
+  // };
+ 
+//  =========================================================================================
+//  student Fetching
+ const [studentData , setStudentData] = useState([])
 
   const contextvalue = {
     Data,
     setData,
-    toggleFavorite,
 
   };
   return (

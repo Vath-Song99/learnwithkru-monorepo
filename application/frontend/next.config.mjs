@@ -4,9 +4,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "media.licdn.com",
+        hostname: "**",
         port: "",
-        pathname: "/dms/image/**",
+        pathname: "**",
       },
     ],
   },

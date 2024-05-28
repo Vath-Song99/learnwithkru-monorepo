@@ -14,7 +14,7 @@ export const teacherSchemas = z.object({
   year_experience: z.number(),
   type_degree: z.string(),
   bio: z.string().min(40).max(120),
-  motivate: z.string().min(25).max(100),
+  motivation: z.string().min(25).max(100),
   date_available: z.object({
     day: z.string(),
     time: z.object({
@@ -24,6 +24,5 @@ export const teacherSchemas = z.object({
   }),
   price: z.number(),
   certificate: z.string(),
-  class_id: z.string(),
   video: z.string(),
 });

@@ -1,15 +1,22 @@
+
 interface CardTeachersTypes {
-  id?: string;
-  item?: string | undefined;
-  imageUrl?: string;
-  nameSubject?: string;
-  teacherName?: string;
-  rateStars?: number;
-  reviews?: number;
-  students?: number;
-  description?: string;
-  pricing?: number;
-  favorite?: boolean;
+    userId :string,
+    first_name :string,
+    last_name :string,
+    picture :string,
+    subject :string, 
+    phone_number :string,
+    province :string, 
+    university :string,
+    year_experience : number, 
+    type_degree :string,
+    bio :string, 
+    teacher_experience :string,
+    motivation :string, 
+    date_available : object;
+    price :string,
+    video :string,
+    Degree :string,
 }
 
 export interface AuthModel {

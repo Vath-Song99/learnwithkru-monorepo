@@ -6,14 +6,13 @@ import { Paginate } from "../../@types/paginate.type";
 import { teacherSchemas } from "../../schemas/teacher-validate";
 import { TeacherValidate } from "../../middlewares/teacher-validate-input";
 import { authorize } from "../../middlewares/authorize";
-import { DecodedUser } from "../../@types/express-extend.type";
 
 const TeacherRoute = Router();
 
 TeacherRoute.get(
   PATH_TEACHER.teacherList,
   async (req: Request, res: Response, _next: NextFunction) => {
-    const { pageSize = 10, pageNumber= 1 } = req.query;
+    const { pageSize = 10, pageNumber = 1 } = req.query;
 
     // Convert pageSize and pageNumber to numbers
     const parsedPageSize = parseInt(pageSize as string, 10);
@@ -28,7 +27,7 @@ TeacherRoute.get(
       const teachers = await controller.TeacherList(options);
 
       res.status(StatusCode.OK).json({
-        message: 'success',
+        message: "success",
         data: teachers,
       });
     } catch (error: unknown) {
@@ -39,19 +38,19 @@ TeacherRoute.get(
 
 TeacherRoute.post(
   PATH_TEACHER.teacherSignup,
-  authorize(["user","teacher"]),
+  authorize(["user", "teacher"]),
   TeacherValidate(teacherSchemas),
   async (req: Request, res: Response, _next: NextFunction) => {
     const requestBody = req.body;
-    const user = (req.user as DecodedUser);
+    // const user = req.user as DecodedUser;
     try {
       const controller = new TeacherController();
-      const newTeacher = await controller.TeacherSingup(requestBody , user.id);
+      const newTeacher = await controller.TeacherSingup(requestBody, req);
 
       res.status(StatusCode.CREATED).json({
-        message: 'success',
+        message: "success",
         data: newTeacher,
-        token: newTeacher.token
+        token: newTeacher.token,
       });
     } catch (error: unknown) {
       _next(error);
@@ -62,13 +61,13 @@ TeacherRoute.post(
 TeacherRoute.get(
   PATH_TEACHER.teacherProfile,
   async (req: Request, res: Response, _next: NextFunction) => {
-    const _id = req.query.id as string;
+    const { id } = req.params;
     try {
       const controller = new TeacherController();
-      const teacher = await controller.FindOneTeacher({ _id });
+      const teacher = await controller.FindOneTeacher(id);
 
       res.status(StatusCode.OK).json({
-        message: 'success',
+        message: "success",
         data: teacher,
       });
     } catch (error: unknown) {

@@ -75,6 +75,7 @@ const FilterTeachers = () => {
           nameDropdown="Pricing"
           itemsDropdown={pricingDropDown}
         />
+
       </div>
     </div>
   );
