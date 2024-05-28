@@ -12,7 +12,7 @@ const VerifyEmail = () => {
     console.log("this is token:",token)
     if (token) {
       // token is present, send it to your backend to exchange for access token
-      exchangetokenForToken(token as string);
+       exchangetokenForToken(token as string);
     } else {
       // token is not present, handle error or redirect accordingly
       console.error("No authorization token found");
