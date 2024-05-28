@@ -15,6 +15,8 @@ import { DropdownMenu } from "@nextui-org/react";
 import { ProfileDropDown } from "@/components/molecules/profile-dropdown";
 import { Notification } from "@/components/organisms/notification";
 import { Mycontext } from "@/context/CardContext";
+import axios from "axios";
+import { useAuth } from "@/context/AuthContext";
 const itemsDropdown = [
   {
     itemName: "English",
@@ -136,6 +138,8 @@ const Navbar: React.FC<NavbarProps> = ({
   };
   // login
   const [isLogin, setIsLogin] = useState(false);
+
+  const { authState, logout } = useAuth();
   return (
     <nav
       className={`w-[80%] h-[100px] flex justify-between items-center  ${className}`}
@@ -173,7 +177,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
 
       {
-        isLogin ? (
+        authState.isAuthenticated ? (
           <div className="lg:w-1/3 lg:h-1/3 lg:flex lg:items-center lg:justify-center ">
             <div className="flex items-center">
               <ButtonDropDown

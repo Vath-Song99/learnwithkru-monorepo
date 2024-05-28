@@ -166,13 +166,6 @@ export class AuthServices {
     }
   }
 
-  async Expiredverify({ token }: { token: string }) {
-    const isToken = await this.accountVerificationRepo.FindVerificationToken({
-      token,
-    });
-    return isToken;
-  }
-
   async Login(user: Login): Promise<{ data: IUser; token: string }> {
     // TODO LIST
     //******************* */

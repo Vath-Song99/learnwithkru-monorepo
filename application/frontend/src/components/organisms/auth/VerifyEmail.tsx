@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 import { useUser } from "@/context/UserContext";
 import { useRouter, useSearchParams } from "next/navigation";
+import axios from "axios";
 const VerifyEmail = () => {
   const { setUser } = useUser();
   const router = useRouter();
@@ -23,10 +24,13 @@ const VerifyEmail = () => {
 
   const exchangetokenForToken = async (token: string) => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/v1/auth/verify?token=${token}`
+      const {data} = await axios.get(
+        `http://localhost:3000/v1/auth/verify?token=${token}`,
+        {
+          withCredentials: true
+        }
+
       );
-      const data = await response.json();
       // Handle successful token exchange, maybe store token in localStorage or cookies
       setUser(data)
       console.log("Token data:", data);

@@ -88,6 +88,7 @@ export class SendVerifyEmailService {
   async VerifyEmailToken(token: string) {
     try {
       // Step 1: Verify existing token
+      logger.info("Token has recieved =", token);
       const verificationToken =
         await this.accountVerificationRepo.FindVerificationToken({ token });
 
@@ -139,7 +140,6 @@ export class SendVerifyEmailService {
         picture: null,
       } as IUser;
 
-
       const requestUserService = new RequestUserService();
       const { data } = await requestUserService.CreateUser(userData);
 
@@ -163,13 +163,11 @@ export class SendVerifyEmailService {
   }
 
   async VerifyResetPasswordToken(token: string): Promise<{ message: string }> {
-
     try {
       // Step 1: Verify existing token
       const verificationToken =
         await this.accountVerificationRepo.FindVerificationToken({ token });
 
-        
       if (!verificationToken) {
         throw new BaseCustomError(
           "Verification token is invalid",
