@@ -153,7 +153,7 @@ const Select: React.FC<SelectProps> = ({
   const setPaddingY = paddingYControl(paddingY);
   const setBorderRadius = borderRaduisControl(borderRadius);
   const setBorderSize = borderSizeControl(borderSize);
-  const setClassName = ` ${setBorderSize}  ${setBorderColor} ${setPaddingX} ${setPaddingY} ${setBorderRadius}  ${className}`;
+  const setClassName = ` cursor-pointer ${setBorderSize}  ${setBorderColor} ${setPaddingX} ${setPaddingY} ${setBorderRadius}  ${className}`;
   return (
     <select
       className={setClassName}
