@@ -11,19 +11,16 @@ export const PATH_AUTH = {
   googleOAuthCallBack: "/google/callback",
   facebookOAuth: "/facebook",
   facebookOAuthCallBack: "/facebook/callback",
- 
 };
 
-
 export const PATH_CRUD = {
-  getUser: "/users/:authId"
-}
+  getUser: "/users/:authId",
+};
 
-
-export const PATH_SERVICE ={
+export const PATH_SERVICE = {
   BASE: "/v1",
   USER: {
-    CREATE_USER: "/v1/users",
-    GET_USER: "/v1/users/by-auth-id"
-  }
-}
+    CREATE_USER: "/v1/users/create",
+    GET_USER: "/v1/users/by-auth-id",
+  },
+};
