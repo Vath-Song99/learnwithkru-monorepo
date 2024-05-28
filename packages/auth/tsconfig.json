@@ -16,6 +16,7 @@
     "noUnusedParameters": true,
     "alwaysStrict": true,
     "pretty": true,
+    "types": ["jest", "node"]
 
   },
   "include": ["src/**/*.ts"]
