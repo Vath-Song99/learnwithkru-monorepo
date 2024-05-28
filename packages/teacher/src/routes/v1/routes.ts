@@ -54,7 +54,7 @@ export function RegisterRoutes(app: Router) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-        app.get('/v1/teaches/teacher-list',
+        app.get('/v1/teachers/teacher-list',
             ...(fetchMiddlewares<RequestHandler>(TeacherController)),
             ...(fetchMiddlewares<RequestHandler>(TeacherController.prototype.TeacherList)),
 
@@ -84,7 +84,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/v1/teaches/teacher-signup',
+        app.post('/v1/teachers/teacher-signup',
             ...(fetchMiddlewares<RequestHandler>(TeacherController)),
             ...(fetchMiddlewares<RequestHandler>(TeacherController.prototype.TeacherSingup)),
 
@@ -115,7 +115,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/v1/teaches/teacher-profile/:id',
+        app.get('/v1/teachers/teacher-profile/:id',
             ...(fetchMiddlewares<RequestHandler>(TeacherController)),
             ...(fetchMiddlewares<RequestHandler>(TeacherController.prototype.FindOneTeacher)),
 
