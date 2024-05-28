@@ -1,6 +1,6 @@
 
 export const PATH_STUDENT = {
-    BASE: "/v1/student",
+    BASE: "/v1/students",
     SIGNUP: "/become-student"
 };
 

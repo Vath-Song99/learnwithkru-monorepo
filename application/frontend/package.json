@@ -11,10 +11,6 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@nextui-org/image": "^2.0.26",
-    "@nextui-org/react": "^2.3.3",
-    "@types/axios": "^0.14.0",
-    "@types/yup": "^0.32.0",
     "axios": "^1.6.8",
     "axois": "^0.0.1-security",
     "framer-motion": "^11.1.7",
@@ -38,8 +34,11 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/trusted-types": "^2.0.7",
+    "@nextui-org/image": "^2.0.26",
+    "@nextui-org/react": "^2.3.3",
+    "@types/axios": "^0.14.0",
+    "@types/yup": "^0.32.0",
     "autoprefixer": "^10.0.1",
-    "aws-cdk-lib": "2.124.0",
     "constructs": "10.3.0",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",

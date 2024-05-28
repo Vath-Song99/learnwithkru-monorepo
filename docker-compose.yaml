@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   rabbitmq:
     container_name: rabbitmq_container
@@ -16,8 +15,9 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+
   gateway:
-    container_name: gateway_container
+    container_name: gateway
     build:
       context: ./packages/api-gateway
       dockerfile: Dockerfile.dev
@@ -33,6 +33,7 @@ services:
       STUDENT_SERVICE_URL: "http://student:3003"
       USER_SERVICE_URL: "http://user:3004"
       CLIENT_URL: http://localhost:8000
+
   notification:
     container_name: notification_container
     build:
@@ -49,8 +50,9 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+
   auth:
-    container_name: auth_container
+    container_name: auth
     build:
       context: ./packages/auth
       dockerfile: Dockerfile.dev
@@ -59,6 +61,7 @@ services:
       - "3001:3001"
     volumes:
       - ./packages/auth/src:/app/src
+      - ./packages/auth/public:/app/public
     env_file: ./packages/auth/configs/.env
     environment:
       USER_SERVICE: http://user:3004
@@ -68,7 +71,7 @@ services:
         condition: service_healthy
 
   user:
-    container_name: user_container
+    container_name: user
     build:
       context: ./packages/user
       dockerfile: Dockerfile.dev
@@ -77,12 +80,13 @@ services:
       - "3004:3004"
     volumes:
       - ./packages/user/src:/app/src
+      - ./packages/user/public:/app/public
     env_file: ./packages/user/configs/.env
     environment:
       AUTH_SERVICE_GET: http://auth:3001
 
   student:
-    container_name: student_container
+    container_name: student
     build:
       context: ./packages/student
       dockerfile: Dockerfile.dev
@@ -91,11 +95,13 @@ services:
       - "3003:3003"
     volumes:
       - ./packages/student/src:/app/src
+      - ./packages/student/public:/app/public
     env_file: ./packages/student/configs/.env
     environment:
       USER_SERVICE: http://user:3004
+
   teacher:
-    container_name: teacher_container
+    container_name: teacher
     build:
       context: ./packages/teacher
       dockerfile: Dockerfile.dev
@@ -104,7 +110,5 @@ services:
       - "3002:3002"
     volumes:
       - ./packages/teacher/src:/app/src
+      - ./packages/teacher/public:/app/public
     env_file: ./packages/teacher/configs/.env
-networks:
-  default:
-    driver: bridge
