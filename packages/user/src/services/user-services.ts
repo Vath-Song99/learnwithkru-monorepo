@@ -23,7 +23,6 @@ export class UserServices {
     try {
       const existingUser = await this.UserRepo.FindAuthUser(authId as string);
 
-      console.log("Service data:", existingUser);
       if (existingUser) {
         throw new BaseCustomError(
           "User is exist in database!",
