@@ -60,13 +60,21 @@ const pricingDropDown = [
 
 const FilterTeachers = () => {
   return (
-
     <div className="w-full flex justify-center items-center">
       <div className="w-[80%] flex justify-between items-start flex-wrap gap-2">
         <FilterDropdown nameDropdown="Subject" itemsDropdown={itemsDropdown} />
-        <FilterDropdown nameDropdown="Time" itemsDropdown={TimeDropDown} />
-        <FilterDropdown nameDropdown="Province" itemsDropdown={ProvinceDropDown} />
-        <FilterDropdown nameDropdown="Pricing" itemsDropdown={pricingDropDown} />
+        <FilterDropdown
+          nameDropdown="Time Available"
+          itemsDropdown={TimeDropDown}
+        />
+        <FilterDropdown
+          nameDropdown="Province"
+          itemsDropdown={ProvinceDropDown}
+        />
+        <FilterDropdown
+          nameDropdown="Pricing"
+          itemsDropdown={pricingDropDown}
+        />
 
       </div>
     </div>
