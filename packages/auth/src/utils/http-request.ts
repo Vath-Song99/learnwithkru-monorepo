@@ -9,7 +9,8 @@ const config = getConfig();
 
 export class RequestUserService {
   async CreateUser({ authId, firstname, lastname, email, picture }: IUser) {
-    const url = `$/createUser`;
+    const url = `${config.userService}${PATH_SERVICE.USER.CREATE_USER}`;
+    console.log(config.userService)
     logger.info(`Attempting to create user at URL: ${url}`);
 
     try {
