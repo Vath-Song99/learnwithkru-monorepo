@@ -7,11 +7,7 @@ import {
 } from "../utils/jwt";
 import { AccountVerificationRepository } from "../database/repositories/account-verification.repository";
 import { OauthConfig } from "../utils/oauth-configs";
-import {
-  AuthService,
-  ResetPasswordService,
-  UserService,
-} from "./@types/auth-service-type";
+import { AuthService, ResetPasswordService } from "./@types/auth-service-type";
 import { AuthRepository } from "../database/repositories/auth.respository";
 import { TokenResponse } from "../utils/@types/oauth.type";
 import { IUser, Login } from "../@types/user.type";
@@ -115,7 +111,7 @@ export class AuthServices {
             },
           });
 
-          const userData: UserService = {
+          const userData: IUser = {
             authId: newUser!._id.toString(),
             firstname: newUser!.firstname as string,
             lastname: newUser!.lastname as string,
@@ -144,7 +140,7 @@ export class AuthServices {
         verified_email,
         picture,
       });
-      const userData: UserService = {
+      const userData: IUser = {
         authId: newUser!._id.toString(),
         firstname: newUser!.firstname as string,
         lastname: newUser!.lastname as string,
@@ -177,7 +173,7 @@ export class AuthServices {
     return isToken;
   }
 
-  async Login(user: Login):Promise<{data: IUser , token: string}> {
+  async Login(user: Login): Promise<{ data: IUser; token: string }> {
     // TODO LIST
     //******************* */
     // 1. find existing user
@@ -232,7 +228,9 @@ export class AuthServices {
     }
   }
 
-  async SigninWithFacebookCallBack(code: string): Promise <{data: IUser , token: string}> {
+  async SigninWithFacebookCallBack(
+    code: string
+  ): Promise<{ data: IUser; token: string }> {
     //TODO LIST
     //*********************** */
     // 1. access token from facebook
@@ -275,7 +273,7 @@ export class AuthServices {
       //step 5
       const { _id, firstname, lastname } = newUser;
 
-      const userData: UserService = {
+      const userData: IUser = {
         authId: _id.toString(),
         firstname: firstname as string,
         lastname: lastname as string,

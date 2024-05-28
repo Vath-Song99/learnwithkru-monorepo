@@ -14,7 +14,7 @@ const app: Application = express();
 app.set("trust proxy", 1);
 app.use(
   cors({
-    origin: getConfig().apiGateway,
+    origin: getConfig().env !== "development" ? "*" : getConfig().apiGateway,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
@@ -25,20 +25,15 @@ app.use(express.urlencoded({ extended: true, limit: "200mb" }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(loggerMiddleware);
-
-// app.use(PATH_USER.BASE, Route)
-// handle swaggerUi
 app.use(
   "/swagger",
   swaggerUi.serve,
   swaggerUi.setup(undefined, {
     swaggerOptions: {
-      url: "/swagger.json", // Point to the generated Swagger JSON file
+      url: "/swagger.json",
     },
   })
 );
-
-// Serve the generated Swagger JSON file
 app.get("/swagger.json", (_req, res) => {
   res.sendFile(path.join(__dirname, "./swagger-dist/swagger.json"));
 });
@@ -47,4 +42,5 @@ RegisterRoutes(app);
 
 //error handler globale middleware
 app.use(errorHandler);
+
 export default app;

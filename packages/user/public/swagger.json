@@ -22,7 +22,8 @@
 						"type": "string"
 					},
 					"picture": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					}
 				},
 				"required": [
@@ -47,7 +48,7 @@
 		}
 	},
 	"paths": {
-		"/v1/users": {
+		"/v1/users/create": {
 			"post": {
 				"operationId": "Createuser",
 				"responses": {

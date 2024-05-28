@@ -21,6 +21,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@storybook/addon-designs": "^8.0.2",
     "@storybook/addon-essentials": "^7.6.12",
     "@storybook/addon-interactions": "^7.6.12",
     "@storybook/addon-links": "^7.6.12",
@@ -32,6 +33,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/trusted-types": "^2.0.7",
     "@nextui-org/image": "^2.0.26",
     "@nextui-org/react": "^2.3.3",
     "@types/axios": "^0.14.0",
