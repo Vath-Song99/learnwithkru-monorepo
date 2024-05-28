@@ -22,7 +22,8 @@
 						"type": "string"
 					},
 					"picture": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					}
 				},
 				"required": [

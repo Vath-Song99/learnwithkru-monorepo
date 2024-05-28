@@ -131,7 +131,7 @@ export class SendVerifyEmailService {
       const { _id, firstname, lastname, email } = newUser;
 
       // Step 5: Create user in database user service
-      const userData = {
+      const userData: IUser = {
         authId: _id.toString(),
         firstname: firstname!,
         lastname: lastname!,
@@ -163,10 +163,13 @@ export class SendVerifyEmailService {
   }
 
   async VerifyResetPasswordToken(token: string): Promise<{ message: string }> {
+
     try {
       // Step 1: Verify existing token
       const verificationToken =
         await this.accountVerificationRepo.FindVerificationToken({ token });
+
+        
       if (!verificationToken) {
         throw new BaseCustomError(
           "Verification token is invalid",
