@@ -21,5 +21,5 @@ type Story = StoryObj<typeof Dropdown>;
 export const FirstStory: Story = {
   args: {},
 
-  //👇 The args you need here will depend on your component
+  //👇 The args you need here will depend on your components
 };
