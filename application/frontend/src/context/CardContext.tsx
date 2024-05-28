@@ -61,7 +61,7 @@ const CardContext = ({ children }: { children: any }) => {
 
   const handleRequestTeacher = async () => {
     try {
-      const API_ENDPOINT = "http://localhost:3000/v1/teachers/teachers-list?pageSize=1&pageNumber=2"; // Replace with your actual token
+      const API_ENDPOINT = "http://localhost:3000/v1/teachers/teacher-list?pageSize=10&pageNumber=1"; // Replace with your actual token
       const response = await axios.get(API_ENDPOINT, { withCredentials: true });
 
       console.log(response)
