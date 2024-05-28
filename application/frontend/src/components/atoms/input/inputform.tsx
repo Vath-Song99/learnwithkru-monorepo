@@ -58,6 +58,7 @@ const InputForm: React.FC<InputProps> = ({
   const borderColorControl = (borderColorParam: string) => {
     switch (borderColorParam) {
       case "primary":
+        return "border border-[#455445] focus:border-2";
       case "phonenumberSize":
         return "border-r border-t border-b border-[#7B2CBF]";
       case "file":
