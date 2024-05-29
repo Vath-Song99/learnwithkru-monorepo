@@ -119,7 +119,7 @@
 		}
 	},
 	"paths": {
-		"/v1/teaches/teachers-list": {
+		"/v1/teachers/teacher-list": {
 			"get": {
 				"operationId": "TeacherList",
 				"responses": {
@@ -172,7 +172,7 @@
 				]
 			}
 		},
-		"/v1/teaches/teacher-signup": {
+		"/v1/teachers/teacher-signup": {
 			"post": {
 				"operationId": "TeacherSingup",
 				"responses": {
@@ -213,7 +213,7 @@
 				}
 			}
 		},
-		"/v1/teaches/teacher-profile/{id}": {
+		"/v1/teachers/teacher-profile/{id}": {
 			"get": {
 				"operationId": "FindOneTeacher",
 				"responses": {

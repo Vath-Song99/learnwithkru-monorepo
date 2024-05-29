@@ -20,6 +20,7 @@ const TeacherListCards = ({ search }: { search: string }) => {
         ) : (
           filteredData.map((item, index) => (
             <CardTeachers
+              key={index}
               bio={item.bio}
               date_available={item.date_available}
               first_name={item.first_name}
@@ -27,14 +28,14 @@ const TeacherListCards = ({ search }: { search: string }) => {
               picture={item.picture}
               subject={item.subject}
               userId={item.userId}
-              phone_number={""}
-              province={""}
+              phone_number={item.phone_number}
+              province={item.province}
               university={""}
               year_experience={0}
               type_degree={""}
               teacher_experience={""}
               motivation={""}
-              price={""}
+              price={item.price}
               video={""}
               Degree={""}
             />

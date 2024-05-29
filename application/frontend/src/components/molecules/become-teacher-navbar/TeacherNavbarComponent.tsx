@@ -7,11 +7,11 @@ const TeacherNavbarComponent = ({
   icon = true,
 }: TeacherNavbarType) => {
   return (
-    <div className={` flex  items-center gap-4   ${className}`}>
-      <div className="flex justify-start  items-center">{children}</div>
+    <div className={` flex justify-center  items-center gap-4  ${className}`}>
+      <div className="flex justify-center items-center ">{children}</div>
       {icon === true && (
         <svg
-          className="flex justify-start"
+          className="flex justify-start "
           width="20"
           height="20"
           viewBox="0 0 26 28"
