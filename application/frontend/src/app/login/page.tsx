@@ -1,12 +1,13 @@
-"use client"
-import { Login } from '@/components'
-import { UserProvider } from '@/context/UserContext'
-import React from 'react'
+"use client";
+import { Login, Navbar } from "@/components";
+import React, { useState } from "react";
 
 const page = () => {
   return (
-    <UserProvider> <Login/> </UserProvider>
-  )
-}
+    <>
+      <Login />
+    </>
+  );
+};
 
-export default page
+export default page;
