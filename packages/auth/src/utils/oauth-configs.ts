@@ -7,6 +7,7 @@ import {
   TokenResponse,
 } from "./@types/oauth.type";
 import querystring from "querystring";
+import getConfig from "./config";
 
 export class OauthConfig {
   private static instance: OauthConfig;
@@ -44,9 +45,9 @@ export class OauthConfig {
   async GoogleStrategy(code: string): Promise<TokenResponse> {
     const requestBody = {
       code,
-      client_id: process.env.GOOGLE_CLIENT_ID as string,
-      client_secret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirect_uri: process.env.GOOGLE_REDIRECT_URI as string,
+      client_id: getConfig().googleClientId!,
+      client_secret: getConfig().googleClientSecret!,
+      redirect_uri: getConfig().googleRedirectUrl!,
       grant_type: "authorization_code",
     };
     const url = "https://oauth2.googleapis.com/token";
@@ -58,9 +59,9 @@ export class OauthConfig {
   }
   async FacebookStrategy(code: string): Promise<TokenResponse> {
     const requestBody = {
-      client_id: process.env.FACEBOOK_APP_ID as string,
-      client_secret: process.env.FACEBOOK_APP_SECRET as string,
-      redirect_uri: process.env.FACEBOOK_REDIRECT_URI as string,
+      client_id: getConfig().faceAppId!,
+      client_secret: getConfig().facebookAppSecret!,
+      redirect_uri: getConfig().facebookRedirectUrl!,
       code,
     };
     const url = `https://graph.facebook.com/v13.0/oauth/access_token`;

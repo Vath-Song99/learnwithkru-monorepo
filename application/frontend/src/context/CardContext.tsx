@@ -1,26 +1,30 @@
 "use client";
 import { AuthForm } from "@/@types/users/users";
-import { getCurrentDateTime, getLocalStorage, setLocalStorage } from "@/utils/localStorage";
+import {
+  getCurrentDateTime,
+  getLocalStorage,
+  setLocalStorage,
+} from "@/utils/localStorage";
 import axios, { AxiosError } from "axios";
 import React, { createContext, useEffect, useState } from "react";
 interface CardTeachers {
-  userId: string,
-  first_name: string,
-  last_name: string,
-  picture: string,
-  subject: string,
-  phone_number: string,
-  province: string,
-  university: string,
-  year_experience: number,
-  type_degree: string,
-  bio: string,
-  teacher_experience: string,
-  motivation: string,
+  userId: string;
+  first_name: string;
+  last_name: string;
+  picture: string;
+  subject: string;
+  phone_number: string;
+  province: string;
+  university: string;
+  year_experience: number;
+  type_degree: string;
+  bio: string;
+  teacher_experience: string;
+  motivation: string;
   date_available: object;
-  price: string,
-  video: string,
-  Degree: string,
+  price: string;
+  video: string;
+  Degree: string;
 }
 interface ContextProps {
   Data: CardTeachers[];
@@ -29,12 +33,11 @@ interface ContextProps {
 }
 export const Mycontext = createContext<ContextProps>({
   Data: [],
-  setData: () => { },
+  setData: () => {},
   // addNewAuth: async () => { }
 });
 
 const CardContext = ({ children }: { children: any }) => {
-
   const [Data, setData] = useState<CardTeachers[]>([]);
   // const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleString());
 
@@ -44,7 +47,7 @@ const CardContext = ({ children }: { children: any }) => {
         const { data } = await handleRequestTeacher();
         // Check if teachers is an array
         if (Array.isArray(data)) {
-          setData(data  ); // Update state with fetched data
+          setData(data); // Update state with fetched data
         } else {
           console.error("Expected an array of data but got:", data);
         } // Update state with fetched data
@@ -56,41 +59,25 @@ const CardContext = ({ children }: { children: any }) => {
     fetchData(); // Call the fetchData function
   }, []);
 
-
   const handleRequestTeacher = async () => {
     try {
-
-      const API_ENDPOINT = "http://localhost:3000/v1/teachers"; // Replace with your actual token
+      const API_ENDPOINT = "http://localhost:3000/v1/teachers/teacher-list?pageSize=10&pageNumber=1"; // Replace with your actual token
       const response = await axios.get(API_ENDPOINT, { withCredentials: true });
 
+      console.log(response)
       return response.data;
     } catch (error: any) {
       console.error("Error fetching teachers:", error);
       throw error;
     }
   };
-  // const toggleFavorite = (id: string) => {
-  //   setData((prevData) => {
-  //     if (!id) return prevData; // Check if item is undefined
-  //     const index = prevData.findIndex((d) => d.id === id);
-  //     if (index === -1) {
-  //       return prevData;
-  //     }
-  //     const newData = [...prevData];
-  //     // Toggle isFavorite property
-  //     newData[index].isFavorite = !newData[index].isFavorite;
-  //     return newData;
-  //   });
-  // };
- 
-//  =========================================================================================
-//  student Fetching
- const [studentData , setStudentData] = useState([])
+
+  //  student Fetching
+  const [studentData, setStudentData] = useState([]);
 
   const contextvalue = {
     Data,
     setData,
-
   };
   return (
     <Mycontext.Provider value={contextvalue}> {children} </Mycontext.Provider>
