@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Typography } from './Typography';
+import { Typography } from './typography';
 
 //👇 This default export determines where your story goes in the story list
 const meta: Meta<typeof Typography> = {
@@ -7,6 +7,10 @@ const meta: Meta<typeof Typography> = {
   component: Typography ,
   parameters: {
       layout: "centered",
+      design: {
+        type: "figma",
+        url: "https://www.figma.com/proto/ij4jlwjEniD1K69xLpaSt0/KRU-UI?node-id=3414-4140&t=F8NlMt5fanGHi8bf-0&scaling=min-zoom&page-id=3412%3A854",
+      }
   },
   tags:["autodocs"],
 };
