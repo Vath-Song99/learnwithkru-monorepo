@@ -1,6 +1,7 @@
 // pages/callback.js
 "use client"
 
+import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -25,8 +26,9 @@ const CallbackRedirect = () => {
 
   const exchangeCodeForToken = async (code: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/v1/auth/facebook/callback?code=${code}`);
-      const data = await response.json();
+      const {data} = await axios.get(`http://localhost:3000/v1/auth/facebook/callback?code=${code}`,{
+        withCredentials: true
+      });
       // Handle successful token exchange, maybe store token in localStorage or cookies
       console.log('Token data:', data);
       // Redirect to dashboard or profile page

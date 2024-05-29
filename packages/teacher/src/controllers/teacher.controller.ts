@@ -20,7 +20,7 @@ import {
 } from "tsoa";
 import { ITeacher } from "../@types/teacher.type";
 
-@Route("/v1/teaches")
+@Route("/v1/teachers")
 export class TeacherController extends Controller {
   @SuccessResponse(StatusCode.OK, "OK")
   @Get(PATH_TEACHER.teacherList)

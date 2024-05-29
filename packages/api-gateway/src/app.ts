@@ -14,7 +14,6 @@ import unless from "./middlewares/unless-route";
 import { verifyUser } from "./middlewares/auth-middleware";
 import cookieParser from "cookie-parser";
 
-
 const app: Application = express();
 
 const config = getConfig();
@@ -36,8 +35,6 @@ app.use(
     }),
   })
 );
-
-app.use(cookieParser(config.cookiePersistentSecretKey));
 
 // Prevent HTTP Parameter Pollution attacks
 app.use(hpp());
