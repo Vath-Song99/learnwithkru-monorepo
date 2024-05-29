@@ -11,6 +11,7 @@ import {
 } from "../organisms";
 import { Typography } from "../atoms";
 import Link from "next/link";
+import { PricingForm } from "../organisms/become-teacher-form/Pricing";
 
 const BecomeTeacher = () => {
   const [currentPage, setCurrentPage] = useState(0); // Changed initial page to 0
@@ -111,12 +112,12 @@ const BecomeTeacher = () => {
   };
 
   return (
-    <div className="min-h-screen w-[100%]">
+    <div className="min-h-screen">
       <div className="h-screen">
-        <TeacherNavbar className="py-2">
+        <TeacherNavbar className="flex justify-start items-center bg-gray-300">
           {pages.map((_, index) => (
             // eslint-disable-next-line react/jsx-key
-            <TeacherNavbarComponent className="w-[300px] flex justify-between">
+            <TeacherNavbarComponent className="w-[70px] sm:w-[100px] md:w-[150px] lg:w-[200px] flex justify-start items-start     ">
               <div
                 className={`w-[35px] h-[36px] ${currentPage >= index + 1 ? "bg-green-500 " : "bg-black"
                   } rounded-md text-white flex justify-center items-center`}>
@@ -150,48 +151,21 @@ const BecomeTeacher = () => {
                 </span>
               </div>
 
-              {index === 0 ? (
-                <>
-                  <Typography
-                    className="hidden px-[5px] md:px-[2px] sm:hidden md:font-normal md:block"
-                    tags="h4"
-                    variant="bold">
-                    About
-                  </Typography>
-                </>
-              ) : index === 1 ? (
-                <Typography
-                  className="hidden px-[5px] md:px-[2px] sm:hidden md:font-normal md:block"
-                  tags="h4"
-                  variant="bold">
-                  Education
-                </Typography>
-              ) : index === 2 ? (
-                <Typography
-                  className="hidden px-[5px] sm:hidden md:px-[2px] md:font-normal md:block"
-                  tags="h4"
-                  variant="bold">
-                  Description
-                </Typography>
-              ) : index === 3 ? (
-                <Typography
-                  className="hidden px-[5px] sm:hidden md:px-[2px] md:font-normal md:block"
-                  tags="h4"
-                  variant="bold">
-                  Time Available
-                </Typography>
-              ) : (
-                <Typography
-                  className="hidden px-[5px] sm:hidden md:px-[2px] md:font-normal md: md:block"
-                  tags="h4"
-                  variant="bold">
-                  Pricing
-                </Typography>
-              )}
+              <Typography
+                className={`hidden px-[5px] ${index === 0 ? "md:px-[2px]" : ""} hidden  text-nowrap md:text-[10px] lg:text-sm md:block`}
+                tags="h4"
+                variant="bold"
+              >
+                {index === 0 && "About"}
+                {index === 1 && "Education"}
+                {index === 2 && "Description"}
+                {index === 3 && "Time Available"}
+                {index === 4 && "Pricing"}
+              </Typography>
             </TeacherNavbarComponent>
           ))}
         </TeacherNavbar>
-        <div className="w-full flex justify-center pt-10">
+        <div className=" flex justify-center pt-10">
           {pages[currentPage] == 0 && (
             <>
               <AboutForm
@@ -249,6 +223,18 @@ const BecomeTeacher = () => {
               />
             </>
           )}
+          {/* {pages[currentPage] == 4 && (
+            <>
+              <PricingForm
+                buttonTitle="Submit"
+                description="Fill your price per Month. It will be shown in the profile’s list"
+                title="Pricing per month"
+                setCurrentPage={setCurrentPage}
+              />
+            </>
+          )
+
+          } */}
         </div>
 
         {/* Pagination controls */}
