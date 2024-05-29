@@ -135,53 +135,6 @@ const FormSignup = () => {
       }
     }
   };
-
-
-
-  // stept 4
-  // const addNewAuth = async (auth: AuthForm) => {
-  //   try {
-  //     // Step 5: Define the fetchData function
-  //     const fetchData = async (data: AuthForm) => {
-  //       try {
-  //         const authData = JSON.stringify(data);
-  //         console.log(authData);
-  //         const response = await axios.post(
-  //           "http://localhost:3000/v1/auth/signup",
-  //           authData,
-  //           {
-  //             headers: {
-  //               "Content-Type": "application/json",
-  //             },
-  //           }
-  //         );
-
-  //         return response.data; // Return the response data
-  //       } catch (error) {
-  //         console.error("Error occurred while fetching data:", error);
-  //         throw error; // Rethrow the error to handle it outside
-  //       }
-  //     };
-
-  //     // Step 6: Call the fetchData function conditionally based on rememberMe
-  //     if (!auth.rememberMe) {
-  //       await fetchData(auth);
-  //     }
-
-  //     // Step 7: Define the authObject
-  //     const authObject = {
-  //       lastname: auth.lastname,
-  //       firstname: auth.firstname,
-  //       email: auth.email,
-  //     };
-
-  //     // Step 8: Set the user data in localStorage
-  //     setLocalStorage("user", authObject);
-  //   } catch (error) {
-  //     console.error("Error occurred while adding new authentication:", error);
-  //     throw error; // Rethrow the error to handle it outside
-  //   }
-  // };
   console.log();
   return (
     <div className="flex">
@@ -320,7 +273,7 @@ const FormSignup = () => {
             Already have an account?
           </Link>
         </div>
-        <Button type="submit" className="w-full py-2.5 text-sm">
+        <Button type="submit" radius="md" className="w-full py-2.5 text-sm">
           Sign up
         </Button>
       </form>
