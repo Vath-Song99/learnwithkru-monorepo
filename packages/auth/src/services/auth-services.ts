@@ -99,6 +99,7 @@ export class AuthServices {
       const userInfoResponse = await googleConfig.GoogleAccessInfo(accessToken);
       const { given_name, family_name, email, id, verified_email, picture } =
         userInfoResponse.data;
+      
       const user = await this.AuthRepo.FindUserByEmail({ email });
       if (user) {
         if (!user.googleId) {
@@ -118,9 +119,9 @@ export class AuthServices {
             email: newUser!.email as string,
             picture: newUser!.picture as string,
           };
-
+          
           const requestUser = new RequestUserService();
-          const { data } = await requestUser.CreateUser(userData);
+          const { data } = await requestUser.UpdateUser(userData);
           const { _id } = data;
           const jwtToken = await generateSignature({ _id: _id.toString() });
           return { data, token: jwtToken };

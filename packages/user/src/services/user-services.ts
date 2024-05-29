@@ -1,4 +1,4 @@
-import { IUser } from "../@types/user.type";
+import { IUser, UserProfile, UserUpdate } from "../@types/user.type";
 import { UserRepository } from "../database/repositories/user.repository";
 import { ApiError, BaseCustomError } from "../error/base-custom-error";
 import StatusCode from "../utils/http-status-code";
@@ -95,6 +95,38 @@ export class UserServices {
       throw new ApiError(
         "An unexpected error occurred while retrieving the user."
       );
+    }
+  }
+
+  async GetUserProfile(userId: string): Promise<{ data: UserProfile }> {
+    try {
+      const existingUser = await this.UserRepo.FindUser(userId);
+
+      if (!existingUser) {
+        throw new ApiError("No User found!", StatusCode.NOT_FOUND);
+      }
+      const { firstname, lastname, email, picture } = existingUser;
+
+      const userData:UserProfile = {
+        firstname,
+        lastname,
+        email,
+        picture,
+      };
+      return { data: userData };
+    } catch (error: unknown) {
+      throw error;
+    }
+  }
+
+  async UpdateUserByUserId(authId: string , userData: UserUpdate):Promise<{ data: IUser}>{
+    try{
+
+      const UpdateUser = await this.UserRepo.UpdateUser(authId, userData);
+
+      return {data: UpdateUser}
+    }catch(error: unknown){
+      throw error
     }
   }
 }

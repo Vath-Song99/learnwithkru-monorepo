@@ -19,7 +19,7 @@ const CallbackRedirect = () => {
       // Code is not present, handle error or redirect accordingly
       console.error('No authorization code found');
       // Redirect to error page or home page
-      router.push('/google/callback');
+      router.push('/');
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);

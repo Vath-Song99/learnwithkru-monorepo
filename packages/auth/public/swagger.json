@@ -50,7 +50,8 @@
 				},
 				"required": [
 					"firstname",
-					"lastname"
+					"lastname",
+					"picture"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -319,7 +320,7 @@
 			}
 		},
 		"/v1/auth/google/callback": {
-			"post": {
+			"get": {
 				"operationId": "GoogleOAuth",
 				"responses": {
 					"200": {
@@ -363,8 +364,8 @@
 			}
 		},
 		"/v1/auth/facebook/callback": {
-			"post": {
-				"operationId": "FacebookOAuth",
+			"get": {
+				"operationId": "FacebookOAuthCallBack",
 				"responses": {
 					"200": {
 						"description": "OK",

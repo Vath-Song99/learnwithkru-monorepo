@@ -1,16 +1,21 @@
 import StatusCode from "../utils/http-status-code";
 import { PATH_USER } from "../routes/path-defs";
 import { UserServices } from "../services/user-services";
-import { IUser } from "../@types/user.type";
+import { IUser, UserProfile, UserUpdate } from "../@types/user.type";
 import {
   Body,
   Controller,
   Get,
+  Middlewares,
   Path,
   Post,
   Route,
   SuccessResponse,
+  Request,
+  Patch
 } from "tsoa";
+import { authorize } from "../middlewares/authorize";
+import { DecodedUser } from "../@types/express-extend.type";
 
 @Route("/v1/users")
 export class UserController extends Controller {
@@ -62,6 +67,33 @@ export class UserController extends Controller {
       return { message: "Success retrieve user", data: user };
     } catch (error: unknown) {
       throw error;
+    }
+  }
+
+  @SuccessResponse(StatusCode.OK, "OK")
+  @Get(PATH_USER.USER_PROFILE)
+  @Middlewares(authorize(["user"]))
+  async GetUserProfile ( @Request() req: Express.Request):Promise<{message: string, data: UserProfile}> {
+    try{
+      const userId = (req.user as DecodedUser).id as string
+      const service = new UserServices();
+      const {data} = await service.GetUserProfile(userId);
+      return {message: "Success retrived", data}
+    }catch(error: unknown){
+      throw error
+    }
+  }
+
+  @SuccessResponse(StatusCode.OK, "OK")
+  @Patch(PATH_USER.UPDATE_USER)
+  async UpdateUserByUserId (@Path() authId: string , @Body() requestBody: UserUpdate): Promise<{message: string, data: IUser }>{
+    try{
+      const service = new UserServices();
+      const {data} = await service.UpdateUserByUserId(authId, requestBody)
+      
+      return {message: "Success update", data}
+    }catch(error: unknown){
+      throw error
     }
   }
 }
