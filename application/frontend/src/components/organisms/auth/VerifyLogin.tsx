@@ -87,7 +87,7 @@ const VerifyLogin = () => {
               Let us know If you are Sign up or Log in. Spend your time to
               authentication with us.
             </Typography>
-            <div className=" w-full flex justify-between mt-20 md:px-5 lg:px-5 lg:max-w-32">
+            <div className=" w-full flex justify-between mt-20 md:px-5 lg:px-5 lg:max-w-full">
               <Link href={"login"}>
                 <Button className="w-[90px] h-[40px] text-sm border bg-[#7B2CBF] border-[#7B2CBF] rounded-md text-white">
                   Login

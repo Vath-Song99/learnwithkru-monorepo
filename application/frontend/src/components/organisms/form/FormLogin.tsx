@@ -199,6 +199,7 @@ const FormLogin = () => {
       </div>
       <Button
         type="submit"
+        radius="md"
         className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[300px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ">
         Log in
       </Button>

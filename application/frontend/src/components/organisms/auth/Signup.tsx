@@ -3,6 +3,7 @@ import { Button, FormSignup } from "@/components";
 import Link from "next/link";
 import Router, { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import Image from "next/image";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,18 +17,18 @@ const Signup = () => {
     const url = "http://localhost:3000/v1/auth/google";
     router.push(url)
   };
-  const handleSigninWithFacebook= () => {
+  const handleSigninWithFacebook = () => {
     const url = "http://localhost:3000/v1/auth/facebook";
     router.push(url)
   };
-  
+
   // Example usage: Handling the error at the caller level
   const handleSigninGoogle = async () => {
     setLoading(true);
     try {
       await handleSigninWithGoogle();
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
       console.error("Signin failed:", error);
       // You can add further user-friendly error handling here
     }
@@ -44,7 +45,8 @@ const Signup = () => {
 
   return (
     <div className="w-full h-[100vh] flex justify-center items-center  mx-auto">
-      <div className="border-[1px] border-[#f3f3f3]-500  pt-4 pb-8 px-8 flex items-center justify-center shadow-md">
+      {/* form */}
+      <div className="pt-4 pb-8 px-8 flex items-center justify-center">
         <div className="grid gap-3">
           <div className="flex flex-col  gap-2 ">
             <h1 className="text-3xl font-medium ">Sign up with Kru</h1>
@@ -60,7 +62,7 @@ const Signup = () => {
           </div>
           <div className="grid gap-3">
             <Button
-              onClick={handleSigninGoogle} 
+              onClick={handleSigninGoogle}
               className="flex items-center justify-center  w-[360px] py-2.5  bg-[#f3f3f3] rounded-md hover:bg-[#d2d0d0]"
             >
               <div className="w-[80%] flex justify-evenly items-center gap-x-5">
@@ -89,10 +91,15 @@ const Signup = () => {
                   />
                 </svg>
 
-                <p className="text-sm text-slate-950  ">{loading ? 'Signing in...' : 'Sign in with Google'}</p>
+                <p className="text-sm text-slate-950  ">
+                  {loading ? "Signing in..." : "Sign in with Google"}
+                </p>
               </div>
             </Button>
-            <Button onClick={handleSigninFacebook} className="flex items-center  justify-center w-[360px] py-2.5   bg-[#f3f3f3] rounded-md  hover:bg-[#d2d0d0] ">
+            <Button
+              onClick={handleSigninFacebook}
+              className="flex items-center  justify-center w-[360px] py-2.5   bg-[#f3f3f3] rounded-md  hover:bg-[#d2d0d0] "
+            >
               <div className="w-[80%] flex justify-evenly  items-center">
                 <svg
                   width="24"
@@ -123,16 +130,25 @@ const Signup = () => {
                 </p>
               </div>
             </Button>
-            <div className="w-full flex items-center  justify-evenly">
-              <div className="border-t border-black w-[40%] "></div>
-              <div className=" text-black px-5">or</div>
-              <div className="border-t border-black w-[40%] "></div>
+            <div className="flex items-center justify-start">
+              <div className="border-t border-black w-full "></div>
+              <div className="mx-4 text-black">or</div>
+              <div className="border-t border-black w-full "></div>
             </div>
             <div className="">
               <FormSignup />
             </div>
           </div>
         </div>
+      </div>
+      {/* image */}
+      <div className="hidden items-center justify-center sm:hidden md:flex lg:flex xl:flex">
+        <Image
+          alt="login page"
+          src={"/login.png"}
+          width={500}
+          height={500}
+        ></Image>
       </div>
     </div>
   );
