@@ -1,24 +1,24 @@
 "use client";
 import { Button, FormSignup } from "@/components";
-import axios from "axios";
 import Link from "next/link";
+import Router, { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [Password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
+ const router = useRouter()
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
   const handleSigninWithGoogle = () => {
     const url = "http://localhost:3000/v1/auth/google";
-    window.location.href = url;
+    router.push(url)
   };
   const handleSigninWithFacebook= () => {
     const url = "http://localhost:3000/v1/auth/facebook";
-    window.location.href = url;
+    router.push(url)
   };
   
   // Example usage: Handling the error at the caller level
