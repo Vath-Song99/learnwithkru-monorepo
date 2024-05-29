@@ -44,7 +44,7 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
     <div className={`relative inline-block ${className}`} ref={dropdownRef}>
       <button
         onClick={toggleDropDown}
-        className="flex items-center justify-center w-[24px] h-[24px] bg-purple-300 rounded-full focus:outline-none"
+        className="flex items-center justify-center w-[30px] h-[30px] bg-purple-300 rounded-full focus:outline-none"
       >
         {/* Add icon here */}
         {icon}

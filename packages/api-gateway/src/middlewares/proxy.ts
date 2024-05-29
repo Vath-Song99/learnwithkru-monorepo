@@ -6,7 +6,6 @@ import getConfig from "../utils/createConfig";
 import { StatusCode } from "../utils/consts";
 import { ROUTE_PATHS } from "@api-gateway/route-defs";
 
-
 import { OptionCookie } from "@api-gateway/utils/cookieOption";
 
 interface ProxyConfig {
@@ -65,10 +64,11 @@ const proxyConfigs: ProxyConfig = {
           };
 
           try {
-            logger.info("Res BodyString: ", bodyString);
+            console.log("body string", bodyString);
             responseBody = JSON.parse(bodyString);
 
-            if(responseBody.redirectUrl){
+            console.log("ResponeBody:", responseBody);
+            if (responseBody.redirectUrl) {
               return res.redirect(responseBody.redirectUrl);
             }
 
@@ -79,13 +79,12 @@ const proxyConfigs: ProxyConfig = {
 
             // Store JWT in session
             if (responseBody.token) {
-              res.cookie("persistent", responseBody.token, OptionCookie);
               (req as Request).session!.jwt = responseBody.token;
+              res.cookie("persistent", responseBody.token, OptionCookie);
             }
-            // Modify response to send  the message and user's data to the client
+            // Modify response to send  the message to the client
             res.json({
-              message: responseBody.message,
-              data: responseBody.data,
+              message: responseBody.message
             });
           } catch (error) {
             return res.status(500).json({ message: "Error parsing response" });
@@ -163,6 +162,7 @@ const proxyConfigs: ProxyConfig = {
               delete responseBody.token;
             }
             // Modify response to send  the message and user to client to the client
+            console.log(responseBody.data);
             res.json({
               message: responseBody.message,
               data: responseBody.data,

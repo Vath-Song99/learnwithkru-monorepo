@@ -16,9 +16,10 @@ const DEFAULT_FORM_VALUE = {
   email: "",
   password: "",
 };
-import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
 const FormLogin = () => {
+  const router = useRouter();
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] = useState<UsersFormLogin>(DEFAULT_FORM_VALUE);
   const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +30,6 @@ const FormLogin = () => {
   const handleCheckboxChange = () => {
     setRememberMe(!rememberMe);
   };
-  const {setUser} = useUser()
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -69,6 +69,7 @@ const FormLogin = () => {
             headers: {
               "Content-Type": "application/json",
             },
+            withCredentials: true,
           }
         );
         if(response.data.errors){
@@ -76,8 +77,8 @@ const FormLogin = () => {
           return false
         }
         console.log(response.data);
-        setUser(response.data.data);
-        window.location.href = "http://localhost:8000/teacher-list"
+        router.push('/')
+        // window.location.href = "http://localhost:8000/teacher-list"
       } catch (error) {
         console.error('Error occurred during login:', error);
     if (axios.isAxiosError(error)) {
