@@ -1,6 +1,7 @@
 "use client";
 
-import { Footer, Homepage, Navbar, SettingProfile } from "@/components";
+import { FilterDropdown, Footer, Homepage, Navbar, SettingProfile } from "@/components";
+import { Select } from "@/components/atoms/select/select";
 import { ButtonDropDown } from "@/components/molecules/button-dropdown";
 import { VerifyEmail } from "@/components/organisms/auth/VerifyEmail";
 import { VerifyLogin } from "@/components/organisms/auth/VerifyLogin";
@@ -106,7 +107,7 @@ const Page = () => {
       <div className="w-full flex justify-center items-center">
         <Navbar setIsShowModal={setIsShowModal} isShowModal={isShowModal} />
       </div>
-      <Homepage />
+      <Homepage/>
       <div className="w-full flex justify-center items-start bg-gray-900"></div>
     </div>
   );

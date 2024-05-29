@@ -1,5 +1,5 @@
 //FilterDropDown components
-"use client"
+"use client";
 import {
   Dropdown,
   Typography,
@@ -7,6 +7,7 @@ import {
   LinkDropdown,
   LinkDropdownPage,
 } from "@/components/atoms";
+import { Select } from "@/components/atoms/select/select";
 import { useState } from "react";
 interface FilterDropdownTypes {
   className?: string;
@@ -14,6 +15,25 @@ interface FilterDropdownTypes {
   nameSubject?: string;
   itemsDropdown?: { itemName: string }[];
 }
+const subject = [
+  {
+    id: "1",
+    subject: "English",
+  },
+  {
+    id: "2",
+    subject: "Computer",
+  },
+  {
+    id: "3",
+    subject: "Physics",
+  },
+  {
+    id: "4",
+    subject: "Maths",
+  },
+];
+
 
 const FilterDropdown: React.FC<FilterDropdownTypes> = ({
   className,
@@ -28,30 +48,24 @@ const FilterDropdown: React.FC<FilterDropdownTypes> = ({
   };
 
   return (
-
     <div className={`lg:w-1/5 w-[48%] grid grid-flow-row ${className}`}>
       <Typography align="left" className="text-xs" colorscheme="secondary">
         {nameDropdown}
       </Typography>
-      <Dropdown
-        className="w-full"
-        buttonContent={`Select ${nameDropdown}`}
-        selectedItem={selectedItem}
-        onSelect={handleSelect}
+      <Select
+        borderRadius="md"
+        borderSize="timeSelect"
+        name="from"
+    
+       
+        className="border border-purple-500  outline-none text-xs"
       >
-        <ShowDropdown className="w-[180px] sm:w-[270px] md:w-[300px] lg:w-[300px] px-3 py-1">
-          {itemsDropdown.map((item, index) => (
-            <LinkDropdown key={index} className="py-2 text-xs">
-              <LinkDropdownPage
-                className="cursor-pointer"
-                itemDropdown={item.itemName}
-                onSelect={handleSelect}
-              />
-            </LinkDropdown>
-          ))}
-
-        </ShowDropdown>
-      </Dropdown>
+        {subject.map((datahour) => (
+          <option key={datahour.id} value={datahour.subject}>
+            {datahour.subject}
+          </option>
+        ))}
+      </Select>
     </div>
   );
 };
