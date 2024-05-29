@@ -16,8 +16,8 @@ const AuthValidateSchema = Yup.object().shape({
     .required("Please enter a password")
     .min(8, "Password must be at least 8 characters")
     .matches(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/,
-      "Password must  uppercase  lowercase number special character"
+      /^(?=.*\d)(?=.*[a-z]).{8,}$/,
+      "Password must contain at least one lowercase letter and one number"
     ),
 });
 
@@ -29,8 +29,8 @@ const AuthValidateLoginSchema = Yup.object().shape({
     .required("Please enter a password")
     .min(8, "Password must be at least 8 characters")
     .matches(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/,
-      "Password must characters number special character"
+      /^(?=.*\d)(?=.*[a-z]).{8,}$/,
+      "Password must contain at least one lowercase letter and one number"
     ),
 });
 
