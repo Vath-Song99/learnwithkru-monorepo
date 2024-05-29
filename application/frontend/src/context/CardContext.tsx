@@ -60,6 +60,7 @@ const CardContext = ({ children }: { children: any }) => {
   }, []);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     const handleRequestTeacher = async () => {
       try {
@@ -90,6 +91,9 @@ const CardContext = ({ children }: { children: any }) => {
   //  =========================================================================================
 
 =======
+=======
+
+>>>>>>> 3a2bd4da8e5f8007c9da4493d20e50d9be420fb3
   const handleRequestTeacher = async () => {
     try {
       const API_ENDPOINT = "http://localhost:3000/v1/teachers/teacher-list?pageSize=10&pageNumber=1"; // Replace with your actual token
@@ -105,7 +109,11 @@ const CardContext = ({ children }: { children: any }) => {
 
   //  student Fetching
   const [studentData, setStudentData] = useState([]);
+<<<<<<< HEAD
 >>>>>>> eb827c4017bdf142022b229d4fdbfd726bb618ea
+=======
+
+>>>>>>> 3a2bd4da8e5f8007c9da4493d20e50d9be420fb3
 
   const contextvalue = {
     Data,

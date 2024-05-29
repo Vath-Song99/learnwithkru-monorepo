@@ -170,14 +170,22 @@ const SignupToBecomeStudent = () => {
                                 <div>
                                     <h3>Uploaded Image:</h3>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3a2bd4da8e5f8007c9da4493d20e50d9be420fb3
                                     <img
                                         src={imageUrl}
                                         alt="Uploaded Preview"
                                         style={{ width: "300px", height: "auto" }}
                                     />
+<<<<<<< HEAD
 =======
                                     <Image src={imageUrl} alt="Uploaded Preview" style={{ width: '300px', height: 'auto' }} />
 >>>>>>> eb827c4017bdf142022b229d4fdbfd726bb618ea
+=======
+
+>>>>>>> 3a2bd4da8e5f8007c9da4493d20e50d9be420fb3
                                 </div>
                             )}
                         </div>
