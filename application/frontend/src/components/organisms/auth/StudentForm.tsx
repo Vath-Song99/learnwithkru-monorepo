@@ -169,11 +169,15 @@ const SignupToBecomeStudent = () => {
                             {image && (
                                 <div>
                                     <h3>Uploaded Image:</h3>
+<<<<<<< HEAD
                                     <img
                                         src={imageUrl}
                                         alt="Uploaded Preview"
                                         style={{ width: "300px", height: "auto" }}
                                     />
+=======
+                                    <Image src={imageUrl} alt="Uploaded Preview" style={{ width: '300px', height: 'auto' }} />
+>>>>>>> eb827c4017bdf142022b229d4fdbfd726bb618ea
                                 </div>
                             )}
                         </div>
