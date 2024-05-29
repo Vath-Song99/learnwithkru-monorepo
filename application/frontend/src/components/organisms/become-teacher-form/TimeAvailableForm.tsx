@@ -201,7 +201,6 @@ const TimeAvailableForm = ({
               ? dataTime[indexSlotHour + 1].hour
               : "",
         };
-
       } else {
         newArray[idx] = { ...newArray[idx], [name]: value };
         setFormData({
@@ -211,7 +210,6 @@ const TimeAvailableForm = ({
       }
       return newArray;
     });
-  
   };
   // update existed Timeslot in setSelectThursday
   const handleUpdateTimeslotTuesday = (
@@ -438,42 +436,44 @@ const TimeAvailableForm = ({
   };
 
   return (
-    <div className="w-[464px] flex flex-col">
+    <div className="w-auto max-w-[200px] sm:max-w-[400px] flex flex-col">
       <div className="flex justify-center">
         <div className="flex flex-col">
-          <Typography
-            align="center"
-            fontSize="lg"
-            variant="bold"
-            className="py-2 sm:text-start"
-          >
-            {title}
-          </Typography>
-          <Typography
-            align="center"
-            fontSize="sm"
-            className="py-2 sm:text-start"
-          >
-            {description}
-          </Typography>
-          <Typography
-            align="center"
-            fontSize="lg"
-            variant="bold"
-            className="py-2 sm:text-start"
-          >
-            {setTimeAvailable}
-          </Typography>
-          <Typography
-            align="center"
-            fontSize="sm"
-            className="py-2 sm:text-start"
-          >
-            {setTimeDescription}
-          </Typography>
+          <div className="flex flex-col justify-center text-wrap md:text-nowrap w-auto sm:w-full">
+            <Typography
+              align="center"
+              fontSize="lg"
+              variant="bold"
+              className="py-2 text-center sm:text-start "
+            >
+              {title}
+            </Typography>
+            <Typography
+              align="center"
+              fontSize="sm"
+              className=" text-wrap  w-[350px] pl-12 text-center sm:text-start sm:text-nowrap "
+            >
+              {description}
+            </Typography>
+            <Typography
+              align="center"
+              fontSize="lg"
+              variant="bold"
+              className="py-2 sm:text-start"
+            >
+              {setTimeAvailable}
+            </Typography>
+            <Typography
+              align="center"
+              fontSize="sm"
+              className="text-wrap w-[350px] pl-12 text-center sm:text-start sm:text-nowrap "
+            >
+              {setTimeDescription}
+            </Typography>
+          </div>
           <div className="flex flex-col">
             <div className="flex flex-row">
-              <div className="flex  pt-[10px]">
+              <div className="flex flex-col sm:flex-row pt-[10px] pl-[20px]">
                 <InputForm
                   type="checkbox"
                   borderRadius="md"
@@ -481,7 +481,7 @@ const TimeAvailableForm = ({
                   borderSize="checkbox"
                   onChange={handleCheckboxChange}
                   checked={daysOfWeek.monday}
-                  className="border border-purple-500outline-none text-xs"
+                  className="border border-purple-500 outline-none text-xs"
                 />
               </div>
               <div className="flex pl-[20px]">
@@ -494,86 +494,94 @@ const TimeAvailableForm = ({
               <div className="flex flex-col">
                 {daysOfWeek.monday && (
                   <>
-                    <div className="flex justify-between">
-                      <div className="flex flex-col">
-                        <Typography
-                          fontSize="sm"
-                          className="py-2 sm:text-start"
-                        >
-                          Form
-                        </Typography>
-                      </div>
-                      <div className="flex flex-col pr-[180px] sm:pr-[220px]">
-                        <Typography
-                          fontSize="sm"
-                          className="py-2 sm:text-start"
-                        >
-                          To
-                        </Typography>
-                      </div>
-                    </div>
                     {selectMonday.map((item, index) => (
                       <div key={index}>
                         <div className="flex justify-between py-2">
-                          <div className="flex flex-col ">
-                            <Select
-                              borderRadius="md"
-                              borderSize="timeSelect"
-                              name="from"
-                              defaultValue={
-                                dataTime.find((item) => item.hour === "9:00")
-                                  ?.hour
-                              }
-                              onChange={(e) => {
-                                handleUpdateTimeslot(e, index);
-                              }}
-                              className="border border-purple-500  outline-none text-xs"
-                            >
-                              {dataTime.map((datahour) => (
-                                <option key={datahour.id} value={datahour.hour}>
-                                  {datahour.hour}
-                                </option>
-                              ))}
-                            </Select>
-                          </div>
-                          <div className="flex flex-col pl-[20px] sm:pl-[2px]">
-                            <Select
-                              borderRadius="md"
-                              borderSize="timeSelect"
-                              defaultValue={
-                                dataTime.find((item) => item.hour === "10:00")
-                                  ?.hour
-                              }
-                              onChange={(e) => {
-                                handleUpdateTimeslot(e, index);
-                              }}
-                              name="to"
-                              className="border border-purple-500 outline-none text-xs"
-                            >
-                              {selectMonday[index].from
-                                ? dataTime.map((data, idx) => {
+                          <div className=" flex flex-col sm:flex-row ">
+                            <div className="flex flex-col  pl-[90px] sm:pl-[2px] ">
+                              <div className="flex flex-col pr-[180px] sm:pr-[220px]">
+                                <Typography
+                                  fontSize="sm"
+                                  className="sm:text-start"
+                                >
+                                  From
+                                </Typography>
+                              </div>
+                              <Select
+                                borderRadius="md"
+                                borderSize="timeSelect"
+                                name="from"
+                                defaultValue={
+                                  dataTime.find((item) => item.hour === "9:00")
+                                    ?.hour
+                                }
+                                onChange={(e) => {
+                                  handleUpdateTimeslot(e, index);
+                                }}
+                                className="border border-purple-500  outline-none text-xs"
+                              >
+                                {dataTime.map((datahour) => (
+                                  <option
+                                    key={datahour.id}
+                                    value={datahour.hour}
+                                  >
+                                    {datahour.hour}
+                                  </option>
+                                ))}
+                              </Select>
+                            </div>
+                            <div className="flex flex-col  pl-[90px] sm:pl-[2px]">
+                              <div className="flex flex-col pr-[180px] sm:pr-[220px]">
+                                <Typography
+                                  fontSize="sm"
+                                  className="sm:text-start"
+                                >
+                                  To
+                                </Typography>
+                              </div>
+                              <Select
+                                borderRadius="md"
+                                borderSize="timeSelect"
+                                defaultValue={
+                                  dataTime.find((item) => item.hour === "10:00")
+                                    ?.hour
+                                }
+                                onChange={(e) => {
+                                  handleUpdateTimeslot(e, index);
+                                }}
+                                name="to"
+                                className="border border-purple-500 outline-none text-xs"
+                              >
+                                {selectMonday[index].from
+                                  ? dataTime.map((data, idx) => {
                                     // Find index of option `to` base on the value of option `to`
                                     const toIndex = dataTime.findIndex(
                                       (eachSlot) =>
-                                        eachSlot.hour === selectMonday[index].to
+                                        eachSlot.hour ===
+                                        selectMonday[index].to
                                     );
 
                                     // Return only hour greater than the `from` value
                                     if (idx > toIndex - 1) {
                                       return (
-                                        <option key={data.id} value={data.hour}>
+                                        <option
+                                          key={data.id}
+                                          value={data.hour}
+                                        >
                                           {data.hour}
                                         </option>
                                       );
                                     }
                                   })
-                                : dataTime.map((data) => (
+                                  : dataTime.map((data) => (
                                     <option key={data.id} value={data.hour}>
                                       {data.hour}
                                     </option>
                                   ))}
-                            </Select>
+                              </Select>
+                            </div>
                           </div>
+
                           <div className="flex flex-col items-center py-2">
                             {selectMonday.length > 1 && (
                               <button onClick={() => handleDeleteInput(index)}>
@@ -600,7 +608,7 @@ const TimeAvailableForm = ({
 
                         {index === selectMonday.length - 1 && (
                           <button onClick={() => handleAddNewTimeslot(index)}>
-                            <small className=" underline font-bold">
+                            <small className=" underline font-bold text-xs sm:text-md pl-[20px]">
                               Add another timeslot
                             </small>
                           </button>
@@ -611,8 +619,9 @@ const TimeAvailableForm = ({
                 )}
               </div>
             </div>
+            {/* Tuesday */}
             <div className="flex flex-row">
-              <div className="flex  pt-[10px]">
+              <div className="flex flex-col sm:flex-row pt-[10px] pl-[20px]">
                 <InputForm
                   type="checkbox"
                   borderRadius="md"
@@ -620,7 +629,7 @@ const TimeAvailableForm = ({
                   name="tuesday"
                   onChange={handleCheckboxChange}
                   checked={daysOfWeek.tuesday}
-                  className="border border-purple-500outline-none text-xs"
+                  className="border border-purple-500 outline-none text-xs "
                 />
               </div>
               <div className="flex pl-[20px]">
@@ -633,64 +642,63 @@ const TimeAvailableForm = ({
               <div className="flex flex-col">
                 {daysOfWeek.tuesday && (
                   <>
-                    <div className="flex justify-between">
-                      <div className="flex flex-col">
-                        <Typography
-                          fontSize="sm"
-                          className="py-2 sm:text-start"
-                        >
-                          Form
-                        </Typography>
-                      </div>
-                      <div className="flex flex-col pr-[180px] sm:pr-[220px]">
-                        <Typography
-                          fontSize="sm"
-                          className="py-2 sm:text-start"
-                        >
-                          To
-                        </Typography>
-                      </div>
-                    </div>
                     {selectTuesday.map((item, index) => (
                       <div key={index}>
                         <div className="flex justify-between py-2">
-                          <div className="flex flex-col">
-                            <Select
-                              borderRadius="md"
-                              borderSize="timeSelect"
-                              name="from"
-                              defaultValue={
-                                dataTime.find((item) => item.hour === "9:00")
-                                  ?.hour
-                              }
-                              onChange={(e) => {
-                                handleUpdateTimeslotTuesday(e, index);
-                              }}
-                              className="border border-purple-500  outline-none text-xs"
-                            >
-                              {dataTime.map((datahour) => (
-                                <option key={datahour.id} value={datahour.hour}>
-                                  {datahour.hour}
-                                </option>
-                              ))}
-                            </Select>
-                          </div>
-                          <div className="flex flex-col pl-[20px] sm:pl-[2px]">
-                            <Select
-                              borderRadius="md"
-                              borderSize="timeSelect"
-                              defaultValue={
-                                dataTime.find((item) => item.hour === "10:00")
-                                  ?.hour
-                              }
-                              onChange={(e) => {
-                                handleUpdateTimeslot(e, index);
-                              }}
-                              name="to"
-                              className="border border-purple-500 outline-none text-xs"
-                            >
-                              {selectTuesday[index].from
-                                ? dataTime.map((data, idx) => {
+                          <div className="flex flex-col sm:flex-row">
+                            <div className="flex flex-col  pl-[90px] sm:pl-[2px] ">
+                              <div className="flex flex-col pr-[180px] sm:pr-[220px]">
+                                <Typography
+                                  fontSize="sm"
+                                  className="py-2 sm:text-start"
+                                >
+                                  From
+                                </Typography>
+                              </div>
+                              <Select
+                                borderRadius="md"
+                                borderSize="timeSelect"
+                                name="from"
+                                defaultValue={
+                                  dataTime.find((item) => item.hour === "9:00")
+                                    ?.hour
+                                }
+                                onChange={(e) => {
+                                  handleUpdateTimeslotTuesday(e, index);
+                                }}
+                                className="border border-purple-500  outline-none text-xs"
+                              >
+                                {dataTime.map((datahour) => (
+                                  <option key={datahour.id} value={datahour.hour}>
+                                    {datahour.hour}
+                                  </option>
+                                ))}
+                              </Select>
+                            </div>
+                            <div className="flex flex-col  pl-[90px] sm:pl-[2px]">
+                              <div className="flex flex-col pr-[180px] sm:pr-[220px]">
+                                <Typography
+                                  fontSize="sm"
+                                  className="py-2 sm:text-start"
+                                >
+                                  To
+                                </Typography>
+                              </div>
+                              <Select
+                                borderRadius="md"
+                                borderSize="timeSelect"
+                                defaultValue={
+                                  dataTime.find((item) => item.hour === "10:00")
+                                    ?.hour
+                                }
+                                onChange={(e) => {
+                                  handleUpdateTimeslot(e, index);
+                                }}
+                                name="to"
+                                className="border border-purple-500 outline-none text-xs"
+                              >
+                                {selectTuesday[index].from
+                                  ? dataTime.map((data, idx) => {
                                     // Find index of option `to` base on the value of option `to`
                                     const toIndex = dataTime.findIndex(
                                       (eachSlot) =>
@@ -707,12 +715,13 @@ const TimeAvailableForm = ({
                                       );
                                     }
                                   })
-                                : dataTime.map((data) => (
+                                  : dataTime.map((data) => (
                                     <option key={data.id} value={data.hour}>
                                       {data.hour}
                                     </option>
                                   ))}
-                            </Select>
+                              </Select>
+                            </div>
                           </div>
                           <div className="flex flex-col items-center py-2">
                             {selectTuesday.length > 1 && (
@@ -742,7 +751,8 @@ const TimeAvailableForm = ({
 
                         {index === selectTuesday.length - 1 && (
                           <button onClick={() => handleAddNewTimeslotTuesday()}>
-                            <small className=" underline font-bold">
+                            <small className=" underline font-bold text-xs sm:text-md pl-[20px]">
+
                               Add another timeslot
                             </small>
                           </button>
@@ -753,8 +763,10 @@ const TimeAvailableForm = ({
                 )}
               </div>
             </div>
+
+            {/* wednesday */}
             <div className="flex flex-row">
-              <div className="flex  pt-[10px]">
+              <div className="flex flex-col sm:flex-row pt-[10px] pl-[20px]">
                 <InputForm
                   type="checkbox"
                   borderRadius="md"
@@ -762,12 +774,12 @@ const TimeAvailableForm = ({
                   name="wednesday"
                   onChange={handleCheckboxChange}
                   checked={daysOfWeek.wednesday}
-                  className="border border-purple-500outline-none text-xs"
+                  className="border border-purple-500 outline-none text-xs"
                 />
               </div>
               <div className="flex pl-[20px]">
                 <Typography align="left" fontSize="sm" className="py-2">
-                  wednesday
+                  Wednesday
                 </Typography>
               </div>
             </div>
@@ -775,64 +787,63 @@ const TimeAvailableForm = ({
               <div className="flex flex-col">
                 {daysOfWeek.wednesday && (
                   <>
-                    <div className="flex justify-between">
-                      <div className="flex flex-col">
-                        <Typography
-                          fontSize="sm"
-                          className="py-2 sm:text-start"
-                        >
-                          Form
-                        </Typography>
-                      </div>
-                      <div className="flex flex-col pr-[180px] sm:pr-[220px]">
-                        <Typography
-                          fontSize="sm"
-                          className="py-2 sm:text-start"
-                        >
-                          To
-                        </Typography>
-                      </div>
-                    </div>
                     {selectwednesday.map((item, index) => (
                       <div key={index}>
                         <div className="flex justify-between py-2">
-                          <div className="flex flex-col ">
-                            <Select
-                              borderRadius="md"
-                              borderSize="timeSelect"
-                              name="from"
-                              defaultValue={
-                                dataTime.find((item) => item.hour === "9:00")
-                                  ?.hour
-                              }
-                              onChange={(e) => {
-                                handleUpdateTimeslotwednesday(e, index);
-                              }}
-                              className="border border-purple-500  outline-none text-xs"
-                            >
-                              {dataTime.map((datahour) => (
-                                <option key={datahour.id} value={datahour.hour}>
-                                  {datahour.hour}
-                                </option>
-                              ))}
-                            </Select>
-                          </div>
-                          <div className="flex flex-col pl-[20px] sm:pl-[2px]">
-                            <Select
-                              borderRadius="md"
-                              borderSize="timeSelect"
-                              defaultValue={
-                                dataTime.find((item) => item.hour === "10:00")
-                                  ?.hour
-                              }
-                              onChange={(e) => {
-                                handleUpdateTimeslotwednesday(e, index);
-                              }}
-                              name="to"
-                              className="border border-purple-500 outline-none text-xs"
-                            >
-                              {selectwednesday[index].from
-                                ? dataTime.map((data, idx) => {
+                          <div className="flex flex-col sm:flex-row ">
+                            <div className="flex flex-col  pl-[90px] sm:pl-[2px]">
+                              <div className="flex flex-col pr-[180px] sm:pr-[220px]">
+                                <Typography
+                                  fontSize="sm"
+                                  className="py-2 sm:text-start"
+                                >
+                                  Form
+                                </Typography>
+                              </div>
+                              <Select
+                                borderRadius="md"
+                                borderSize="timeSelect"
+                                name="from"
+                                defaultValue={
+                                  dataTime.find((item) => item.hour === "9:00")
+                                    ?.hour
+                                }
+                                onChange={(e) => {
+                                  handleUpdateTimeslotwednesday(e, index);
+                                }}
+                                className="border border-purple-500  outline-none text-xs"
+                              >
+                                {dataTime.map((datahour) => (
+                                  <option key={datahour.id} value={datahour.hour}>
+                                    {datahour.hour}
+                                  </option>
+                                ))}
+                              </Select>
+                            </div>
+                            <div className="flex flex-col pl-[90px] sm:pl-[2px]">
+                              <div className="flex flex-col pr-[180px] sm:pr-[220px]">
+                                <Typography
+                                  fontSize="sm"
+                                  className="py-2 sm:text-start"
+                                >
+                                  To
+                                </Typography>
+                              </div>
+                              <Select
+                                borderRadius="md"
+                                borderSize="timeSelect"
+                                defaultValue={
+                                  dataTime.find((item) => item.hour === "10:00")
+                                    ?.hour
+                                }
+                                onChange={(e) => {
+                                  handleUpdateTimeslotwednesday(e, index);
+                                }}
+                                name="to"
+                                className="border border-purple-500 outline-none text-xs"
+                              >
+                                {selectwednesday[index].from
+                                  ? dataTime.map((data, idx) => {
                                     // Find index of option `to` base on the value of option `to`
                                     const toIndex = dataTime.findIndex(
                                       (eachSlot) =>
@@ -848,12 +859,13 @@ const TimeAvailableForm = ({
                                       );
                                     }
                                   })
-                                : dataTime.map((data) => (
+                                  : dataTime.map((data) => (
                                     <option key={data.id} value={data.hour}>
                                       {data.hour}
                                     </option>
                                   ))}
-                            </Select>
+                              </Select>
+                            </div>
                           </div>
                           <div className="flex flex-col items-center py-2">
                             {selectwednesday.length > 1 && (
@@ -885,7 +897,7 @@ const TimeAvailableForm = ({
                           <button
                             onClick={() => handleAddNewTimeslotwednesday()}
                           >
-                            <small className=" underline font-bold">
+                            <small className=" underline font-bold  sm:text-md pl-[20px]">
                               Add another timeslot
                             </small>
                           </button>
@@ -896,8 +908,9 @@ const TimeAvailableForm = ({
                 )}
               </div>
             </div>
+            {/* Thursday */}
             <div className="flex flex-row">
-              <div className="flex  pt-[10px]">
+              <div className="flex flex-col sm:flex-row pt-[10px] pl-[20px]">
                 <InputForm
                   type="checkbox"
                   borderRadius="md"
@@ -918,49 +931,49 @@ const TimeAvailableForm = ({
               <div className="flex flex-col">
                 {daysOfWeek.Thursday && (
                   <>
-                    <div className="flex justify-between">
-                      <div className="flex flex-col">
-                        <Typography
-                          fontSize="sm"
-                          className="py-2 sm:text-start"
-                        >
-                          Form
-                        </Typography>
-                      </div>
-                      <div className="flex flex-col pr-[180px] sm:pr-[220px]">
-                        <Typography
-                          fontSize="sm"
-                          className="py-2 sm:text-start"
-                        >
-                          To
-                        </Typography>
-                      </div>
-                    </div>
                     {selectThursday.map((item, index) => (
                       <div key={index}>
                         <div className="flex justify-between py-2">
-                          <div className="flex flex-col ">
-                            <Select
-                              borderRadius="md"
-                              borderSize="timeSelect"
-                              name="from"
-                              defaultValue={
-                                dataTime.find((item) => item.hour === "9:00")
-                                  ?.hour
-                              }
-                              onChange={(e) => {
-                                handleUpdateTimeslotThursday(e, index);
-                              }}
-                              className="border border-purple-500  outline-none text-xs"
-                            >
-                              {dataTime.map((datahour) => (
-                                <option key={datahour.id} value={datahour.hour}>
-                                  {datahour.hour}
-                                </option>
-                              ))}
-                            </Select>
+                          <div className="flex flex-col sm:flex-row">
+                            <div className="flex flex-col pl-[90px] sm:pl-[2px] ">
+                              <div className="flex flex-col pr-[180px] sm:pr-[220px]">
+                                <Typography
+                                  fontSize="sm"
+                                  className="py-2 sm:text-start"
+                                >
+                                  Form
+                                </Typography>
+                              </div>
+                              <Select
+                                borderRadius="md"
+                                borderSize="timeSelect"
+                                name="from"
+                                defaultValue={
+                                  dataTime.find((item) => item.hour === "9:00")
+                                    ?.hour
+                                }
+                                onChange={(e) => {
+                                  handleUpdateTimeslotThursday(e, index);
+                                }}
+                                className="border border-purple-500  outline-none text-xs"
+                              >
+                                {dataTime.map((datahour) => (
+                                  <option key={datahour.id} value={datahour.hour}>
+                                    {datahour.hour}
+                                  </option>
+                                ))}
+                              </Select>
+                            </div>
                           </div>
-                          <div className="flex flex-col pl-[20px] sm:pl-[2px]">
+                          <div className="flex flex-col pl-[90px] sm:pl-[2px]">
+                            <div className="flex flex-col pr-[180px] sm:pr-[220px]">
+                              <Typography
+                                fontSize="sm"
+                                className="py-2 sm:text-start"
+                              >
+                                To
+                              </Typography>
+                            </div>
                             <Select
                               borderRadius="md"
                               borderSize="timeSelect"
@@ -976,27 +989,27 @@ const TimeAvailableForm = ({
                             >
                               {selectThursday[index].from
                                 ? dataTime.map((data, idx) => {
-                                    // Find index of option `to` base on the value of option `to`
-                                    const toIndex = dataTime.findIndex(
-                                      (eachSlot) =>
-                                        eachSlot.hour ===
-                                        selectThursday[index].to
-                                    );
+                                  // Find index of option `to` base on the value of option `to`
+                                  const toIndex = dataTime.findIndex(
+                                    (eachSlot) =>
+                                      eachSlot.hour ===
+                                      selectThursday[index].to
+                                  );
 
-                                    // Return only hour greater than the `from` value
-                                    if (idx > toIndex - 1) {
-                                      return (
-                                        <option key={data.id} value={data.hour}>
-                                          {data.hour}
-                                        </option>
-                                      );
-                                    }
-                                  })
+                                  // Return only hour greater than the `from` value
+                                  if (idx > toIndex - 1) {
+                                    return (
+                                      <option key={data.id} value={data.hour}>
+                                        {data.hour}
+                                      </option>
+                                    );
+                                  }
+                                })
                                 : dataTime.map((data) => (
-                                    <option key={data.id} value={data.hour}>
-                                      {data.hour}
-                                    </option>
-                                  ))}
+                                  <option key={data.id} value={data.hour}>
+                                    {data.hour}
+                                  </option>
+                                ))}
                             </Select>
                           </div>
                           <div className="flex flex-col items-center py-2">
@@ -1024,12 +1037,11 @@ const TimeAvailableForm = ({
                             )}
                           </div>
                         </div>
-
                         {index === selectThursday.length - 1 && (
                           <button
                             onClick={() => handleAddNewTimeslotThursday()}
                           >
-                            <small className=" underline font-bold">
+                            <small className=" underline font-bold  sm:text-md pl-[20px]">
                               Add another timeslot
                             </small>
                           </button>
@@ -1040,6 +1052,7 @@ const TimeAvailableForm = ({
                 )}
               </div>
             </div>
+            {/* friday */}
             <div className="flex flex-row">
               <div className="flex  pt-[10px]">
                 <InputForm
@@ -1120,26 +1133,26 @@ const TimeAvailableForm = ({
                             >
                               {selectFriday[index].from
                                 ? dataTime.map((data, idx) => {
-                                    // Find index of option `to` base on the value of option `to`
-                                    const toIndex = dataTime.findIndex(
-                                      (eachSlot) =>
-                                        eachSlot.hour === selectFriday[index].to
-                                    );
+                                  // Find index of option `to` base on the value of option `to`
+                                  const toIndex = dataTime.findIndex(
+                                    (eachSlot) =>
+                                      eachSlot.hour === selectFriday[index].to
+                                  );
 
-                                    // Return only hour greater than the `from` value
-                                    if (idx > toIndex - 1) {
-                                      return (
-                                        <option key={data.id} value={data.hour}>
-                                          {data.hour}
-                                        </option>
-                                      );
-                                    }
-                                  })
+                                  // Return only hour greater than the `from` value
+                                  if (idx > toIndex - 1) {
+                                    return (
+                                      <option key={data.id} value={data.hour}>
+                                        {data.hour}
+                                      </option>
+                                    );
+                                  }
+                                })
                                 : dataTime.map((data) => (
-                                    <option key={data.id} value={data.hour}>
-                                      {data.hour}
-                                    </option>
-                                  ))}
+                                  <option key={data.id} value={data.hour}>
+                                    {data.hour}
+                                  </option>
+                                ))}
                             </Select>
                           </div>
                           <div className="flex flex-col items-center py-2">
@@ -1179,6 +1192,7 @@ const TimeAvailableForm = ({
                 )}
               </div>
             </div>
+            {/* saturday */}
             <div className="flex flex-row">
               <div className="flex  pt-[10px]">
                 <InputForm
@@ -1259,27 +1273,27 @@ const TimeAvailableForm = ({
                             >
                               {selectSaturday[index].from
                                 ? dataTime.map((data, idx) => {
-                                    // Find index of option `to` base on the value of option `to`
-                                    const toIndex = dataTime.findIndex(
-                                      (eachSlot) =>
-                                        eachSlot.hour ===
-                                        selectSaturday[index].to
-                                    );
+                                  // Find index of option `to` base on the value of option `to`
+                                  const toIndex = dataTime.findIndex(
+                                    (eachSlot) =>
+                                      eachSlot.hour ===
+                                      selectSaturday[index].to
+                                  );
 
-                                    // Return only hour greater than the `from` value
-                                    if (idx > toIndex - 1) {
-                                      return (
-                                        <option key={data.id} value={data.hour}>
-                                          {data.hour}
-                                        </option>
-                                      );
-                                    }
-                                  })
+                                  // Return only hour greater than the `from` value
+                                  if (idx > toIndex - 1) {
+                                    return (
+                                      <option key={data.id} value={data.hour}>
+                                        {data.hour}
+                                      </option>
+                                    );
+                                  }
+                                })
                                 : dataTime.map((data) => (
-                                    <option key={data.id} value={data.hour}>
-                                      {data.hour}
-                                    </option>
-                                  ))}
+                                  <option key={data.id} value={data.hour}>
+                                    {data.hour}
+                                  </option>
+                                ))}
                             </Select>
                           </div>
                           <div className="flex flex-col items-center py-2">
@@ -1323,6 +1337,7 @@ const TimeAvailableForm = ({
                 )}
               </div>
             </div>
+            {/* sunday */}
             <div className="flex flex-row">
               <div className="flex  pt-[10px]">
                 <InputForm
@@ -1403,26 +1418,26 @@ const TimeAvailableForm = ({
                             >
                               {selectSunday[index].from
                                 ? dataTime.map((data, idx) => {
-                                    // Find index of option `to` base on the value of option `to`
-                                    const toIndex = dataTime.findIndex(
-                                      (eachSlot) =>
-                                        eachSlot.hour === selectSunday[index].to
-                                    );
+                                  // Find index of option `to` base on the value of option `to`
+                                  const toIndex = dataTime.findIndex(
+                                    (eachSlot) =>
+                                      eachSlot.hour === selectSunday[index].to
+                                  );
 
-                                    // Return only hour greater than the `from` value
-                                    if (idx > toIndex - 1) {
-                                      return (
-                                        <option key={data.id} value={data.hour}>
-                                          {data.hour}
-                                        </option>
-                                      );
-                                    }
-                                  })
+                                  // Return only hour greater than the `from` value
+                                  if (idx > toIndex - 1) {
+                                    return (
+                                      <option key={data.id} value={data.hour}>
+                                        {data.hour}
+                                      </option>
+                                    );
+                                  }
+                                })
                                 : dataTime.map((data) => (
-                                    <option key={data.id} value={data.hour}>
-                                      {data.hour}
-                                    </option>
-                                  ))}
+                                  <option key={data.id} value={data.hour}>
+                                    {data.hour}
+                                  </option>
+                                ))}
                             </Select>
                           </div>
                           <div className="flex flex-col items-center py-2">
