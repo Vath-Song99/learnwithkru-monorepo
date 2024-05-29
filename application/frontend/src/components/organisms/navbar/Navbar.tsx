@@ -16,7 +16,6 @@ import { ProfileDropDown } from "@/components/molecules/profile-dropdown";
 import { Notification } from "@/components/organisms/notification";
 import { Mycontext } from "@/context/CardContext";
 import axios from "axios";
-import { useAuth } from "@/context/AuthContext";
 const itemsDropdown = [
   {
     itemName: "English",
@@ -117,12 +116,14 @@ interface NavbarProps {
   className?: string;
   setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   isShowModal: boolean;
+  authState: { isAuth: boolean; user: any };
 }
 
 const Navbar: React.FC<NavbarProps> = ({
   className,
   setIsShowModal,
   isShowModal,
+  authState,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string | null>("Home");
@@ -139,7 +140,6 @@ const Navbar: React.FC<NavbarProps> = ({
   // login
   const [isLogin, setIsLogin] = useState(false);
 
-  const { authState, logout } = useAuth();
   return (
     <nav
       className={`w-[80%] h-[100px] flex justify-between items-center  ${className}`}
@@ -175,25 +175,22 @@ const Navbar: React.FC<NavbarProps> = ({
 
       {/* right */}
 
-
-      {
-        authState.isAuthenticated ? (
-          <div className="lg:w-1/3 lg:h-1/3 lg:flex lg:items-center lg:justify-center ">
-            <div className="flex items-center">
-              <ButtonDropDown
-                options={options}
-                onChange={handleChange}
-                className="md:inline xl:inline lg:flex lg:items-start lg:mr-7 "
-              ></ButtonDropDown>
-              <div className="w-1/3 flex items-center justify-evenly">
-                {/* Vertical Line */}
-                <div className="h-5 w-[1px] bg-gray-400 lg:inline hidden"></div>
-
-
-              </div>
-              <Notification className="hidden lg:inline lg:ml-7 lg:mt-2"></Notification>
-              <ProfileDropDown
-                icon={
+      {authState.isAuth ? (
+        <div className="lg:w-1/3 lg:h-1/3 lg:flex lg:items-center lg:justify-center ">
+          <div className="flex items-center">
+            <ButtonDropDown
+              options={options}
+              onChange={handleChange}
+              className="md:inline xl:inline lg:flex lg:items-start lg:mr-7 "
+            ></ButtonDropDown>
+            <div className="w-1/3 flex items-center justify-evenly">
+              {/* Vertical Line */}
+              <div className="h-5 w-[1px] bg-gray-400 lg:inline hidden"></div>
+            </div>
+            <Notification className="hidden lg:inline lg:ml-7 lg:mt-2"></Notification>
+            <ProfileDropDown
+              icon={
+                authState.user.picture === null ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -208,41 +205,52 @@ const Navbar: React.FC<NavbarProps> = ({
                       d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
                     />
                   </svg>
-                }
-                className="ml-10 hidden sm:hidden md:hidden xl:inline lg:inline"
-                onChange={handleChange}
-              > </ProfileDropDown>
-            </div>
-          </div>
-        ) : (
-          <div className="lg:w-1/2 lg:h-full lg:flex lg:items-center lg:justify-end hidden ">
-            <Link
-              href={"login"}
-              className="text-[#455445] text-sm flex  hover:underline"
+                ) : (
+                  <Image
+                    src={authState.user.picture}
+                    alt="user's profile picture"
+                    width={500}
+                    height={500}
+                    className="w-40 rounded-full"
+                  ></Image>
+                )
+              }
+              className="ml-10 hidden sm:hidden md:hidden xl:inline lg:inline"
+              onChange={handleChange}
             >
-              Log in
-            </Link>
+              {" "}
+            </ProfileDropDown>
+          </div>
+        </div>
+      ) : (
+        <div className="lg:w-1/2 lg:h-full lg:flex lg:items-center lg:justify-end hidden ">
+          <Link
+            href={"login"}
+            className="text-[#455445] text-sm flex  hover:underline"
+          >
+            Log in
+          </Link>
 
-            <div className="w-1/3 flex items-center justify-evenly ">
-              {/* vertical Line */}
-              <div className="h-5 w-[1px] border-l-2 border-[#756739]"></div>
-              <Link
-                href={"signup"}
-                className="text-[#9B90C2] text-sm hover:underline"
-              >
-                Sign up for free
-              </Link>
-            </div>
+          <div className="w-1/3 flex items-center justify-evenly ">
+            {/* vertical Line */}
+            <div className="h-5 w-[1px] border-l-2 border-[#756739]"></div>
             <Link
               href={"signup"}
               className="text-[#9B90C2] text-sm hover:underline"
             >
-              <Button className="px-4 py-2" colorScheme="primary">
-                Get Started
-              </Button>
+              Sign up for free
             </Link>
           </div>
-        )}
+          <Link
+            href={"signup"}
+            className="text-[#9B90C2] text-sm hover:underline"
+          >
+            <Button className="px-4 py-2" colorScheme="primary">
+              Get Started
+            </Button>
+          </Link>
+        </div>
+      )}
 
       {/* Start mobile screen */}
       <button
@@ -268,8 +276,9 @@ const Navbar: React.FC<NavbarProps> = ({
       </button>
       {/* Slider Navbar Content */}
       <div
-        className={`fixed lg:hidden xl:hidden inset-y-0 right-0 flex flex-col items-start z-50 bg-white w-64 md:w-72 lg:w-80 xl:w-96 shadow-lg transform transition-all duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+        className={`fixed lg:hidden xl:hidden inset-y-0 right-0 flex flex-col items-start z-50 bg-white w-64 md:w-72 lg:w-80 xl:w-96 shadow-lg transform transition-all duration-300 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         <div className="flex items-center justify-between w-full px-4 py-2">
           <div className="flex">
@@ -358,7 +367,9 @@ const Navbar: React.FC<NavbarProps> = ({
                   style={{ marginTop: "0.5rem" }}
                 />
               )}
-              <Link href={"become-a-teacher-signup-steps"}>Become a teacher</Link>
+              <Link href={"become-a-teacher-signup-steps"}>
+                Become a teacher
+              </Link>
             </li>
             <li
               className="cursor-pointer py-3 hover:underline relative"

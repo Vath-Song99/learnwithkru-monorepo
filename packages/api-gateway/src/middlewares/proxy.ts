@@ -82,10 +82,9 @@ const proxyConfigs: ProxyConfig = {
               (req as Request).session!.jwt = responseBody.token;
               res.cookie("persistent", responseBody.token, OptionCookie);
             }
-            // Modify response to send  the message and user's data to the client
+            // Modify response to send  the message to the client
             res.json({
-              message: responseBody.message,
-              data: responseBody.data,
+              message: responseBody.message
             });
           } catch (error) {
             return res.status(500).json({ message: "Error parsing response" });

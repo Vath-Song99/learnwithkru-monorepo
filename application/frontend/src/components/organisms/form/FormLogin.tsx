@@ -16,7 +16,6 @@ const DEFAULT_FORM_VALUE = {
   email: "",
   password: "",
 };
-import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 const FormLogin = () => {
@@ -25,7 +24,6 @@ const FormLogin = () => {
   const [formData, setFormData] = useState<UsersFormLogin>(DEFAULT_FORM_VALUE);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const { login } = useAuth();
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -79,7 +77,6 @@ const FormLogin = () => {
           return false
         }
         console.log(response.data);
-        login(response.data.data)
         router.push('/')
         // window.location.href = "http://localhost:8000/teacher-list"
       } catch (error) {
