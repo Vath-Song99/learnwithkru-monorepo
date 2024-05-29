@@ -80,23 +80,23 @@ const DescriptionForm = ({
     }
   };
   return (
-    <div className="w-[564px] h-auto ">
-      <Typography align="left" fontSize="lg" variant="bold" className="py-2">
+    <div className="w-[370px] sm:w-[460px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-auto flex flex-col items-center  ">
+      <Typography align="left" fontSize="lg" variant="bold" className="py-2 pl-5 sm:pl-0 flex justify-start w-full ">
         {title}
       </Typography>
-      <Typography align="left" fontSize="sm" className="py-2">
+      <Typography align="left" fontSize="sm" className="py-2 pl-5 sm:pl-0 flex justify-start ">
         {description}
       </Typography>
       <form action="" onSubmit={handleSubmit}>
-        <div className="w-full grid grid-flow-row gap-3 py-3">
-          <div className="flex flex-col">
-            <div className="flex justify-start">
-              <div className="flex flex-col pl-[20px] mt-[60px]">
-                <label htmlFor="bio" className="text-sm ">
-                  Bio
+        <div className="flex flex-col items-start  gap-4 py-3 ">
+          <div className="flex flex-col items-end ">
+            <div className="flex justify-start item ">
+              <div className="flex flex-col w-20  sm:mt-[45px] mt-[40px]">
+                <label htmlFor="bio" className="text-sm">
+                  BIO
                 </label>
               </div>
-              <div className="flex flex-col pl-[60px] sm:pl-[150px]">
+              <div className="flex flex-col pl-0">
                 <textarea
                   id="bio"
                   name="bio"
@@ -113,14 +113,14 @@ const DescriptionForm = ({
               </div>
             </div>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col items-center ">
             <div className="flex justify-start">
-              <div className="flex flex-col sm:mt-[45px] mt-[40px]">
-                <label htmlFor="bio" className="text-sm">
+              <div className="flex flex-col w-20 sm:mt-[45px] mt-[40px]">
+                <label htmlFor="bio" className="text-sm text-wrap ">
                   teaching experience
                 </label>
               </div>
-              <div className="flex flex-col pl-0 sm:pl-[45px]">
+              <div className="flex flex-col pl-0 ">
                 <textarea
                   id="teachingExperience"
                   name="teachingExperience"
@@ -137,14 +137,14 @@ const DescriptionForm = ({
               </div>
             </div>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col items-center ">
             <div className="flex justify-start">
-              <div className="flex flex-col mt-[40px] sm:mt-[45px] pl-0">
-                <label htmlFor="bio" className="text-sm">
+              <div className="flex flex-col w-20 sm:mt-[45px] mt-[40px]">
+                <label htmlFor="bio" className="text-sm  text-wrap">
                   Motivate potential study
                 </label>
               </div>
-              <div className="flex flex-col pl-0 sm:pl-[20px]">
+              <div className="flex flex-col pl-0">
                 <textarea
                   id="bio"
                   name="motivatePotentail"
@@ -167,7 +167,7 @@ const DescriptionForm = ({
               please input the video about yourself
               <div className="">
                 <span className="text-sm flex justify-center">{fileLabel}</span>
-                <label className="w-full h-27 flex flex-col items-center px-4 py-6  border-purple-500  bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-gray-400">
+                <label className="w-[380px] sm:w-[570px] h-27 flex flex-col items-center py-6  border-purple-500  bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-gray-400">
                   <svg
                     className="w-8 h-8"
                     fill="currentColor"
@@ -202,8 +202,8 @@ const DescriptionForm = ({
               </div>
             )}
           </div>
-          <div className="flex flex-col">
-            <div className="flex justify-end">
+          <div className="flex flex-col items-end">
+            <div className="flex justify-center ">
               <Button
                 type="submit"
                 radius="md"
