@@ -1,3 +1,4 @@
+import { Button } from "@/components/atoms";
 import { FilterDropdown } from "@/components/molecules";
 import React from "react";
 
@@ -60,8 +61,8 @@ const pricingDropDown = [
 
 const FilterTeachers = () => {
   return (
-    <div className="w-full flex justify-center items-center">
-      <div className="w-[80%] flex justify-between items-start flex-wrap gap-2">
+    <div className="w-[80%] flex mx-auto justify-between items-center">
+      <div className="w-[80%] flex justify-between items-start flex-wrap">
         <FilterDropdown nameDropdown="Subject" itemsDropdown={itemsDropdown} />
         <FilterDropdown
           nameDropdown="Time Available"
@@ -75,8 +76,8 @@ const FilterTeachers = () => {
           nameDropdown="Pricing"
           itemsDropdown={pricingDropDown}
         />
-
       </div>
+      <Button className="w-[10%] h-[40px]" radius="md">Search</Button>
     </div>
   );
 };
