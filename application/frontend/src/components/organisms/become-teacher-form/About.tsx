@@ -124,7 +124,7 @@ const AboutForm = ({
   };
 
   return (
-    <div className=" h-auto w-[464px] sm:w-[480px] md:w-[500px]" id={`${id}`}>
+    <div className=" h-auto w-[300px] sm:w-[480px] md:w-[500px] lg:w-[500px] " id={`${id}`}>
       <Typography align="left" fontSize="lg" variant="bold" className="py-2">
         {title}
       </Typography>
@@ -132,15 +132,15 @@ const AboutForm = ({
         {description}
       </Typography>
       <form action="" onSubmit={handleSubmit}>
-        <div className="flex flex-col  gap-4 sm:gap-4">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:gap-4 gap-4">
-            <div className="flex flex-col">
+        <div className="flex flex-col  gap-4 ">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col w-full sm:w-auto ">
               <InputForm
                 type="text"
                 placeholder="First name"
                 borderRadius="md"
                 borderSize="md"
-                className="border border-purple-500 sm:w-[240px]  pl-3 outline-none text-xs"
+                className="border border-purple-500  outline-none text-xs  w-full sm:w-[240px]"
                 name="firstname"
                 value={formData.firstname}
                 onChange={onChangeInput}
@@ -159,7 +159,7 @@ const AboutForm = ({
                 placeholder="Last name"
                 borderRadius="md"
                 borderSize="md"
-                className="border border-purple-500 sm:w-[240px] pl-3 outline-none text-xs"
+                className="border border-purple-500  w-full sm:w-[240px] outline-none text-xs"
                 name="lastname"
                 value={formData.lastname}
                 onChange={onChangeInput}
@@ -173,7 +173,7 @@ const AboutForm = ({
               )}
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row sm:justify-between  sm:gap-x-[10px] ">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:gap-x-[10px] ">
             <div className="flex flex-col">
               <div className="flex items-center w-full  sm:w-[240px]">
                 <button

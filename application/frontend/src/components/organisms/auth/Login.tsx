@@ -7,7 +7,9 @@ import FormLogin from "../form/FormLogin";
 import { useRouter } from "next/navigation";
 const Login = () => {
 
+
   const router = useRouter()
+
   const [loading, setLoading] = useState(false);
 
   const handleSigninWithGoogle = () => {
@@ -39,33 +41,38 @@ const Login = () => {
     }
   };
   return (
-    <div className=" w-full h-[100vh] flex justify-center items-center ">
-      <div className="w-[900px] h-[600px] flex justify-between items-center border shadow-md">
-        <div className="w-1/2 flex items-center justify-center">
+    <div className=" w-full h-[100vh] flex justify-center items-center">
+      <div className="w-[900px] h-[600px] flex justify-between items-center">
+        {/* form */}
+        <div className="w-full flex items-center justify-center">
           <div className="">
             <h1 className="text-3xl tracking-wide font-bold pb-5">
               Login with Kru
             </h1>
-            <h1 className="text-xs tracking-wide pb-5 underline  ">
+            <h1 className="text-xs tracking-wide pb-5 underline">
               {" "}
               don&apos;t have an account?{" "}
-
               <Link
                 href={"/signup"}
-                className="text-[#7B2CBF] hover:text-[gray]">
+                className="text-[#7B2CBF] hover:text-[gray]"
+              >
                 {" "}
                 sign up
               </Link>
             </h1>
 
             <div className="grid gap-3">
-              <Button onClick={handleSigninGoogle} className="flex items-center justify-evenly w-[300px] h-[50px]  bg-[#f3f3f3] rounded-md hover:bg-[#d2d0d0]">
+              <Button
+                onClick={handleSigninGoogle}
+                className="flex items-center justify-evenly w-[300px] h-[50px]  bg-[#f3f3f3] rounded-md hover:bg-[#d2d0d0]"
+              >
                 <svg
                   width="25"
                   height="24"
                   viewBox="0 0 25 24"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <g clip-path="url(#clip0_2202_1265)">
                     <path
                       d="M12.4998 9.81836V14.4656H18.9579C18.6743 15.9602 17.8233 17.2257 16.547 18.0766L20.4415 21.0984C22.7106 19.0039 24.0197 15.9276 24.0197 12.273C24.0197 11.4221 23.9433 10.6039 23.8015 9.81849L12.4998 9.81836Z"
@@ -97,29 +104,38 @@ const Login = () => {
                 </svg>
                 <div className="text-sm text-slate-950 mr-[20px] ">
                   {" "}
-                  <p className="text-sm text-slate-950  ">{loading ? 'Signing in...' : 'Sign in with Google'}</p>
+                  <p className="text-sm text-slate-950  ">
+                    {loading ? "Signing in..." : "Sign in with Google"}
+                  </p>
                 </div>
               </Button>
-              <Button onClick={handleSigninFacebook} className="flex items-center justify-evenly    w-[300px] h-[50px]   bg-[#f3f3f3] rounded-md  hover:bg-[#d2d0d0]">
+              <Button
+                onClick={handleSigninFacebook}
+                className="flex items-center justify-evenly    w-[300px] h-[50px]   bg-[#f3f3f3] rounded-md  hover:bg-[#d2d0d0]"
+                radius="xl"
+              >
                 <svg
                   width="25"
                   height="24"
                   viewBox="0 0 25 24"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M24.5 12C24.5 5.37264 19.1274 0 12.5 0C5.87264 0 0.5 5.37264 0.5 12C0.5 17.6275 4.37456 22.3498 9.60128 23.6467V15.6672H7.12688V12H9.60128V10.4198C9.60128 6.33552 11.4498 4.4424 15.4597 4.4424C16.22 4.4424 17.5318 4.59168 18.0685 4.74048V8.06448C17.7853 8.03472 17.2933 8.01984 16.6822 8.01984C14.7147 8.01984 13.9544 8.76528 13.9544 10.703V12H17.8741L17.2006 15.6672H13.9544V23.9122C19.8963 23.1946 24.5005 18.1354 24.5005 12H24.5Z"
                     fill="#0866FF"
                   />
                 </svg>
                 <div className="text-sm text-slate-950 ">
-                  <p className="text-sm text-slate-950  ">{loading ? 'Signing in...' : 'Sign in with Facebook'}</p>
+                  <p className="text-sm text-slate-950  ">
+                    {loading ? "Signing in..." : "Sign in with Facebook"}
+                  </p>
                 </div>
               </Button>
               <div className="flex items-center justify-start">
-                <div className="border-t border-black w-[120px] "></div>
+                <div className="border-t border-black w-[125px] "></div>
                 <div className="mx-4 text-black">or</div>
-                <div className="border-t border-black w-[120px] "></div>
+                <div className="border-t border-black w-[125px] "></div>
               </div>
             </div>
             <div className="grid gap-3">
@@ -127,12 +143,14 @@ const Login = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center ">
+        {/* image */}
+        <div className="hidden items-center justify-center sm:hidden md:flex lg:flex xl:flex">
           <Image
             alt="login page"
             src={"/login.png"}
-            width={400}
-            height={400}></Image>
+            width={500}
+            height={500}
+          ></Image>
         </div>
       </div>
     </div>
