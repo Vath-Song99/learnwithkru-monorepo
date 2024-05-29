@@ -28,8 +28,48 @@
 				},
 				"required": [
 					"firstname",
-					"lastname"
+					"lastname",
+					"picture"
 				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserProfile": {
+				"properties": {
+					"firstname": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"picture": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"firstname",
+					"lastname",
+					"picture"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserUpdate": {
+				"properties": {
+					"firstname": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"picture": {
+						"type": "string"
+					}
+				},
 				"type": "object",
 				"additionalProperties": false
 			}
@@ -167,6 +207,87 @@
 						}
 					}
 				]
+			}
+		},
+		"/v1/users/user-profile": {
+			"get": {
+				"operationId": "GetUserProfile",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"$ref": "#/components/schemas/UserProfile"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/v1/users/update/{authId}": {
+			"patch": {
+				"operationId": "UpdateUserByUserId",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"$ref": "#/components/schemas/IUser"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "authId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserUpdate"
+							}
+						}
+					}
+				}
 			}
 		}
 	},

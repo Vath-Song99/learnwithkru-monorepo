@@ -4,27 +4,20 @@ import { Button } from "../..";
 import Image from "next/image";
 import Link from "next/link";
 import FormLogin from "../form/FormLogin";
+import { useRouter } from "next/navigation";
 const Login = () => {
-  // const [formInput, setFormInput] = useState({
-  //   email: "",
-  //   password: "",
-  // })
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target.value;
-  //   setFormInput((prevData) => ({
-  //     ...prevData,
-  //     [name]: value,
-  //   }))
-  // }
+
+  const router = useRouter()
   const [loading, setLoading] = useState(false);
 
   const handleSigninWithGoogle = () => {
     const url = "http://localhost:3000/v1/auth/google";
-    window.location.href = url;
+    
+    router.push(url)
   };
   const handleSigninWithFacebook = () => {
     const url = "http://localhost:3000/v1/auth/facebook";
-    window.location.href = url;
+    router.push(url)
   };
 
   // Example usage: Handling the error at the caller level
