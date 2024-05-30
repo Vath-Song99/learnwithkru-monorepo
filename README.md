@@ -275,7 +275,7 @@ For detailed instructions on setting up and using each service, please refer to 
 
 This User Interface enhances clarity and usability, ensuring an intuitive experience for users of this project.
 
-[![Figma]](Figma-url)
+[![Figma]](https://www.figma.com/design/ij4jlwjEniD1K69xLpaSt0/KRU-UI?node-id=3512-2368&t=fYhAChYZ5bjfHov7-0)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
