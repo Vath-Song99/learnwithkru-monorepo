@@ -117,7 +117,7 @@ export class TeacherRepository {
     }
   }
 
-  async FindTeacherByUserID(userId: string): Promise<ITeacher | null> {
+  async FindTeacherByUserID(userId: string): Promise<IteacherDocs | null> {
     try {
       // Validate input
       if (!userId) {

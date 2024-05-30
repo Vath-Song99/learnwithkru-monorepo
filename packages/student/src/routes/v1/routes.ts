@@ -11,13 +11,13 @@ import type { Request as ExRequest, Response as ExResponse, RequestHandler, Rout
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "Student": {
+    "IStudent": {
         "dataType": "refObject",
         "properties": {
-            "schoolName": {"dataType":"string","required":true},
+            "school_name": {"dataType":"string","required":true},
             "education": {"dataType":"string","required":true},
             "grade": {"dataType":"double","required":true},
-            "studentCard": {"dataType":"string"},
+            "student_card": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -38,7 +38,7 @@ export function RegisterRoutes(app: Router) {
 
             async function StudentController_Signup(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"Student"},
+                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"IStudent"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 
@@ -52,6 +52,36 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'Signup',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/v1/students/login/:userId',
+            ...(fetchMiddlewares<RequestHandler>(StudentController)),
+            ...(fetchMiddlewares<RequestHandler>(StudentController.prototype.Login)),
+
+            async function StudentController_Login(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    userId: {"in":"path","name":"userId","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new StudentController();
+
+              await templateService.apiHandler({
+                methodName: 'Login',
                 controller,
                 response,
                 next,
