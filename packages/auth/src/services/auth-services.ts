@@ -1,20 +1,20 @@
 import StatusCode from "../utils/http-status-code";
 import {
-  decodedToken,
   generatePassword,
   generateSignature,
   validatePassword,
 } from "../utils/jwt";
 import { AccountVerificationRepository } from "../database/repositories/account-verification.repository";
 import { OauthConfig } from "../utils/oauth-configs";
-import { AuthService, ResetPasswordService } from "./@types/auth-service-type";
+import { AuthService } from "./@types/auth-service-type";
 import { AuthRepository } from "../database/repositories/auth.respository";
 import { TokenResponse } from "../utils/@types/oauth.type";
-import { IUser, Login } from "../@types/user.type";
+import { IUser, Login, ResetPassword } from "../@types/user.type";
 import { ApiError, BaseCustomError } from "../error/base-custom-error";
 import { RequestUserService } from "../utils/http-request";
 import { logger } from "../utils/logger";
 import { SendVerifyEmailService } from "./verify-email-services";
+import { DecodedUser } from "../@types/express-extend.type";
 
 export class AuthServices {
   private AuthRepo: AuthRepository;
@@ -99,7 +99,7 @@ export class AuthServices {
       const userInfoResponse = await googleConfig.GoogleAccessInfo(accessToken);
       const { given_name, family_name, email, id, verified_email, picture } =
         userInfoResponse.data;
-      
+
       const user = await this.AuthRepo.FindUserByEmail({ email });
       if (user) {
         if (!user.googleId) {
@@ -119,7 +119,7 @@ export class AuthServices {
             email: newUser!.email as string,
             picture: newUser!.picture as string,
           };
-          
+
           const requestUser = new RequestUserService();
           const { data } = await requestUser.UpdateUser(userData);
           const { _id } = data;
@@ -209,6 +209,19 @@ export class AuthServices {
         );
         throw new ApiError("User doesn't exist!", StatusCode.NOT_FOUND);
       }
+
+      // step 5
+      // const existStudent = await requestUser.LoginStudent(data._id.toString());
+
+      // if (existStudent.token) {
+      //   return { data: existStudent.data, token: existStudent.token };
+      // }
+
+      // const existTeacher = await requestUser.LoginTeacher(data._id.toString());
+
+      // if (existTeacher.token) {
+      //   return { data: existTeacher.data, token: existTeacher.token };
+      // }
       const jwtToken = await generateSignature({
         _id: data._id.toString(),
       });
@@ -331,41 +344,59 @@ export class AuthServices {
     }
   }
 
-  async ConfirmResetPassword(requestBody: ResetPasswordService) {
+  async ConfirmResetPassword(requestBody: ResetPassword) {
     //**************** */
     // 1. check old passwrod that exist
     // 2 hash new password
     // 3 create new user to database
     try {
-      const { currentPassword, newPassword, token } = requestBody;
+      // const {  newPassword } = requestBody;
 
-      const { id } = await decodedToken(token);
+      // const existingUser = await this.AuthRepo.FindAuthById({ id });
 
-      const existingUser = await this.AuthRepo.FindUserById({ id });
+      // if (!existingUser) {
+      //   throw new BaseCustomError("User not found!", StatusCode.NOT_FOUND);
+      // }
 
-      if (!existingUser) {
-        throw new BaseCustomError("User not found!", StatusCode.NOT_FOUND);
-      }
+      // const isPwdCorrect = await validatePassword({
+      //   enteredPassword: newPassword,
+      //   savedPassword: existingUser.password as string,
+      // });
 
-      const isPwdCorrect = await validatePassword({
-        enteredPassword: currentPassword,
-        savedPassword: existingUser.password as string,
-      });
+      // if (!isPwdCorrect) {
+      //   throw new BaseCustomError("password is exist", StatusCode.BAD_REQUEST);
+      // }
 
-      if (!isPwdCorrect) {
-        throw new BaseCustomError("Invalid Password!", StatusCode.BAD_REQUEST);
-      }
+      // const hashedPassword = await generatePassword(newPassword);
 
-      const hashedPassword = await generatePassword(newPassword);
-
-      existingUser.password = hashedPassword;
-      await existingUser.save();
+      // existingUser.password = hashedPassword;
+      // await existingUser.save();
+      return requestBody;
     } catch (error: unknown) {
       logger.error("This error accurs in ConfirmResetPassword method!", error);
       if (error instanceof BaseCustomError) {
         throw error;
       }
       throw new ApiError("Somthing went  wrong!");
+    }
+  }
+
+  async Logout(decodedUser: DecodedUser): Promise<boolean> {
+    try {
+      const { id, role } = decodedUser;
+      const protectedRoles = ["teacher", "student"];
+
+      if (protectedRoles.includes(role)) {
+        throw new ApiError(`Unable role ${role} to logout!`)
+      }
+      const userreq = new RequestUserService();
+      const existingUser = userreq.GetUser(id)
+      if (!existingUser) {
+        throw new ApiError("No user found!", StatusCode.NOT_FOUND);
+      }
+      return true;
+    } catch (error: unknown) {
+      throw error;
     }
   }
 }

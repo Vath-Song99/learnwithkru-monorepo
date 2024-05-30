@@ -167,7 +167,7 @@ AuthRoute.get(
       const { code } = req.query;
       const queryCode = code as string;
       const controller = new AuthController()
-      const respone = await controller.FacebookOAuth(queryCode);
+      const respone = await controller.facebookOAuth(queryCode);
 
       res.status(StatusCode.OK).json({
         message: 'success',

@@ -70,4 +70,18 @@ export class TeacherController extends Controller {
       throw error;
     }
   }
+
+  @SuccessResponse(StatusCode.OK, "OK")
+  @Get(PATH_TEACHER.login)
+  async Login(
+    @Path() userId: string
+  ): Promise<{ message: string; token: string }> {
+    try {
+      const service = new TeacherServices();
+      const respone = await service.Login(userId);
+      return { message: "Success login",token: respone.token };
+    } catch (error: unknown) {
+      throw error;
+    }
+  }
 }

@@ -24,8 +24,8 @@
 					"subject": {
 						"type": "string"
 					},
-					"is_degree": {
-						"type": "boolean"
+					"province": {
+						"type": "string"
 					},
 					"university": {
 						"type": "string"
@@ -37,20 +37,37 @@
 					"type_degree": {
 						"type": "string"
 					},
-					"specialization": {
-						"type": "string"
-					},
 					"bio": {
-						"type": "string"
-					},
-					"teacher_experience": {
 						"type": "string"
 					},
 					"motivation": {
 						"type": "string"
 					},
 					"date_available": {
-						"additionalProperties": false,
+						"properties": {
+							"time": {
+								"properties": {
+									"end": {
+										"type": "string"
+									},
+									"start": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"end",
+									"start"
+								],
+								"type": "object"
+							},
+							"day": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"time",
+							"day"
+						],
 						"type": "object"
 					},
 					"price": {
@@ -70,13 +87,11 @@
 					"picture",
 					"phone_number",
 					"subject",
-					"is_degree",
+					"province",
 					"university",
 					"year_experience",
 					"type_degree",
-					"specialization",
 					"bio",
-					"teacher_experience",
 					"motivation",
 					"date_available",
 					"price",
@@ -245,6 +260,50 @@
 					{
 						"in": "path",
 						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/v1/teachers/login/{userId}": {
+			"get": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"token": {
+											"type": "string"
+										},
+										"data": {
+											"$ref": "#/components/schemas/ITeacher"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"token",
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
 						"required": true,
 						"schema": {
 							"type": "string"
