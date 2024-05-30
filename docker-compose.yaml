@@ -65,6 +65,8 @@ services:
     env_file: ./packages/auth/configs/.env
     environment:
       USER_SERVICE: http://user:3004
+      TEACHER_SERVICE: http://teacher:3002
+      STUDENT_SERVICE: http://student:3003
       RABBITMQ_ENDPOINT: amqp://learnwithkru:kruIimage@rabbitmq_container:5672
     depends_on:
       rabbitmq:

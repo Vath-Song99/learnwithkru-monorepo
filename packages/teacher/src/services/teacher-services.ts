@@ -62,4 +62,14 @@ export class TeacherServices {
       throw error;
     }
   }
+
+  async Login(userId: string):Promise<{token: string}>{
+    try{
+      const existingTeacher = await this.teacherRepo.FindTeacherByUserID(userId) 
+      const token = await generateSignature({_id: existingTeacher!.id.toString()})
+      return { token}
+    }catch(error: unknown){
+      throw error
+    }
+  }
 }

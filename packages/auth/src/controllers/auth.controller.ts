@@ -13,11 +13,13 @@ import {
   Body,
   Query,
   Controller,
-  Header,
+  Header
 } from "tsoa";
 import { SendVerifyEmailService } from "../services/verify-email-services";
 import { OauthConfig } from "../utils/oauth-configs";
 import getConfig from "../utils/config";
+import { ApiError } from "../error/base-custom-error";
+import { decodedToken } from "../utils/jwt";
 @Route("/v1/auth")
 export class AuthController extends Controller {
   @Post(PATH_AUTH.signUp)
@@ -185,16 +187,33 @@ export class AuthController extends Controller {
   @Post(PATH_AUTH.ResetPassword)
   async ConfirmResetPassword(
     @Body() requestBody: ResetPassword,
-    @Header("authorization") token: string
   ): Promise<{ message: string }> {
-    const userData = { token, ...requestBody };
+
     try {
       const service = new AuthServices();
-      await service.ConfirmResetPassword(userData);
+      await service.ConfirmResetPassword(requestBody);
 
       return { message: "Success reset password" };
     } catch (error: unknown) {
       throw error;
+    }
+  };
+
+  @SuccessResponse(StatusCode.OK, "OK")
+  @Get(PATH_AUTH.logout)
+  async Logout( @Header("authorization") authorization: string):Promise<{message: string, isLogout: true}>{
+    try{
+      const token = authorization?.split(" ")[1];
+      const decodedUser = await decodedToken(token);
+      const service = new AuthServices();
+      const isLogout = await service.Logout(decodedUser)
+      
+      if(!isLogout){
+        throw new ApiError("Unable to logout!")
+      }
+      return {message: "Success logout", isLogout: isLogout}
+    }catch(error: unknown){
+      throw error
     }
   }
 }
