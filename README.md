@@ -67,6 +67,22 @@ Whether it's mastering a new language, excelling in academic subjects, or acquir
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+### Product Vision board
+Explore our comprehensive vision for the future of our product:
+
+[**Vision**](https://www.canva.com/design/DAGGHgrSSvY/jn45WLCq-MH1G-k0o2kfng/edit)
+
+### Mission
+Discover the core mission driving our innovation and commitment:
+
+[**Mission**](https://www.canva.com/design/DAGGHgrSSvY/jn45WLCq-MH1G-k0o2kfng/edit)
+
+### Business Canva Model
+Review our strategic business model and how we create value:
+
+[**Business Canva Model**](https://www.canva.com/design/DAGGHgrSSvY/jn45WLCq-MH1G-k0o2kfng/edit)
+
 ### Built With
 
 This section lists major frameworks and libraries used in the Learnwithkru project:
