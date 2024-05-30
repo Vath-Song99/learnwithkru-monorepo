@@ -3,8 +3,8 @@ import { TeacherServices } from "../services/teacher-services";
 import { Paginate } from "../@types/paginate.type";
 import { PATH_TEACHER } from "../routes/path-defs";
 import { authorize } from "../middlewares/authorize";
-import { TeacherValidate } from "../middlewares/teacher-validate-input";
-import { teacherSchemas } from "../schemas/teacher-validate";
+import { ValidateInput } from "../middlewares/validate-input";
+import { teacherSchemas } from "../schemas/teacher-schema";
 import { DecodedUser } from "../@types/express-extend.type";
 import {
   Body,
@@ -39,7 +39,7 @@ export class TeacherController extends Controller {
 
   @SuccessResponse(StatusCode.OK, "OK")
   @Post(PATH_TEACHER.teacherSignup)
-  @Middlewares(TeacherValidate(teacherSchemas))
+  @Middlewares(ValidateInput(teacherSchemas))
   @Middlewares(authorize(["user", "teacher"]))
   public async TeacherSingup(
     @Body() requestBody: ITeacher,
@@ -79,7 +79,7 @@ export class TeacherController extends Controller {
     try {
       const service = new TeacherServices();
       const respone = await service.Login(userId);
-      return { message: "Success login",token: respone.token };
+      return { message: "Success login", token: respone.token };
     } catch (error: unknown) {
       throw error;
     }

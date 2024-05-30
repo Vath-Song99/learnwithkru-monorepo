@@ -387,10 +387,10 @@ export class AuthServices {
       const protectedRoles = ["teacher", "student"];
 
       if (protectedRoles.includes(role)) {
-        throw new ApiError(`Unable role ${role} to logout!`)
+        throw new ApiError(`Unable role ${role} to logout!`);
       }
       const userreq = new RequestUserService();
-      const existingUser = userreq.GetUser(id)
+      const existingUser = userreq.GetUser(id);
       if (!existingUser) {
         throw new ApiError("No user found!", StatusCode.NOT_FOUND);
       }

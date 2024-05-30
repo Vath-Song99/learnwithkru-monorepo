@@ -3,8 +3,8 @@ import { PATH_TEACHER } from "../path-defs";
 import { TeacherController } from "../../controllers/teacher.controller";
 import StatusCode from "../../utils/http-status-code";
 import { Paginate } from "../../@types/paginate.type";
-import { teacherSchemas } from "../../schemas/teacher-validate";
-import { TeacherValidate } from "../../middlewares/teacher-validate-input";
+import { teacherSchemas } from "../../schemas/teacher-schema";
+import { TeacherValidate } from "../../middlewares/validate-input";
 import { authorize } from "../../middlewares/authorize";
 
 const TeacherRoute = Router();

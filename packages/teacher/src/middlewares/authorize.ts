@@ -5,7 +5,7 @@ import StatusCode from "../utils/http-status-code";
 import { DecodedUser } from "../@types/express-extend.type";
 import { logger } from "../utils/logger";
 
-interface RequestWithUser extends Request {
+export interface RequestWithUser extends Request {
   user: DecodedUser;
 }
 
@@ -23,11 +23,13 @@ export const authorize = (requireRole: string[]) => {
         );
       }
       (req as RequestWithUser).user = decoded;
-      
-      logger.info(`User with role '${role}' authorized for '${requireRole}' role`);
+
+      logger.info(
+        `User with role '${role}' authorized for '${requireRole}' role`
+      );
       _next();
     } catch (error: unknown) {
-      logger.error('Authorization error:', error);
+      logger.error("Authorization error:", error);
       if (error instanceof BaseCustomError) {
         _next(error);
       }
