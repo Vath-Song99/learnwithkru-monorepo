@@ -283,10 +283,10 @@ This User Interface enhances clarity and usability, ensuring an intuitive experi
 
 ## Contact
 
-[@Vath-Song99]
-[@nareth347]
-[@seaporhai]
-[@thon1525]
+[@Vath-Song99](https://github.com/Vath-Song99)
+[@nareth347](https://github.com/nareth347)
+[@seaporhai](https://github.com/seaporhai)
+[@thon1525](https://github.com/thon1525)
 
 Learnwithkru - (https://www.facebook.com/profile.php?id=100092631759554) - learnwithkru287@gmail.com
 
