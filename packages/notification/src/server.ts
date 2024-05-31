@@ -4,13 +4,18 @@ import { startQueue } from './queues/connection';
 import EmailSender from '@notifications/utils/email-sender';
 import NodemailerEmailApi from '@notifications/utils/nodemailer-email-api';
 import getConfig from '@notifications/utils/config';
-
+import Server from 'socket.io';
+import http from 'http';
 async function run() {
   try {
     const config = getConfig();
 
     // Initialize Logger
     logInit({ env: process.env.NODE_ENV, logLevel: config.logLevel });
+
+    // start socket server
+    const socketServer = await http.createServer();
+    const io = new Server(socketServer);
 
     // Activate Email Sender with Nodemailer API
     const emailSender = EmailSender.getInstance();
@@ -21,7 +26,9 @@ async function run() {
     await startQueue();
     logger.info('RabbitMQ queue system started successfully.');
 
-    logger.info(`Worker with process ID ${process.pid} on notification server has started.`);
+    logger.info(
+      `Worker with process ID ${process.pid} on notification server has started.`
+    );
 
     // Start the Notification Server
     const server = app.listen(config.port, () => {

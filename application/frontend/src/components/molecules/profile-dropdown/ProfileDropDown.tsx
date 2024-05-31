@@ -1,5 +1,6 @@
 // components/ProfileDropDown.tsx
 
+import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 interface ProfileDropDownProps {
@@ -40,11 +41,45 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
   const handleItemClick = () => {
     setIsOpen(false);
   };
+  const handleLogout = async (url: string) => {
+    try {
+      const response = await axios.get(url, { withCredentials: true });
+
+      if (response.data.errors) {
+        console.error(`Server error response: ${response.data.errors}`);
+        throw new Error(response.data.errors);
+      }
+
+      return response.data;
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error: ", error.response?.data || error.message);
+      } else {
+        console.error("Unexpected error: ", error);
+      }
+      throw error;
+    }
+  };
+
+  const onLogoutClick = async () => {
+    try {
+      const url = 'http://localhost:3000/v1/auth/logout';
+      const response = await handleLogout(url);
+      console.log("Message response: ", response.message);
+      window.location.reload();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error: ", error.response?.data || error.message);
+      } else {
+        console.error("Unexpected error: ", error);
+      }
+    }
+  };
   return (
     <div className={`relative inline-block ${className}`} ref={dropdownRef}>
       <button
         onClick={toggleDropDown}
-        className="flex items-center justify-center w-[24px] h-[24px] bg-purple-300 rounded-full focus:outline-none"
+        className="flex items-center justify-center w-[30px] h-[30px] bg-purple-300 rounded-full focus:outline-none"
       >
         {/* Add icon here */}
         {icon}
@@ -84,7 +119,7 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
             <Link
               href={""}
               className="block mt-20 px-4 py-2  text-red-500  hover:bg-gray-300  "
-              onClick={handleItemClick}
+              onClick={onLogoutClick}
             >
               Logout
             </Link>

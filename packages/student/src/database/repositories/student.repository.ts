@@ -4,10 +4,10 @@ import { StudentModel } from "../models/student.model";
 
 export class StudentRepository {
   async CreateStudent({
-    schoolName,
+    school_name,
     education,
     grade,
-    studentCard,
+    student_card,
     firstname,
     lastname,
     email,
@@ -19,10 +19,10 @@ export class StudentRepository {
         firstname,
         lastname,
         email,
-        school_name: schoolName,
-        education: education,
+        school_name,
+        education,
         grade: grade,
-        student_card: studentCard,
+        student_card,
       });
 
       if (!newStudent) {
@@ -34,7 +34,7 @@ export class StudentRepository {
     }
   }
 
-  async FindOneStudent(studentId: string) {
+  async FindOneStudent(studentId: string){
     try {
       const student = await StudentModel.findOne({
         _id: studentId,
@@ -42,6 +42,17 @@ export class StudentRepository {
       return await student;
     } catch (error: unknown) {
       throw error;
+    }
+  }
+
+  async FindByUserId(userId: string){
+    try{
+      const existStudent = await StudentModel.findOne({
+        userId: userId
+      });
+      return existStudent
+    }catch(error: unknown){
+      throw error
     }
   }
 }

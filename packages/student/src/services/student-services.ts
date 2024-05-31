@@ -1,9 +1,10 @@
+
 import { StudentRepository } from "../database/repositories/student.repository";
 import { BaseCustomError } from "../error/base-custom-error";
 import StatusCode from "../utils/http-status-code";
 import { getUserById } from "../utils/htttp-request";
 import { generateSignature } from "../utils/jwt";
-import { StudentService } from "./@types/student-service";
+import { IStudentDecoded } from "./@types/student-service";
 
 export class StudentServices {
   public StudentRepo: StudentRepository;
@@ -13,11 +14,11 @@ export class StudentServices {
 
   async Signup({
     decodeId,
-    schoolName,
+    school_name,
     education,
     grade,
-    studentCard,
-  }: StudentService) {
+    student_card,
+  }: IStudentDecoded) {
     try {
       const existingStudent = await this.StudentRepo.FindOneStudent(decodeId);
 
@@ -36,16 +37,27 @@ export class StudentServices {
         firstname,
         lastname,
         email: email as string,
-        schoolName,
+        school_name,
         education,
         grade,
-        studentCard,
+        student_card,
       });
 
       const token = await generateSignature({ _id: newStudent._id.toString() });
       return { data: newStudent, token };
     } catch (error) {
       throw error;
+    }
+  }
+
+  async Login(userId: string):Promise<{ token: string}>{
+    try{
+      const existingStudent = await this.StudentRepo.FindOneStudent(userId);
+
+      const token = await generateSignature({_id: existingStudent!._id.toString()})
+      return {token}
+    }catch(error: unknown){
+      throw error
     }
   }
 }

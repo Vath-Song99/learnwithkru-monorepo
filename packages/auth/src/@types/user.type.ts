@@ -11,14 +11,14 @@ export interface Login {
 }
 
 export interface ResetPassword {
-  currentPassword: string;
   newPassword: string;
 }
 
 export interface IUser {
+
   authId?: string;
   firstname: string;
   lastname: string;
   email?: string;
-  picture?: string | null;
+  picture: string | null;
 }

@@ -1,6 +1,7 @@
 // pages/callback.js
 "use client"
 
+import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -18,15 +19,16 @@ const CallbackRedirect = () => {
       // Code is not present, handle error or redirect accordingly
       console.error('No authorization code found');
       // Redirect to error page or home page
-      router.push('/google/callback');
+      router.push('/');
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   const exchangeCodeForToken = async (code: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/v1/auth/google/callback?code=${code}`);
-      const data = await response.json();
+      const {data} = await axios.get(`http://localhost:3000/v1/auth/google/callback?code=${code}`,{
+        withCredentials: true
+      });
       // Handle successful token exchange, maybe store token in localStorage or cookies
       console.log('Token data:', data);
       // Redirect to dashboard or profile page
