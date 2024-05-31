@@ -1,7 +1,14 @@
 "use client";
 
-import {  Homepage, Navbar } from "@/components";
-import axios from "axios";
+
+import { FilterDropdown, Footer, Homepage, Navbar, SettingProfile } from "@/components";
+import { Select } from "@/components/atoms/select/select";
+import { ButtonDropDown } from "@/components/molecules/button-dropdown";
+import { VerifyEmail } from "@/components/organisms/auth/VerifyEmail";
+import { VerifyLogin } from "@/components/organisms/auth/VerifyLogin";
+import { RatingStar } from "@/components/organisms/rating-star";
+import { Dashboard } from "@/components/templates/Dashboard";
+
 
 import React, { useEffect, useState } from "react";
 
@@ -148,7 +155,7 @@ const Page = () => {
       <div className="w-full flex justify-center items-center">
         <Navbar setIsShowModal={setIsShowModal} isShowModal={isShowModal} authState={authState} />
       </div>
-      <Homepage />
+      <Homepage/>
       <div className="w-full flex justify-center items-start bg-gray-900"></div>
     </div>
   );

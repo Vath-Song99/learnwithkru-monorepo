@@ -13,8 +13,8 @@ const SearchInput = ({ className, setSearch }: { className?: string, setSearch: 
     }
   };
   return (
-    <div className={`w-full ${className}`}>
-      <div className="w-full flex justify-center items-center border shadow-sm py-1  gap-5 ">
+    <div className={`w-[80%] mx-auto ${className}`}>
+      <div className="w-full flex justify-center items-center border shadow-sm rounded-md py-1  gap-5 ">
         <div className="lg:w-[80%] w-[80%] flex items-center justify-between ">
           <div className="flex items-center md:gap-4 gap-">
             <svg
@@ -45,7 +45,9 @@ const SearchInput = ({ className, setSearch }: { className?: string, setSearch: 
 
       <div className="w-full flex justify-center items-center mt-5">
         <div className="lg:w-[80%] w-[80%] flex items-center justify-between ">
-          <div className="flex items-center  md:gap-8 gap-4 ">
+        </div>
+      </div>
+      <div className="flex items-center  md:gap-8 gap-4 ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -70,16 +72,6 @@ const SearchInput = ({ className, setSearch }: { className?: string, setSearch: 
               Choose Option
             </Typography>
           </div>
-          <Typography
-            className="tracking-wide hover:underline  text-xs md:text-sm"
-            align="justify"
-            colorscheme="secondary"
-            variant="normal"
-          >
-            see more
-          </Typography>
-        </div>
-      </div>
     </div>
   );
 };
