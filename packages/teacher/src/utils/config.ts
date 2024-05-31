@@ -5,7 +5,7 @@ function createConfig(configPath: string) {
   dotenv.config({ path: configPath });
 
   // Validate essential configuration
-  const requiredConfig = ["NODE_ENV", "PORT", "MONGODB_URL", "LOG_LEVEL",];
+  const requiredConfig = ["NODE_ENV", "PORT", "MONGODB_URL", "LOG_LEVEL","RABBITMQ_ENDPOINT"];
   const missingConfig = requiredConfig.filter((key) => !process.env[key]);
 
   if (missingConfig.length > 0) {
