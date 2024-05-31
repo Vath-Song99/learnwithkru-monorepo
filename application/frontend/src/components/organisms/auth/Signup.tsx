@@ -9,7 +9,7 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [Password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
- const router = useRouter()
+  const router = useRouter()
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -46,6 +46,8 @@ const Signup = () => {
   return (
     <div className="w-full h-[100vh] flex justify-center items-center  mx-auto">
       {/* form */}
+
+
       <div className="pt-4 pb-8 px-8 flex items-center justify-center">
         <div className="grid gap-3">
           <div className="flex flex-col  gap-2 ">
@@ -92,7 +94,11 @@ const Signup = () => {
                 </svg>
 
                 <p className="text-sm text-slate-950  ">
-                  {loading ? "Signing in..." : "Sign in with Google"}
+                  {loading ?
+                    <div className="flex justify-center items-center">
+                      <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[gray]">
+                      </div>
+                    </div> : "Sign in with Google"}
                 </p>
               </div>
             </Button>
@@ -141,6 +147,7 @@ const Signup = () => {
           </div>
         </div>
       </div>
+
       {/* image */}
       <div className="hidden items-center justify-center sm:hidden md:flex lg:flex xl:flex">
         <Image

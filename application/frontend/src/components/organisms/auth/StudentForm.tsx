@@ -8,19 +8,15 @@ import { studentSchema } from "../../../schema/studentForm";
 import axios from "axios";
 
 interface Student {
-    userId: string;
-    firstname: string;
-    lastname: string;
-    email: string;
     school_name: string;
     education: string;
     grade: string;
-    student_card: string;
+    student_card?: string;
 }
 
 interface FormValues {
     schoolName: string;
-    studentCard: string ;
+    studentCard: string;
     grade: string;
     bio: string;
 }
@@ -30,20 +26,20 @@ const SignupToBecomeStudent = () => {
     const [imageUrl, setImageUrl] = useState<string>("");
     const [previewURL, setPreviewURL] = useState<string | null>(null);
 
-    const [validate, setValidate] = useState<FormValues>({
-        schoolName: "",
-        studentCard: "",
+    const [validate, setValidate] = useState<Student>({
+        school_name: "",
+        student_card: "",
         grade: "",
-        bio: "",
+        education: "",
     });
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     // Student Fetching
 
-    const handlePostStudent = async (formData: FormValues) => {
+    const handlePostStudent = async (formData: Student) => {
         try {
             const API_ENDPOINT = "http://localhost:3000/v1/students/become-student"; // Replace with your actual API endpoint
-            const response = await axios.post(API_ENDPOINT,
+            const response = await axios.post(API_ENDPOINT, formData,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -77,7 +73,8 @@ const SignupToBecomeStudent = () => {
         event.preventDefault();
         try {
             await studentSchema.validate(validate, { abortEarly: false });
-            await handlePostStudent(validate); setErrors({});
+            await handlePostStudent(validate);
+            console.log("Student Data: ", validate);
         } catch (error) {
             if (error instanceof Yup.ValidationError) {
                 const newErrors: { [key: string]: string } = {};
@@ -88,27 +85,28 @@ const SignupToBecomeStudent = () => {
                 });
                 setErrors(newErrors);
             }
+            console.log(errors)
+            alert("Save to DB")
+
         }
     };
 
-    const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const selectedFile = e.target.files?.[0];
-        if (selectedFile) {
-            if (!selectedFile.type.startsWith("image/")) {
-                alert("Please select an image file");
-            } else if (selectedFile.size > 2 * 1024 * 1024) {
-                alert("The file size shou   ld be less than 2MB");
-            } else {
-                const reader = new FileReader();
-                reader.onload = () => {
-                    setImage(selectedFile);
-                    setImageUrl(URL.createObjectURL(selectedFile));
-                    setPreviewURL(reader.result as string);
-                };
-                reader.readAsDataURL(selectedFile);
-            }
-        }
-    };
+    // const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    //     const selectedFile = e.target.files?.[0];
+    //     if (selectedFile) {
+    //         if (selectedFile.size > 2 * 1024 * 1024) {
+    //             alert("The file size should be less than 2MB");
+    //         } else {
+    //             const reader = new FileReader();
+    //             reader.onload = () => {
+    //                 setImage(selectedFile);
+    //                 setImageUrl(URL.createObjectURL(selectedFile));
+    //                 setPreviewURL(reader.result as string);
+    //             };
+    //             reader.readAsDataURL(selectedFile);
+    //         }
+    //     }
+    // };
 
     return (
         <div className="flex flex-col justify-between items-center h-screen">
@@ -144,13 +142,13 @@ const SignupToBecomeStudent = () => {
                                 placeholder="School Name"
                                 borderColor="secondary"
                                 borderRadius="md"
-                                name="schoolName"
+                                name="school_name"
                                 className="border border-[#445455] outline-none w-[300px] h-16 md:w-[350px] sm:w-[350px] lg:w-[500px]"
-                                value={validate.schoolName}
+                                value={validate.school_name}
                                 onChange={handleChange}
                             />
-                            {errors.schoolName && (
-                                <p className="text-red-500 text-nowrap">{errors.schoolName}</p>
+                            {errors.school_name && (
+                                <p className="text-red-500 text-nowrap">{errors.school_name}</p>
                             )}
                         </div>
                         <div>
@@ -163,29 +161,18 @@ const SignupToBecomeStudent = () => {
                                 borderColor="secondary"
                                 borderRadius="md"
                                 paddingY="sm"
-                                onChange={handleFileInputChange}
+                                // onChange={handleFileInputChange}
                                 className="border border-[#445455] outline-none w-[300px] h-16 md:w-[350px] sm:w-[350px] lg:w-[500px]"
                             />
                             {image && (
                                 <div>
                                     <h3>Uploaded Image:</h3>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> 3a2bd4da8e5f8007c9da4493d20e50d9be420fb3
                                     <img
                                         src={imageUrl}
                                         alt="Uploaded Preview"
                                         style={{ width: "300px", height: "auto" }}
                                     />
-<<<<<<< HEAD
-=======
-                                    <Image src={imageUrl} alt="Uploaded Preview" style={{ width: '300px', height: 'auto' }} />
->>>>>>> eb827c4017bdf142022b229d4fdbfd726bb618ea
-=======
 
->>>>>>> 3a2bd4da8e5f8007c9da4493d20e50d9be420fb3
                                 </div>
                             )}
                         </div>
@@ -210,14 +197,14 @@ const SignupToBecomeStudent = () => {
                         <div>
                             <Typography className="flex justify-start">BIO</Typography>
                             <textarea
-                                name="bio"
+                                name="education"
                                 placeholder="Add text"
-                                value={validate.bio}
+                                value={validate.education}
                                 onChange={handleChange}
                                 className="w-[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] h-52 rounded-lg border border-[#445455] outline-none p-3"
                             />
-                            {errors.bio && (
-                                <p className="text-red-500  text-nowrap">{errors.bio}</p>
+                            {errors.education && (
+                                <p className="text-red-500  text-nowrap">{errors.education}</p>
                             )}
                         </div>
                         <div className="w-[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] flex justify-center md:justify-center lg:justify-start">
