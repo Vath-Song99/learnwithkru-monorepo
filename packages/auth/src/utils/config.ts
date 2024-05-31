@@ -46,7 +46,9 @@ function createConfig(configPath: string) {
     googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
     facebookRedirectUrl: process.env.FACEBOOK_REDIRECT_URI,
     googleRedirectUrl: process.env.GOOGLE_REDIRECT_URI,
-    userService: process.env.USER_SERVICE
+    userService: process.env.USER_SERVICE,
+    studentService: process.env.STUDENT_SERVICE,
+    teacherService: process.env.TEACHER_SERVICE
   };
 }
 

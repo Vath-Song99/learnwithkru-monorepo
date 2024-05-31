@@ -4,6 +4,7 @@ import { ApiError, BaseCustomError } from "../../error/base-custom-error";
 import { logger } from "../../utils/logger";
 import teacherModel, { IteacherDocs } from "../models/teacher.model";
 import { ITeacher } from "../../@types/teacher.type";
+import { Filter } from "../../@types/queries.type";
 export class TeacherRepository {
   constructor() {}
 
@@ -44,7 +45,10 @@ export class TeacherRepository {
     }
   }
 
-  async FindAllTeachers({ pageSize, skip }: PaginateRepo): Promise<ITeacher[]> {
+  async FindAllTeachers(
+    { pageSize, skip }: PaginateRepo,
+    filter: Filter
+  ): Promise<{ data: ITeacher[]; totalTeachers: number }> {
     try {
       // Validate inputs
       if (pageSize <= 0 || skip < 0) {
@@ -55,21 +59,18 @@ export class TeacherRepository {
       }
 
       // Fetch teachers from the database
-      const teachers = await teacherModel
-        .find({})
-        .skip(skip)
-        .limit(pageSize)
-        .exec();
+      // Fetch teachers and total count concurrently
+      const [teachers, totalTeachers] = await Promise.all([
+        teacherModel.find(filter).skip(skip).limit(pageSize).lean(),
+        teacherModel.countDocuments(filter),
+      ]);
 
       // Check if teachers are found
       if (!teachers || teachers.length === 0) {
-        throw new ApiError(
-          "Unable to find teachers in the database!",
-          StatusCode.NOT_FOUND
-        );
+        throw new ApiError("No teacher found!", StatusCode.NOT_FOUND);
       }
 
-      return teachers;
+      return { data: teachers, totalTeachers: totalTeachers };
     } catch (error: unknown) {
       // Log the error
       logger.error("Error finding teachers:", error);
@@ -117,7 +118,7 @@ export class TeacherRepository {
     }
   }
 
-  async FindTeacherByUserID(userId: string): Promise<ITeacher | null> {
+  async FindTeacherByUserID(userId: string): Promise<IteacherDocs | null> {
     try {
       // Validate input
       if (!userId) {
