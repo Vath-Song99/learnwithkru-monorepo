@@ -33,7 +33,7 @@ interface ContextProps {
 }
 export const Mycontext = createContext<ContextProps>({
   Data: [],
-  setData: () => {},
+  setData: () => { },
   // addNewAuth: async () => { }
 });
 
@@ -58,22 +58,18 @@ const CardContext = ({ children }: { children: any }) => {
     };
     fetchData(); // Call the fetchData function
   }, []);
+  // const handleRequestTeacher = async () => {
+  //   try {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+  //     const API_ENDPOINT = "http://localhost:3000/v1/teachers"; // Replace with your actual token
+  //     const response = await axios.get(API_ENDPOINT, { withCredentials: true });
 
-    const handleRequestTeacher = async () => {
-      try {
-
-        const API_ENDPOINT = "http://localhost:3000/v1/teachers"; // Replace with your actual token
-        const response = await axios.get(API_ENDPOINT, { withCredentials: true });
-
-        return response.data;
-      } catch (error: any) {
-        console.error("Error fetching teachers:", error);
-        throw error;
-      }
-    };
+  //     return response.data;
+  //   } catch (error: any) {
+  //     console.error("Error fetching teachers:", error);
+  //     throw error;
+  //   }
+  // };
   // const toggleFavorite = (id: string) => {
   //   setData((prevData) => {
   //     if (!id) return prevData; // Check if item is undefined
@@ -90,10 +86,6 @@ const CardContext = ({ children }: { children: any }) => {
 
   //  =========================================================================================
 
-=======
-=======
-
->>>>>>> 3a2bd4da8e5f8007c9da4493d20e50d9be420fb3
   const handleRequestTeacher = async () => {
     try {
       const API_ENDPOINT = "http://localhost:3000/v1/teachers/teacher-list?pageSize=10&pageNumber=1"; // Replace with your actual token
@@ -109,11 +101,6 @@ const CardContext = ({ children }: { children: any }) => {
 
   //  student Fetching
   const [studentData, setStudentData] = useState([]);
-<<<<<<< HEAD
->>>>>>> eb827c4017bdf142022b229d4fdbfd726bb618ea
-=======
-
->>>>>>> 3a2bd4da8e5f8007c9da4493d20e50d9be420fb3
 
   const contextvalue = {
     Data,
