@@ -1,6 +1,6 @@
 import StatusCode from "../utils/http-status-code";
 import { TeacherServices } from "../services/teacher-services";
-import { Paginate } from "../@types/paginate.type";
+import { IQueries } from "../@types/queries.type";
 import { PATH_TEACHER } from "../routes/path-defs";
 import { authorize } from "../middlewares/authorize";
 import { ValidateInput } from "../middlewares/validate-input";
@@ -25,14 +25,25 @@ import { logger } from "../utils/logger";
 export class TeacherController extends Controller {
   @SuccessResponse(StatusCode.OK, "OK")
   @Get(PATH_TEACHER.teacherList)
-  public async TeacherList(
-    @Queries() options: Paginate
-  ): Promise<{ message: string; data: ITeacher[] }> {
+  public async TeacherList(@Queries() queries: IQueries): Promise<{
+    message: string;
+    detail: { totalPages: number; totalTeachers: number; currentPage: number };
+    data: ITeacher[];
+  }> {
     try {
       const service = new TeacherServices();
-      const newTeacher = await service.TeacherList(options);
+      const { totalPages, totalTeachers, data, currentPage } =
+        await service.TeacherList(queries);
 
-      return { message: "Success retrieve teachers", data: newTeacher };
+      return {
+        message: "Success retrieve teachers",
+        data,
+        detail: {
+          totalPages,
+          totalTeachers,
+          currentPage,
+        },
+      };
     } catch (error: unknown) {
       throw error;
     }
@@ -48,7 +59,7 @@ export class TeacherController extends Controller {
   ): Promise<{ data: ITeacher; token: string }> {
     try {
       const userId = (req.user as DecodedUser).id;
-      logger.info(`Catching decode user: ${userId}`)
+      logger.info(`Catching decode user: ${userId}`);
       const service = new TeacherServices();
       const newUser = await service.CreateTeacher(requestBody, userId);
 

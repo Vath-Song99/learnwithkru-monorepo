@@ -383,12 +383,8 @@ export class AuthServices {
 
   async Logout(decodedUser: DecodedUser): Promise<boolean> {
     try {
-      const { id, role } = decodedUser;
-      const protectedRoles = ["teacher", "student"];
+      const { id } = decodedUser;
 
-      if (protectedRoles.includes(role)) {
-        throw new ApiError(`Unable role ${role} to logout!`);
-      }
       const userreq = new RequestUserService();
       const existingUser = userreq.GetUser(id);
       if (!existingUser) {

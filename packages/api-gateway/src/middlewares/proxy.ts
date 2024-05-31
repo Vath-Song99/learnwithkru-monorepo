@@ -61,7 +61,7 @@ const proxyConfigs: ProxyConfig = {
             token?: string;
             redirectUrl?: string;
             errors?: Array<object>;
-            isLogout?: boolean
+            isLogout?: boolean;
           };
 
           try {
@@ -83,9 +83,9 @@ const proxyConfigs: ProxyConfig = {
               delete responseBody.token;
             }
 
-            if(responseBody.isLogout){
-             delete (req as Request).session!.jwt;
-             res.clearCookie("persistent", OptionCookie);
+            if (responseBody.isLogout) {
+              delete (req as Request).session!.jwt;
+              res.clearCookie("persistent", OptionCookie);
             }
             // Modify response to send  the message to the client
             res.json({
@@ -153,11 +153,12 @@ const proxyConfigs: ProxyConfig = {
             token?: string;
             data?: Array<object>;
             errors?: Array<object>;
+            detail?: object;
           };
           try {
             logger.info(`This is bodystring: ${bodyString}`);
             responseBody = JSON.parse(bodyString);
-            logger.info(`Responebody : ${responseBody}`)
+            logger.info(`Responebody : ${responseBody}`);
 
             // If Response Error, Not Modified Response
             if (responseBody.errors) {
@@ -174,6 +175,7 @@ const proxyConfigs: ProxyConfig = {
             res.json({
               message: responseBody.message,
               data: responseBody.data,
+              detail: responseBody.detail,
             });
           } catch (error) {
             return res.status(500).json({ message: "Error parsing response" });
