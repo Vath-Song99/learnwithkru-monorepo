@@ -101,7 +101,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Paginate": {
+			"IQueries": {
 				"properties": {
 					"pageSize": {
 						"type": "number",
@@ -110,6 +110,21 @@
 					"pageNumber": {
 						"type": "number",
 						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"time_available": {
+						"type": "string"
+					},
+					"province": {
+						"type": "string"
+					},
+					"pricing": {
+						"type": "string"
 					}
 				},
 				"required": [
@@ -198,12 +213,27 @@
 											},
 											"type": "array"
 										},
+										"currentPage": {
+											"type": "number",
+											"format": "double"
+										},
+										"totalPages": {
+											"type": "number",
+											"format": "double"
+										},
+										"totalTeachers": {
+											"type": "number",
+											"format": "double"
+										},
 										"message": {
 											"type": "string"
 										}
 									},
 									"required": [
 										"data",
+										"currentPage",
+										"totalPages",
+										"totalTeachers",
 										"message"
 									],
 									"type": "object"
@@ -230,6 +260,46 @@
 						"schema": {
 							"format": "double",
 							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "name",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "subject",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "time_available",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "province",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "pricing",
+						"required": false,
+						"schema": {
+							"type": "string"
 						}
 					}
 				]

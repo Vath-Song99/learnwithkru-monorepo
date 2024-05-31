@@ -14,12 +14,14 @@ const teacherSchema = new Schema({
     minlength: 2,
     maxlength: 25,
     required: true,
+    index: true,
   },
   last_name: {
     type: String,
     minlength: 2,
     maxlength: 25,
     required: true,
+    index: true,
   },
   picture: {
     type: String,
@@ -33,10 +35,12 @@ const teacherSchema = new Schema({
   subject: {
     type: String,
     required: true,
+    index: true,
   },
   province: {
     type: String,
     required: true,
+    index: true,
   },
   university: {
     type: String,
@@ -69,6 +73,7 @@ const teacherSchema = new Schema({
       day: {
         type: String,
         required: true,
+        index: true,
       },
       time: {
         start: {
@@ -86,6 +91,7 @@ const teacherSchema = new Schema({
   price: {
     type: Number,
     required: true,
+    index: true,
   },
   certificate: {
     type: String,

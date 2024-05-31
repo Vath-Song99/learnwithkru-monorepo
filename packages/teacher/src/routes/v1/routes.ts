@@ -35,11 +35,16 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Paginate": {
+    "IQueries": {
         "dataType": "refObject",
         "properties": {
             "pageSize": {"dataType":"double","required":true},
             "pageNumber": {"dataType":"double","required":true},
+            "name": {"dataType":"string"},
+            "subject": {"dataType":"string"},
+            "time_available": {"dataType":"string"},
+            "province": {"dataType":"string"},
+            "pricing": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -82,7 +87,7 @@ export function RegisterRoutes(app: Router) {
 
             async function TeacherController_TeacherList(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    options: {"in":"queries","name":"options","required":true,"ref":"Paginate"},
+                    queries: {"in":"queries","name":"queries","required":true,"ref":"IQueries"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

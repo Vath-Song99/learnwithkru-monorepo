@@ -1,4 +1,4 @@
-import { Paginate } from "../@types/paginate.type";
+import { Filter, IQueries } from "../@types/queries.type";
 import { ITeacher } from "../@types/teacher.type";
 import { IteacherDocs } from "../database/models/teacher.model";
 import { TeacherRepository } from "../database/repositories/teacher.repository";
@@ -13,15 +13,56 @@ export class TeacherServices {
     this.teacherRepo = new TeacherRepository();
   }
 
-  async TeacherList(options: Paginate): Promise<ITeacher[]> {
+  async TeacherList(queries: IQueries): Promise<{
+    totalTeachers: number;
+    totalPages: number;
+    currentPage: number;
+    data: ITeacher[];
+  }> {
     try {
-      const { pageNumber, pageSize } = options as Paginate;
+      const {
+        name,
+        province,
+        time_available,
+        pricing,
+        subject,
+        pageNumber = 1,
+        pageSize = 10,
+      } = queries as IQueries;
       const skip = (pageNumber - 1) * pageSize;
-      const teachers = await this.teacherRepo.FindAllTeachers({
-        pageSize,
-        skip,
-      });
-      return teachers;
+
+      const filter: Filter = {};
+
+      if (name) {
+        const regex = new RegExp(name, "i");
+        filter.$or = [
+          { first_name: regex },
+          { last_name: regex },
+          { province: regex },
+          { "date_available.day": regex },
+          { "date_available.time.start": regex },
+          { "date_available.time.end": regex },
+          { pricing: regex }, // Adjust if pricing is not a string
+          { subject: regex },
+        ];
+      } // Case-insensitive regex search
+      if (province) filter.province = province;
+      if (time_available) filter["date_available.day"] = time_available;
+      if (pricing) filter.pricing = { $eq: Number(pricing) }; // Adjust as necessary
+      if (subject) filter.subject = subject;
+      const { totalTeachers, data } = await this.teacherRepo.FindAllTeachers(
+        {
+          pageSize,
+          skip,
+        },
+        filter
+      );
+      return {
+        totalTeachers: totalTeachers,
+        totalPages: Math.ceil(totalTeachers / pageSize),
+        currentPage: pageNumber,
+        data,
+      };
     } catch (error: unknown) {
       throw error;
     }
@@ -35,7 +76,7 @@ export class TeacherServices {
       const teacherData = { userId, ...requestBody };
       const existTeacher = await this.teacherRepo.FindTeacherByUserID(userId);
 
-      logger.info(`Existing teacher: ${existTeacher}`)
+      logger.info(`Existing teacher: ${existTeacher}`);
       if (existTeacher) {
         throw new BaseCustomError(
           "you aready become a teacher !",
@@ -65,13 +106,17 @@ export class TeacherServices {
     }
   }
 
-  async Login(userId: string):Promise<{token: string}>{
-    try{
-      const existingTeacher = await this.teacherRepo.FindTeacherByUserID(userId) 
-      const token = await generateSignature({_id: existingTeacher!.id.toString()})
-      return { token}
-    }catch(error: unknown){
-      throw error
+  async Login(userId: string): Promise<{ token: string }> {
+    try {
+      const existingTeacher = await this.teacherRepo.FindTeacherByUserID(
+        userId
+      );
+      const token = await generateSignature({
+        _id: existingTeacher!.id.toString(),
+      });
+      return { token };
+    } catch (error: unknown) {
+      throw error;
     }
   }
 }

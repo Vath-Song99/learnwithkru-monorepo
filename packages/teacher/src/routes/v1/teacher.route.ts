@@ -2,7 +2,7 @@ import { NextFunction, Router, Request, Response } from "express";
 import { PATH_TEACHER } from "../path-defs";
 import { TeacherController } from "../../controllers/teacher.controller";
 import StatusCode from "../../utils/http-status-code";
-import { Paginate } from "../../@types/paginate.type";
+import { Paginate } from "../../@types/queries.type";
 import { teacherSchemas } from "../../schemas/teacher-schema";
 import { TeacherValidate } from "../../middlewares/validate-input";
 import { authorize } from "../../middlewares/authorize";
