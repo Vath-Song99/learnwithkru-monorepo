@@ -44,12 +44,14 @@
 						"type": "string"
 					},
 					"picture": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					}
 				},
 				"required": [
 					"firstname",
-					"lastname"
+					"lastname",
+					"picture"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -72,15 +74,11 @@
 			},
 			"ResetPassword": {
 				"properties": {
-					"currentPassword": {
-						"type": "string"
-					},
 					"newPassword": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"currentPassword",
 					"newPassword"
 				],
 				"type": "object",
@@ -318,7 +316,7 @@
 			}
 		},
 		"/v1/auth/google/callback": {
-			"post": {
+			"get": {
 				"operationId": "GoogleOAuth",
 				"responses": {
 					"200": {
@@ -362,8 +360,8 @@
 			}
 		},
 		"/v1/auth/facebook/callback": {
-			"post": {
-				"operationId": "FacebookOAuth",
+			"get": {
+				"operationId": "FacebookOAuthCallBack",
 				"responses": {
 					"200": {
 						"description": "OK",
@@ -474,16 +472,7 @@
 					}
 				},
 				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
+				"parameters": [],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -494,6 +483,50 @@
 						}
 					}
 				}
+			}
+		},
+		"/v1/auth/logout": {
+			"get": {
+				"operationId": "Logout",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"isLogout": {
+											"type": "boolean",
+											"enum": [
+												true
+											],
+											"nullable": false
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"isLogout",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		}
 	},

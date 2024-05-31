@@ -29,7 +29,7 @@ const models: TsoaRoute.Models = {
             "firstname": {"dataType":"string","required":true},
             "lastname": {"dataType":"string","required":true},
             "email": {"dataType":"string"},
-            "picture": {"dataType":"string"},
+            "picture": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
         },
         "additionalProperties": false,
     },
@@ -46,7 +46,6 @@ const models: TsoaRoute.Models = {
     "ResetPassword": {
         "dataType": "refObject",
         "properties": {
-            "currentPassword": {"dataType":"string","required":true},
             "newPassword": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
@@ -240,7 +239,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/v1/auth/google/callback',
+        app.get('/v1/auth/google/callback',
             ...(fetchMiddlewares<RequestHandler>(AuthController)),
             ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.GoogleOAuth)),
 
@@ -270,11 +269,11 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/v1/auth/facebook/callback',
+        app.get('/v1/auth/facebook/callback',
             ...(fetchMiddlewares<RequestHandler>(AuthController)),
-            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.FacebookOAuth)),
+            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.FacebookOAuthCallBack)),
 
-            async function AuthController_FacebookOAuth(request: ExRequest, response: ExResponse, next: any) {
+            async function AuthController_FacebookOAuthCallBack(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     code: {"in":"query","name":"code","required":true,"dataType":"string"},
             };
@@ -288,7 +287,7 @@ export function RegisterRoutes(app: Router) {
                 const controller = new AuthController();
 
               await templateService.apiHandler({
-                methodName: 'FacebookOAuth',
+                methodName: 'FacebookOAuthCallBack',
                 controller,
                 response,
                 next,
@@ -337,7 +336,6 @@ export function RegisterRoutes(app: Router) {
             async function AuthController_ConfirmResetPassword(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     requestBody: {"in":"body","name":"requestBody","required":true,"ref":"ResetPassword"},
-                    token: {"in":"header","name":"authorization","required":true,"dataType":"string"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -350,6 +348,36 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'ConfirmResetPassword',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/v1/auth/logout',
+            ...(fetchMiddlewares<RequestHandler>(AuthController)),
+            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.Logout)),
+
+            async function AuthController_Logout(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new AuthController();
+
+              await templateService.apiHandler({
+                methodName: 'Logout',
                 controller,
                 response,
                 next,

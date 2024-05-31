@@ -1,4 +1,4 @@
-import { IUser } from "../../@types/user.type";
+import { IUser, UserUpdate } from "../../@types/user.type";
 import { ApiError } from "../../error/base-custom-error";
 import { UserModel } from "../models/user.model";
 
@@ -29,7 +29,6 @@ export class UserRepository {
       const user = await UserModel.findOne({
         _id: userId,
       });
-      console.log("Repo:", user);
       return user;
     } catch (error: unknown) {
       throw error;
@@ -48,28 +47,21 @@ export class UserRepository {
     }
   }
 
-  async UpdateUser(
-    userId: string,
-    {
-      firstname,
-      lastname,
-      picture,
-    }: { firstname: string; lastname: string; picture: string }
-  ) {
+  async  UpdateUser(authId: string, userUpdate: UserUpdate) {
     try {
-      const newUser = await UserModel.findByIdAndUpdate(
-        {
-          _id: userId,
-        },
-        { firstname, lastname, picture },
-        { new: true }
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { authId },
+        { $set: userUpdate },
+        { new: true, runValidators: true }
       );
-      if (!newUser) {
-        throw new ApiError("Unable to update user in database!");
+  
+      if (!updatedUser) {
+        throw new ApiError('Unable to update user in database!');
       }
-      return newUser;
+  
+      return updatedUser;
     } catch (error: unknown) {
-      throw error;
+      throw new ApiError(`Failed to update user: ${error}`);
     }
   }
 

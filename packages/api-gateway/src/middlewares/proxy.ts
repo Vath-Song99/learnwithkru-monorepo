@@ -6,7 +6,6 @@ import getConfig from "../utils/createConfig";
 import { StatusCode } from "../utils/consts";
 import { ROUTE_PATHS } from "@api-gateway/route-defs";
 
-
 import { OptionCookie } from "@api-gateway/utils/cookieOption";
 
 interface ProxyConfig {
@@ -62,30 +61,35 @@ const proxyConfigs: ProxyConfig = {
             token?: string;
             redirectUrl?: string;
             errors?: Array<object>;
+            isLogout?: boolean;
           };
 
           try {
-            logger.info("Res BodyString: ", bodyString);
+            console.log("body string", bodyString);
             responseBody = JSON.parse(bodyString);
-
-            if(responseBody.redirectUrl){
-              return res.redirect(responseBody.redirectUrl);
-            }
-
+            console.log("ResponeBody:", responseBody);
             // If Response Error, Not Modified Response
             if (responseBody.errors) {
               return res.status(proxyRes.statusCode!).json(responseBody);
             }
+            if (responseBody.redirectUrl) {
+              return res.redirect(responseBody.redirectUrl);
+            }
 
             // Store JWT in session
             if (responseBody.token) {
-              res.cookie("persistent", responseBody.token, OptionCookie);
               (req as Request).session!.jwt = responseBody.token;
+              res.cookie("persistent", responseBody.token, OptionCookie);
+              delete responseBody.token;
             }
-            // Modify response to send  the message and user's data to the client
+
+            if (responseBody.isLogout) {
+              delete (req as Request).session!.jwt;
+              res.clearCookie("persistent", OptionCookie);
+            }
+            // Modify response to send  the message to the client
             res.json({
               message: responseBody.message,
-              data: responseBody.data,
             });
           } catch (error) {
             return res.status(500).json({ message: "Error parsing response" });
@@ -149,10 +153,13 @@ const proxyConfigs: ProxyConfig = {
             token?: string;
             data?: Array<object>;
             errors?: Array<object>;
+            detail?: object;
           };
           try {
-            logger.info("This is bodystring: ", bodyString);
+            logger.info(`This is bodystring: ${bodyString}`);
             responseBody = JSON.parse(bodyString);
+            logger.info(`Responebody : ${responseBody}`);
+
             // If Response Error, Not Modified Response
             if (responseBody.errors) {
               return res.status(proxyRes.statusCode!).json(responseBody);
@@ -160,12 +167,15 @@ const proxyConfigs: ProxyConfig = {
 
             if (responseBody.token) {
               (req as Request).session!.jwt = responseBody.token;
+              res.cookie("persistent", responseBody.token, OptionCookie);
               delete responseBody.token;
             }
             // Modify response to send  the message and user to client to the client
+            console.log(responseBody.data);
             res.json({
               message: responseBody.message,
               data: responseBody.data,
+              detail: responseBody.detail,
             });
           } catch (error) {
             return res.status(500).json({ message: "Error parsing response" });
@@ -233,11 +243,14 @@ const proxyConfigs: ProxyConfig = {
           try {
             responseBody = JSON.parse(bodyString);
             // If Response Error, Not Modified Response
+            console.log("ResponeBody:", responseBody);
+
             if (responseBody.errors) {
               return res.status(proxyRes.statusCode!).json(responseBody);
             }
             if (responseBody.token) {
               (req as Request).session!.jwt = responseBody.token;
+              res.cookie("persistent", responseBody.token, OptionCookie);
               delete responseBody.token;
             }
             // Modify response to send only the message to the client
@@ -295,7 +308,7 @@ const proxyConfigs: ProxyConfig = {
         const token = expressReq.session!.jwt;
         proxyReq.setHeader("Authorization", `Bearer ${token}`);
       },
-      proxyRes: (proxyRes, req, res) => {
+      proxyRes: (proxyRes, _req, res) => {
         let originalBody: Buffer[] = [];
         proxyRes.on("data", function (chunk: Buffer) {
           originalBody.push(chunk);
@@ -305,18 +318,15 @@ const proxyConfigs: ProxyConfig = {
           let responseBody: {
             message?: string;
             data?: Array<object>;
-            token?: string;
             errors?: Array<object>;
           };
           try {
             responseBody = JSON.parse(bodyString);
+            console.log("ResponeBody:", responseBody);
+
             // If Response Error, Not Modified Response
             if (responseBody.errors) {
               return res.status(proxyRes.statusCode!).json(responseBody);
-            }
-            if (responseBody.token) {
-              (req as Request).session!.jwt = responseBody.token;
-              delete responseBody.token;
             }
             // Modify response to send only the message to the client
             res.json({

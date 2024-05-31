@@ -13,11 +13,13 @@ import {
   Body,
   Query,
   Controller,
-  Header,
+  Header
 } from "tsoa";
 import { SendVerifyEmailService } from "../services/verify-email-services";
 import { OauthConfig } from "../utils/oauth-configs";
-
+import getConfig from "../utils/config";
+import { ApiError } from "../error/base-custom-error";
+import { decodedToken } from "../utils/jwt";
 @Route("/v1/auth")
 export class AuthController extends Controller {
   @Post(PATH_AUTH.signUp)
@@ -96,8 +98,9 @@ export class AuthController extends Controller {
   @SuccessResponse(StatusCode.FOUND, "FOUND")
   @Get(PATH_AUTH.googleOAuth)
   public async googleOAuth(): Promise<{ redirectUrl: string }> {
-    const redirectUri = process.env.GOOGLE_REDIRECT_URI as string;
-    const clientId = process.env.GOOGLE_CLIENT_ID as string;
+    const config = getConfig()
+    const redirectUri = config.googleRedirectUrl!;
+    const clientId =  config.googleClientId!;
 
     try {
       const googleConfig = await OauthConfig.getInstance();
@@ -111,12 +114,13 @@ export class AuthController extends Controller {
   @SuccessResponse(StatusCode.FOUND, "FOUND")
   @Get(PATH_AUTH.facebookOAuth)
   public async facebookOAuth(): Promise<{ redirectUrl: string }> {
-    const redirectUri = process.env.FACEBOOK_APP_ID as string;
-    const clientId = process.env.FACEBOOK_APP_SECRET as string;
+    const config = getConfig()
+    const redirectUri = config.facebookRedirectUrl!;
+    const appId =  config.faceAppId!;
 
     try {
       const googleConfig = await OauthConfig.getInstance();
-      const authUrl = await googleConfig.GoogleConfigUrl(clientId, redirectUri);
+      const authUrl = await googleConfig.FacebookConfigUrl(appId, redirectUri);
       return { redirectUrl: authUrl };
     } catch (error) {
       throw error;
@@ -124,15 +128,16 @@ export class AuthController extends Controller {
   }
 
   @SuccessResponse(StatusCode.OK, "OK")
-  @Post(PATH_AUTH.googleOAuthCallBack)
+  @Get(PATH_AUTH.googleOAuthCallBack)
   async GoogleOAuth(
     @Query() code: string
   ): Promise<{ message: string; data: IUser; token: string }> {
     try {
+ 
       const authService = new AuthServices();
       const user = await authService.SigninWithGoogleCallBack(code);
 
-      const { firstname, lastname, email, picture } = user.data as IUser;
+      const { firstname, lastname, email, picture } = user.data;
       return {
         message: "Success signup",
         data: { firstname, lastname, email, picture },
@@ -144,8 +149,8 @@ export class AuthController extends Controller {
   }
 
   @SuccessResponse(StatusCode.OK, "OK")
-  @Post(PATH_AUTH.facebookOAuthCallBack)
-  async FacebookOAuth(
+  @Get(PATH_AUTH.facebookOAuthCallBack)
+  async FacebookOAuthCallBack(
     @Query() code: string
   ): Promise<{ message: string; data: IUser; token: string }> {
     try {
@@ -182,16 +187,33 @@ export class AuthController extends Controller {
   @Post(PATH_AUTH.ResetPassword)
   async ConfirmResetPassword(
     @Body() requestBody: ResetPassword,
-    @Header("authorization") token: string
   ): Promise<{ message: string }> {
-    const userData = { token, ...requestBody };
+
     try {
       const service = new AuthServices();
-      await service.ConfirmResetPassword(userData);
+      await service.ConfirmResetPassword(requestBody);
 
       return { message: "Success reset password" };
     } catch (error: unknown) {
       throw error;
+    }
+  };
+
+  @SuccessResponse(StatusCode.OK, "OK")
+  @Get(PATH_AUTH.logout)
+  async Logout( @Header("authorization") authorization: string):Promise<{message: string, isLogout: true}>{
+    try{
+      const token = authorization?.split(" ")[1];
+      const decodedUser = await decodedToken(token);
+      const service = new AuthServices();
+      const isLogout = await service.Logout(decodedUser)
+      
+      if(!isLogout){
+        throw new ApiError("Unable to logout!")
+      }
+      return {message: "Success logout", isLogout: isLogout}
+    }catch(error: unknown){
+      throw error
     }
   }
 }
