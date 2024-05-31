@@ -115,4 +115,4 @@ services:
       - ./packages/teacher/public:/app/public
     env_file: ./packages/teacher/configs/.env
     environment:
-      - RABBITMQ_ENDPOINT: amqp://learnwithkru:kruIimage@rabbitmq_container:5672
+      RABBITMQ_ENDPOINT: amqp://learnwithkru:kruIimage@rabbitmq_container:5672
