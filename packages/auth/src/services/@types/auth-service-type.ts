@@ -1,4 +1,4 @@
-import { ResetPassword, UserSignup } from "../../@types/user.type";
+import {  UserSignup } from "../../@types/user.type";
 
 export interface AuthService extends UserSignup{
     
@@ -14,6 +14,6 @@ export interface UserService extends UserSignup {
     authId: string
 }
 
-export interface ResetPasswordService extends ResetPassword{
-    token: string
-}
+// export interface ResetPasswordService extends ResetPassword{
+//     token: string
+// }

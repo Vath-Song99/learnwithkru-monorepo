@@ -78,7 +78,6 @@ export class UserServices {
     try {
       const user = (await this.UserRepo.FindUser(userId)) as IUser;
 
-      console.log(user);
       if (!user) {
         throw new ApiError("Unable to find user in database!");
       }
