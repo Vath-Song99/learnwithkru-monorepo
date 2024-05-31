@@ -67,12 +67,11 @@ const proxyConfigs: ProxyConfig = {
           try {
             console.log("body string", bodyString);
             responseBody = JSON.parse(bodyString);
-
+            console.log("ResponeBody:", responseBody);
             // If Response Error, Not Modified Response
             if (responseBody.errors) {
               return res.status(proxyRes.statusCode!).json(responseBody);
             }
-            console.log("ResponeBody:", responseBody);
             if (responseBody.redirectUrl) {
               return res.redirect(responseBody.redirectUrl);
             }
@@ -156,8 +155,10 @@ const proxyConfigs: ProxyConfig = {
             errors?: Array<object>;
           };
           try {
-            logger.info("This is bodystring: ", bodyString);
+            logger.info(`This is bodystring: ${bodyString}`);
             responseBody = JSON.parse(bodyString);
+            logger.info(`Responebody : ${responseBody}`)
+
             // If Response Error, Not Modified Response
             if (responseBody.errors) {
               return res.status(proxyRes.statusCode!).json(responseBody);
@@ -240,6 +241,8 @@ const proxyConfigs: ProxyConfig = {
           try {
             responseBody = JSON.parse(bodyString);
             // If Response Error, Not Modified Response
+            console.log("ResponeBody:", responseBody);
+
             if (responseBody.errors) {
               return res.status(proxyRes.statusCode!).json(responseBody);
             }
@@ -317,6 +320,8 @@ const proxyConfigs: ProxyConfig = {
           };
           try {
             responseBody = JSON.parse(bodyString);
+            console.log("ResponeBody:", responseBody);
+
             // If Response Error, Not Modified Response
             if (responseBody.errors) {
               return res.status(proxyRes.statusCode!).json(responseBody);

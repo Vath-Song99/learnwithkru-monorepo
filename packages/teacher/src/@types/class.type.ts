@@ -8,3 +8,4 @@ export interface IClassRespone extends IClass {
   _id: string;
   teacherId: string;
 }
+

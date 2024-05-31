@@ -17,7 +17,7 @@ const models: TsoaRoute.Models = {
             "school_name": {"dataType":"string","required":true},
             "education": {"dataType":"string","required":true},
             "grade": {"dataType":"double","required":true},
-            "student_card": {"dataType":"string"},
+            "student_card": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },

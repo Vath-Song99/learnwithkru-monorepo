@@ -26,7 +26,8 @@
 				"required": [
 					"school_name",
 					"education",
-					"grade"
+					"grade",
+					"student_card"
 				],
 				"type": "object",
 				"additionalProperties": false

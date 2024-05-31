@@ -5,6 +5,7 @@ import { TeacherRepository } from "../database/repositories/teacher.repository";
 import { BaseCustomError } from "../error/base-custom-error";
 import StatusCode from "../utils/http-status-code";
 import { generateSignature } from "../utils/jwt";
+import { logger } from "../utils/logger";
 
 export class TeacherServices {
   private teacherRepo: TeacherRepository;
@@ -34,6 +35,7 @@ export class TeacherServices {
       const teacherData = { userId, ...requestBody };
       const existTeacher = await this.teacherRepo.FindTeacherByUserID(userId);
 
+      logger.info(`Existing teacher: ${existTeacher}`)
       if (existTeacher) {
         throw new BaseCustomError(
           "you aready become a teacher !",

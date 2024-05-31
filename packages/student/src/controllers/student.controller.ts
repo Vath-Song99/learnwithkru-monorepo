@@ -15,12 +15,15 @@ import StatusCode from "../utils/http-status-code";
 import { PATH_STUDENT } from "../routes/path-defs";
 import { authorize } from "../middlewares/authorize";
 import { DecodedUser } from "../@types/express-extend.type";
+import { studentValidate } from "../middlewares/student-validate";
+import { StudentSchemas } from "../schemas/student-validate";
 
 @Route("/v1/students")
 export class StudentController extends Controller {
   @SuccessResponse(StatusCode.OK, "OK")
-  @Post(PATH_STUDENT.SIGNUP)
   @Middlewares(authorize(["student", "user"]))
+  @Middlewares(studentValidate(StudentSchemas))
+  @Post(PATH_STUDENT.SIGNUP)
   async Signup(
     @Body() requestBody: IStudent,
     @Request() req: Express.Request
