@@ -67,7 +67,7 @@ const ForgetPassword = () => {
 
   return (
     <>
-      <div className="flex flex-col mx-auto w-full md:w-[65%] lg:w-[40%] xl:w-[40%] h-[480px] gap-y-5 border items-center rounded-md shadow-lg justify-center">
+      <div className="flex flex-col mx-auto mt-10 w-full md:w-[55%] lg:w-[40%] xl:w-[35%] h-[480px] gap-y-5 border items-center rounded-md shadow-lg justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -87,8 +87,8 @@ const ForgetPassword = () => {
 
         {/* input form */}
 
-        <div className="flex flex-col w-[80%] gap-y-5">
-          <form onSubmit={handleSubmit}>
+        <div className="flex flex-col w-[80%]">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <InputForm
               className="w-full border-gray-400 focus:outline-[#7B2CBF]"
               type="email"
@@ -120,7 +120,7 @@ const ForgetPassword = () => {
               password at least 8 characters
             </Typography>
             <div className="flex justify-center">
-              <Button type="submit" className="w-[50%] h-[45px] mb-3" radius="md">
+              <Button type="submit" className="w-[50%] h-[40px] mb-3" radius="md">
                 Forgot password
               </Button>
             </div>
