@@ -20,6 +20,7 @@ export interface BecomeTeacherFormTypes {
   currentPage?: number;
   pageIndex?: number[];
   setCurrentPage: Dispatch<SetStateAction<number>>;
+  setdataTutor?:  any
 }
 
 export interface TimeAvailableFormTypes extends BecomeTeacherFormTypes {

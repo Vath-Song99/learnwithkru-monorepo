@@ -4,6 +4,7 @@ import React, {
   ChangeEvent,
   FormEvent,
   FormEventHandler,
+  useEffect,
   useState,
 } from "react";
 import { AboutFormProps, BecomeTeacherFormTypes } from "./@types";
@@ -67,10 +68,12 @@ const AboutForm = ({
   currentPage,
   pageIndex,
   setCurrentPage,
+  setdataTutor,
 }: BecomeTeacherFormTypes) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] = useState<AboutFormProps>(DEFAULT_FORM_VALUE);
   const [isFormComplete, setIsFormComplete] = useState(false);
+  // const [dataTutor, setdataTutor] = useState<any>(null);
   const onChangeInput = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
@@ -102,6 +105,13 @@ const AboutForm = ({
     try {
       await becomeTeacher.validate(formData, { abortEarly: false });
       setIsFormComplete(true);
+      console.log("user",formData)
+      setdataTutor((prev: any) => {
+        // Spread the previous state
+        const newState = { ...prev, ...formData };
+        // Return the new state
+        return newState;
+      });
       if (pageIndex !== undefined) {
         // use pageIndex here
         setCurrentPage((prevPage) =>
