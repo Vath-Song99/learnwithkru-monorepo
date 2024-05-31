@@ -1,6 +1,10 @@
-import { Student } from "../../@types/student.type";
+import { IStudent } from "../../@types/student.type";
 
 
-export interface StudentService extends Student {
+export interface IStudentDecoded extends IStudent {
     decodeId: string
+}
+
+export interface IStudentLogin extends IStudent {
+    userId: string
 }

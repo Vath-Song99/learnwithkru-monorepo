@@ -35,7 +35,20 @@ export async function startQueue(): Promise<void> {
     const emailChannel: Channel = (await createQueueConnection()) as Channel;
     await consumeAuthEmailMessages(emailChannel);
   } catch (error) {
-    throw error
+    throw error;
   }
-
 }
+
+// Socket.IO setup
+io.on('connection', (socket) => {
+  console.log('a user connected');
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+
+  socket.on('chat message', (msg) => {
+    console.log('message: ' + msg);
+    channel.sendToQueue('messages', Buffer.from(msg));
+  });
+});
