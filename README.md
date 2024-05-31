@@ -67,6 +67,22 @@ Whether it's mastering a new language, excelling in academic subjects, or acquir
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+### Product Vision board
+Explore our comprehensive vision for the future of our product:
+
+[**Vision**](https://www.canva.com/design/DAGGHgrSSvY/jn45WLCq-MH1G-k0o2kfng/edit)
+
+### Mission
+Discover the core mission driving our innovation and commitment:
+
+[**Mission**](https://www.canva.com/design/DAGGHgrSSvY/jn45WLCq-MH1G-k0o2kfng/edit)
+
+### Business Canva Model
+Review our strategic business model and how we create value:
+
+[**Business Canva Model**](https://www.canva.com/design/DAGGHgrSSvY/jn45WLCq-MH1G-k0o2kfng/edit)
+
 ### Built With
 
 This section lists major frameworks and libraries used in the Learnwithkru project:
@@ -275,7 +291,7 @@ For detailed instructions on setting up and using each service, please refer to 
 
 This User Interface enhances clarity and usability, ensuring an intuitive experience for users of this project.
 
-[![Figma]](Figma-url)
+[![Figma]](https://www.figma.com/design/ij4jlwjEniD1K69xLpaSt0/KRU-UI?node-id=3512-2368&t=fYhAChYZ5bjfHov7-0)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -283,10 +299,10 @@ This User Interface enhances clarity and usability, ensuring an intuitive experi
 
 ## Contact
 
-[@Vath-Song99]
-[@nareth347]
-[@seaporhai]
-[@thon1525]
+[@Vath-Song99](https://github.com/Vath-Song99)
+[@nareth347](https://github.com/nareth347)
+[@seaporhai](https://github.com/seaporhai)
+[@thon1525](https://github.com/thon1525)
 
 Learnwithkru - (https://www.facebook.com/profile.php?id=100092631759554) - learnwithkru287@gmail.com
 
