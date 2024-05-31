@@ -4,6 +4,7 @@ import { ITeacher } from "../../@types/teacher.type";
 export interface IteacherDocs extends ITeacher, Document {
   userId: string;
 }
+
 const teacherSchema = new Schema({
   userId: {
     type: String,
@@ -13,32 +14,38 @@ const teacherSchema = new Schema({
     minlength: 2,
     maxlength: 25,
     required: true,
+    index: true,
   },
   last_name: {
     type: String,
     minlength: 2,
     maxlength: 25,
     required: true,
+    index: true,
   },
   picture: {
     type: String,
   },
+  phone_number: {
+    type: String,
+    minlength: 8,
+    match: /^\+?(?:855|0)\d{8}$/,
+    required: true,
+  },
   subject: {
     type: String,
     required: true,
-  },
-  phone_number: {
-    type: String,
-    required: true,
+    index: true,
   },
   province: {
     type: String,
     required: true,
+    index: true,
   },
   university: {
     type: String,
-    minlength: 50,
-    maxlength: 120,
+    minlength: 2,
+    maxlength: 70,
     required: true,
   },
   year_experience: {
@@ -51,26 +58,43 @@ const teacherSchema = new Schema({
   },
   bio: {
     type: String,
-    minlength: 50,
-    maxlength: 120,
-    required: true,
-  },
-  teacher_experience: {
-    type: String,
+    minlength: 40,
+    maxlength: 200,
     required: true,
   },
   motivation: {
     type: String,
     minlength: 25,
-    maxlength: 100,
+    maxlength: 200,
     required: true,
   },
   date_available: {
-    type: Object, // Adjusted type
+    type: {
+      day: {
+        type: String,
+        required: true,
+        index: true,
+      },
+      time: {
+        start: {
+          type: String,
+          required: true,
+        },
+        end: {
+          type: String,
+          required: true,
+        },
+      },
+    },
     required: true,
   },
   price: {
     type: Number,
+    required: true,
+    index: true,
+  },
+  certificate: {
+    type: String,
     required: true,
   },
   video: {
