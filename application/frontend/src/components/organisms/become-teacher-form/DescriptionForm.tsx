@@ -161,7 +161,6 @@ const DescriptionForm = ({
               </div>
             </div>
           </div>
-
           <div className="flex flex-col">
             <label htmlFor="fileLabel" className=" cursor-pointer mt-2 ">
               please input the video about yourself
@@ -202,8 +201,8 @@ const DescriptionForm = ({
               </div>
             )}
           </div>
-          <div className="flex flex-col items-end">
-            <div className="flex justify-center ">
+          <div className="flex flex-col items-end  w-[350px]">
+            <div className="flex justify-end/">
               <Button
                 type="submit"
                 radius="md"

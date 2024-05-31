@@ -24,7 +24,6 @@ const CardTeachers: React.FC<CardTeachersTypes> = (props) => {
     price,
     video,
     Degree,
-
   } = props
   const fullname = `${first_name} ${last_name}`;
   const [isFavorite, setIsFavorite] = useState(false)

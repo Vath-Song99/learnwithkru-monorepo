@@ -15,8 +15,7 @@ const TeacherListCards = ({ search }: { search: string }) => {
   return (
     <div className="w-full flex justify-center">
       <div className="w-[80%] flex justify-center lg:justify-between flex-wrap gap-4">
-        {Data.length === 0 ? (
-          <div>Teacher No Found</div>
+        {Data.length === 0 ? (""
         ) : (
           filteredData.map((item, index) => (
             <CardTeachers
