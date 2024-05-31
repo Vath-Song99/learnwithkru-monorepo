@@ -1,7 +1,7 @@
 import { IClassRespone } from "../@types/class.type";
 import { ClassRepository } from "../database/repositories/class.repository";
-import { publishDirectMessage } from "../queue/teacher.producer";
-import { teacherChannel } from "../server";
+// import { publishDirectMessage } from "../queue/teacher.producer";
+// import { teacherChannel } from "../server";
 import { IClassService } from "./@types/service.type";
 
 export class ClassService {
