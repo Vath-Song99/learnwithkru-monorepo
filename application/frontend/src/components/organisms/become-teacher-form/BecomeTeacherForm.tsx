@@ -16,6 +16,7 @@ const DEFAULT_FORM_VALUE = {
   yearExperience: "",
   typeDegree: "",
   degreeFile: "",
+  degree: "degree"
 };
 const dataExperience = {
   dataYear: [
@@ -60,6 +61,7 @@ const BecomeTeacherForm = ({
   checkboxtext,
   setCurrentPage,
   pageIndex,
+  setdataTutor,
 }: BecomeTeacherFormTypes) => {
   const [showForm, setShowForm] = useState(false);
   const [isFormComplete, setIsFormComplete] = useState(false);
@@ -108,6 +110,13 @@ const BecomeTeacherForm = ({
           Math.min(prevPage + 1, pageIndex.length - 1)
         );
       }
+      setdataTutor((prev: any) => {
+        // Spread the previous state
+        const newState = { ...prev, ...formData };
+        // Return the new state
+        return newState;
+      });
+
       setErrors({});
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
@@ -129,6 +138,13 @@ const BecomeTeacherForm = ({
     e.preventDefault();
 
     try {
+      setdataTutor((prev: any) => {
+        // Spread the previous state
+        const degreeNot= [{degree: "not Degree"}]
+        const newState = { ...prev, ...degreeNot[0] };
+        // Return the new state
+        return newState;
+      });
       if (pageIndex !== undefined) {
         // use pageIndex here
         setCurrentPage((prevPage) =>

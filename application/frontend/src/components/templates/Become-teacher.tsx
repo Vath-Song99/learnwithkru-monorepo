@@ -17,7 +17,7 @@ const BecomeTeacher = () => {
   const [currentPage, setCurrentPage] = useState(0); // Changed initial page to 0
   const [activeSection, setActiveSection] = useState("about");
   const [aboutFormCompleted, setAboutFormCompleted] = useState(false);
-
+  const [dataTutor, setdataTutor] = useState<any>(null);
   // const pages = [
   //   // Define components for each page
   //   <AboutForm
@@ -71,11 +71,11 @@ const BecomeTeacher = () => {
       window.location.hash = id;
     }
   };
-
+ console.log("form data tutor",dataTutor)
   const bookpage = (num: number) => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, pages.length - 1));
   };
-
+ 
   const handleBackButtonClick = (index: number) => {
     switch (index) {
       case 0:
@@ -110,7 +110,6 @@ const BecomeTeacher = () => {
     //   setActiveSection(id);
     // }
   };
-
   return (
     <div className="min-h-screen">
       <div className="h-screen">
@@ -176,6 +175,7 @@ const BecomeTeacher = () => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 pageIndex={pages}
+                setdataTutor={setdataTutor}
               />
             </>
           )}
@@ -191,6 +191,7 @@ const BecomeTeacher = () => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 pageIndex={pages}
+                setdataTutor={setdataTutor}
               />
             </>
           )}
@@ -205,6 +206,7 @@ const BecomeTeacher = () => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 pageIndex={pages}
+                setdataTutor={setdataTutor}
               />
             </>
           )}
@@ -220,6 +222,7 @@ const BecomeTeacher = () => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 pageIndex={pages}
+                setdataTutor={setdataTutor}
               />
             </>
           )}
