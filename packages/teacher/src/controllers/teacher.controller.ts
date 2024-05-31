@@ -19,6 +19,7 @@ import {
   Path,
 } from "tsoa";
 import { ITeacher } from "../@types/teacher.type";
+import { logger } from "../utils/logger";
 
 @Route("/v1/teachers")
 export class TeacherController extends Controller {
@@ -47,7 +48,7 @@ export class TeacherController extends Controller {
   ): Promise<{ data: ITeacher; token: string }> {
     try {
       const userId = (req.user as DecodedUser).id;
-
+      logger.info(`Catching decode user: ${userId}`)
       const service = new TeacherServices();
       const newUser = await service.CreateTeacher(requestBody, userId);
 

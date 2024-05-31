@@ -118,6 +118,54 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"IClassRespone": {
+				"properties": {
+					"class_name": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"_id": {
+						"type": "string"
+					},
+					"teacherId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"class_name",
+					"subject",
+					"email",
+					"_id",
+					"teacherId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IClass": {
+				"properties": {
+					"class_name": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"class_name",
+					"subject",
+					"email"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -281,16 +329,12 @@
 										"token": {
 											"type": "string"
 										},
-										"data": {
-											"$ref": "#/components/schemas/ITeacher"
-										},
 										"message": {
 											"type": "string"
 										}
 									},
 									"required": [
 										"token",
-										"data",
 										"message"
 									],
 									"type": "object"
@@ -310,6 +354,47 @@
 						}
 					}
 				]
+			}
+		},
+		"/v1/teachers/class": {
+			"post": {
+				"operationId": "CreateClass",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"$ref": "#/components/schemas/IClassRespone"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IClass"
+							}
+						}
+					}
+				}
 			}
 		}
 	},
