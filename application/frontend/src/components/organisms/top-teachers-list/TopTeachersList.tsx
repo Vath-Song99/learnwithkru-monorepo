@@ -45,7 +45,24 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
       price: 10,
       students: 35,
     },
-
+    {
+      key: "004 ",
+      imageUrl: "/Profiles/APoy.jpg",
+      username: "dsfhoa",
+      subjectname: "Physic",
+      rateStar: 4.5,
+      price: 10,
+      students: 35,
+    },
+    {
+      key: "005 ",
+      imageUrl: "/Profiles/APoy.jpg",
+      username: "lwwminhap",
+      subjectname: "Physic",
+      rateStar: 4.5,
+      price: 10,
+      students: 35,
+    },
 
     // Add more data items here
   ];
@@ -57,7 +74,7 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
   });
   useEffect(() => {
     setLimitedTeachers(filteredTeachers.slice(0, 3));
-  }, []);
+  }, [search]);
 
 
   return (

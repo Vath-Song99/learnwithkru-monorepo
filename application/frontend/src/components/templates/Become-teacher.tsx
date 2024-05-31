@@ -114,7 +114,7 @@ const BecomeTeacher = () => {
   return (
     <div className="min-h-screen">
       <div className="h-screen">
-        <TeacherNavbar className="flex justify-start items-center bg-gray-300">
+        <TeacherNavbar className="flex justify-start items-center  ">
           {pages.map((_, index) => (
             // eslint-disable-next-line react/jsx-key
             <TeacherNavbarComponent className="w-[70px] sm:w-[100px] md:w-[150px] lg:w-[200px] flex justify-start items-start     ">
