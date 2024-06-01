@@ -44,6 +44,7 @@ const SearchInput = ({ className, setSearch }: { className?: string, setSearch: 
               placeholder="Searching ..."
               value={value}
               onChange={handleInput}
+              onKeyEnter={handleKeyDown}
             />
           </div>
         </div>
