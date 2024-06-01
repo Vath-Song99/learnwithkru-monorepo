@@ -6,6 +6,7 @@ import { BaseCustomError } from "../error/base-custom-error";
 import StatusCode from "../utils/http-status-code";
 import { generateSignature } from "../utils/jwt";
 import { logger } from "../utils/logger";
+import { NotificationService } from "./notification-serivice";
 
 export class TeacherServices {
   private teacherRepo: TeacherRepository;
@@ -88,6 +89,20 @@ export class TeacherServices {
 
       const token = await generateSignature({
         _id: newTeacher._id!.toString(),
+      });
+
+      const messageSender = NotificationService.getInstance();
+      await messageSender.sendSuccesfullyNotification({
+        userId: newTeacher._id!.toString(),
+        message: `
+      Congratulations, [${newTeacher.first_name + newTeacher.last_name}]!
+
+You have successfully signed up for an account. Welcome to our community!
+
+Start exploring and discovering all the features we have to offer. Should you have any queries or need assistance, don't hesitate to reach out to us.
+
+We're thrilled to have you on board!
+      `,
       });
 
       return { data: newTeacher, token };
