@@ -8,6 +8,7 @@ import {
 import axios, { AxiosError } from "axios";
 import React, { createContext, useEffect, useState } from "react";
 interface CardTeachers {
+  isFavorite: boolean;
   userId: string;
   first_name: string;
   last_name: string;
@@ -37,7 +38,7 @@ export const Mycontext = createContext<ContextProps>({
   // addNewAuth: async () => { }
 });
 
-const CardContext = ({ children }: { children: any }) => {
+const CardContext = ({ children }: { children: React.ReactNode }) => {
   const [Data, setData] = useState<CardTeachers[]>([]);
   // const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleString());
 
@@ -100,7 +101,6 @@ const CardContext = ({ children }: { children: any }) => {
   };
 
   //  student Fetching
-  const [studentData, setStudentData] = useState([]);
 
   const contextvalue = {
     Data,
