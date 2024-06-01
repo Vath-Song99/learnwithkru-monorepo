@@ -12,6 +12,12 @@ const SearchInput = ({ className, setSearch }: { className?: string, setSearch: 
       setSearch(e.target.value);
     }
   };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      setSearch(event.currentTarget.value);
+    }
+  };
   return (
     <div className={`w-[80%] mx-auto ${className}`}>
       <div className="w-full flex justify-center items-center border shadow-sm rounded-md py-1  gap-5 ">

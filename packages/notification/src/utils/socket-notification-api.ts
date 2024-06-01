@@ -36,13 +36,26 @@ export class SocketNotificationEmailApi implements SocketApi {
   async sendNotification(
     template: string,
     receiver: string,
-    locals: IMessageLocals
+    locals: IMessageLocals,
+    namespace?: string
   ): Promise<void> {
     try {
-      // You may want to emit to a specific room or namespace based on receiver.
-      this.io.emit(template, locals);
-    } catch (error: unknown) {
-      throw error;
+      const target = namespace
+        ? this.io.of(namespace).to(receiver)
+        : this.io.to(receiver);
+      target.emit(template, locals);
+    } catch (error) {
+      console.error(
+        `Failed to send notification to ${receiver}${
+          namespace ? ` in namespace ${namespace}` : ''
+        }:`,
+        error
+      );
+      throw new Error(
+        `Failed to send notification: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`
+      );
     }
   }
 }
