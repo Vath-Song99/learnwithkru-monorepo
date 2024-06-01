@@ -4,8 +4,10 @@ import { startQueue } from './queues/connection';
 import EmailSender from '@notifications/utils/email-sender';
 import NodemailerEmailApi from '@notifications/utils/nodemailer-email-api';
 import getConfig from '@notifications/utils/config';
-import Server from 'socket.io';
-import http from 'http';
+import { SocketSender } from './utils/socket-sender';
+import { SocketNotificationEmailApi } from './utils/socket-notification-api';
+
+
 async function run() {
   try {
     const config = getConfig();
@@ -14,9 +16,9 @@ async function run() {
     logInit({ env: process.env.NODE_ENV, logLevel: config.logLevel });
 
     // start socket server
-    const socketServer = await http.createServer();
-    const io = new Server(socketServer);
-
+    const socketSender = SocketSender.getInstance();
+    socketSender.activate();
+    socketSender.sendSocketApi(new SocketNotificationEmailApi())
     // Activate Email Sender with Nodemailer API
     const emailSender = EmailSender.getInstance();
     emailSender.activate();

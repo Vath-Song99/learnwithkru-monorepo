@@ -74,6 +74,7 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
   });
   useEffect(() => {
     setLimitedTeachers(filteredTeachers.slice(0, 3));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
 
@@ -84,7 +85,7 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
         {limitedTeachers.map((item, index) => (
 
           <ProfileCard
-            key={item.key} // Use unique key from data
+            key={index} // Use unique key from data
             className="p-2 mt-4"
             imageUrl={item.imageUrl}
             username={item.username}

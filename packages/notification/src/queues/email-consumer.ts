@@ -4,7 +4,8 @@ import { createQueueConnection } from './connection';
 import { IEmailLocals } from '@notifications/utils/@types/email-sender.type';
 import EmailSender from '@notifications/utils/email-sender';
 import getConfig from '@notifications/utils/config';
-
+import { SocketSender } from '@notifications/utils/socket-sender';
+import { IMessageLocals } from '@notifications/utils/@types/socket-sender.type';
 // TODO:
 // 1. Check If Channel Exist. If Not Create Once
 // 2. Define ExchangeName, RoutingKey, QueueName
@@ -38,7 +39,7 @@ export async function consumeAuthEmailMessages(
 
       const locals: IEmailLocals = {
         appLink: `${getConfig().clientUrl}`,
-        appIcon: ``,
+        appIcon: `https://learnwithkru.com/_next/image?url=%2FLogos%2FKruLogo.png&w=640&q=75`,
         username,
         verifyLink,
         resetLink,
@@ -57,31 +58,40 @@ export async function consumeAuthEmailMessages(
   }
 }
 
-// export async function consumeSubmissionEmailMessages(
-//   channel: Channel
-// ): Promise<void> {
-//   try {
-//     if (!channel) {
-//       channel = (await createQueueConnection()) as Channel;
-//     }
+export async function consumeNotificationMessages(
+  channel: Channel
+): Promise<void> {
+  try {
+    if (!channel) {
+      channel = (await createQueueConnection()) as Channel;
+    }
 
-//     const exchangeName = 'microsample-submission-notification';
-//     const routingKey = 'submission-email';
-//     const queueName = 'submission-email-queue';
+    const exchangeName = 'learnwithkru-notification-message';
+    const routingKey = 'notification-message';
+    const queueName = 'notification-message-queue';
 
-//     await channel.assertExchange(exchangeName, 'direct');
-//     const queue = await channel.assertQueue(queueName, {
-//       durable: true,
-//       autoDelete: false,
-//     });
-//     await channel.bindQueue(queue.queue, exchangeName, routingKey);
+    await channel.assertExchange(exchangeName, 'direct');
+    const queue = await channel.assertQueue(queueName, {
+      durable: true,
+      autoDelete: false,
+    });
+    await channel.bindQueue(queue.queue, exchangeName, routingKey);
 
-//     channel.consume(queue.queue, async (msg: ConsumeMessage | null) => {
+    channel.consume(queue.queue, async (msg: ConsumeMessage | null) => {
+        const { type, title ,  message , timestamp , template , receiver} = JSON.parse(msg!.content.toString());
 
-//     });
-//   } catch (error) {
-//     logger.error(
-//       `NotificationService EmailConsumer consumeAuthEmailMessages() method error: ${error}`
-//     );
-//   }
-// }
+        const messageDetailsLocals: IMessageLocals = {
+          type,
+          title,
+          message,
+          timestamp
+        }
+        const notificationUserSender = SocketSender.getInstance();
+        await notificationUserSender.sendNotification(template ,receiver ,messageDetailsLocals )
+    });
+  } catch (error) {
+    logger.error(
+      `NotificationService EmailConsumer consumeNotificationMessage() method error: ${error}`
+    );
+  }
+}

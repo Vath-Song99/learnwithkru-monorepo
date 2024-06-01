@@ -8,7 +8,8 @@ import Image from "next/image";
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [Password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const [facebookloading, setFacebookLoading] = useState(false);
   const router = useRouter()
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -24,11 +25,11 @@ const Signup = () => {
 
   // Example usage: Handling the error at the caller level
   const handleSigninGoogle = async () => {
-    setLoading(true);
+    setGoogleLoading(true);
     try {
       await handleSigninWithGoogle();
     } catch (error) {
-      setLoading(false);
+      setGoogleLoading(false);
       console.error("Signin failed:", error);
       // You can add further user-friendly error handling here
     }
@@ -36,8 +37,10 @@ const Signup = () => {
 
   const handleSigninFacebook = async () => {
     try {
+      setFacebookLoading(true);
       await handleSigninWithFacebook();
     } catch (error) {
+      setFacebookLoading(false);
       console.error("Signin failed:", error);
       // You can add further user-friendly error handling here
     }
@@ -94,11 +97,7 @@ const Signup = () => {
                 </svg>
 
                 <p className="text-sm text-slate-950  ">
-                  {loading ?
-                    <div className="flex justify-center items-center">
-                      <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[gray]">
-                      </div>
-                    </div> : "Sign in with Google"}
+                  {googleLoading ? "Laoding ...": "continue in with Google"}
                 </p>
               </div>
             </Button>
@@ -132,7 +131,7 @@ const Signup = () => {
                 </svg>
 
                 <p className="text-sm text-slate-950 ">
-                  Continue with Facebook
+                {facebookloading ? "Laoding ...": "Sign in with Facebook"}
                 </p>
               </div>
             </Button>

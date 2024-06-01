@@ -101,10 +101,6 @@ const teacherSchema = new Schema({
     type: String,
     required: true,
   },
-  Degree: {
-    type: String,
-    required: true,
-  },
 });
 
 const teacherModel = mongoose.model<IteacherDocs>("teachers", teacherSchema);

@@ -10,8 +10,8 @@ const Login = () => {
 
   const router = useRouter()
 
-  const [loading, setLoading] = useState(false);
-
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const [facebookloading, setFacebookLoading] = useState(false);
   const handleSigninWithGoogle = () => {
     const url = "http://localhost:3000/v1/auth/google";
     
@@ -25,8 +25,10 @@ const Login = () => {
   // Example usage: Handling the error at the caller level
   const handleSigninGoogle = async () => {
     try {
+      setGoogleLoading(true);
       await handleSigninWithGoogle();
     } catch (error) {
+      setGoogleLoading(false);
       console.error("Signin failed:", error);
       // You can add further user-friendly error handling here
     }
@@ -34,8 +36,10 @@ const Login = () => {
 
   const handleSigninFacebook = async () => {
     try {
+      setFacebookLoading(true)
       await handleSigninWithFacebook();
     } catch (error) {
+      setFacebookLoading(false)
       console.error("Signin failed:", error);
       // You can add further user-friendly error handling here
     }
@@ -105,7 +109,7 @@ const Login = () => {
                 <div className="text-sm text-slate-950 mr-[20px] ">
                   {" "}
                   <p className="text-sm text-slate-950  ">
-                    {loading ? "Signing in..." : "Sign in with Google"}
+                    {googleLoading ? "Signing in..." : "continue in with Google"}
                   </p>
                 </div>
               </Button>
@@ -128,7 +132,7 @@ const Login = () => {
                 </svg>
                 <div className="text-sm text-slate-950 ">
                   <p className="text-sm text-slate-950  ">
-                    {loading ? "Signing in..." : "Sign in with Facebook"}
+                    {facebookloading ? "Signing in..." : "continue in with Facebook"}
                   </p>
                 </div>
               </Button>
