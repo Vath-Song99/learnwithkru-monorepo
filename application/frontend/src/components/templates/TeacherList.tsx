@@ -9,8 +9,8 @@ const TeacherList = () => {
   return (
     <div className="w-full grid grid-flow-row gap-8 ">
       <CardContext>
-        <FilterTeachers />
         <SearchInput setSearch={setSearch} />
+        <FilterTeachers />
         <TeacherListCards search={search} />
       </CardContext>
     </div>

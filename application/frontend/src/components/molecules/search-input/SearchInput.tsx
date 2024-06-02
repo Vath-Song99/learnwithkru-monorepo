@@ -70,14 +70,6 @@ const SearchInput = ({ className, setSearch }: { className?: string, setSearch: 
               Choose Option
             </Typography>
           </div>
-          <Typography
-            className="tracking-wide hover:underline  text-xs md:text-sm"
-            align="justify"
-            colorscheme="secondary"
-            variant="normal"
-          >
-            see more
-          </Typography>
         </div>
       </div>
     </div>
