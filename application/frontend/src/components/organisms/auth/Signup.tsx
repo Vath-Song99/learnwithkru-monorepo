@@ -8,8 +8,9 @@ import Image from "next/image";
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [Password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
- const router = useRouter()
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const [facebookloading, setFacebookLoading] = useState(false);
+  const router = useRouter()
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -24,11 +25,11 @@ const Signup = () => {
 
   // Example usage: Handling the error at the caller level
   const handleSigninGoogle = async () => {
-    setLoading(true);
+    setGoogleLoading(true);
     try {
       await handleSigninWithGoogle();
     } catch (error) {
-      setLoading(false);
+      setGoogleLoading(false);
       console.error("Signin failed:", error);
       // You can add further user-friendly error handling here
     }
@@ -36,8 +37,10 @@ const Signup = () => {
 
   const handleSigninFacebook = async () => {
     try {
+      setFacebookLoading(true);
       await handleSigninWithFacebook();
     } catch (error) {
+      setFacebookLoading(false);
       console.error("Signin failed:", error);
       // You can add further user-friendly error handling here
     }
@@ -46,6 +49,8 @@ const Signup = () => {
   return (
     <div className="w-full h-[100vh] flex justify-center items-center  mx-auto">
       {/* form */}
+
+
       <div className="pt-4 pb-8 px-8 flex items-center justify-center">
         <div className="grid gap-3">
           <div className="flex flex-col  gap-2 ">
@@ -92,7 +97,7 @@ const Signup = () => {
                 </svg>
 
                 <p className="text-sm text-slate-950  ">
-                  {loading ? "Signing in..." : "Sign in with Google"}
+                  {googleLoading ? "Laoding ...": "continue in with Google"}
                 </p>
               </div>
             </Button>
@@ -126,7 +131,7 @@ const Signup = () => {
                 </svg>
 
                 <p className="text-sm text-slate-950 ">
-                  Continue with Facebook
+                {facebookloading ? "Laoding ...": "Sign in with Facebook"}
                 </p>
               </div>
             </Button>
@@ -141,6 +146,7 @@ const Signup = () => {
           </div>
         </div>
       </div>
+
       {/* image */}
       <div className="hidden items-center justify-center sm:hidden md:flex lg:flex xl:flex">
         <Image

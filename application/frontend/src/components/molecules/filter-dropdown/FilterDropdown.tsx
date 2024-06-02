@@ -31,7 +31,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setSubject(value);
+    setSubject(value)
     console.log(" name",value)
   };
 

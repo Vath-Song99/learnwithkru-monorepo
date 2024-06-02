@@ -164,7 +164,7 @@ const BecomeTeacherForm = ({
               <div
                 className="mt-2"
               >
-                <Typography fontSize="sm" className="flex items-start text-left sm:text-nowrap md:text-nowrap lg:text-nowrap  w-full">
+                <Typography fontSize="sm" className=" text-left sm:text-nowrap md:text-nowrap lg:text-nowrap text-balance w-[300px] ">
                   {description}
                 </Typography>
               </div>

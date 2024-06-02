@@ -58,6 +58,7 @@ const pricingDropDown = [
   { id: 5, minPrice: 40, maxPrice: 70 },
 ];
 
+
 const FilterTeachers = () => {
   return (
     <div className="bg-[#F0F7FF] w-[80%] flex mx-auto p-3 justify-center items-center rounded-sm">
@@ -76,6 +77,9 @@ const FilterTeachers = () => {
           itemsDropdownPrice={pricingDropDown}
         />
       </div>
+      <Button className="w-[10%] h-[40px]" radius="md">
+        Search
+      </Button>
     </div>
   );
 };

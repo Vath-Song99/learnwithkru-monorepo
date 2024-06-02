@@ -15,8 +15,8 @@ export const studentValidate = (schema: Schema) => {
         });
         _next(new BaseCustomError(errorMessages as unknown as string , StatusCode.UNPROCESSABLE_ENTITY))
       }
-      console.log("Somthign went wrong!");
-      _next(new ApiError("Somthing went wrong!"))
+      console.log("Somethign went wrong!");
+      _next(new ApiError("Something went wrong!"))
     }
   };
 };

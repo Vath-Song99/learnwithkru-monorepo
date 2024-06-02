@@ -71,7 +71,7 @@ export class AuthRepository {
       throw new ApiError("Somthing went wrong!")
     }
   }
-  async FindUserById({ id }: { id: string | ObjectId }) {
+  async FindAuthById({ id }: { id: string | ObjectId }) {
     try {
       const existingUser = await authModel.findById({ _id: id });
 
@@ -98,7 +98,7 @@ export class AuthRepository {
     updates: UserUpdates
   }) {
     try{
-      const existUser = await this.FindUserById({id})
+      const existUser = await this.FindAuthById({id})
       if(!existUser){
         throw new ApiError("User does't exist!")
       }

@@ -1,7 +1,7 @@
 // Define an interface representing the structure of the decoded user information
 export interface DecodedUser {
     id: string;
-    username: string;
+    role: string;
     // Add other properties as needed
   }
   

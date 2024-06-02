@@ -45,7 +45,24 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
       price: 10,
       students: 35,
     },
-
+    {
+      key: "004 ",
+      imageUrl: "/Profiles/APoy.jpg",
+      username: "dsfhoa",
+      subjectname: "Physic",
+      rateStar: 4.5,
+      price: 10,
+      students: 35,
+    },
+    {
+      key: "005 ",
+      imageUrl: "/Profiles/APoy.jpg",
+      username: "lwwminhap",
+      subjectname: "Physic",
+      rateStar: 4.5,
+      price: 10,
+      students: 35,
+    },
 
     // Add more data items here
   ];
@@ -57,7 +74,8 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
   });
   useEffect(() => {
     setLimitedTeachers(filteredTeachers.slice(0, 3));
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
 
 
   return (
@@ -67,7 +85,7 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
         {limitedTeachers.map((item, index) => (
 
           <ProfileCard
-            key={item.key} // Use unique key from data
+            key={index} // Use unique key from data
             className="p-2 mt-4"
             imageUrl={item.imageUrl}
             username={item.username}
