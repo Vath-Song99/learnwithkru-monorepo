@@ -71,17 +71,16 @@ Whether it's mastering a new language, excelling in academic subjects, or acquir
 ### Product Vision board
 Explore our comprehensive vision for the future of our product:
 
-[**Vision**](https://www.canva.com/design/DAGGHgrSSvY/jn45WLCq-MH1G-k0o2kfng/edit)
+[**Vision**](https://www.canva.com/design/DAGGHgrSSvY/jn45WLCq-MH1G-k0o2kfng/edit?utm_content=DAGGHgrSSvY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 ### Mission
-Discover the core mission driving our innovation and commitment:
+Our mission centers on democratizing education. They strive to leverage cutting-edge technology to make educational opportunities affordable and accessible for a global audience. This focus on affordability and technological innovation allows them to empower individuals worldwide to achieve their language learning goals.
 
-[**Mission**](https://www.canva.com/design/DAGGHgrSSvY/jn45WLCq-MH1G-k0o2kfng/edit)
 
 ### Business Canva Model
 Review our strategic business model and how we create value:
 
-[**Business Canva Model**](https://www.canva.com/design/DAGGHgrSSvY/jn45WLCq-MH1G-k0o2kfng/edit)
+[**Business Canva Model**](https://www.canva.com/design/DAGFFUI1wjs/s-bTcLUb1luvpemtPvv9yA/view?utm_content=DAGFFUI1wjs&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
 ### Built With
 
