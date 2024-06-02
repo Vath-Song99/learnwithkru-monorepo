@@ -1,38 +1,45 @@
 "use client";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Image } from "@nextui-org/react";
+import { Image, menuItem } from "@nextui-org/react";
 import { Button, InputForm, Typography } from "@/components/atoms";
 import Link from "next/link";
 import * as Yup from "yup";
 import { studentSchema } from "../../../schema/studentForm";
 import axios from "axios";
+import { Select } from "@/components/atoms/select/select";
 
 interface Student {
     school_name: string;
     education: string;
     grade: string;
-    student_card?: string;
+    student_card?: File | null;
 }
 
-interface FormValues {
-    schoolName: string;
-    studentCard: string;
-    grade: string;
-    bio: string;
-}
 
 const SignupToBecomeStudent = () => {
     const [image, setImage] = useState<File | null>(null);
     const [imageUrl, setImageUrl] = useState<string>("");
     const [previewURL, setPreviewURL] = useState<string | null>(null);
+    const [grade, setGrade] = useState<string>();
+    const [education, setEducation] = useState<string>("Primary School");
+
+
+
 
     const [validate, setValidate] = useState<Student>({
         school_name: "",
-        student_card: "",
+        student_card: null,
         grade: "",
         education: "",
     });
 
+
+    const EducationMenu = [
+        { index: 1, value: "Primary School" },
+        { index: 2, value: "Secondary School" },
+        { index: 3, value: "High School" },
+        { index: 4, value: "Others" },
+    ];
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     // Student Fetching
 
@@ -56,6 +63,21 @@ const SignupToBecomeStudent = () => {
 
         };
     }
+    const handleEducationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setEducation(e.target.value);
+        setValidate({ ...validate, education: e.target.value });
+        if (errors.education) {
+            setErrors((prevErrors) => ({ ...prevErrors, education: "" }));
+        }
+    };
+
+    const handleGradeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setGrade(e.target.value);
+        setValidate({ ...validate, grade: e.target.value });
+        if (errors.grade) {
+            setErrors((prevErrors) => ({ ...prevErrors, grade: "" }));
+        }
+    };
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -72,8 +94,12 @@ const SignupToBecomeStudent = () => {
     ) => {
         event.preventDefault();
         try {
+            const formData = new FormData();
             await studentSchema.validate(validate, { abortEarly: false });
             await handlePostStudent(validate);
+            if (validate.student_card) {
+                formData.append("student_card", validate.student_card);
+            }
             console.log("Student Data: ", validate);
         } catch (error) {
             if (error instanceof Yup.ValidationError) {
@@ -87,26 +113,20 @@ const SignupToBecomeStudent = () => {
             }
             console.log(errors)
             alert("Save to DB")
+            console.log("Form submitted successfully");
 
         }
     };
+    console.log("This is handle data: ", validate)
 
-    // const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    //     const selectedFile = e.target.files?.[0];
-    //     if (selectedFile) {
-    //         if (selectedFile.size > 2 * 1024 * 1024) {
-    //             alert("The file size should be less than 2MB");
-    //         } else {
-    //             const reader = new FileReader();
-    //             reader.onload = () => {
-    //                 setImage(selectedFile);
-    //                 setImageUrl(URL.createObjectURL(selectedFile));
-    //                 setPreviewURL(reader.result as string);
-    //             };
-    //             reader.readAsDataURL(selectedFile);
-    //         }
-    //     }
-    // };
+    const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        setValidate({ ...validate, student_card: file });
+        if (errors.student_card) {
+            setErrors((prevErrors) => ({ ...prevErrors, student_card: "" }));
+        }
+    };
+
 
     return (
         <div className="flex flex-col justify-between items-center h-screen">
@@ -143,7 +163,7 @@ const SignupToBecomeStudent = () => {
                                 borderColor="secondary"
                                 borderRadius="md"
                                 name="school_name"
-                                className="border border-[#445455] outline-none w-[300px] h-16 md:w-[350px] sm:w-[350px] lg:w-[500px]"
+                                className="border border-[#445455] outline-none w-[300px] h-14 md:w-[350px] sm:w-[350px] lg:w-[500px]"
                                 value={validate.school_name}
                                 onChange={handleChange}
                             />
@@ -161,8 +181,8 @@ const SignupToBecomeStudent = () => {
                                 borderColor="secondary"
                                 borderRadius="md"
                                 paddingY="sm"
-                                // onChange={handleFileInputChange}
-                                className="border border-[#445455] outline-none w-[300px] h-16 md:w-[350px] sm:w-[350px] lg:w-[500px]"
+                                onChange={handleFileInputChange}
+                                className="border border-[#445455] outline-none w-[300px] md:w-[350px] sm:w-[350px] lg:w-[500px] h-14 p-3"
                             />
                             {image && (
                                 <div>
@@ -176,37 +196,85 @@ const SignupToBecomeStudent = () => {
                                 </div>
                             )}
                         </div>
-                        <div>
-                            <Typography className="flex justify-start text-nowrap">
-                                What Grade do you Study?
-                            </Typography>
-                            <InputForm
-                                type="number"
-                                placeholder="Input your Grade"
-                                borderColor="secondary"
-                                borderRadius="md"
-                                name="grade"
-                                value={validate.grade}
-                                onChange={handleChange}
-                                className="w-[300px] h-16 md:w-[350px] sm:w-[350px] lg:w-[500px] border border-[#445455] outline-none"
-                            />
-                            {errors.grade && (
-                                <p className="text-red-500  text-nowrap">{errors.grade}</p>
+                        {/* <div>
+                            <Typography className="flex justify-start">Education</Typography>
+                            <Select
+                                value={education}
+                                onChange={e => setEducation(e.target.value)}
+                                className="border border-gray-500 h-14 -[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] "
+
+                            >
+                                <option value="" disabled>Select your Education</option>
+                                {EducationMenu.map((item: any, index: number) => (
+
+                                    <option key={index} value={item.value}>
+                                        {item.value}
+
+                                    </option>
+                                ))}</Select>
+                         
+                            {errors.education && (
+                                <p className="text-red-500  text-nowrap">{errors.education}</p>
                             )}
-                        </div>
+                        </div> */}
                         <div>
-                            <Typography className="flex justify-start">BIO</Typography>
-                            <textarea
-                                name="education"
-                                placeholder="Add text"
-                                value={validate.education}
-                                onChange={handleChange}
-                                className="w-[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] h-52 rounded-lg border border-[#445455] outline-none p-3"
-                            />
+                            <Typography className="flex justify-start">Education</Typography>
+                            <Select
+                                value={education}
+                                onChange={handleEducationChange}
+                                className="border border-gray-500 h-14 -[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] "
+                            >
+                                <option value="" disabled>Select your Education</option>
+                                {EducationMenu.map((item: any, index: number) => (
+                                    <option key={index} value={item.value}>
+                                        {item.value}
+                                    </option>
+                                ))}
+                            </Select>
                             {errors.education && (
                                 <p className="text-red-500  text-nowrap">{errors.education}</p>
                             )}
                         </div>
+                        <div>
+                            <Typography className="flex justify-start text-nowrap">
+                                What Grade do you Study?
+                            </Typography>
+
+
+                            {errors.grade && (
+                                <p className="text-red-500 text-nowrap">{errors.grade}</p>
+                            )}
+
+                            <Select
+                                value={grade}
+                                onChange={handleGradeChange}
+                                className="border border-gray-500 h-14 w-full md:w-[350px] sm:w-[350px] lg:w-[500px]"
+                            >
+                                <option value="" disabled>Select your Education</option>
+                                {education === "Primary School" && [...Array(6)].map((_, index) => (
+                                    <option key={index + 1} value={index + 1}>Grade {index + 1}</option>
+                                ))}
+                                {education === "Secondary School" && [...Array(3)].map((_, index) => (
+                                    <option key={index + 7} value={index + 7}>Grade {index + 7}</option>
+                                ))}
+                                {education === "High School" && [...Array(3)].map((_, index) => (
+                                    <option key={index + 10} value={index + 10}>Grade {index + 10}</option>
+                                ))}
+                                {education === "Others" && [...Array(4)].map((_, index) => (
+                                    <option key={index + 1} value={index + 1}>Grade {index + 1}</option>
+                                ))}
+                                {education !== "Primary School" && education !== "Secondary School" && education !== "High School" && education! === "Others" && [...Array(12)].map((_, index) => (
+                                    <option key={index + 1} value={index + 1}>Grade {index + 1}</option>
+                                ))}
+                            </Select>
+
+
+
+
+
+
+                        </div>
+
                         <div className="w-[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] flex justify-center md:justify-center lg:justify-start">
                             <Button
                                 colorScheme="primary"
