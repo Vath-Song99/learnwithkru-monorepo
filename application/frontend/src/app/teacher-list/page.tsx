@@ -7,9 +7,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const page = () => {
-  
+
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
-  const [authState , setAuthState] = useState<{isAuth:boolean, user:any}>({
+  const [authState, setAuthState] = useState<{ isAuth: boolean, user: any }>({
     isAuth: false,
     user: null
   });
@@ -40,7 +40,7 @@ const page = () => {
 
   const handleUserProfile = async (url: string): Promise<any> => {
     try {
-      const response = await axios.get(url,{withCredentials:true});
+      const response = await axios.get(url, { withCredentials: true });
 
       if (response.data.errors) {
         console.log("An error occurred:", response.data.errors);
@@ -53,8 +53,11 @@ const page = () => {
   };
   if (isLoading) {
     return <div
-    className="w-full flex justify-center pt-10"
-    >Loading...</div>; // Render loading state
+      className="w-full flex justify-center pt-10"
+    > <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-blue-500">
+        </div>
+      </div></div>; // Render loading state
   }
   return (
     <div className="max-w-full grid gap-5">

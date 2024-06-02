@@ -60,6 +60,33 @@ const [subject, setSubject] = useState('');
   useEffect(() => {
     fetchData(); // Call the fetchData function
   }, []);
+  // const handleRequestTeacher = async () => {
+  //   try {
+
+  //     const API_ENDPOINT = "http://localhost:3000/v1/teachers"; // Replace with your actual token
+  //     const response = await axios.get(API_ENDPOINT, { withCredentials: true });
+
+  //     return response.data;
+  //   } catch (error: any) {
+  //     console.error("Error fetching teachers:", error);
+  //     throw error;
+  //   }
+  // };
+  // const toggleFavorite = (id: string) => {
+  //   setData((prevData) => {
+  //     if (!id) return prevData; // Check if item is undefined
+  //     const index = prevData.findIndex((d) => d.id === id);
+  //     if (index === -1) {
+  //       return prevData;
+  //     }
+  //     const newData = [...prevData];
+  //     // Toggle isFavorite property
+  //     newData[index].isFavorite = !newData[index].isFavorite;
+  //     return newData;
+  //   });
+  // };
+
+  //  =========================================================================================
 
   const handleRequestTeacher = async () => {
     try {

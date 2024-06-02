@@ -74,15 +74,11 @@
 			},
 			"ResetPassword": {
 				"properties": {
-					"currentPassword": {
-						"type": "string"
-					},
 					"newPassword": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"currentPassword",
 					"newPassword"
 				],
 				"type": "object",
@@ -476,16 +472,7 @@
 					}
 				},
 				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
+				"parameters": [],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -496,6 +483,50 @@
 						}
 					}
 				}
+			}
+		},
+		"/v1/auth/logout": {
+			"get": {
+				"operationId": "Logout",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"isLogout": {
+											"type": "boolean",
+											"enum": [
+												true
+											],
+											"nullable": false
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"isLogout",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		}
 	},

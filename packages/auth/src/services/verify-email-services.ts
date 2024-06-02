@@ -110,7 +110,7 @@ export class SendVerifyEmailService {
       }
 
       // Step 3: Find auth data in database
-      const user = await this.authRepo.FindUserById({
+      const user = await this.authRepo.FindAuthById({
         id: verificationToken.authId,
       });
 
@@ -186,7 +186,7 @@ export class SendVerifyEmailService {
       }
 
       // Step 3: Find auth data in database
-      const user = await this.authRepo.FindUserById({
+      const user = await this.authRepo.FindAuthById({
         id: verificationToken.authId,
       });
 

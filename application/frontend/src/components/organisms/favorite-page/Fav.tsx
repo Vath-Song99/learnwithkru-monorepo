@@ -10,7 +10,7 @@ const Fav = () => {
 
     return (
         <div className="w-full flex flex-col items-center">
-            <h1 className="text-3xl font-bold mb-6 underline">Your Favorites</h1>
+            <h1 className="text-3xl font-bold mb-6 underline mt-4">Your Favorites</h1>
             <div className="w-[80%] flex justify-center lg:justify-between flex-wrap gap-4">
                 {favCard.map((item, index) => (
                     <CardTeachers
