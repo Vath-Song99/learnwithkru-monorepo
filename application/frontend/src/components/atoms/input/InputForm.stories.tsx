@@ -1,9 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { InputForm } from "./inputform";
+import {action} from '@storybook/addon-actions';
+import { userEvent, within, expect } from '@storybook/test';
 
 const meta: Meta<typeof InputForm> = {
     title: "components/atoms/input/InputForm.tsx",
     component: InputForm,
+    argTypes:{
+        onChange:{ action: " input"}
+    },
     parameters: {
         layout: "centered",
         design: {
@@ -27,6 +32,19 @@ export const FirstStory: Story = {
         paddingX: "sm",
         paddingY: "sm",
         borderRadius: "sm",
+        onChange: action("input")
 
-    }
+    },
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+        const input = await canvas.getByPlaceholderText(
+            /Please type something.../i
+        );
+    
+        // Simulate typing into the input field
+        await userEvent.type(input, "Write to testing input");
+    
+        // Check if the input value has changed
+        await expect(input).toHaveValue("Write to testing input");
+      },
 }
