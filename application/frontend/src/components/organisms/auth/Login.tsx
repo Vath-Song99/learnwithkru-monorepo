@@ -11,39 +11,40 @@ const Login = () => {
   const router = useRouter()
 
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [facebookloading, setFacebookLoading] = useState(false);
-  const handleSigninWithGoogle = () => {
-    const url = "http://localhost:3000/v1/auth/google";
-    
-    router.push(url)
-  };
-  const handleSigninWithFacebook = () => {
-    const url = "http://localhost:3000/v1/auth/facebook";
-    router.push(url)
-  };
-
-  // Example usage: Handling the error at the caller level
-  const handleSigninGoogle = async () => {
+  const [facebookLoading, setFacebookLoading] = useState(false);
+  
+  const handleSignIn = async (provider: string) => {
     try {
-      setGoogleLoading(true);
-      await handleSigninWithGoogle();
+      if (provider === "google") {
+        setGoogleLoading(true);
+      } else if (provider === "facebook") {
+        setFacebookLoading(true);
+      }
+  
+      const url = `http://localhost:3000/v1/auth/${provider}`;
+      await router.push(url);
     } catch (error) {
-      setGoogleLoading(false);
+      if (provider === "google") {
+        setGoogleLoading(false);
+      } else if (provider === "facebook") {
+        setFacebookLoading(false);
+      }
+  
+      router.push("http://localhost:8000/login");
       console.error("Signin failed:", error);
       // You can add further user-friendly error handling here
     }
   };
-
-  const handleSigninFacebook = async () => {
-    try {
-      setFacebookLoading(true)
-      await handleSigninWithFacebook();
-    } catch (error) {
-      setFacebookLoading(false)
-      console.error("Signin failed:", error);
-      // You can add further user-friendly error handling here
-    }
+  
+  const handleSignInWithGoogle = async () => {
+    await handleSignIn("google");
   };
+  
+  const handleSignInWithFacebook = async () => {
+    await handleSignIn("facebook");
+  };
+  
+  
   return (
     <div className=" w-full h-[100vh] flex justify-center items-center">
       <div className="w-[900px] h-[600px] flex justify-between items-center">
@@ -67,7 +68,7 @@ const Login = () => {
 
             <div className="grid gap-3">
               <Button
-                onClick={handleSigninGoogle}
+                onClick={handleSignInWithGoogle}
                 className="flex items-center justify-evenly w-[300px] h-[50px]  bg-[#f3f3f3] rounded-md hover:bg-[#d2d0d0]"
               >
                 <svg
@@ -114,7 +115,7 @@ const Login = () => {
                 </div>
               </Button>
               <Button
-                onClick={handleSigninFacebook}
+                onClick={handleSignInWithFacebook}
                 className="flex items-center justify-evenly    w-[300px] h-[50px]   bg-[#f3f3f3] rounded-md  hover:bg-[#d2d0d0]"
                 radius="xl"
               >
@@ -132,7 +133,7 @@ const Login = () => {
                 </svg>
                 <div className="text-sm text-slate-950 ">
                   <p className="text-sm text-slate-950  ">
-                    {facebookloading ? "Signing in..." : "continue in with Facebook"}
+                    {facebookLoading ? "Signing in..." : "continue in with Facebook"}
                   </p>
                 </div>
               </Button>

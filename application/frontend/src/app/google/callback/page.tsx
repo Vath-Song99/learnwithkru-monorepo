@@ -9,31 +9,31 @@ const CallbackRedirect = () => {
   const [isLoading , setIsLoading] = useState<boolean>(true); // Initialize isLoading to true
 
   useEffect(() => {
-    const code = searchParams.get('code');
-
-    if (code) {
-      exchangeCodeForToken(code as string);
-    } else {
-      console.error('No authorization code found');
-      router.push('/');
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
-
-  const exchangeCodeForToken = async (code: string) => {
-    try {
-      const {data} = await axios.get(`http://localhost:3000/v1/auth/google/callback?code=${code}`,{
-        withCredentials: true
-      });
-      console.log('Token data:', data);
-      router.push('/teacher-list');
-    } catch (error) {
-      console.error('Error exchanging code for token:', error);
-      router.push('/');
-    } finally {
-      setIsLoading(false); // Set isLoading to false when request completes (whether success or error)
-    }
-  };
+    const getCodeAndExchange = async () => {
+      const code = searchParams.get('code');
+  
+      if (!code) {
+        console.error('No authorization code found');
+        return;
+      }
+  
+      try {
+        const { data } = await axios.get(`http://localhost:3000/v1/auth/google/callback?code=${code}`, {
+          withCredentials: true
+        });
+        console.log('Token data:', data);
+        router.push('/teacher-list');
+      } catch (error) {
+        console.error('Error exchanging code for token:', error);
+      } finally {
+        setIsLoading(false); // Set isLoading to false when request completes (whether success or error)
+      }
+    };
+  
+    getCodeAndExchange();
+  }, [router, searchParams, setIsLoading]);
+  
+  
 
   if (isLoading) {
     return (
