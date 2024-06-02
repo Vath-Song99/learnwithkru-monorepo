@@ -16,66 +16,24 @@ import { PricingForm } from "../organisms/become-teacher-form/Pricing";
 const BecomeTeacher = () => {
   const [currentPage, setCurrentPage] = useState(0); // Changed initial page to 0
   const [activeSection, setActiveSection] = useState("about");
-  const [aboutFormCompleted, setAboutFormCompleted] = useState(false);
   const [dataTutor, setdataTutor] = useState<any>(null);
-  // const pages = [
-  //   // Define components for each page
-  //   <AboutForm
-  //     buttonTitle="next"
-  //     description="Start creating your public tutor profile. Your progress will be automatically saved as you complete each section. You can return at any time to finish your registration"
-  //     title="About"
-  //     id="about"
-  //     currentPage={currentPage}
-  //     setCurrentPage={setCurrentPage}
-  //   />,
-  //   <BecomeTeacherForm
-  //     fileLabel="Please Input Your Degree To verify"
-  //     buttonTitle="next"
-  //     description="Do you have teaching certificates? If so, describe them to enhance your profile credibility and get more students."
-  //     title="Education"
-  //     checkboxtext="Don't have a Degree?"
-  //     id="education"
-  //   />,
-  //   <DescriptionForm
-  //     buttonTitle="next"
-  //     description="This info will go on your public profile. Write it in the language you’ll be teaching"
-  //     title="Profile Description"
-  //     checkboxtext={""}
-  //     id="description"
-  //   />,
-  //   <TimeAvailableForm
-  //     buttonTitle="next"
-  //     title="Time available"
-  //     description="This is table that you can see all time in a week and you can select what time you available "
-  //     setTimeAvailable="Set your Available"
-  //     setTimeDescription="Availability shows your potential working hours. Students can book lessons at these times."
-  //     id="available"
-  //   />,
-  //   <BecomeTeacherForm
-  //     buttonTitle="Submit"
-  //     description="Fill your price per Month. It will be shown in the profile’s list"
-  //     title="Pricing per month"
-  //     checkboxtext="Agree with Termcondition"
-  //     id="price"
-  //   />,
-  // ];
+
   const pages = [0, 1, 2, 3, 4];
 
-  const nextPage = (id: string) => {
-    if (currentPage === pages.length - 1) {
-      // If it's the last page, navigate to the next page using Link
-      // Adjust the 'to' attribute to the path of your next pag
-    } else {
-      setCurrentPage((prevPage) => Math.min(prevPage + 1, pages.length - 1));
-      setActiveSection(id);
-      window.location.hash = id;
+
+  const handleBack = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+      bookpage(pages[currentPage - 2]);
     }
   };
- console.log("form data tutor",dataTutor)
+
+
+  console.log("form data tutor", dataTutor)
   const bookpage = (num: number) => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, pages.length - 1));
   };
- 
+
   const handleBackButtonClick = (index: number) => {
     switch (index) {
       case 0:
@@ -226,7 +184,7 @@ const BecomeTeacher = () => {
               />
             </>
           )}
-          {/* {pages[currentPage] == 4 && (
+          {pages[currentPage] == 4 && (
             <>
               <PricingForm
                 buttonTitle="Submit"
@@ -237,16 +195,20 @@ const BecomeTeacher = () => {
             </>
           )
 
-          } */}
+          }
         </div>
 
         {/* Pagination controls */}
         <div className=" flex items-end justify-center mt-4">
+        <button
+        className="bg-[#7B2CBF] text-white w-[100px] h-[30px] rounded-sm"
+        onClick={handleBack}
+      >
+        back
+      </button>
           <button
             className="bg-[#7B2CBF] text-[white] w-[100px] h-[30px] rounded-sm "
-            // onClick={() => nextPage(pages[currentPage].props.id)}
             onClick={() => bookpage(pages[currentPage])}
-            disabled={currentPage === pages.length - 1}
             type="submit">
             next
           </button>

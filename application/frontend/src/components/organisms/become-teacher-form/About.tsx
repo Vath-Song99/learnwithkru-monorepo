@@ -105,7 +105,6 @@ const AboutForm = ({
     try {
       await becomeTeacher.validate(formData, { abortEarly: false });
       setIsFormComplete(true);
-      console.log("user",formData)
       setdataTutor((prev: any) => {
         // Spread the previous state
         const newState = { ...prev, ...formData };
@@ -277,12 +276,12 @@ const AboutForm = ({
 
           <div className="flex flex-col">
             <div className="flex justify-end">
-              <button
-                // onClick={nextPage}
-                className="bg-[#7B2CBF] text-[white] w-[100px] h-[30px] rounded-sm "
-                type="submit">
+              <Button
+                type="submit"
+                radius="md"
+                className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ">
                 next
-              </button>
+              </Button>
             </div>
           </div>
         </div>
