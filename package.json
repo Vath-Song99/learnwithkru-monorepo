@@ -14,6 +14,7 @@
     "build:docker": "docker-compose up --build",
     "start:docker": "docker-compose up",
     "stop:docker": "docker-compose stop",
+    "build-up:docker": "docker-compose up --build",
     "restart:docker": "docker-compose restart",
     "start:app": "yarn workspace learnwithkru-application start:dev",
     "start:api-gateway": "yarn workspace api-gateway start:dev",
