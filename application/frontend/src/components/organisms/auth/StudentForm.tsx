@@ -1,5 +1,5 @@
 "use client";
-import React, {  FormEvent, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { Image,  } from "@nextui-org/react";
 import { Button, InputForm, Typography } from "@/components/atoms";
 import * as Yup from "yup";
