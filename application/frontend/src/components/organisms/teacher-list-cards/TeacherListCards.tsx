@@ -2,22 +2,22 @@
 import { CardTeachers } from "@/components/molecules";
 import React, { useContext } from "react";
 import { Mycontext } from "@/context/CardContext";
+import { ITeacher } from "@/@types/teacher.type";
 
-const TeacherListCards = ({ search }: { search: string }) => {
-  const { Data } = useContext(Mycontext);
-  const filteredData = Data.filter((info) => {
-    const searchStr = String(search).trim();
-    return searchStr === ""
-      ? true
-      : info.first_name.toLowerCase().includes(searchStr.toLowerCase());
-  });
+const TeacherListCards = ({  data }: { search: string , data: ITeacher[]}) => {
+  // const filteredData = data.filter((info) => {
+  //   const searchStr = String(search).trim();
+  //   return searchStr === ""
+  //     ? true
+  //     : info.first_name.toLowerCase().includes(searchStr.toLowerCase());
+  // });
 
   return (
     <div className="w-full flex justify-center">
       <div className="w-[80%] flex justify-center lg:justify-between flex-wrap gap-4">
-        {Data.length === 0 ? (""
+        {data.length === 0 ? ("No teacher found!"
         ) : (
-          filteredData.map((item, index) => (
+          data.map((item, index) => (
             <CardTeachers
               key={index}
               bio={item.bio}
