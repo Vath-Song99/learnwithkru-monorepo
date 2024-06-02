@@ -9,6 +9,7 @@ import { ITeacher } from "@/@types/teacher.type";
 const TeacherList = () => {
   const [search, setSearch] = useState("")
   const [data, setData] = useState<ITeacher[]>([]);
+  const [isLoading, setIsLoading ] = useState<boolean>(true)
   // const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleString());
 
   useEffect(() => {
@@ -45,6 +46,8 @@ const TeacherList = () => {
     } catch (error: any) {
       console.error("Error fetching teachers:", error);
       throw error;
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -61,7 +64,7 @@ const TeacherList = () => {
         </div>
         <SearchInput setSearch={setSearch} />
         <FilterTeachers />
-        <TeacherListCards data={data} search={search} />
+        <TeacherListCards data={data} isLoading={isLoading} search={search} />
     </div>
   );
 };

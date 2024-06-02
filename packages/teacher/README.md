@@ -1,46 +1,48 @@
 # Teacher Service
 
 ## Table of Contents
-1. [About the Service](#about-the-service)
-    - [Built With](#built-with)
-    - [Service Structure](#service-structure)
-2. [Getting Started](#getting-started)
+- [Teacher Service](#teacher-service)
+  - [Table of Contents](#table-of-contents)
+  - [About the Service](#about-the-service)
+    - [Service Name Teacher Service](#service-name-teacher-service)
+    - [Description](#description)
+  - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
-    - [Configuration](#configuration)
-3. [Usage](#usage)
-4. [Contact](#contact)
+    - [Running the Service](#running-the-service)
+  - [Usage](#usage)
+    - [Making Requests](#making-requests)
+    - [Endpoints](#endpoints)
+  - [Contact](#contact)
+    - [Email](#email)
+    - [Social Media](#social-media)
+    - [Troubleshooting](#troubleshooting)
 
 ## About the Service
 
-### Service Name
-Teacher Service
+### Service Name Teacher Service
 
 ### Description
-The Teacher Service functions as global middleman, checking all requests that users make to each service in a microservice architecture. It serves as the first line of security, validating user requests.
+- Profile management for teachers.
+- Listing profile functionalities.
+- feedback tools.
 
-### Built With
-* [![Static Badge](https://img.shields.io/badge/Docker%20Desktop-1D63ED?style=for-the-badge&logo=docker&logoColor=fff)](https://www.docker.com/products/docker-desktop/)
-* [![Static Badge](https://img.shields.io/badge/Node.js-499442?style=for-the-badge&logo=node.js&logoColor=fff&color=499442)](https://nodejs.org/en)
-* [![Static Badge](https://img.shields.io/badge/Tyscript-3178C6?style=for-the-badge&logo=typescript&logoColor=fff&color=3178C6)](https://www.typescriptlang.org/)
-* [![Static Badge](https://img.shields.io/badge/Express.js-000?style=for-the-badge&logo=express&logoColor=fff&color=000)](https://expressjs.com/)
-* [![Static Badge](https://img.shields.io/badge/Mongodb-%23023430?style=for-the-badge&logo=mongodb&logoColor=fff&color=%23023430)](https://www.mongodb.com/)
 ## Getting Started
 
 ### Prerequisites
 Before you begin, ensure you have met the following requirements:
-- You have installed [Node.js](https://nodejs.org/)
-- You have installed [npm](https://www.npmjs.com/get-npm) (Node Package Manager) or [yarn](https://yarnpkg.com/)
-- You have terminal or command prompt access
+- You need to install [Node.js](https://nodejs.org/)
+- You need to install [npm](https://www.npmjs.com/get-npm) (Node Package Manager) or [yarn](https://yarnpkg.com/)
+- You need to terminal or command prompt access
 
 ### Installation
 1. **Clone the Repository**
     ```sh
-    git clone https://github.com/neakhatka/neakhatka.git
+    git clone 
     ```
 2. **Navigate to the Service Directory**
     ```sh
-    cd api-gateway
+    cd learnwithkru-monorepo/packages/teacher
     ```
 3. **Install Dependencies**
     ```sh
@@ -50,17 +52,6 @@ Before you begin, ensure you have met the following requirements:
     ```sh
     yarn
     ```
-
-### Configuration
-1. **Create a `.env` File**
-    - Create a `.env` file in the root of the project.
-    - Add necessary environment variables. For example:
-        ```plaintext
-        PORT=3000
-        AUTH_SERVICE_URL=http://auth-service-url
-        USER_SERVICE_URL=http://user-service-url
-        ```
-
 ### Running the Service
 1. **Start the Server**
     ```sh
@@ -73,7 +64,7 @@ Before you begin, ensure you have met the following requirements:
 ## Usage
 
 ### Making Requests
-To use the Teacher Service, you will typically make HTTP requests to it. Here are some common examples:
+To use the Student Service, you will typically make HTTP requests to it. Here are some common examples:
 
 1. **GET Request Example**
     ```sh
@@ -88,32 +79,32 @@ To use the Teacher Service, you will typically make HTTP requests to it. Here ar
     ```
 
 ### Endpoints
-List the main endpoints provided by your Teacher Service. For example:
+List the main endpoints provided by your Student Service. For example:
 
 1. **User Service Endpoint**
     - **Description:** Handles user-related requests.
-    - **URL:** `/user-service`
+    - **URL:** `/student-service`
     - **Methods:**
-        - `GET /user-service/users`: Retrieves a list of users.
-        - `POST /user-service/users`: Creates a new user.
+        ```
+        GET /v1/teachers: Retrieves a list of teachers.
+        GET /v1/teachers/teacher-list: Retrieves a list of teachers.
+        POST /v1/teachers/teacher-signup: Signs up to become a teacher.
+        GET /v1/teachers/teacher-profile/:id: Retrieves the profile of a specific teacher by ID.
+        POST /v1/teachers/login/:userId: Logs in a teacher with a       specific user ID.
 
-2. **Auth Service Endpoint**
-    - **Description:** Handles authentication-related requests.
-    - **URL:** `/auth-service`
-    - **Methods:**
-        - `POST /auth-service/login`: Authenticates a user.
-        - `POST /auth-service/register`: Registers a new user.
+        ```
+
 
 ## Contact
 
 If you have any questions, issues, or suggestions, please feel free to reach out to us. Here are some ways you can contact the maintainers of this project:
 
 ### Email
-- *Support Email:* [sanvisal2302@gmail.com](mailto:sanvisal2302@gmail.com)
-- *Maintainer Email:* [neakhatka@gmail.com](mailto:neakhatka@gmail.com)
+- *Support Email:* [vatgaming287@gmail.com](mailto:vatgaming287@gmail.com)
+- *Maintainer Email:* [learnwithkru@gmail.com](mailto:learnwithkru@gmail.com)
 
 ### Social Media
-- Follow us on Facebook: @neakhatka
+- Follow us on Facebook: @Learnwithkru
 ### Troubleshooting
 If you encounter any issues, check the following:
 - Ensure Node.js and npm/yarn are installed and up to date.
