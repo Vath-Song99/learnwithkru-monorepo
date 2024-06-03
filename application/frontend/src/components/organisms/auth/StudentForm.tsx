@@ -1,8 +1,7 @@
 "use client";
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Image, menuItem } from "@nextui-org/react";
+import React, { FormEvent, useState } from "react";
+import { Image,  } from "@nextui-org/react";
 import { Button, InputForm, Typography } from "@/components/atoms";
-import Link from "next/link";
 import * as Yup from "yup";
 import { studentSchema } from "../../../schema/studentForm";
 import axios from "axios";
@@ -16,7 +15,7 @@ interface Student {
 }
 
 
-const SignupToBecomeStudent = () => {
+const   SignupToBecomeStudent = () => {
     const [image, setImage] = useState<File | null>(null);
     const [imageUrl, setImageUrl] = useState<string>("");
     const [previewURL, setPreviewURL] = useState<string | null>(null);
@@ -29,8 +28,8 @@ const SignupToBecomeStudent = () => {
     const [validate, setValidate] = useState<Student>({
         school_name: "",
         student_card: null,
-        grade: "",
-        education: "",
+        grade: "1",
+        education: "Primary",
     });
 
 
@@ -129,9 +128,10 @@ const SignupToBecomeStudent = () => {
 
 
     return (
-        <div className="flex flex-col justify-between sm:items-start items-start md:items-center h-screen">
-            <div className="w-[60%] sm:w-[75%] md:w-[60%] lg:w-[150vh] flex xl:justify-between lg:justify-center justify-start items-center xl:gap-20">
-                <div className="w-[60%] md:w-full lg:w-[35%] grid lg:grid-flow-row gap-2 mt-2 ">
+        
+        <div className="h-fullflex flex-col justify-between items-center">
+            <div className="w-full sm:w-[75%] md:w-[60%] lg:w-[150vh] flex xl:justify-between lg:justify-center justify-start items-center xl:gap-20">
+                <div className="w-[80%] md:w-full lg:w-[35%] grid lg:grid-flow-row gap-2 mt-2">
                     <Typography
                         align="left"
                         fontSize="xl"
@@ -297,6 +297,7 @@ const SignupToBecomeStudent = () => {
                 />
             </div>
         </div>
+        
     );
 };
 
