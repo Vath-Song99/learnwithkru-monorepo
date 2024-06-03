@@ -30,7 +30,7 @@ export const generateSignature = async ({
 }): Promise<string> => {
   const payloadData = {
     id: _id,
-    role: "teacher",
+    role: ["user", "student"],
   };
   try {
     return await jwt.sign({ payload: payloadData }, privateKey, {

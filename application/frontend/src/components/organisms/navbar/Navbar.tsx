@@ -8,14 +8,7 @@ import {
 import { ButtonDropDown } from "@/components/molecules/button-dropdown";
 import { ProfileDropDown } from "@/components/molecules/profile-dropdown";
 import { Notification } from "@/components/organisms/notification";
-const itemsDropdown = [
-  {
-    itemName: "English",
-  },
-  {
-    itemName: "Khmer",
-  },
-];
+
 // langue
 const options = [
   {
@@ -113,8 +106,6 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({
   className,
-  setIsShowModal,
-  isShowModal,
   authState,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -130,7 +121,6 @@ const Navbar: React.FC<NavbarProps> = ({
     console.log("Selected option:", value);
   };
   // login
-  const [isLogin, setIsLogin] = useState(false);
 
   return (
     <nav
