@@ -1,14 +1,17 @@
 "use client";
 import { Typography } from "@/components/atoms";
-import { Button, Link } from "@nextui-org/react";
+import { Button, Link, user } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useState, useRef, useEffect } from "react";
-
-const VerifyLogin = () => {
+import { useRouter } from "next/navigation";
+const VerifyLogin = ({ isAuth, type }: { isAuth: boolean, type: string }) => {
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
+  const router = useRouter()
   const togglePopup = () => {
     setPopupOpen(!isPopupOpen);
+    setIsLogin(isAuth)
   };
   const handleClickOutside = (event: MouseEvent) => {
     if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
@@ -17,6 +20,13 @@ const VerifyLogin = () => {
   };
   useEffect(() => {
     if (isPopupOpen) {
+      if (isLogin && type === "student") {
+        router.push("http://localhost:8000/student-form")
+      }
+      else if (isLogin && type === "teacher") {
+        router.push("http://localhost:8000/become-teacher")
+
+      }
       document.body.style.overflow = "hidden";
       document.addEventListener("mousedown", handleClickOutside);
     } else {
@@ -28,6 +38,12 @@ const VerifyLogin = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isPopupOpen]);
+
+  console.log("Isauth", isAuth, "toggle: ", isPopupOpen);
+
+  // if (isPopupOpen && ) {
+  //   router.push("http://localhost:8000/student-form")
+  // }
 
   return (
     <div className="relative">
@@ -46,7 +62,7 @@ const VerifyLogin = () => {
           d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
         />
       </svg>
-      {isPopupOpen && (
+      {isPopupOpen && !isLogin && (
         <div className="fixed inset-0 bg-[#000000] bg-opacity-50 flex items-center justify-center z-50">
           <div
             ref={popupRef}
