@@ -1,8 +1,6 @@
 import React from "react";
-import Image from "next/image";
-import { Button, Typography } from "../atoms";
+import { Typography } from "../atoms";
 import { SiderDashboard } from "../molecules/sider-dashboard";
-import { Card } from "@nextui-org/react";
 import { CardAllStudents } from "../molecules/card-all-students";
 import { CardTotalStudents } from "../molecules/card-total-students";
 import { CardCurrentStudents } from "../molecules/card-current-students";

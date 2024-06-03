@@ -11,12 +11,10 @@ import {
 } from "../organisms";
 import { Typography } from "../atoms";
 import Link from "next/link";
-import { PricingForm } from "../organisms/become-teacher-form/Pricing";
 
 const BecomeTeacher = () => {
   const [currentPage, setCurrentPage] = useState(0); // Changed initial page to 0
   const [activeSection, setActiveSection] = useState("about");
-  const [aboutFormCompleted, setAboutFormCompleted] = useState(false);
 
   // const pages = [
   //   // Define components for each page
