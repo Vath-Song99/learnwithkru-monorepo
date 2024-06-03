@@ -25,7 +25,8 @@ export class TeacherServices {
         name,
         province,
         time_available,
-        pricing,
+        min_p,
+        max_p,
         subject,
         pageNumber = 1,
         pageSize = 10,
@@ -49,7 +50,8 @@ export class TeacherServices {
       } // Case-insensitive regex search
       if (province) filter.province = province;
       if (time_available) filter["date_available.day"] = time_available;
-      if (pricing) filter.pricing = { $eq: Number(pricing) }; // Adjust as necessary
+      if (min_p && max_p)
+        filter.pricing = { $gte: Number(min_p), $lte: Number(max_p) }; // Adjust as necessary
       if (subject) filter.subject = subject;
       const { totalTeachers, data } = await this.teacherRepo.FindAllTeachers(
         {
