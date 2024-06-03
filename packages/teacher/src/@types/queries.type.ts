@@ -5,7 +5,8 @@ export interface IQueries {
   subject?: string;
   time_available?: string;
   province?: string;
-  pricing?: string;
+  min_p?: number;
+  max_p?: number;
 }
 
 type FilterCondition = {
@@ -16,6 +17,6 @@ export type Filter = {
   $or?: FilterCondition[];
   "date_available.day"?: string;
   province?: string;
-  pricing?: { $eq: number };
+  pricing?: {  $gte: number,  $lte: number  };
   subject?: string;
 };
