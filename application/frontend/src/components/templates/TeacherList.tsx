@@ -9,7 +9,7 @@ import { ITeacher } from "@/@types/teacher.type";
 const TeacherList = () => {
   const [search, setSearch] = useState("")
   const [data, setData] = useState<ITeacher[]>([]);
-  const [isLoading, setIsLoading ] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   // const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleString());
 
   useEffect(() => {
@@ -38,33 +38,34 @@ const TeacherList = () => {
   const handleRequestTeacher = async () => {
     try {
       console.log(search)
-      const API_ENDPOINT = `http://localhost:3000/v1/teachers/teacher-list?pageSize=10&pageNumber=1&name=${search}` ; // Replace with your actual token
+      const API_ENDPOINT = `http://localhost:3000/v1/teachers/teacher-list?pageNumber=1&pageSize=10&&name=${search}`; // Replace with your actual token
       const response = await axios.get(API_ENDPOINT, { withCredentials: true });
 
       console.log(response)
+      console.log(API_ENDPOINT)
       return response.data;
     } catch (error: any) {
       console.error("Error fetching teachers:", error);
       throw error;
-    }finally{
+    } finally {
       setIsLoading(false)
     }
   };
 
   return (
     <div className="w-full grid grid-flow-row gap-8 ">
-        <div className="w-[80%] mx-auto">
+      <div className="w-[80%] mx-auto">
         <Typography
-        align="left"
-        variant="bold"
-        fontSize="lg"
+          align="left"
+          variant="bold"
+          fontSize="lg"
         >
           See you future teacher
         </Typography>
-        </div>
-        <SearchInput setSearch={setSearch} />
-        <FilterTeachers />
-        <TeacherListCards data={data} isLoading={isLoading} search={search} />
+      </div>
+      <SearchInput setSearch={setSearch} />
+      <FilterTeachers />
+      <TeacherListCards data={data} isLoading={isLoading} search={search} />
     </div>
   );
 };

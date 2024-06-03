@@ -3,7 +3,7 @@ import { CardTeachers } from "@/components/molecules";
 import React from "react";
 import { ITeacher } from "@/@types/teacher.type";
 
-const TeacherListCards = ({ isLoading, data , search }: { isLoading: boolean , search: string, data: ITeacher[]}) => {
+const TeacherListCards = ({ isLoading, data }: { isLoading: boolean, search: string, data: ITeacher[] }) => {
   // const filteredData = data.filter((info) => {
   //   const searchStr = String(search).trim();
   //   return searchStr === ""
@@ -43,7 +43,8 @@ const TeacherListCards = ({ isLoading, data , search }: { isLoading: boolean , s
               price={item.price}
               video={""}
               Degree={""}
-            />
+              isFavorite={false}
+              onFavoriteClick={() => { }} />
           ))
         )}
       </div>

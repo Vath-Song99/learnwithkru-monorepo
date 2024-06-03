@@ -1,6 +1,6 @@
 "use client";
 import React, { FormEvent, useState } from "react";
-import { Image,  } from "@nextui-org/react";
+import { Image } from "@nextui-org/react";
 import { Button, InputForm, Typography } from "@/components/atoms";
 import * as Yup from "yup";
 import { studentSchema } from "../../../schema/studentForm";
@@ -14,24 +14,18 @@ interface Student {
     student_card?: File | null;
 }
 
-
-const   SignupToBecomeStudent = () => {
+const SignupToBecomeStudent = () => {
     const [image, setImage] = useState<File | null>(null);
     const [imageUrl, setImageUrl] = useState<string>("");
-    const [previewURL, setPreviewURL] = useState<string | null>(null);
     const [grade, setGrade] = useState<string>();
     const [education, setEducation] = useState<string>("Primary School");
-
-
-
 
     const [validate, setValidate] = useState<Student>({
         school_name: "",
         student_card: null,
-        grade: "",
-        education: "",
+        grade: "1",
+        education: "Primary",
     });
-
 
     const EducationMenu = [
         { index: 1, value: "Primary School" },
@@ -44,24 +38,23 @@ const   SignupToBecomeStudent = () => {
 
     const handlePostStudent = async (formData: Student) => {
         try {
-            const API_ENDPOINT = "http://localhost:3000/v1/students/become-student"; // Replace with your actual API endpoint
-            const response = await axios.post(API_ENDPOINT, formData,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
+            console.log('data fetch...')
+            const API_ENDPOINT = "http://localhost:3000/v1/students/become-student?"; // Replace with your actual API endpoint
+            const response = await axios.post(API_ENDPOINT, formData, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
             if (response.data.errors) {
-                console.log("An error accor: ", response.data.errors)
-                return false
+                console.log("An error accor: ", response.data.errors);
+                return false;
             }
-            console.log(response.data);
             setValidate(response.data.data);
         } catch (error) {
-            console.error('Error occurred during fetch Student Data:', error);
+            console.error("Error occurred during fetch Student Data:", error);
+        }
+    };
 
-        };
-    }
     const handleEducationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setEducation(e.target.value);
         setValidate({ ...validate, education: e.target.value });
@@ -94,8 +87,8 @@ const   SignupToBecomeStudent = () => {
         event.preventDefault();
         try {
             const formData = new FormData();
-            await studentSchema.validate(validate, { abortEarly: false });
-            await handlePostStudent(validate);
+            await studentSchema.validate(validate, { abortEarly: false }); // validate schema with input
+            await handlePostStudent(validate); 
             if (validate.student_card) {
                 formData.append("student_card", validate.student_card);
             }
@@ -110,13 +103,10 @@ const   SignupToBecomeStudent = () => {
                 });
                 setErrors(newErrors);
             }
-            console.log(errors)
-            alert("Save to DB")
-            console.log("Form submitted successfully");
-
+            console.log(errors);
+            alert("Save to DB");
         }
     };
-    console.log("This is handle data: ", validate)
 
     const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
@@ -126,9 +116,7 @@ const   SignupToBecomeStudent = () => {
         }
     };
 
-
     return (
-        
         <div className="h-fullflex flex-col justify-between items-center">
             <div className="w-full sm:w-[75%] md:w-[60%] lg:w-[150vh] flex xl:justify-between lg:justify-center justify-start items-center xl:gap-20">
                 <div className="w-[80%] md:w-full lg:w-[35%] grid lg:grid-flow-row gap-2 mt-2">
@@ -150,7 +138,9 @@ const   SignupToBecomeStudent = () => {
                     </Typography>
 
                     <form
-                        autoComplete="off" noValidate onSubmit={handleSubmit}
+                        autoComplete="off"
+                        noValidate
+                        onSubmit={handleSubmit}
                         className="w-[120px] lg:w-full lg:grid lg:grid-flow-row lg:gap-3 ml-10 md:gap-3 sm:gap-3 mt-5"
                     >
                         <div>
@@ -192,31 +182,10 @@ const   SignupToBecomeStudent = () => {
                                         alt="Uploaded Preview"
                                         style={{ width: "300px", height: "auto" }}
                                     />
-
                                 </div>
                             )}
                         </div>
-                        {/* <div>
-                            <Typography className="flex justify-start">Education</Typography>
-                            <Select
-                                value={education}
-                                onChange={e => setEducation(e.target.value)}
-                                className="border border-gray-500 h-14 -[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] "
 
-                            >
-                                <option value="" disabled>Select your Education</option>
-                                {EducationMenu.map((item: any, index: number) => (
-
-                                    <option key={index} value={item.value}>
-                                        {item.value}
-
-                                    </option>
-                                ))}</Select>
-                         
-                            {errors.education && (
-                                <p className="text-red-500  text-nowrap">{errors.education}</p>
-                            )}
-                        </div> */}
                         <div>
                             <Typography className="flex justify-start">Education</Typography>
                             <Select
@@ -224,7 +193,9 @@ const   SignupToBecomeStudent = () => {
                                 onChange={handleEducationChange}
                                 className="border border-gray-500 h-14 -[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] "
                             >
-                                <option value="" disabled>Select your Education</option>
+                                <option value="" disabled>
+                                    Select your Education
+                                </option>
                                 {EducationMenu.map((item: any, index: number) => (
                                     <option key={index} value={item.value}>
                                         {item.value}
@@ -240,39 +211,51 @@ const   SignupToBecomeStudent = () => {
                                 What Grade do you Study?
                             </Typography>
 
-
-                            {errors.grade && (
-                                <p className="text-red-500 text-nowrap">{errors.grade}</p>
-                            )}
-
                             <Select
                                 value={grade}
                                 onChange={handleGradeChange}
                                 className="border border-gray-500 h-14 w-full md:w-[350px] sm:w-[350px] lg:w-[500px]"
                             >
-                                <option value="" disabled>Select your Education</option>
-                                {education === "Primary School" && [...Array(6)].map((_, index) => (
-                                    <option key={index + 1} value={index + 1}>Grade {index + 1}</option>
-                                ))}
-                                {education === "Secondary School" && [...Array(3)].map((_, index) => (
-                                    <option key={index + 7} value={index + 7}>Grade {index + 7}</option>
-                                ))}
-                                {education === "High School" && [...Array(3)].map((_, index) => (
-                                    <option key={index + 10} value={index + 10}>Grade {index + 10}</option>
-                                ))}
-                                {education === "Others" && [...Array(4)].map((_, index) => (
-                                    <option key={index + 1} value={index + 1}>Grade {index + 1}</option>
-                                ))}
-                                {education !== "Primary School" && education !== "Secondary School" && education !== "High School" && education! === "Others" && [...Array(12)].map((_, index) => (
-                                    <option key={index + 1} value={index + 1}>Grade {index + 1}</option>
-                                ))}
+                                <option value="" disabled>
+                                    Select your Education
+                                </option>
+                                {education === "Primary School" &&
+                                    [...Array(6)].map((_, index) => (
+                                        <option key={index + 1} value={index + 1}>
+                                            Grade {index + 1}
+                                        </option>
+                                    ))}
+                                {education === "Secondary School" &&
+                                    [...Array(3)].map((_, index) => (
+                                        <option key={index + 7} value={index + 7}>
+                                            Grade {index + 7}
+                                        </option>
+                                    ))}
+                                {education === "High School" &&
+                                    [...Array(3)].map((_, index) => (
+                                        <option key={index + 10} value={index + 10}>
+                                            Grade {index + 10}
+                                        </option>
+                                    ))}
+                                {education === "Others" &&
+                                    [...Array(4)].map((_, index) => (
+                                        <option key={index + 1} value={index + 1}>
+                                            Grade {index + 1}
+                                        </option>
+                                    ))}
+                                {education !== "Primary School" &&
+                                    education !== "Secondary School" &&
+                                    education !== "High School" &&
+                                    education! === "Others" &&
+                                    [...Array(12)].map((_, index) => (
+                                        <option key={index + 1} value={index + 1}>
+                                            Grade {index + 1}
+                                        </option>
+                                    ))}
                             </Select>
-
-
-
-
-
-
+                            {errors.grade && (
+                                <p className="text-red-500 text-nowrap">{errors.grade}</p>
+                            )}
                         </div>
 
                         <div className="w-[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] flex justify-center md:justify-center lg:justify-start">
@@ -297,8 +280,7 @@ const   SignupToBecomeStudent = () => {
                 />
             </div>
         </div>
-        
     );
 };
 
-export default SignupToBecomeStudent
+export default SignupToBecomeStudent;

@@ -8,6 +8,7 @@ const studentSchema = yup.object().shape({
   education: yup.string().required("Education level is required"),
   grade: yup.string().required("Grade is required"),
   student_card: yup.mixed().notRequired(),
+  
 });
 
 export { studentSchema };
