@@ -5,12 +5,12 @@ import { Mycontext } from "@/context/CardContext";
 import { ITeacher } from "@/@types/teacher.type";
 
 const TeacherListCards = ({  data }: { search: string , data: ITeacher[]}) => {
-  // const filteredData = data.filter((info) => {
-  //   const searchStr = String(search).trim();
-  //   return searchStr === ""
-  //     ? true
-  //     : info.first_name.toLowerCase().includes(searchStr.toLowerCase());
-  // });
+``  const filteredData = data.filter((info) => {
+    const searchStr = String(search).trim();
+    return searchStr === ""
+      ? true
+      : info.first_name.toLowerCase().includes(searchStr.toLowerCase());
+  });
 
   return (
     <div className="w-full flex justify-center">
