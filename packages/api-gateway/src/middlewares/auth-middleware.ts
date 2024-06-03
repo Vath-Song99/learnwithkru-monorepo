@@ -9,7 +9,6 @@ async function verifyUser(req: Request, _res: Response, _next: NextFunction) {
   const sessionCookie = req.session?.jwt;
   const persistentCookie = req.cookies?.persistent;
   
-  console.log(persistentCookie)
   try {
     if (!sessionCookie) {
       if(!persistentCookie){
