@@ -4,14 +4,23 @@ import React, { useContext } from "react";
 import { Mycontext } from "@/context/CardContext";
 import { ITeacher } from "@/@types/teacher.type";
 
-const TeacherListCards = ({  data }: { search: string , data: ITeacher[]}) => {
+const TeacherListCards = ({ data }: { search: string, data: ITeacher[] }) => {
   // const filteredData = data.filter((info) => {
   //   const searchStr = String(search).trim();
   //   return searchStr === ""
   //     ? true
   //     : info.first_name.toLowerCase().includes(searchStr.toLowerCase());
   // });
-
+  const { Data, setData } = useContext(Mycontext);
+  const handleFavoriteClick = (userId: string) => {
+    setData((prevData) =>
+      prevData.map((teacher) =>
+        teacher.userId === userId
+          ? { ...teacher, isFavorite: !teacher.isFavorite }
+          : teacher
+      )
+    );
+  };
   return (
     <div className="w-full flex justify-center">
       <div className="w-[80%] flex justify-center lg:justify-between flex-wrap gap-4">
@@ -37,7 +46,8 @@ const TeacherListCards = ({  data }: { search: string , data: ITeacher[]}) => {
               price={item.price}
               video={""}
               Degree={""}
-            />
+              isFavorite={false}
+              onFavoriteClick={() => handleFavoriteClick(item.userId)} />
           ))
         )}
       </div>
