@@ -29,7 +29,7 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
     },
     {
       key: "002",
-      imageUrl: "/Profiles/APoy.jpg",
+      imageUrl: "/Profiles/EnglishTeacher.jpg",
       username: "Reak",
       subjectname: "Physic",
       rateStar: 4.5,
@@ -38,7 +38,7 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
     },
     {
       key: "003 ",
-      imageUrl: "/Profiles/APoy.jpg",
+      imageUrl: "/Profiles/EnglishTeacher.jpg",
       username: "Reak",
       subjectname: "Physic",
       rateStar: 4.5,
@@ -47,7 +47,7 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
     },
     {
       key: "004 ",
-      imageUrl: "/Profiles/APoy.jpg",
+      imageUrl: "/Profiles/EnglishTeacher.jpg",
       username: "dsfhoa",
       subjectname: "Physic",
       rateStar: 4.5,
@@ -56,7 +56,7 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
     },
     {
       key: "005 ",
-      imageUrl: "/Profiles/APoy.jpg",
+      imageUrl: "/Profiles/EnglishTeacher.jpg",
       username: "lwwminhap",
       subjectname: "Physic",
       rateStar: 4.5,
@@ -74,7 +74,7 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ search }) => {
   });
   useEffect(() => {
     setLimitedTeachers(filteredTeachers.slice(0, 3));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
 

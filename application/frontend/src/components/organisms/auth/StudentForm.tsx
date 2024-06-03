@@ -129,9 +129,9 @@ const SignupToBecomeStudent = () => {
 
 
     return (
-        <div className="flex flex-col justify-between items-center h-screen">
-            <div className="w-full sm:w-[75%] md:w-[60%] lg:w-[150vh] flex xl:justify-between lg:justify-center justify-start items-center xl:gap-20">
-                <div className="w-[80%] md:w-full lg:w-[35%] grid lg:grid-flow-row gap-2 mt-2">
+        <div className="flex flex-col justify-between sm:items-start items-start md:items-center h-screen">
+            <div className="w-[60%] sm:w-[75%] md:w-[60%] lg:w-[150vh] flex xl:justify-between lg:justify-center justify-start items-center xl:gap-20">
+                <div className="w-[60%] md:w-full lg:w-[35%] grid lg:grid-flow-row gap-2 mt-2 ">
                     <Typography
                         align="left"
                         fontSize="xl"
@@ -222,7 +222,7 @@ const SignupToBecomeStudent = () => {
                             <Select
                                 value={education}
                                 onChange={handleEducationChange}
-                                className="border border-gray-500 h-14 -[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] "
+                                className="border border-gray-500 h-14 w-[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] "
                             >
                                 <option value="" disabled>Select your Education</option>
                                 {EducationMenu.map((item: any, index: number) => (
@@ -248,7 +248,7 @@ const SignupToBecomeStudent = () => {
                             <Select
                                 value={grade}
                                 onChange={handleGradeChange}
-                                className="border border-gray-500 h-14 w-full md:w-[350px] sm:w-[350px] lg:w-[500px]"
+                                className="border border-gray-500 h-14 w-[300px] md:w-[350px] sm:w-[350px] lg:w-[500px]"
                             >
                                 <option value="" disabled>Select your Education</option>
                                 {education === "Primary School" && [...Array(6)].map((_, index) => (
