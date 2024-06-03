@@ -28,9 +28,9 @@
 
   <br />
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="https://learnwithkru.com/_next/image?url=%2FLogos%2FKruLogo.png&w=640&q=75" alt="Logo" width="120" height="120">
+    <img src="https://learnwithkru.com/_next/image?url=%2FLogos%2FKruLogo.png&w=640&q=75" alt="Logo" width="115" height="110">
   </a>
-  <h1 align="center">Project Learnwithkru</h1>
+  <h1 align="center">Learnwithkru</h1>
 </div>
 
 <!-- TABLE OF CONTENTS -->
@@ -59,11 +59,11 @@
 
 ## About The Project
 
-In a digitally interconnected world, the demand for personalized education has never been higher. Students and learners of all ages are seeking tailored learning experiences that cater to their individual needs, preferences, and schedules. Meanwhile, educators are looking for flexible platforms that allow them to reach a broader audience and provide impactful, one-on-one instruction. Our project aims to bridge this gap by creating an innovative platform designed to connect students and teachers for personalized, one-on-one educational experiences, similar to the well-established Preply platform.
+today's interconnected world, the demand for personalized education is at an all-time high. Learners seek tailored experiences to fit their unique needs and schedules, while educators want flexible platforms to reach more students and offer impactful, individualized instruction. Our project addresses this by creating an innovative platform, similar to Preply, that connects students and teachers for one-on-one educational experiences.
 
-Our platform leverages cutting-edge technology to facilitate seamless interactions between students and educators. By providing a user-friendly interface, robust search functionalities, and secure communication tools, we empower learners to find the perfect teacher who can guide them through their educational journey. Teachers, in turn, gain access to a diverse pool of students, allowing them to expand their reach and impact.
+Utilizing advanced technology, our platform ensures seamless interactions through a user-friendly interface, robust search functions, and secure communication tools. This allows learners to find the ideal teacher for their needs and helps teachers access a wider student base.
 
-Whether it's mastering a new language, excelling in academic subjects, or acquiring new skills, our platform is dedicated to making personalized education accessible and effective. Join us in revolutionizing the way education is delivered and received, creating meaningful connections that foster growth, learning, and success.
+Our goal is to make personalized education accessible and effective, whether for mastering languages, excelling in academics, or acquiring new skills. Join us in transforming education, fostering connections that drive growth and success.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -81,6 +81,14 @@ Our mission centers on democratizing education. They strive to leverage cutting-
 Review our strategic business model and how we create value:
 
 [**Business Canva Model**](https://www.canva.com/design/DAGFFUI1wjs/s-bTcLUb1luvpemtPvv9yA/view?utm_content=DAGFFUI1wjs&utm_campaign=designshare&utm_medium=link&utm_source=editor)
+
+## UI design
+
+This User Interface enhances clarity and usability, ensuring an intuitive experience for users of this project.
+
+[![Figma]](https://www.figma.com/design/ij4jlwjEniD1K69xLpaSt0/KRU-UI?node-id=3512-2368&t=fYhAChYZ5bjfHov7-0)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
 
@@ -117,11 +125,13 @@ learnwithkru-monorepo/
 │   ├── teacher/
 │   ├── user/
 │   └── volomes/
-├── docker/
 ├── libs/
 │   ├──  shared-libs/
 │   └──  config-libs/
 ├── docs/
+├── node_modules
+├── package.json
+├── docker-compose.yaml
 └── README.md
 ```
 
@@ -169,11 +179,16 @@ Open your terminal and change the directory to the Learnwithkru-monorepo folder.
     yarn build:docker
 ```
 
-4. Build and run the Docker containers:
+4. To run the Docker containers:
    Use the following command to build and start the Docker containers. This will set up the necessary environment for your project.
 
 ```sh
     yarn start:docker
+```
+5. To run the Application (Front-end):
+
+```sh
+    yarn start:app
 ```
 
 After completing these steps, your project will be successfully set up locally!
@@ -198,39 +213,24 @@ After completing these steps, your project will be successfully set up locally!
     yarn remove:containers
 ```
 
-<!-- ### Without Docker
+## To see The application:
+After run the follow command above you make request to the Application of Learnwithkru plateform:
 
-If you prefer to set up the project without Docker, follow these commands:
+```sh
+    http:localhost:8000
+```
 
-1. Clone the project:
 
-Open your terminal and run the following command to clone the project repository:
-`sh
-      git clone https://github.com/Vath-Song99/learnwithkru-monorepo.git
-    `
+## To test API 
+If you prefer to test the API Docs you can do by make the request to the endpoint below: 
 
-2. Navigate to the `Learnwithkru-monorepo` folder:
-
-Open your terminal and change the directory to the Learnwithkru-monorepo folder. Replace path/to with the actual path to the project directory on your machine.
-`sh
-    cd path/to/learnwithkru-monorepo
-    `
-
-3. Install the necessary Node.js modules:
-
-   ```sh
-   yarn
-   ```
-
-4. Start all the development server:
-
-   ```sh
-   yarn start:all
-   ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
-
-<!-- USAGE EXAMPLES -->
+  ``` 
+  http://localhost:service-port/swagger
+  ```  
+  #### sample endpoint for auth api:
+  ``` 
+  http://localhost:3001/swagger
+  ```
 
 ## Services
 
@@ -286,13 +286,7 @@ For detailed instructions on setting up and using each service, please refer to 
 <!-- _For more examples and detailed instructions, please refer to the [Documentation](https://example.com)_ -->
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## UI design
 
-This User Interface enhances clarity and usability, ensuring an intuitive experience for users of this project.
-
-[![Figma]](https://www.figma.com/design/ij4jlwjEniD1K69xLpaSt0/KRU-UI?node-id=3512-2368&t=fYhAChYZ5bjfHov7-0)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTACT -->
 

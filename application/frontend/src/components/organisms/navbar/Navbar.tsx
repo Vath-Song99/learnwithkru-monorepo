@@ -1,21 +1,13 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, {  useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
   Button,
-  ButtonIcon,
-  Dropdown,
-  FilterDropdown,
-  ShowDropdown,
-  Typography,
 } from "@/components";
 import { ButtonDropDown } from "@/components/molecules/button-dropdown";
-import { DropdownMenu } from "@nextui-org/react";
 import { ProfileDropDown } from "@/components/molecules/profile-dropdown";
 import { Notification } from "@/components/organisms/notification";
-import { Mycontext } from "@/context/CardContext";
-import axios from "axios";
 const itemsDropdown = [
   {
     itemName: "English",
@@ -160,7 +152,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </Link>
           <Link
             className="text-[#455445] text-sm hover:underline"
-            href={"/become-a-teacher-signup-steps"}
+            href={"/become-teacher"}
           >
             Become a teacher
           </Link>

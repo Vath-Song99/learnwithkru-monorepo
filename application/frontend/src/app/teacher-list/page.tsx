@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import { Navbar, Footer, Homepage } from "@/components";
+import { Navbar, Footer } from "@/components";
 import { TeacherList } from "@/components";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
