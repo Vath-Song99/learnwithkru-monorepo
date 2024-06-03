@@ -4,9 +4,41 @@ import {
   TeacherTimeAvailable,
   TeacherVideo,
 } from "@/components";
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 
-const TeachersProfile = () => {
+const TeachersProfile = ({ teacherId }: { teacherId: string }) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await handleRequestTeacher();
+        // Check if teachers is an array
+        if (Array.isArray(data)) {
+        } else {
+          console.error("Expected an array of data but got:", data);
+        } // Update state with fetched data
+      } catch (error) {
+        console.error("Unexpected error in fetchData method!:");
+        console.error("Fetching data accurs error:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleRequestTeacher = async () => {
+    try {
+      const API_ENDPOINT = `http://localhost:3000/v1/teacher-profile/${teacherId}`; // Replace with your actual token
+      const response = await axios.get(API_ENDPOINT, { withCredentials: true });
+
+      console.log(response);
+      return response.data;
+    } catch (error: any) {
+      console.error("Error fetching teachers:", error);
+      throw error;
+    } finally {
+    }
+  };
   return (
     <div className="w-[1110px]">
       {/* Homepage Benner */}
