@@ -71,6 +71,7 @@
 //     <div className="max-w-full h-[200vh]">
 //       <div className="w-full flex justify-center items-center">
 // <<<<<<< HEAD:application/frontend/src/app/teacher-profile/[id]/page.tsx
+
 //         <Navbar
 //           setIsShowModal={setIsShowModal}
 //           isShowModal={isShowModal}
