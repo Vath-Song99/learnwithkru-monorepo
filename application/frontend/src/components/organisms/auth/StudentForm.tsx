@@ -1,6 +1,6 @@
 "use client";
 import React, { FormEvent, useState } from "react";
-import { Image,  } from "@nextui-org/react";
+import { Image, } from "@nextui-org/react";
 import { Button, InputForm, Typography } from "@/components/atoms";
 import * as Yup from "yup";
 import { studentSchema } from "../../../schema/studentForm";
@@ -10,16 +10,13 @@ import { Select } from "@/components/atoms/select/select";
 interface Student {
     school_name: string;
     education: string;
-    grade: string;
-    student_card?: File | null;
+    grade: number;
+    student_card?: string;
 }
 
 
-const   SignupToBecomeStudent = () => {
-    const [image, setImage] = useState<File | null>(null);
-    const [imageUrl, setImageUrl] = useState<string>("");
-    const [previewURL, setPreviewURL] = useState<string | null>(null);
-    const [grade, setGrade] = useState<string>();
+const SignupToBecomeStudent = () => {
+    const [grade, setGrade] = useState<string>("1");
     const [education, setEducation] = useState<string>("Primary School");
 
 
@@ -27,9 +24,9 @@ const   SignupToBecomeStudent = () => {
 
     const [validate, setValidate] = useState<Student>({
         school_name: "",
-        student_card: null,
-        grade: "",
-        education: "",
+        student_card: '',
+        grade: 1,
+        education: "Primary",
     });
 
 
@@ -50,12 +47,13 @@ const   SignupToBecomeStudent = () => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                });
+                    withCredentials: true
+                },);
             if (response.data.errors) {
                 console.log("An error accor: ", response.data.errors)
-                return false
+                return new Error(response.data.errors)
             }
-            console.log(response.data);
+
             setValidate(response.data.data);
         } catch (error) {
             console.error('Error occurred during fetch Student Data:', error);
@@ -72,7 +70,7 @@ const   SignupToBecomeStudent = () => {
 
     const handleGradeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setGrade(e.target.value);
-        setValidate({ ...validate, grade: e.target.value });
+        setValidate({ ...validate, grade: Number(e.target.value) });
         if (errors.grade) {
             setErrors((prevErrors) => ({ ...prevErrors, grade: "" }));
         }
@@ -111,24 +109,12 @@ const   SignupToBecomeStudent = () => {
                 setErrors(newErrors);
             }
             console.log(errors)
-            alert("Save to DB")
-            console.log("Form submitted successfully");
 
         }
     };
-    console.log("This is handle data: ", validate)
-
-    const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] || null;
-        setValidate({ ...validate, student_card: file });
-        if (errors.student_card) {
-            setErrors((prevErrors) => ({ ...prevErrors, student_card: "" }));
-        }
-    };
-
 
     return (
-        
+
         <div className="h-fullflex flex-col justify-between items-center">
             <div className="w-full sm:w-[75%] md:w-[60%] lg:w-[150vh] flex xl:justify-between lg:justify-center justify-start items-center xl:gap-20">
                 <div className="w-[80%] md:w-full lg:w-[35%] grid lg:grid-flow-row gap-2 mt-2">
@@ -177,24 +163,13 @@ const   SignupToBecomeStudent = () => {
                             </Typography>
                             <InputForm
                                 type="file"
-                                placeholder="Student Card"
+                                placeholder="student_card"
                                 borderColor="secondary"
                                 borderRadius="md"
                                 paddingY="sm"
-                                onChange={handleFileInputChange}
+                                onChange={() => { }}
                                 className="border border-[#445455] outline-none w-[300px] md:w-[350px] sm:w-[350px] lg:w-[500px] h-14 p-3"
                             />
-                            {image && (
-                                <div>
-                                    <h3>Uploaded Image:</h3>
-                                    <img
-                                        src={imageUrl}
-                                        alt="Uploaded Preview"
-                                        style={{ width: "300px", height: "auto" }}
-                                    />
-
-                                </div>
-                            )}
                         </div>
                         {/* <div>
                             <Typography className="flex justify-start">Education</Typography>
@@ -222,7 +197,7 @@ const   SignupToBecomeStudent = () => {
                             <Select
                                 value={education}
                                 onChange={handleEducationChange}
-                                className="border border-gray-500 h-14 -[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] "
+                                className="border border-gray-500 h-14 w-[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] "
                             >
                                 <option value="" disabled>Select your Education</option>
                                 {EducationMenu.map((item: any, index: number) => (
@@ -248,7 +223,7 @@ const   SignupToBecomeStudent = () => {
                             <Select
                                 value={grade}
                                 onChange={handleGradeChange}
-                                className="border border-gray-500 h-14 w-full md:w-[350px] sm:w-[350px] lg:w-[500px]"
+                                className="border border-gray-500 h-14 w-[300px] md:w-[350px] sm:w-[350px] lg:w-[500px]"
                             >
                                 <option value="" disabled>Select your Education</option>
                                 {education === "Primary School" && [...Array(6)].map((_, index) => (
@@ -297,7 +272,7 @@ const   SignupToBecomeStudent = () => {
                 />
             </div>
         </div>
-        
+
     );
 };
 

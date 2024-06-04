@@ -1,3 +1,4 @@
+import { number } from "yup";
 
 interface CardTeachersTypes {
     userId :string,
@@ -14,7 +15,7 @@ interface CardTeachersTypes {
     teacher_experience :string,
     motivation :string, 
     date_available : object;
-    price :string,
+    price :number
     video :string,
     Degree :string,
 }
