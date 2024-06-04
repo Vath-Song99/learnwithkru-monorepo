@@ -190,7 +190,7 @@ const CardTeachers: React.FC<CardTeacherProps> = ({
           align="left"
           variant="semibold"
         >
-          {price} KHR/month
+          ${price} /hour
         </Typography>
       </div>
     </div>
