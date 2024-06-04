@@ -64,7 +64,7 @@ const Page = () => {
       <div className="w-full flex justify-center items-center">
         <Navbar setIsShowModal={setIsShowModal} isShowModal={isShowModal} authState={authState} />
       </div>
-      <Homepage/>
+      <Homepage isAuth={authState.isAuth}/>
       <div className="w-full flex justify-center items-start bg-gray-900"></div>
     </div>
   );

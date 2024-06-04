@@ -13,6 +13,6 @@ export interface ITeacher {
   teacher_experience: string;
   motivation: string;
   date_available: object;
-  price: string;
+  price: number;
   video: string;
 }
