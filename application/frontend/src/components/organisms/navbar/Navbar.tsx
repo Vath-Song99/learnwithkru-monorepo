@@ -99,8 +99,6 @@ const options = [
 ];
 interface NavbarProps {
   className?: string;
-  setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  isShowModal: boolean;
   authState: { isAuth: boolean; user: any };
 }
 

@@ -1,14 +1,15 @@
 //FilterDropDown components
 "use client";
 import {
-  Dropdown,
+
   Typography,
-  ShowDropdown,
-  LinkDropdown,
-  LinkDropdownPage,
+
 } from "@/components/atoms";
 import { Select } from "@/components/atoms/select/select";
-import { useState } from "react";
+import {  ChangeEvent,useContext } from "react";
+import { Mycontext } from "@/context/CardContext";
+
+
 interface FilterDropdownProps {
   className?: string;
   nameDropdown: string;
@@ -22,11 +23,17 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
   nameSubject,
   itemsDropdown = [],
 }) => {
-  // const [selectedItem, setSelectedItem] = useState<string>("");
 
-  // const handleSelect = (item: string) => {
-  //   setSelectedItem(item);
-  // };
+
+  const { setSubject } = useContext(Mycontext);
+
+  const onChangeInput = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setSubject(value)
+    console.log(" name",value)
+  };
 
   return (
     <div className={`lg:w-1/5 w-[48%] grid grid-flow-row ${className}`}>
@@ -36,11 +43,12 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
       <Select
         borderRadius="md"
         borderSize="timeSelect"
-        name="from"
+        name="subject"
+        onChange={onChangeInput}
         className="border border-purple-500  outline-none text-xs"
       >
         {itemsDropdown.map((item, index) => (
-          <option key={item.id} value={item.id}>
+          <option key={item.id} value={item.itemName}>
             {item.itemName}
           </option>
         ))}
