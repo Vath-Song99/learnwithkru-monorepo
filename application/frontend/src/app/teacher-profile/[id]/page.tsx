@@ -70,11 +70,16 @@
 //   return (
 //     <div className="max-w-full h-[200vh]">
 //       <div className="w-full flex justify-center items-center">
+// <<<<<<< HEAD:application/frontend/src/app/teacher-profile/[id]/page.tsx
+
 //         <Navbar
 //           setIsShowModal={setIsShowModal}
 //           isShowModal={isShowModal}
 //           authState={authState}
 //         />
+// =======
+//         <Navbar  authState={authState} />
+// >>>>>>> 1f71c7e764a631c1eb810af1d931f609df689730:application/frontend/src/app/teacher-profile/page.tsx
 //       </div>
 //       <div className="w-full flex justify-center">
 //         <TeachersProfile teacherId={id as string} />
