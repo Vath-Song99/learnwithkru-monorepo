@@ -114,15 +114,11 @@ const options = [
 ];
 interface NavbarProps {
   className?: string;
-  setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  isShowModal: boolean;
   authState: { isAuth: boolean; user: any };
 }
 
 const Navbar: React.FC<NavbarProps> = ({
   className,
-  setIsShowModal,
-  isShowModal,
   authState,
 }) => {
   const [isOpen, setIsOpen] = useState(false);

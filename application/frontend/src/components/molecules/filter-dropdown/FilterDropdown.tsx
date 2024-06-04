@@ -1,15 +1,15 @@
 //FilterDropDown components
 "use client";
 import {
-  Dropdown,
+
   Typography,
-  ShowDropdown,
-  LinkDropdown,
-  LinkDropdownPage,
+
 } from "@/components/atoms";
 import { Select } from "@/components/atoms/select/select";
-import { useState, ChangeEvent,useContext } from "react";
+import {  ChangeEvent,useContext } from "react";
 import { Mycontext } from "@/context/CardContext";
+
+
 interface FilterDropdownProps {
   className?: string;
   nameDropdown: string;

@@ -58,7 +58,7 @@ const Page = () => {
   return (
     <div className="max-w-full  h-[200vh]">
       <div className="w-full flex justify-center items-center">
-        <Navbar setIsShowModal={setIsShowModal} isShowModal={isShowModal} authState={authState} />
+        <Navbar  authState={authState} />
       </div>
       <div className="w-full flex justify-center">
         <TeachersProfile />

@@ -77,9 +77,6 @@ const FilterTeachers = () => {
           itemsDropdownPrice={pricingDropDown}
         />
       </div>
-      <Button className="w-[10%] h-[40px]" radius="md">
-        Search
-      </Button>
     </div>
   );
 };
