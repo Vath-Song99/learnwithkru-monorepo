@@ -1,5 +1,5 @@
 "use client";
-import { AuthForm, AuthModel } from "@/@types/users/users";
+import { AuthForm } from "@/@types/users/users";
 import { Button, InputForm } from "@/components";
 import { AuthValidateSchema } from "@/schema/UserValidateSchema";
 import * as Yup from "yup";
@@ -7,13 +7,12 @@ import React, {
   ChangeEvent,
   FormEvent,
   FormEventHandler,
-  useContext,
   useState,
 } from "react";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import { setLocalStorage } from "@/utils/localStorage";
-import { Mycontext } from "@/context/CardContext";
+import { useRouter } from "next/navigation";
 
 // TODOLIST
 // handle values in a form create state is handle form
@@ -30,12 +29,12 @@ const DEFAULT_FORM_VALUE = {
   email: "",
   password: "",
 };
-const FormSignup = () => {
+const FormSignup= () => {
+  const router = useRouter()
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<AuthForm>(DEFAULT_FORM_VALUE);
   const [rememberMe, setRememberMe] = useState(false);
-
 
   async function fetchsignupData(data: AuthForm) {
     try {
@@ -50,7 +49,6 @@ const FormSignup = () => {
       );
       // Handle successful response
       console.log("Data:", response.data);
-      alert("Check your Email for verificaton!")
       return response.data;
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
@@ -71,22 +69,19 @@ const FormSignup = () => {
         // Regular JavaScript error
         console.error("Error:", error.message);
       }
+    } finally {
+      router.push("http://localhost:8000/send-verify-email")
     }
   }
 
   // Call the function to make the request
   const addNewAuth = async (auth: AuthForm): Promise<void> => {
     try {
-      // Call the fetchData function
-      await fetchsignupData(auth); // Await added for consistency
-      // Optionally fetch data again if rememberMe is not checked
-
       const responseData = await fetchsignupData(auth);
       console.log("Response Data:", responseData); // Logging success data
 
-
       // Save user data to localStorage
-      const authObject = {  
+      const authObject = {
         lastname: auth.lastname,
         firstname: auth.firstname,
         email: auth.email,
@@ -135,7 +130,8 @@ const FormSignup = () => {
       }
     }
   };
-  console.log();
+
+
   return (
     <div className="flex">
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
