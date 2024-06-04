@@ -199,7 +199,7 @@ const CardTeachers: React.FC<CardTeachersTypes> = (props) => {
           fontSize="sm"
           align="left"
           variant="semibold">
-          {price} KHR/month
+          ${price} /hour
         </Typography>
 
         {/* Button best teacher */}
