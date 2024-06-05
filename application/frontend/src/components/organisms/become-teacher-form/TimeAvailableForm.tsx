@@ -1,14 +1,16 @@
 "use client";
+import { useState, useEffect, ChangeEvent, FormEvent, FormEventHandler } from "react";
 import { Button, InputForm, Typography } from "@/components/atoms";
-import React, { ChangeEvent, FormEvent, FormEventHandler, useEffect, useRef, useState } from "react";
-import { TimeAvailableFormTypes } from "./@types";
-import { Select } from "@/components/atoms/select/select";
 import TimeslotSelector from "@/components/molecules/timeslote/TimeSlot";
+import { getLocalStorageTeacher, setLocalStorageTeacher } from "@/utils/localStorage";
+import { TimeAvailableFormTypes } from "./@types";
+
 export interface DataTimeProp {
   id: string;
   hour: string;
 }
-const initialDataTime: DataTimeProp[] = [
+
+const dataTimes: DataTimeProp[] = [
   { id: "1", hour: "00:00" },
   { id: "2", hour: "1:00" },
   { id: "3", hour: "2:00" },
@@ -34,15 +36,16 @@ const initialDataTime: DataTimeProp[] = [
   { id: "23", hour: "22:00" },
   { id: "24", hour: "23:00" },
 ];
+
 export interface TimeslotSelectorProps {
   weekItem: WeekData;
   index: number;
   day: keyof WeekData;
 }
-// Define the interfaces for TypeScript
+
 interface TimeSlot {
-  from: string;
-  to: string;
+  start: string;
+  end: string;
 }
 
 export interface WeekData {
@@ -55,6 +58,16 @@ export interface WeekData {
   sundayData: TimeSlot[];
 }
 
+interface Time {
+  start: string;
+  end: string;
+}
+
+interface Day {
+  day: string;
+  time: Time[];
+}
+
 const TimeAvailableForm = ({
   title,
   description,
@@ -63,27 +76,39 @@ const TimeAvailableForm = ({
   setTimeAvailable,
   setTimeDescription,
   setdataTutor,
+  currentPage,
+  setCurrentPage,
+  pageIndex,
 }: TimeAvailableFormTypes) => {
-
-  const [dataTime, setDataTime] = useState<DataTimeProp[]>(initialDataTime);
-
-
   const initialWeeksState: WeekData[] = [
     {
-      mondayData: [{ from: "9:00", to: "10:00" }],
-      tuesdayData: [{ from: "9:00", to: "10:00" }],
-      wednesdayData: [{ from: "9:00", to: "10:00" }],
-      thursdayData: [{ from: "9:00", to: "10:00" }],
-      fridayData: [{ from: "9:00", to: "10:00" }],
-      saturdayData: [{ from: "9:00", to: "10:00" }],
-      sundayData: [{ from: "9:00", to: "10:00" }],
+      mondayData: [{ start: "9:00", end: "10:00" }],
+      tuesdayData: [{ start: "9:00", end: "10:00" }],
+      wednesdayData: [{ start: "9:00", end: "10:00" }],
+      thursdayData: [{ start: "9:00", end: "10:00" }],
+      fridayData: [{ start: "9:00", end: "10:00" }],
+      saturdayData: [{ start: "9:00", end: "10:00" }],
+      sundayData: [{ start: "9:00", end: "10:00" }],
     },
   ];
+
+  const [dataTime, setDataTime] = useState<DataTimeProp[]>(dataTimes);
   const [weeks, setWeek] = useState<WeekData[]>(initialWeeksState);
+  const [days, setDays] = useState<Day[]>([]);
+  const [isFormComplete, setIsFormComplete] = useState(false);
+
+  const [daysOfWeek, setDaysOfWeek] = useState({
+    monday: true,
+    tuesday: true,
+    wednesday: true,
+    thursday: true,
+    friday: true,
+    saturday: true,
+    sunday: true,
+  });
 
   const handleAddNew = (day: keyof WeekData) => {
-    const newInput = { from: "9:00", to: "10:00" };
-
+    const newInput = { start: "9:00", end: "10:00" };
     setWeek((prevWeeks) =>
       prevWeeks.map((week) => ({
         ...week,
@@ -101,7 +126,19 @@ const TimeAvailableForm = ({
     );
   };
 
-  // Update Existed Timeslot monday
+  const handleBack = () => {
+    if (currentPage > 0) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (!isFormComplete) {
+      return;
+    }
+  };
+  nextPage();
+
   const handleTimeslot = (
     e: ChangeEvent<HTMLSelectElement>,
     idx: number,
@@ -113,7 +150,7 @@ const TimeAvailableForm = ({
       const newArray = [...prev];
       const newDayData = [...newArray[0][day]];
 
-      if (name === "from") {
+      if (name === "start") {
         const indexSlotHour = dataTime.findIndex(
           (eachSlot) => eachSlot.hour === value
         );
@@ -121,7 +158,7 @@ const TimeAvailableForm = ({
         newDayData[idx] = {
           ...newDayData[idx],
           [name]: value,
-          to:
+          end:
             indexSlotHour !== -1 && indexSlotHour < dataTime.length - 1
               ? dataTime[indexSlotHour + 1].hour
               : "",
@@ -134,43 +171,39 @@ const TimeAvailableForm = ({
       return newArray;
     });
   };
-  // updat true aND FASLE
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = e.target;
-    setDaysOfWeek((prevState) => ({
-      ...prevState,
-      [name]: checked,
 
-    }));
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setDaysOfWeek((prevState) => {
+      const updatedState = { ...prevState, [name]: checked };
+      setLocalStorageTeacher("daysOfWeek", updatedState);
+      return updatedState;
+    });
+
     if (!checked) {
       setWeek((prevState) =>
         prevState.map((week) => ({
           ...week,
-          [`${name}Data`]: [{ from: "", to: "" }],
+          [`${name}Data`]: [{ start: "", end: "" }],
         }))
       );
+
+      const updatedDays = days.map((day) =>
+        day.day === name ? { day: "", time: [{ start: "", end: "" }] } : day
+      );
+
+      setDays(updatedDays);
     }
+
     if (checked) {
       setWeek((prevState) =>
         prevState.map((week) => ({
           ...week,
-          [`${name}Data`]: [{ from: "9:00", to: "10:00" }],
+          [`${name}Data`]: [{ start: "9:00", end: "10:00" }],
         }))
       );
     }
   };
-
-
-  const [daysOfWeek, setDaysOfWeek] = useState({
-    monday: true,
-    tuesday: true,
-    wednesday: true,
-    thursday: true,
-    friday: true,
-    saturday: true,
-    sunday: true,
-  });
-
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (
     e: FormEvent<HTMLFormElement>
@@ -178,21 +211,52 @@ const TimeAvailableForm = ({
     e.preventDefault();
 
     try {
+      const newDays = [
+        { day: "monday", time: weeks[0].mondayData },
+        { day: "tuesday", time: weeks[0].tuesdayData },
+        { day: "wednesday", time: weeks[0].wednesdayData },
+        { day: "thursday", time: weeks[0].thursdayData },
+        { day: "friday", time: weeks[0].fridayData },
+        { day: "saturday", time: weeks[0].saturdayData },
+        { day: "sunday", time: weeks[0].sundayData },
+      ];
 
+      setDays(newDays);
+      setLocalStorageTeacher("timeAvailableTeacher", newDays);
+      setdataTutor((prev: any) => ({ ...prev, date_available: newDays }));
 
-      console.log("submit mondayyData", weeks[0].mondayData)
-      console.log("submit tuesdayData", weeks[0].tuesdayData)
-      console.log("submit wednesdayData", weeks[0].wednesdayData)
-      console.log("submit thursdayData", weeks[0].thursdayData)
-      console.log("submit fridayData", weeks[0].fridayData)
-      console.log("submit saturdayData", weeks[0].saturdayData)
-      console.log("submit saturdayData", weeks[0].sundayData)
-      // Add Availble Timeslot
+      if (pageIndex !== undefined) {
+        setCurrentPage((prevPage) => Math.min(prevPage + 1, pageIndex.length - 1));
+      }
+
+      setIsFormComplete(true);
     } catch (error) {
-
+      console.error(error);
     }
   };
 
+  useEffect(() => {
+    const userStorage = getLocalStorageTeacher("timeAvailableTeacher") || [];
+    if (userStorage.length > 0) {
+      setDays(userStorage);
+      const initialWeeks = userStorage.reduce((acc: WeekData[], day: Day) => {
+        (acc[0] as any)[`${day.day}Data`] = day.time; // Use 'as any' to bypass TypeScript type checking
+        return acc;
+      }, initialWeeksState);
+      setWeek(initialWeeks);
+      setDaysOfWeek((prevState) =>
+        userStorage.reduce((acc: { [x: string]: boolean; }, day: { day: string | number; time: string | any[]; }) => {
+          acc[day.day] = day.time.length > 0;
+          return acc;
+        }, { ...prevState })
+      );
+    }
+
+    const storedDaysOfWeek = getLocalStorageTeacher("daysOfWeek");
+    if (storedDaysOfWeek) {
+      setDaysOfWeek(storedDaysOfWeek);
+    }
+  }, []);
   return (
     <div className="w-auto max-w-[200px] sm:max-w-[400px] flex flex-col">
       <div className="flex justify-center">
@@ -562,7 +626,7 @@ const TimeAvailableForm = ({
                         {weekItem.fridayData.map((item, index) => (
                           <div key={index}>
                             <div className="flex justify-between py-2">
-                            <TimeslotSelector
+                              <TimeslotSelector
                                 weekItem={weekItem} // Ensure you pass the correct week item
                                 index={index}
                                 day="fridayData"
@@ -595,7 +659,7 @@ const TimeAvailableForm = ({
                             </div>
 
                             {index === weekItem.fridayData.length - 1 && (
-                              <button onClick={() =>  handleAddNew("fridayData")}>
+                              <button onClick={() => handleAddNew("fridayData")}>
                                 <small className=" underline font-bold">
                                   Add another timeslot
                                 </small>
@@ -622,7 +686,7 @@ const TimeAvailableForm = ({
                   </div>
                   <div className="flex pl-[20px]">
                     <Typography align="left" fontSize="sm" className="py-2">
-                    Saturday
+                      Saturday
                     </Typography>
                   </div>
                 </div>
@@ -758,16 +822,23 @@ const TimeAvailableForm = ({
 
                 </div>
 
-
-
-
                 <div className="flex flex-col">
-                  <div className="flex justify-end">
+                  <div className="flex justify-end gap-4">
+                    {currentPage > 0 && (
+                      <Button
+                        onClick={handleBack}
+                        radius="md"
+                        className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      >
+                        Back
+                      </Button>
+                    )}
                     <Button
                       type="submit"
                       radius="md"
-                      className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ">
-                      next
+                      className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    >
+                      Next
                     </Button>
                   </div>
                 </div>
@@ -783,4 +854,9 @@ const TimeAvailableForm = ({
 };
 
 export { TimeAvailableForm, type TimeSlot };
+
+
+
+
+
 

@@ -34,7 +34,7 @@ interface SelectProps {
   paddingY?: "sm" | "md" | "lg" | "xl";
   borderRadius?: "sm" | "md" | "lg" | "xl" | "full" | "borderphone";
   name?: string;
-  value?: string;
+  value?: string | number;
 }
 const Select: React.FC<SelectProps> = ({
   className,

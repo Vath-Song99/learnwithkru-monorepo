@@ -18,7 +18,7 @@ const TimeslotSelector: React.FC<TimeslotSelectorProps> = ({
   day,
   handleTimeslot,
   dataTime,
-  setDataTime
+  setDataTime,
 }) => (
   <div className="flex flex-col sm:flex-row">
     <div className="flex flex-col pl-[90px] sm:pl-[2px]">
@@ -30,8 +30,8 @@ const TimeslotSelector: React.FC<TimeslotSelectorProps> = ({
       <Select
         borderRadius="md"
         borderSize="timeSelect"
-        name="from"
-        defaultValue={dataTime.find((item) => item.hour === "9:00")?.hour}
+        name="start"
+        defaultValue={dataTime.find((item) => item.hour === '9:00')?.hour}
         onChange={(e) => handleTimeslot(e, index, day)}
         className="border border-purple-500 outline-none text-xs"
       >
@@ -51,40 +51,40 @@ const TimeslotSelector: React.FC<TimeslotSelectorProps> = ({
       <Select
         borderRadius="md"
         borderSize="timeSelect"
-        defaultValue={dataTime.find((item) => item.hour === "10:00")?.hour}
+        defaultValue={dataTime.find((item) => item.hour === '10:00')?.hour}
         onChange={(e) => handleTimeslot(e, index, day)}
-        name="to"
+        name="end"
         className="border border-purple-500 outline-none text-xs"
       >
-        {weekItem[day][index].from
+        {weekItem[day][index].start
           ? dataTime.map((data, idx) => {
-            const fromIndex = dataTime.findIndex(
-              (eachSlot) => eachSlot.hour === weekItem[day][index].from
-            );
-            if (idx > fromIndex) {
-              
-              return (
-               
-                <option key={data.id} value={data.hour}>
-                  {data.hour}
-                </option>
+              const fromIndex = dataTime.findIndex(
+                (eachSlot) => eachSlot.hour === weekItem[day][index].start
               );
-            }
-          })
+              if (idx > fromIndex) {
+                return (
+                  <option key={data.id} value={data.hour}>
+                    {data.hour}
+                  </option>
+                );
+              }
+              if (fromIndex === 23) {
+                return (
+                  <option key={1} value={data.hour}>
+                    {data.hour}
+                  </option>
+                );
+              }
+              return null;
+            })
           : dataTime.map((data) => (
-            <option key={data.id} value={data.hour}>
-              {data.hour}
-            </option>
-          ))}
+              <option key={data.id} value={data.hour}>
+                {data.hour}
+              </option>
+            ))}
       </Select>
     </div>
   </div>
 );
 
 export default TimeslotSelector;
-
-
-
-
-
-

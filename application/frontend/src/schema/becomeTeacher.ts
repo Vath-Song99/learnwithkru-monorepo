@@ -1,12 +1,12 @@
 import * as Yup from "yup";
 const becomeTeacher = Yup.object().shape({
-  lastname: Yup.string()
+   last_name: Yup.string()
     .required()
     .min(3, "lastname at least 3 characters long"),
-  firstname: Yup.string()
+    first_name: Yup.string()
     .required()
     .min(3, "firstname at least 3 characters long"),
-  phonenumber: Yup.string()
+  phone_number: Yup.string()
     .required()
     .min(6, "phone number at least 6 characters long"),
   province: Yup.string().required().min(3, "please select province"),
@@ -19,11 +19,11 @@ const teachersExperience = Yup.object().shape({
   university: Yup.string()
     .required()
     .min(3, "university at least 3 characters long"),
-  yearExperience: Yup.string()
+    year_experience: Yup.number()
     .required()
-    .min(3, "please select year experience"),
-  typeDegree: Yup.string().required().min(3, "please Select type degree "),
-  degreeFile: Yup.string()
+    .min(0),
+    type_degree: Yup.string().required().min(3, "please Select type degree "),
+    certificate: Yup.string()
     .test("file-size", "Image size is too large", function (value) {
       const file =
         value && this.options.context && this.options.context.files
@@ -42,24 +42,33 @@ export { teachersExperience };
 
 const DescriptionTeachers = Yup.object().shape({
   bio: Yup.string().required().min(40, "Bio at least 40 characters long"),
-  teachingExperience: Yup.string()
+  teaching_experience: Yup.string()
     .required()
     .min(40, "Teaching Experience at least 40 characters long"),
-  motivatePotentail: Yup.string()
+    motivation: Yup.string()
     .required()
     .min(40, "Motivate potential  at least 40 characters long "),
-  videoTeaching: Yup.string()
-  .test("file-size", "Video size is too large", function (value) {
-    const file =
-      value && this.options.context && this.options.context.files
-        ? this.options.context.files[value]
-        : null;
-    if (file && file.size) {
-      return file.size <= 1024 * 1024;
-    }
-    return true;
-  })
-  .required("Please upload an Video"),
+    video: Yup.string()
+    .test("file-size", "Video size is too large", function (value) {
+      const file =
+        value && this.options.context && this.options.context.files
+          ? this.options.context.files[value]
+          : null;
+      if (file && file.size) {
+        return file.size <= 1024 * 1024;
+      }
+      return true;
+    })
+    .required("Please upload an Video"),
 });
 
 export { DescriptionTeachers };
+
+const PriceTeachers = Yup.object().shape({
+  priceTeacher: Yup.string()
+  .min(1, "price should be at least 1 number")
+  .max(3, "price should not exceed 990")
+  .required("Please enter a price."),
+});
+
+export { PriceTeachers };
