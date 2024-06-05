@@ -101,6 +101,9 @@ const teacherSchema = new Schema({
     type: String,
     required: true,
   },
+  createdAt: {
+    type: Date, default: Date.now
+  }
 });
 
 const teacherModel = mongoose.model<IteacherDocs>("teachers", teacherSchema);
