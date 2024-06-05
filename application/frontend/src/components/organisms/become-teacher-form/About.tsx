@@ -71,12 +71,8 @@ const AboutForm = ({
   currentPage,
   pageIndex,
   setCurrentPage,
-<<<<<<< HEAD
   setdataTutor,
   dataTutor,
-=======
-  setDataTutor,
->>>>>>> 4bb029f8b7da1ca36c1dfa58882533440f1fc087
 }: BecomeTeacherFormTypes) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] = useState<AboutFormProps>(DEFAULT_FORM_VALUE);
