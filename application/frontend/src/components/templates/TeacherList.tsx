@@ -1,66 +1,64 @@
-"use client"
+"use client";
 import { FilterTeachers, TeacherListCards } from "@/components/organisms";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Typography } from "../atoms";
-import axios from "axios";
 import { SearchInput } from "../molecules";
-import { ITeacher } from "@/@types/teacher.type";
+import { ItemList } from "../molecules/pagination";
 
-const TeacherList = () => {
-  const [search, setSearch] = useState("")
-  const [data, setData] = useState<ITeacher[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  // const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleString());
+interface TeacherListProps {
+  initialData: any;
+}
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await handleRequestTeacher();
-        // Check if teachers is an array
-        if (Array.isArray(data)) {
-          setData(data); // Update state with fetched data
-        } else {
-          console.error("Expected an array of data but got:", data);
-        } // Update state with fetched data
-      } catch (error) {
-        console.error("Unexpected error in fetchData method!:");
-        console.error("Fetching data accurs error:", error);
-      }
-    };
+const TeacherList: React.FC<TeacherListProps> = ({ initialData }) => {
+  const { data, detail } = initialData;
+  const { totalPages, currentPage, totalTeachers } = detail;
+  const [search, setSearch] = useState("");
+  const [teachers, setTeachers] = useState(data);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [pageNumber, setPageNumber] = useState<number>(1);
 
-    fetchData()
-  }, [search]);
+  // const handleRequestTeacher = async () => {
+  //   setIsLoading(true);
+  //   try {
+  //     const API_ENDPOINT = `http://localhost:3000/v1/teachers/teacher-list?pageSize=10&pageNumber=${pageNumber}&name=${search}`;
+  //     const response = await axios.get(API_ENDPOINT, { withCredentials: true });
+  //     const { totalPages, totalTeachers, currentPage } = response.data.detail;
+  //     if (Array.isArray(response.data.data)) {
+  //       setData(response.data.data);
+  //       setTotalPages(totalPages);
+  //     } else {
+  //       console.error("Expected an array of data but got:", response.data.data);
+  //     }
+  //   } catch (error: any) {
+  //     console.error("Error fetching teachers:", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
-  const handleRequestTeacher = async () => {
-    try {
-      console.log(search)
-      const API_ENDPOINT = `http://localhost:3000/v1/teachers/teacher-list?pageSize=10&pageNumber=1&name=${search}`; // Replace with your actual token
-      const response = await axios.get(API_ENDPOINT, { withCredentials: true });
+  // React.useEffect(() => {
+  //   const delaySearch = setTimeout(() => {
+  //     handleRequestTeacher();
+  //   }, 100); // Adjust the delay time as needed (milliseconds)
 
-      console.log(response)
-      return response.data;
-    } catch (error: any) {
-      console.error("Error fetching teachers:", error);
-      throw error;
-    } finally {
-      setIsLoading(false)
-    }
-  };
+  //   return () => clearTimeout(delaySearch); // Clear timeout on component unmount
+  // }, [search, pageNumber]);
 
   return (
-    <div className="w-full grid grid-flow-row gap-8 ">
+    <div className="w-full grid grid-flow-row gap-8">
       <div className="w-[80%] mx-auto">
-        <Typography
-          align="left"
-          variant="bold"
-          fontSize="lg"
-        >
-          See you future teacher
+        <Typography align="left" variant="bold" fontSize="lg">
+          See your future teacher
         </Typography>
       </div>
       <SearchInput setSearch={setSearch} />
       <FilterTeachers />
       <TeacherListCards data={data} isLoading={isLoading} search={search} />
+      <ItemList
+        setPageNumber={setPageNumber}
+        pageNumber={pageNumber}
+        totalPages={totalPages}
+      />
     </div>
   );
 };
