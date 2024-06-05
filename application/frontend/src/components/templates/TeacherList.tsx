@@ -1,23 +1,40 @@
 "use client";
-import { FilterTeachers, TeacherListCards } from "@/components/organisms";
+
 import React, { useState } from "react";
+import { FilterTeachers, TeacherListCards } from "@/components/organisms";
 import { Typography } from "../atoms";
 import { SearchInput } from "../molecules";
 import { ItemList } from "../molecules/pagination";
 import { ITeacher, PageDetails } from "@/@types/teacher.type";
 
 interface TeacherListProps {
-  initialData: {errors?: string , data: {teachers: ITeacher[] , detail: PageDetails}| null};
-  filter: {search_query: string}
+  initialData: {
+    errors?: string;
+    data: {
+      teachers: ITeacher[];
+      detail: PageDetails;
+    } | null;
+  };
 }
 
 const TeacherList: React.FC<TeacherListProps> = ({ initialData }) => {
-  const { data , errors } = initialData;
-  const { teachers , detail } = data!
-  const { totalPages, currentPage, totalTeachers } = detail;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [pageNumber, setPageNumber] = useState<number>(1);
+  const { data } = initialData;
+  const [pageNumber, setPageNumber] = useState<number>(
+    data?.detail.currentPage || 1
+  );
 
+  if (!data) {
+    return (
+      <div className="w-full text-center">
+        <Typography align="center" variant="bold" fontSize="lg">
+          Error loading data.
+        </Typography>
+      </div>
+    );
+  }
+
+  const { teachers, detail } = data;
+  const { totalPages } = detail;
 
   return (
     <div className="w-full grid grid-flow-row gap-8">
@@ -28,7 +45,7 @@ const TeacherList: React.FC<TeacherListProps> = ({ initialData }) => {
       </div>
       <SearchInput />
       <FilterTeachers />
-      <TeacherListCards data={teachers} isLoading={isLoading}  />
+      <TeacherListCards data={teachers} isLoading={!teachers.length} />
       <ItemList
         setPageNumber={setPageNumber}
         pageNumber={pageNumber}
