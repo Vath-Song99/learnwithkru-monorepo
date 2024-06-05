@@ -1,9 +1,12 @@
 import { Typography } from "@/components/atoms";
-import Link from "next/link";
 import React from "react";
 import { VerifyLogin } from "../auth/VerifyLogin";
 
-const HomeBenner: React.FC = ({ className }: { className?: string }) => {
+
+const HomeBenner = ({ className, isAuth }: { className?: string, isAuth: boolean }) => {
+
+
+
   return (
     <div
       className={`w-full h-auto flex justify-center  py-14  bg-[#F6FAFC]  ${className}`} //list card
@@ -77,7 +80,7 @@ const HomeBenner: React.FC = ({ className }: { className?: string }) => {
             </Typography>
 
             <div className="w-full flex justify-end items-center">
-              <VerifyLogin />
+              <VerifyLogin isAuth={isAuth} type="teacher" />
             </div>
           </div>
 
@@ -119,7 +122,7 @@ const HomeBenner: React.FC = ({ className }: { className?: string }) => {
             </Typography>
 
             <div className="w-full flex justify-end items-center">
-              <VerifyLogin />
+              <VerifyLogin isAuth={isAuth} type="student" />
             </div>
           </div>
         </div>

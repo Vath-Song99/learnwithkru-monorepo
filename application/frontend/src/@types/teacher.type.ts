@@ -1,5 +1,5 @@
 export interface ITeacher {
-  userId: string;
+  _id: string;
   first_name: string;
   last_name: string;
   picture: string;
@@ -13,6 +13,6 @@ export interface ITeacher {
   teacher_experience: string;
   motivation: string;
   date_available: object;
-  price: string;
+  price: number;
   video: string;
 }

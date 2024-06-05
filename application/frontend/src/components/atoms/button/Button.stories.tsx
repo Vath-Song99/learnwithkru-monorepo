@@ -21,10 +21,11 @@ type Story = StoryObj<typeof Button>;
 
 export const FirstStory: Story = {
   args: {
+    className:"w-[100px] h-[45px]",
     children: "Button",
     colorScheme: "primary",
     isDisabled: false,
-    radius: "sm",
+    radius: "md",
     fontColor: "white",
     fontSize: "sm",
   },
