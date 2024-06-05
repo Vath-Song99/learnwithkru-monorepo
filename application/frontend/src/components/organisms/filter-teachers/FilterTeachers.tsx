@@ -1,8 +1,8 @@
-import { Button } from "@/components/atoms";
+"use client";
 import { FilterDropdown, FilterDropdownPrice } from "@/components/molecules";
-import React from "react";
+import React, { useState } from "react";
 
-const itemsDropdown = [
+const subjectDropdown = [
   { itemName: "All", id: 1 },
   { itemName: "English", id: 1 },
   { itemName: "Mathematics", id: 2 },
@@ -58,12 +58,28 @@ const pricingDropDown = [
   { id: 5, minPrice: 40, maxPrice: 70 },
 ];
 
-
 const FilterTeachers = () => {
+  const [filters, setFilters] = useState<{
+    subject: string;
+    province: string;
+    time_available: string;
+    min_p: number;
+    max_p: number;
+  }>({
+    subject: "",
+    province: "",
+    time_available: "",
+    min_p: 1,
+    max_p: 10,
+  }); // set valus of all filters fields in this state and make it request to server(Reload)
+
   return (
     <div className="bg-[#F0F7FF] w-[80%] flex mx-auto p-3 justify-center items-center rounded-sm">
       <div className="w-[80%] flex justify-between items-start flex-wrap">
-        <FilterDropdown nameDropdown="Subject" itemsDropdown={itemsDropdown} />
+        <FilterDropdown
+          nameDropdown="Subject"
+          itemsDropdown={subjectDropdown}
+        />
         <FilterDropdown
           nameDropdown="Time Available"
           itemsDropdown={TimeDropDown}
