@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TeacherNavbarComponent } from "../molecules";
 import {
   BecomeTeacherForm,
@@ -12,28 +12,15 @@ import {
 import { Typography } from "../atoms";
 import Link from "next/link";
 import { PricingForm } from "../organisms/become-teacher-form/Pricing";
+import { BecomeTeacherType } from "../organisms/become-teacher-form/@types";
 
 const BecomeTeacher = () => {
   const [currentPage, setCurrentPage] = useState(0); // Changed initial page to 0
   const [activeSection, setActiveSection] = useState("about");
-   const [dataTutor, setdataTutor] = useState<any>(null);
+  const [dataTutor, setdataTutor] = useState<BecomeTeacherType>();
 
   const pages = [0, 1, 2, 3, 4];
-
-  const nextPage = (id: string) => {
-    if (currentPage === pages.length - 1) {
-      // If it's the last page, navigate to the next page using Link
-      // Adjust the 'to' attribute to the path of your next pag
-    } else {
-      setCurrentPage((prevPage) => Math.min(prevPage + 1, pages.length - 1));
-      setActiveSection(id);
-      window.location.hash = id;
-    }
-  };
-  console.log("form data tutor", dataTutor)
-  const bookpage = (num: number) => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, pages.length - 1));
-  };
+ // Retrieve data from localStorage when the component mounts
 
   const handleBackButtonClick = (index: number) => {
     switch (index) {
@@ -54,21 +41,9 @@ const BecomeTeacher = () => {
         // Handle other cases
         break;
     }
-    //  else if (id === "education") {
-    //   setCurrentPage(1);
-    //   setActiveSection("education");
-    // }
-    //  else if (currentPage === pages.length - 1) {
-    //   setCurrentPage((prevPage) => Math.max(prevPage - 2, 0));
-    //   setActiveSection("price");
-    // } else if (currentPage === pages.length - 2) {
-    //   setCurrentPage((prevPage) => Math.max(prevPage - 2, 0));
-    //   setActiveSection("available");
-    // } else {
-    //   setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
-    //   setActiveSection(id);
-    // }
+
   };
+
   return (
     <div className="min-h-screen">
       <div className="h-screen">
@@ -134,7 +109,9 @@ const BecomeTeacher = () => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 pageIndex={pages}
-                setDataTutor={setdataTutor}
+                setdataTutor={setdataTutor}
+                dataTutor= {dataTutor}
+
               />
             </>
           )}
@@ -150,7 +127,8 @@ const BecomeTeacher = () => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 pageIndex={pages}
-                setDataTutor={setdataTutor}
+                setdataTutor={setdataTutor}
+                dataTutor= {dataTutor}
               />
             </>
           )}
@@ -165,7 +143,7 @@ const BecomeTeacher = () => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 pageIndex={pages}
-                setDataTutor={setdataTutor}
+                setdataTutor={setdataTutor}
               />
             </>
           )}
@@ -181,7 +159,8 @@ const BecomeTeacher = () => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 pageIndex={pages}
-                setDataTutor={setdataTutor}
+                setdataTutor={setdataTutor}
+                dataTutor= {dataTutor}
               />
             </>
           )}
@@ -192,30 +171,15 @@ const BecomeTeacher = () => {
                 description="Fill your price per Month. It will be shown in the profile’s list"
                 title="Pricing per month"
                 setCurrentPage={setCurrentPage}
-                setDataTutor={setdataTutor}
+                currentPage={currentPage}
+                pageIndex={pages}
+                setdataTutor={setdataTutor}
+                dataTutor= {dataTutor}
               />
             </>
           )
 
           }
-        </div>
-
-        {/* Pagination controls */}
-        <div className=" flex items-end justify-center mt-4">
-       {currentPage > 0 && (
-        <button
-          className="bg-[#7B2CBF] text-white w-[100px] h-[30px] rounded-sm"
-          onClick={() => bookpage(pages[currentPage - 1])}
-          type="submit">
-          back
-        </button>
-      )}
-          <button
-            className="bg-[#7B2CBF] text-[white] w-[100px] h-[30px] rounded-sm "
-            onClick={() => bookpage(pages[currentPage])}
-            type="submit">
-            next
-          </button>
         </div>
       </div>
     </div>

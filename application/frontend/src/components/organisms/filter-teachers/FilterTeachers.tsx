@@ -3,22 +3,22 @@ import { FilterDropdown, FilterDropdownPrice } from "@/components/molecules";
 import React from "react";
 
 const itemsDropdown = [
-  { itemName: "All", id: 1},
-  { itemName: "English", id: 1},
-  { itemName: "Mathematics", id: 2},
-  { itemName: "Physics", id: 3},
-  { itemName: "Chemistry", id: 4},
+  { itemName: "All", id: 1 },
+  { itemName: "English", id: 1 },
+  { itemName: "Mathematics", id: 2 },
+  { itemName: "Physics", id: 3 },
+  { itemName: "Chemistry", id: 4 },
 ];
 
 const TimeDropDown = [
-  { itemName: "All", id: 1},
-  { itemName: "Monday", id: 1},
-  { itemName: "Tuesday", id: 2},
-  { itemName: "Wednesday", id: 3},
-  { itemName: "Thursday", id: 4},
-  { itemName: "Friday", id: 5},
-  { itemName: "Saturday", id: 6},
-  { itemName: "Sunday", id: 7},
+  { itemName: "All", id: 1 },
+  { itemName: "Monday", id: 1 },
+  { itemName: "Tuesday", id: 2 },
+  { itemName: "Wednesday", id: 3 },
+  { itemName: "Thursday", id: 4 },
+  { itemName: "Friday", id: 5 },
+  { itemName: "Saturday", id: 6 },
+  { itemName: "Sunday", id: 7 },
 ];
 
 const ProvinceDropDown = [
@@ -51,17 +51,17 @@ const ProvinceDropDown = [
 ];
 
 const pricingDropDown = [
-  { id: 1, minPrice: 5, maxPrice: 70,},
-  { id: 2, minPrice: 10, maxPrice: 20,},
-  { id: 3, minPrice: 20, maxPrice: 30,},
-  { id: 4, minPrice: 30, maxPrice: 40,},
-  { id: 5, minPrice: 40, maxPrice: 70,},
+  { id: 1, minPrice: 5, maxPrice: 70 },
+  { id: 2, minPrice: 10, maxPrice: 20 },
+  { id: 3, minPrice: 20, maxPrice: 30 },
+  { id: 4, minPrice: 30, maxPrice: 40 },
+  { id: 5, minPrice: 40, maxPrice: 70 },
 ];
 
 
 const FilterTeachers = () => {
   return (
-    <div className="bg-[#F0F7FF] w-[80%] flex mx-auto p-3 justify-between items-center rounded-sm">
+    <div className="bg-[#F0F7FF] w-[80%] flex mx-auto p-3 justify-center items-center rounded-sm">
       <div className="w-[80%] flex justify-between items-start flex-wrap">
         <FilterDropdown nameDropdown="Subject" itemsDropdown={itemsDropdown} />
         <FilterDropdown
@@ -77,9 +77,6 @@ const FilterTeachers = () => {
           itemsDropdownPrice={pricingDropDown}
         />
       </div>
-      <Button className="w-[10%] h-[40px]" radius="md">
-        Search
-      </Button>
     </div>
   );
 };
