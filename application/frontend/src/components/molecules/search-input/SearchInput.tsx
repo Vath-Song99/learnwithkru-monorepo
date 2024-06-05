@@ -1,23 +1,27 @@
 "use client"
-import React, { ChangeEvent, ReactElement, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { InputForm, Typography } from "@/components/atoms";
+import { useRouter } from "next/navigation";
 
-const SearchInput = ({ className, setSearch }: { className?: string, setSearch: React.Dispatch<React.SetStateAction<string>> }) => {
-  //catch value 
-
+const SearchInput = ({ className }: { className?: string }) => {
+  const router = useRouter()
   const [value, setValue] = useState("")
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
-    if (setSearch) { // Check if setSearch is defined before calling it
-      setSearch(e.target.value);
-    }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      setSearch(event.currentTarget.value);
+    router.push(`http://localhost:8000/teachers?search_query=${value}`)
+    router.refresh()  
     }
   };
+
+  const handleSearchOnclick = (e: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>) =>{
+    // router.push(``);
+    //   router.refresh()
+    window.location.href = `http://localhost:8000/teachers?search_query=${value}`
+  }
   return (
     <div className={`w-[80%] mx-auto ${className}`}>
       <div className="w-full flex justify-center items-center border shadow-sm rounded-md py-1  gap-5 ">
@@ -79,6 +83,8 @@ const SearchInput = ({ className, setSearch }: { className?: string, setSearch: 
               Choose Option
             </Typography>
           </div>
+
+          <button onClick={handleSearchOnclick}>Search me</button>
     </div>
   );
 };
