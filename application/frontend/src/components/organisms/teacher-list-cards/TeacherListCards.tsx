@@ -5,7 +5,6 @@ import { ITeacher } from "@/@types/teacher.type";
 
 interface TeacherListCardsProps {
   isLoading: boolean;
-  search: string;
   data: ITeacher[];
 }
 

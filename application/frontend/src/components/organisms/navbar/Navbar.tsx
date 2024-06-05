@@ -8,6 +8,7 @@ import {
 import { ButtonDropDown } from "@/components/molecules/button-dropdown";
 import { ProfileDropDown } from "@/components/molecules/profile-dropdown";
 import { Notification } from "@/components/organisms/notification";
+import { IUser } from "@/@types/user";
 
 // langue
 const options = [
@@ -99,7 +100,7 @@ const options = [
 ];
 interface NavbarProps {
   className?: string;
-  authState: { isAuth: boolean; user: any };
+  authState: { isAuth: boolean; user: IUser | null };
 }
 
 const Navbar: React.FC<NavbarProps> = ({
@@ -170,7 +171,7 @@ const Navbar: React.FC<NavbarProps> = ({
             <Notification className="hidden lg:inline lg:ml-7 lg:mt-2"></Notification>
             <ProfileDropDown
               icon={
-                !authState.user.picture ? (
+                !authState.user!.picture ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -187,7 +188,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   </svg>
                 ) : (
                   <Image
-                    src={authState.user.picture}
+                    src={authState.user!.picture}
                     alt="user's profile picture"
                     width={500}
                     height={500}

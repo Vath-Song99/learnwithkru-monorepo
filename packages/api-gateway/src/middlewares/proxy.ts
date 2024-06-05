@@ -5,7 +5,6 @@ import { ClientRequest, IncomingMessage } from "http";
 import getConfig from "../utils/createConfig";
 import { StatusCode } from "../utils/consts";
 import { ROUTE_PATHS } from "@api-gateway/route-defs";
-
 import { OptionCookie } from "@api-gateway/utils/cookieOption";
 
 interface ProxyConfig {
@@ -84,8 +83,9 @@ const proxyConfigs: ProxyConfig = {
             }
 
             if (responseBody.isLogout) {
-              delete (req as Request).session!.jwt;
               res.clearCookie("persistent", OptionCookie);
+              res.clearCookie("session", OptionCookie);
+              res.clearCookie("session.sig", OptionCookie);
             }
             // Modify response to send  the message to the client
             res.json({
@@ -170,8 +170,6 @@ const proxyConfigs: ProxyConfig = {
               res.cookie("persistent", responseBody.token, OptionCookie);
               delete responseBody.token;
             }
-            // Modify response to send  the message and user to client to the client
-            console.log(responseBody.data);
             res.json({
               message: responseBody.message,
               data: responseBody.data,

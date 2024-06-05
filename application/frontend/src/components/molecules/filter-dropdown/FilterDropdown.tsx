@@ -6,8 +6,7 @@ import {
 
 } from "@/components/atoms";
 import { Select } from "@/components/atoms/select/select";
-import {  ChangeEvent,useContext } from "react";
-import { Mycontext } from "@/context/CardContext";
+import {  ChangeEvent } from "react";
 
 
 interface FilterDropdownProps {
@@ -20,18 +19,15 @@ interface FilterDropdownProps {
 const FilterDropdown: React.FC<FilterDropdownProps> = ({
   className,
   nameDropdown,
-  nameSubject,
   itemsDropdown = [],
 }) => {
 
 
-  const { setSubject } = useContext(Mycontext);
 
   const onChangeInput = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setSubject(value)
     console.log(" name",value)
   };
 
@@ -47,7 +43,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
         onChange={onChangeInput}
         className="border border-purple-500  outline-none text-xs"
       >
-        {itemsDropdown.map((item, index) => (
+        {itemsDropdown.map((item) => (
           <option key={item.id} value={item.itemName}>
             {item.itemName}
           </option>
