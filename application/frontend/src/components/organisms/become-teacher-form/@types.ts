@@ -40,8 +40,12 @@ export interface BecomeTeacherFormTypes {
   currentPage: number;
   pageIndex?: number[];
   setCurrentPage: Dispatch<SetStateAction<number>>;
+<<<<<<< HEAD
   setdataTutor?:  any
   dataTutor: BecomeTeacherType | undefined;
+=======
+  setDataTutor: Dispatch<SetStateAction<any>>
+>>>>>>> 4bb029f8b7da1ca36c1dfa58882533440f1fc087
 }
 
 export interface TimeAvailableFormTypes extends BecomeTeacherFormTypes {

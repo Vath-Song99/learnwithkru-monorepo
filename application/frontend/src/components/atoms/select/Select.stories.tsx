@@ -23,11 +23,12 @@ export const FirstStory: Story = {
     </Select>
   ),
   args: {
-    className: "",
+    className: "border",
     borderColor: "primary",
     borderSize: "sm",
     paddingX: "sm",
     paddingY: "sm",
-    borderRadius: "sm",
+    borderRadius: "md",
+    // onChange: action("dfg"),
   },
 };
