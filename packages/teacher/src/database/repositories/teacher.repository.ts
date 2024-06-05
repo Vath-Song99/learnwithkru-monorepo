@@ -61,7 +61,7 @@ export class TeacherRepository {
       // Fetch teachers from the database
       // Fetch teachers and total count concurrently
       const [teachers, totalTeachers] = await Promise.all([
-        teacherModel.find(filter).skip(skip).limit(pageSize).lean(),
+        teacherModel.find(filter).sort({ createdAt: -1 }).skip(skip).limit(pageSize).lean(),
         teacherModel.countDocuments(filter),
       ]);
 
