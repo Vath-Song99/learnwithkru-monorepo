@@ -1,29 +1,14 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, {  useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
   Button,
-  ButtonIcon,
-  Dropdown,
-  FilterDropdown,
-  ShowDropdown,
-  Typography,
 } from "@/components";
 import { ButtonDropDown } from "@/components/molecules/button-dropdown";
-import { DropdownMenu } from "@nextui-org/react";
 import { ProfileDropDown } from "@/components/molecules/profile-dropdown";
 import { Notification } from "@/components/organisms/notification";
-import { Mycontext } from "@/context/CardContext";
-import axios from "axios";
-const itemsDropdown = [
-  {
-    itemName: "English",
-  },
-  {
-    itemName: "Khmer",
-  },
-];
+
 // langue
 const options = [
   {
@@ -114,15 +99,11 @@ const options = [
 ];
 interface NavbarProps {
   className?: string;
-  setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  isShowModal: boolean;
   authState: { isAuth: boolean; user: any };
 }
 
 const Navbar: React.FC<NavbarProps> = ({
   className,
-  setIsShowModal,
-  isShowModal,
   authState,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -138,11 +119,10 @@ const Navbar: React.FC<NavbarProps> = ({
     console.log("Selected option:", value);
   };
   // login
-  const [isLogin, setIsLogin] = useState(false);
 
   return (
     <nav
-      className={`w-[80%] h-[100px] flex justify-between items-center  ${className}`}
+      className={`w-[80%] h-[100px] flex justify-between items-center ${className}`}
     >
       <div className="h-full w-1/2 flex items-center justify-start">
         <Link href={"/"}>
@@ -160,7 +140,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </Link>
           <Link
             className="text-[#455445] text-sm hover:underline"
-            href={"/become-a-teacher-signup-steps"}
+            href={"/become-teacher"}
           >
             Become a teacher
           </Link>
@@ -176,7 +156,7 @@ const Navbar: React.FC<NavbarProps> = ({
       {/* right */}
 
       {authState.isAuth ? (
-        <div className="lg:w-1/3 lg:h-1/3 lg:flex lg:items-center lg:justify-center ">
+        <div className="lg:w-1/3 lg:h-1/3 lg:flex lg:items-center lg:justify-end">
           <div className="flex items-center">
             <ButtonDropDown
               options={options}
@@ -190,7 +170,7 @@ const Navbar: React.FC<NavbarProps> = ({
             <Notification className="hidden lg:inline lg:ml-7 lg:mt-2"></Notification>
             <ProfileDropDown
               icon={
-                authState.user.picture === null ? (
+                !authState.user.picture ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -276,9 +256,8 @@ const Navbar: React.FC<NavbarProps> = ({
       </button>
       {/* Slider Navbar Content */}
       <div
-        className={`fixed lg:hidden xl:hidden inset-y-0 right-0 flex flex-col items-start z-50 bg-white w-64 md:w-72 lg:w-80 xl:w-96 shadow-lg transform transition-all duration-300 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed lg:hidden xl:hidden inset-y-0 right-0 flex flex-col items-start z-50 bg-white w-64 md:w-72 lg:w-80 xl:w-96 shadow-lg transform transition-all duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="flex items-center justify-between w-full px-4 py-2">
           <div className="flex">
@@ -388,10 +367,10 @@ const Navbar: React.FC<NavbarProps> = ({
         <div className="w-[90%] mx-auto h-[1.2px] bg-gray-200"></div>
 
         {/* <ButtonDropDown
-          options={options}
-          onChange={handleChange}
-          className="border-blue-500 flex mt-16 ml-7"
-        ></ButtonDropDown> */}
+            options={options}
+            onChange={handleChange}
+            className="border-blue-500 flex mt-16 ml-7"
+          ></ButtonDropDown> */}
       </div>
       {/* Background Overlay */}
       {isOpen && (

@@ -201,9 +201,14 @@ const DescriptionForm = ({
               </div>
             )}
           </div>
+<<<<<<< HEAD
        <div className="flex flex-col">
        <div className="flex justify-end gap-4">
             {currentPage > 0 && (
+=======
+          <div className="flex flex-col items-end  w-[350px]">
+            <div className="flex justify-end/">
+>>>>>>> 4bb029f8b7da1ca36c1dfa58882533440f1fc087
               <Button
                 onClick={handleBack}
                 radius="md"

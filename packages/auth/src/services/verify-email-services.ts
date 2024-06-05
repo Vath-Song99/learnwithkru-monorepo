@@ -110,7 +110,7 @@ export class SendVerifyEmailService {
       }
 
       // Step 3: Find auth data in database
-      const user = await this.authRepo.FindUserById({
+      const user = await this.authRepo.FindAuthById({
         id: verificationToken.authId,
       });
 
@@ -152,8 +152,24 @@ export class SendVerifyEmailService {
 
       // Step 6: Generate JWT token
       const jwtToken = await generateSignature({ _id: data._id.toString() });
-
-      // Step 7: Delete account verification token from database
+      // step 7: Send success message
+      
+      const messageDetails = {
+        receiver: data._id.toString(),
+        template: "verifyResetPassword",
+        timestamp: new Date().toLocaleString(),
+        title: "Congratulations on Joining Learnwithkru",
+        message: "Thank you for joining us. We are excited to help you on your educational journey."
+    };
+    
+      await publishDirectMessage(
+        authChannel,
+        "learnwithkru-notification-message",
+        "notification-message",
+        JSON.stringify(messageDetails),
+        `Success verify verify Email token message has been sent to the notification service`
+      );
+      // Step 8: Delete account verification token from database
       await this.accountVerificationRepo.DeleteVerificationByToken({ token });
 
       return { data, token: jwtToken };
@@ -186,7 +202,7 @@ export class SendVerifyEmailService {
       }
 
       // Step 3: Find auth data in database
-      const user = await this.authRepo.FindUserById({
+      const user = await this.authRepo.FindAuthById({
         id: verificationToken.authId,
       });
 

@@ -141,9 +141,8 @@ const ButtonDropDown: React.FC<ButtonDropDownProps> = ({
             {options.find((option) => option.value === selectedOption)?.icon}
           </span>
           <svg
-            className={`-mr-1 ml-1 h-5 w-5 ${
-              isOpen ? "transform rotate-180" : ""
-            }`}
+            className={`-mr-1 ml-1 h-5 w-5 ${isOpen ? "transform rotate-180" : ""
+              }`}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"

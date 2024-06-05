@@ -4,6 +4,8 @@
 import { TsoaRoute, fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { TeacherController } from './../../controllers/teacher.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { ClassController } from './../../controllers/class.controller';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
 
@@ -19,15 +21,13 @@ const models: TsoaRoute.Models = {
             "picture": {"dataType":"string","required":true},
             "phone_number": {"dataType":"string","required":true},
             "subject": {"dataType":"string","required":true},
-            "is_degree": {"dataType":"boolean","required":true},
+            "province": {"dataType":"string","required":true},
             "university": {"dataType":"string","required":true},
             "year_experience": {"dataType":"double","required":true},
             "type_degree": {"dataType":"string","required":true},
-            "specialization": {"dataType":"string","required":true},
             "bio": {"dataType":"string","required":true},
-            "teacher_experience": {"dataType":"string","required":true},
             "motivation": {"dataType":"string","required":true},
-            "date_available": {"dataType":"object","required":true},
+            "date_available": {"dataType":"nestedObjectLiteral","nestedProperties":{"time":{"dataType":"nestedObjectLiteral","nestedProperties":{"end":{"dataType":"string","required":true},"start":{"dataType":"string","required":true}},"required":true},"day":{"dataType":"string","required":true}},"required":true},
             "price": {"dataType":"double","required":true},
             "certificate": {"dataType":"string","required":true},
             "video": {"dataType":"string","required":true},
@@ -35,11 +35,38 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Paginate": {
+    "IQueries": {
         "dataType": "refObject",
         "properties": {
             "pageSize": {"dataType":"double","required":true},
             "pageNumber": {"dataType":"double","required":true},
+            "name": {"dataType":"string"},
+            "subject": {"dataType":"string"},
+            "time_available": {"dataType":"string"},
+            "province": {"dataType":"string"},
+            "pricing": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IClassRespone": {
+        "dataType": "refObject",
+        "properties": {
+            "class_name": {"dataType":"string","required":true},
+            "subject": {"dataType":"string","required":true},
+            "email": {"dataType":"string","required":true},
+            "_id": {"dataType":"string","required":true},
+            "teacherId": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IClass": {
+        "dataType": "refObject",
+        "properties": {
+            "class_name": {"dataType":"string","required":true},
+            "subject": {"dataType":"string","required":true},
+            "email": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
@@ -60,7 +87,7 @@ export function RegisterRoutes(app: Router) {
 
             async function TeacherController_TeacherList(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    options: {"in":"queries","name":"options","required":true,"ref":"Paginate"},
+                    queries: {"in":"queries","name":"queries","required":true,"ref":"IQueries"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -139,6 +166,67 @@ export function RegisterRoutes(app: Router) {
                 next,
                 validatedArgs,
                 successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/v1/teachers/login/:userId',
+            ...(fetchMiddlewares<RequestHandler>(TeacherController)),
+            ...(fetchMiddlewares<RequestHandler>(TeacherController.prototype.Login)),
+
+            async function TeacherController_Login(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    userId: {"in":"path","name":"userId","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new TeacherController();
+
+              await templateService.apiHandler({
+                methodName: 'Login',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/v1/teachers/class',
+            ...(fetchMiddlewares<RequestHandler>(ClassController)),
+            ...(fetchMiddlewares<RequestHandler>(ClassController.prototype.CreateClass)),
+
+            async function ClassController_CreateClass(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"IClass"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new ClassController();
+
+              await templateService.apiHandler({
+                methodName: 'CreateClass',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 201,
               });
             } catch (err) {
                 return next(err);

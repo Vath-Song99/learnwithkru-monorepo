@@ -22,7 +22,12 @@ export const PATH_SERVICE = {
   USER: {
     CREATE_USER: "/v1/users/create",
     UPDATE_USER: "/v1/users/update",
-
     GET_USER: "/v1/users/by-auth-id",
   },
+  STUDENT:{
+    LOGIN: "/v1/students/login"
+  },
+  TEACHER:{
+    LOGIN: "/v1/teachers/login"
+  }
 };

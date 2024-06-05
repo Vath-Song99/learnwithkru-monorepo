@@ -142,6 +142,29 @@ const BecomeTeacherForm = ({
       }
     }
   };
+<<<<<<< HEAD
+=======
+  return (
+    <div className="h-auto w-[300px] sm:w-[480px] md:w-[500px] lg:w-[800px]  flex justify-center   ">
+      <div className="flex flex-col w-full sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]  h-auto">
+        <div className="">
+          <div className="">
+            <div className="flex flex-col justify-start items-start">
+              <div
+                className="flex justify-start sm:justify-start "
+              >
+                <Typography tags="h1" variant="bold" className="w-auto">
+                  Teaching Certification
+                </Typography>
+              </div>
+              <div
+                className="mt-2"
+              >
+                <Typography fontSize="sm" className=" text-left sm:text-nowrap md:text-nowrap lg:text-nowrap text-balance w-[300px] ">
+                  {description}
+                </Typography>
+              </div>
+>>>>>>> 4bb029f8b7da1ca36c1dfa58882533440f1fc087
 
   useEffect(() => {
     const userStorage = getLocalStorageTeacher("educationTeacher") || DEFAULT_FORM_VALUE;

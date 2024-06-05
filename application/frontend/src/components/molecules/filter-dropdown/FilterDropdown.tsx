@@ -1,57 +1,58 @@
 //FilterDropDown components
-"use client"
+"use client";
 import {
-  Dropdown,
+
   Typography,
-  ShowDropdown,
-  LinkDropdown,
-  LinkDropdownPage,
+
 } from "@/components/atoms";
-import { useState } from "react";
-interface FilterDropdownTypes {
+import { Select } from "@/components/atoms/select/select";
+import {  ChangeEvent,useContext } from "react";
+import { Mycontext } from "@/context/CardContext";
+
+
+interface FilterDropdownProps {
   className?: string;
-  nameDropdown?: string;
+  nameDropdown: string;
   nameSubject?: string;
-  itemsDropdown?: { itemName: string }[];
+  itemsDropdown?: { id: number; itemName: string}[];
 }
 
-const FilterDropdown: React.FC<FilterDropdownTypes> = ({
+const FilterDropdown: React.FC<FilterDropdownProps> = ({
   className,
   nameDropdown,
   nameSubject,
   itemsDropdown = [],
 }) => {
-  const [selectedItem, setSelectedItem] = useState<string>("");
 
-  const handleSelect = (item: string) => {
-    setSelectedItem(item);
+
+  const { setSubject } = useContext(Mycontext);
+
+  const onChangeInput = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setSubject(value)
+    console.log(" name",value)
   };
 
   return (
-
     <div className={`lg:w-1/5 w-[48%] grid grid-flow-row ${className}`}>
       <Typography align="left" className="text-xs" colorscheme="secondary">
         {nameDropdown}
       </Typography>
-      <Dropdown
-        className="w-full"
-        buttonContent={`Select ${nameDropdown}`}
-        selectedItem={selectedItem}
-        onSelect={handleSelect}
+      <Select
+        borderRadius="md"
+        borderSize="timeSelect"
+        name="subject"
+        onChange={onChangeInput}
+        className="border border-purple-500  outline-none text-xs"
       >
-        <ShowDropdown className="w-[180px] sm:w-[270px] md:w-[300px] lg:w-[300px] px-3 py-1">
-          {itemsDropdown.map((item, index) => (
-            <LinkDropdown key={index} className="py-2 text-xs">
-              <LinkDropdownPage
-                className="cursor-pointer"
-                itemDropdown={item.itemName}
-                onSelect={handleSelect}
-              />
-            </LinkDropdown>
-          ))}
-
-        </ShowDropdown>
-      </Dropdown>
+        {itemsDropdown.map((item, index) => (
+          <option key={item.id} value={item.itemName}>
+            {item.itemName}
+          </option>
+        ))}
+      </Select>
     </div>
   );
 };

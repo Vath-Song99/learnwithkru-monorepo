@@ -37,6 +37,7 @@ interface InputProps {
   accept?: string;
   ref?: React.MutableRefObject<HTMLInputElement | null>;
   checked?: boolean | undefined;
+  onKeyEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
 const InputForm: React.FC<InputProps> = ({
@@ -54,6 +55,7 @@ const InputForm: React.FC<InputProps> = ({
   onChange,
   accept,
   checked,
+  onKeyEnter
 }) => {
   const borderColorControl = (borderColorParam: string) => {
     switch (borderColorParam) {
@@ -175,6 +177,7 @@ const InputForm: React.FC<InputProps> = ({
       className={setClassName}
       onChange={onChange}
       checked={checked}
+      onKeyDown={onKeyEnter}
     />
   );
 };

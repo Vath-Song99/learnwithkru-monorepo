@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+
+export interface IStudentDocs extends Document{}
+
 const studentSchemas = new mongoose.Schema({
   userId: {
     type: String

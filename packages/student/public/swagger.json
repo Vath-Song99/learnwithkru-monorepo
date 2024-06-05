@@ -7,9 +7,9 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"Student": {
+			"IStudent": {
 				"properties": {
-					"schoolName": {
+					"school_name": {
 						"type": "string"
 					},
 					"education": {
@@ -19,14 +19,15 @@
 						"type": "number",
 						"format": "double"
 					},
-					"studentCard": {
+					"student_card": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"schoolName",
+					"school_name",
 					"education",
-					"grade"
+					"grade",
+					"student_card"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -85,11 +86,51 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Student"
+								"$ref": "#/components/schemas/IStudent"
 							}
 						}
 					}
 				}
+			}
+		},
+		"/v1/students/login/{userId}": {
+			"get": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"token": {
+											"type": "string"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"token",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		}
 	},

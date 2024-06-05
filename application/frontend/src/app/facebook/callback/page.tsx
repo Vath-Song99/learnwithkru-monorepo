@@ -3,52 +3,50 @@
 
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const CallbackRedirect = () => {
   const router = useRouter();
+  const [isLoading , setIsLoading] = useState<boolean>(true); // Initialize isLoading to true
+
   const searchParams = useSearchParams();
   useEffect(() => {
-
     const code = searchParams.get('code');
 
-    if (code) {
-      // Code is present, send it to your backend to exchange for access token
-      exchangeCodeForToken(code as string);
-    } else {
-      // Code is not present, handle error or redirect accordingly
-      console.error('No authorization code found');
-      // Redirect to error page or home page
-      router.push('/signup');
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
+    const exchangeCodeForToken = async (code: string) => {
+      try {
+        if (!code) throw new Error('No authorization code found');
+        
+        const { data } = await axios.get(`http://localhost:3000/v1/auth/facebook/callback?code=${code}`, {
+          withCredentials: true,
+        });
 
-  const exchangeCodeForToken = async (code: string) => {
-    try {
-      const {data} = await axios.get(`http://localhost:3000/v1/auth/facebook/callback?code=${code}`,{
-        withCredentials: true
-      });
-      // Handle successful token exchange, maybe store token in localStorage or cookies
-      console.log('Token data:', data);
-      // Redirect to dashboard or profile page
-      router.push('/teacher-list');
-    } catch (error) {
-      console.error('Error exchanging code for token:', error);
-      // Redirect to error page or home page
-      router.push('/signup');
-    }
-  };
+        // Handle successful token exchange, maybe store token in localStorage or cookies
+        console.log('Token data:', data);
+        // Redirect to dashboard or profile page
+        router.push('/teacher-list');
+      } catch (error: unknown) {
+        console.error('Error exchanging code for token:', error);
+        // Redirect to error page or home page
+      }finally{
+        setIsLoading(false)
+      }
+    };
 
-  return (
-    <div className='flex justify-center pt-10'>
-    
-      <p className='w-full flex justify-center'
-      >
-        Loading ...
-      </p>
-    </div>
-  );
+    exchangeCodeForToken(code!);
+  }, [router, searchParams]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full flex justify-center pt-10">
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[#7B2CBF]"></div>
+        </div>
+      </div>
+    );
+  }
+
+  return null; // Render nothing when not loading
 };
 
 export default CallbackRedirect;
