@@ -20,10 +20,6 @@ const BecomeTeacher = () => {
   const [dataTutor, setdataTutor] = useState<BecomeTeacherType>();
 
   const pages = [0, 1, 2, 3, 4];
-<<<<<<< HEAD
-=======
- // Retrieve data from localStorage when the component mounts
->>>>>>> 4bb029f8b7da1ca36c1dfa58882533440f1fc087
 
   const handleBackButtonClick = (index: number) => {
     switch (index) {
@@ -147,6 +143,7 @@ const BecomeTeacher = () => {
                 setCurrentPage={setCurrentPage}
                 pageIndex={pages}
                 setdataTutor={setdataTutor}
+                dataTutor= {dataTutor}
               />
             </>
           )}
