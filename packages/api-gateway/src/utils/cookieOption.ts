@@ -1,6 +1,5 @@
 import { CookieOptions } from "express";
 import getConfig from "./createConfig";
-
 const config = getConfig();
 
 export const OptionCookie: CookieOptions = {
@@ -11,3 +10,14 @@ export const OptionCookie: CookieOptions = {
   domain: config.env !== "development" ? "www.learnwithkru.com" : undefined, // Set domain in production, undefined in development
   path: "/", // Ensure the path is set to the root
 };
+
+
+export const OptionSession:CookieSessionInterfaces.CookieSessionOptions = {
+  name: "session",
+  keys: [`${config.cookieSecretKeyOne}`, `${config.cookieSecretKeyTwo}`],
+  maxAge: 24 * 60 * 60 * 1000,
+  secure: config.env !== "development", // update with value from config
+  ...(config.env !== "development" && {
+    sameSite: "none",
+  }),
+}

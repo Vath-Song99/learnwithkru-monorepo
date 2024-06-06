@@ -13,7 +13,6 @@ import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import { setLocalStorage } from "@/utils/localStorage";
 import { useRouter } from "next/navigation";
-
 // TODOLIST
 // handle values in a form create state is handle form
 // handle error in from  nad create state in handle error
@@ -29,13 +28,13 @@ const DEFAULT_FORM_VALUE = {
   email: "",
   password: "",
 };
-const FormSignup= () => {
-  const router = useRouter()
+const FormSignup = () => {
+  const router = useRouter();
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<AuthForm>(DEFAULT_FORM_VALUE);
   const [rememberMe, setRememberMe] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   async function fetchsignupData(data: AuthForm) {
     try {
       const response = await axios.post(
@@ -47,8 +46,9 @@ const FormSignup= () => {
           },
         }
       );
-      // Handle successful response
-      console.log("Data:", response.data);
+      if (response.data.errors) {
+        throw new Error(response.data.errors);
+      }
       return response.data;
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
@@ -70,7 +70,7 @@ const FormSignup= () => {
         console.error("Error:", error.message);
       }
     } finally {
-      router.push("http://localhost:8000/send-verify-email")
+      setIsLoading(false);
     }
   }
 
@@ -78,9 +78,9 @@ const FormSignup= () => {
   const addNewAuth = async (auth: AuthForm): Promise<void> => {
     try {
       const responseData = await fetchsignupData(auth);
-      console.log("Response Data:", responseData); // Logging success data
-
-      // Save user data to localStorage
+      if (responseData) {
+        router.push("http://localhost:8000/send-verify-email");
+      }
       const authObject = {
         lastname: auth.lastname,
         firstname: auth.firstname,
@@ -131,6 +131,15 @@ const FormSignup= () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="w-full flex justify-center pt-10">
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[#7B2CBF]"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex">
@@ -258,9 +267,7 @@ const FormSignup= () => {
               className=" outline-none"
               onChange={handleCheckboxChange}
             />
-            <Link href={"/signup"} className="text-sm">
-              Remember me
-            </Link>
+            <p className="text-sm">Remember me</p>
           </div>
           <Link
             href={"/login"}

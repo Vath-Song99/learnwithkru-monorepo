@@ -20,6 +20,7 @@ export interface ITeacher {
   price: number;
   certificate: string;
   video: string;
+  teaching_experience: string
   // is_degree?: boolean; // Optional, not defined in teacherSchemas
   // specialization?: string; // Optional, not defined in teacherSchemas
   // teacher_experience?: string; // Optional, not defined in teacherSchemas
