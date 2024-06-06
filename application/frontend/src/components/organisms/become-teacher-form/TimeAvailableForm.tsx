@@ -2,7 +2,6 @@
 import { Button, InputForm, Typography } from "@/components/atoms";
 import React, { ChangeEvent, useRef, useState } from "react";
 import { TeachersAvailability, TimeAvailableFormTypes } from "./@types";
-import { TimeSlote } from "@/components/molecules/timeslote";
 import { Select } from "@/components/atoms/select/select";
 interface DataTimeProp {
   id: string;

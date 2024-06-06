@@ -103,6 +103,11 @@ const teacherSchema = new Schema({
   },
   createdAt: {
     type: Date, default: Date.now
+  },
+  teaching_experience: {
+    type: String,
+    min: 25,
+    max:150
   }
 });
 
