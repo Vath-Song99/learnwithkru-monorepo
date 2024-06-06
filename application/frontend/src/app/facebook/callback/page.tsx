@@ -1,39 +1,36 @@
-// pages/callback.js
-"use client"
-
-import axios from 'axios';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+"use client";
+import axios from "axios";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const CallbackRedirect = () => {
   const router = useRouter();
-  const [isLoading , setIsLoading] = useState<boolean>(true); // Initialize isLoading to true
-
+  const [isLoading, setIsLoading] = useState<boolean>(true); // Initialize isLoading to true
   const searchParams = useSearchParams();
   useEffect(() => {
-    const code = searchParams.get('code');
-
+    const code = searchParams.get("code");
+    if (!code) {
+      throw new Error("No authorization code found");
+    }
     const exchangeCodeForToken = async (code: string) => {
       try {
-        if (!code) throw new Error('No authorization code found');
-        
-        const { data } = await axios.get(`http://localhost:3000/v1/auth/facebook/callback?code=${code}`, {
-          withCredentials: true,
-        });
-
-        // Handle successful token exchange, maybe store token in localStorage or cookies
-        console.log('Token data:', data);
-        // Redirect to dashboard or profile page
-        router.push('/teacher-list');
+        const res = await axios.get(
+          `http://localhost:3000/v1/auth/facebook/callback?code=${code}`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(res);
       } catch (error: unknown) {
-        console.error('Error exchanging code for token:', error);
+        console.error("Error exchanging code for token:", error);
         // Redirect to error page or home page
-      }finally{
-        setIsLoading(false)
+      } finally {
+        setIsLoading(false);
+        router.push("/teachers");
       }
     };
 
-    exchangeCodeForToken(code!);
+    exchangeCodeForToken(code);
   }, [router, searchParams]);
 
   if (isLoading) {

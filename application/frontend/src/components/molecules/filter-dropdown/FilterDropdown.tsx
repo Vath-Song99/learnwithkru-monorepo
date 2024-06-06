@@ -2,34 +2,26 @@
 "use client";
 import { Typography } from "@/components/atoms";
 import { Select } from "@/components/atoms/select/select";
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 interface FilterDropdownProps {
   className?: string;
   nameDropdown: string;
   itemsDropdown?: { id: number; itemName: string }[];
-  setSubject?: Dispatch<SetStateAction<string>>;
-  setProvince?: Dispatch<SetStateAction<string>>;
+  selectedValue?: string;
+  onChange: (value: string) => void
 }
 
 const FilterDropdown: React.FC<FilterDropdownProps> = ({
   className,
   nameDropdown,
   itemsDropdown = [],
-  setSubject,
-  setProvince,
+  selectedValue,
+  onChange
 }) => {
-  const onChangeInput = (e: ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    if (nameDropdown.includes("subject") && setSubject) {
-      setSubject(value);
-    } else if (nameDropdown.includes("province") && setProvince) {
-      setProvince(value);
-    }
-  };
+
 
   return (
-    <div className={`lg:w-1/5 w-[48%] grid grid-flow-row ${className}`}>
+    <div className={`lg:w-1/5 w-[48%] grid grid-flow-row ${className} `}>
       <Typography align="left" className="text-xs" colorscheme="secondary">
         {nameDropdown}
       </Typography>
@@ -37,9 +29,9 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
         borderRadius="md"
         borderSize="timeSelect"
         name="subject"
-        onChange={onChangeInput}
-        value=""
-        className="border border-purple-500  outline-none text-xs"
+        onChange={(e) => onChange(e.target.value)}
+        value={selectedValue}
+        className="w-full border border-purple-200  outline-none text-xs "
       >
         {itemsDropdown.map((item) => (
           <option key={item.id} value={item.itemName}>
