@@ -7,6 +7,54 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"IClassRespone": {
+				"properties": {
+					"class_name": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"_id": {
+						"type": "string"
+					},
+					"teacherId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"class_name",
+					"subject",
+					"email",
+					"_id",
+					"teacherId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IClass": {
+				"properties": {
+					"class_name": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"class_name",
+					"subject",
+					"email"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ITeacher": {
 				"properties": {
 					"first_name": {
@@ -79,6 +127,9 @@
 					},
 					"video": {
 						"type": "string"
+					},
+					"teaching_experience": {
+						"type": "string"
 					}
 				},
 				"required": [
@@ -96,7 +147,8 @@
 					"date_available",
 					"price",
 					"certificate",
-					"video"
+					"video",
+					"teaching_experience"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -123,62 +175,15 @@
 					"province": {
 						"type": "string"
 					},
-					"pricing": {
-						"type": "string"
+					"min_p": {
+						"type": "number",
+						"format": "double"
+					},
+					"max_p": {
+						"type": "number",
+						"format": "double"
 					}
 				},
-				"required": [
-					"pageSize",
-					"pageNumber"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"IClassRespone": {
-				"properties": {
-					"class_name": {
-						"type": "string"
-					},
-					"subject": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"_id": {
-						"type": "string"
-					},
-					"teacherId": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"class_name",
-					"subject",
-					"email",
-					"_id",
-					"teacherId"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"IClass": {
-				"properties": {
-					"class_name": {
-						"type": "string"
-					},
-					"subject": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"class_name",
-					"subject",
-					"email"
-				],
 				"type": "object",
 				"additionalProperties": false
 			}
@@ -197,7 +202,48 @@
 		}
 	},
 	"paths": {
-		"/v1/teachers/teacher-list": {
+		"/v1/teachers/class": {
+			"post": {
+				"operationId": "CreateClass",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"$ref": "#/components/schemas/IClassRespone"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IClass"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v1/teachers": {
 			"get": {
 				"operationId": "TeacherList",
 				"responses": {
@@ -213,17 +259,27 @@
 											},
 											"type": "array"
 										},
-										"currentPage": {
-											"type": "number",
-											"format": "double"
-										},
-										"totalPages": {
-											"type": "number",
-											"format": "double"
-										},
-										"totalTeachers": {
-											"type": "number",
-											"format": "double"
+										"detail": {
+											"properties": {
+												"currentPage": {
+													"type": "number",
+													"format": "double"
+												},
+												"totalTeachers": {
+													"type": "number",
+													"format": "double"
+												},
+												"totalPages": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"currentPage",
+												"totalTeachers",
+												"totalPages"
+											],
+											"type": "object"
 										},
 										"message": {
 											"type": "string"
@@ -231,9 +287,7 @@
 									},
 									"required": [
 										"data",
-										"currentPage",
-										"totalPages",
-										"totalTeachers",
+										"detail",
 										"message"
 									],
 									"type": "object"
@@ -247,7 +301,7 @@
 					{
 						"in": "query",
 						"name": "pageSize",
-						"required": true,
+						"required": false,
 						"schema": {
 							"format": "double",
 							"type": "number"
@@ -256,7 +310,7 @@
 					{
 						"in": "query",
 						"name": "pageNumber",
-						"required": true,
+						"required": false,
 						"schema": {
 							"format": "double",
 							"type": "number"
@@ -296,16 +350,26 @@
 					},
 					{
 						"in": "query",
-						"name": "pricing",
+						"name": "min_p",
 						"required": false,
 						"schema": {
-							"type": "string"
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "max_p",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
 						}
 					}
 				]
 			}
 		},
-		"/v1/teachers/teacher-signup": {
+		"/v1/teachers/become-teacher": {
 			"post": {
 				"operationId": "TeacherSingup",
 				"responses": {
@@ -424,47 +488,6 @@
 						}
 					}
 				]
-			}
-		},
-		"/v1/teachers/class": {
-			"post": {
-				"operationId": "CreateClass",
-				"responses": {
-					"201": {
-						"description": "Created",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"data": {
-											"$ref": "#/components/schemas/IClassRespone"
-										},
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"data",
-										"message"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/IClass"
-							}
-						}
-					}
-				}
 			}
 		}
 	},

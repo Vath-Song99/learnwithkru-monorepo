@@ -1,10 +1,8 @@
 import { Button, Typography } from "@/components/atoms";
 import Image from "next/image";
 import React, { useEffect } from "react";
-import { useUser } from "@/context/UserContext";
 import { useRouter, useSearchParams } from "next/navigation";
 const VerifyResetPassword = () => {
-  const { setUser } = useUser();
   const router = useRouter();
   const searchParams = useSearchParams();
   useEffect(() => {

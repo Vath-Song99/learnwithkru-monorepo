@@ -30,7 +30,6 @@
     "gen:student": "yarn workspace student-service gen:all",
     "gen:teacher": "yarn workspace teacher-service gen:all",
     "gen:user": "yarn workspace user-service gen:all",
-    "gen:api-gateway": "yarn workspace api-gateway gen:all",
     "gen:all": "concurrently \"yarn gen:auth\" \"yarn gen:student\" \"yarn gen:teacher\"  \"yarn gen:user\""
   },
   "devDependencies": {
