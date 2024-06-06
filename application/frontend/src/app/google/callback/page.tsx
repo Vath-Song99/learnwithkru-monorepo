@@ -1,39 +1,45 @@
-"use client"
-import axios from 'axios';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+"use client";
+import axios from "axios";
+import { notFound, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const CallbackRedirect = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [isLoading , setIsLoading] = useState<boolean>(true); // Initialize isLoading to true
+  const [isLoading, setIsLoading] = useState<boolean>(true); // Initialize isLoading to true
 
   useEffect(() => {
     const getCodeAndExchange = async () => {
-      const code = searchParams.get('code');
-  
+      const code = searchParams.get("code");
+
       if (!code) {
-        console.error('No authorization code found');
-        return;
+        return new Error("No authorization code found");
       }
-  
       try {
-        const { data } = await axios.get(`http://localhost:3000/v1/auth/google/callback?code=${code}`, {
-          withCredentials: true
-        });
-        console.log('Token data:', data);
-        router.push('/teacher-list');
-      } catch (error) {
-        console.error('Error exchanging code for token:', error);
+        const res = await axios.get(
+          `http://localhost:3000/v1/auth/google/callback?code=${code}`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (res.data.errors) {
+           if(res.data.status === 400){
+              notFound()
+           }
+           
+        } else if (res.data.data) {
+          router.push("/teachers");
+        }
+        throw new Error("Unexpected Error accurs!");
+      } catch (error: unknown) {
+        throw error;
       } finally {
         setIsLoading(false); // Set isLoading to false when request completes (whether success or error)
       }
     };
-  
+
     getCodeAndExchange();
-  }, [router, searchParams, setIsLoading]);
-  
-  
+  }, [router, searchParams]);
 
   if (isLoading) {
     return (

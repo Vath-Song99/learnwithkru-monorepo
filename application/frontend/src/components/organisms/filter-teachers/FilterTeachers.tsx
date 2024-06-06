@@ -1,8 +1,9 @@
-import { Button } from "@/components/atoms";
+"use client";
+import { Filters } from "@/@types/filter";
 import { FilterDropdown, FilterDropdownPrice } from "@/components/molecules";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const itemsDropdown = [
+const subjectDropdown = [
   { itemName: "All", id: 1 },
   { itemName: "English", id: 1 },
   { itemName: "Mathematics", id: 2 },
@@ -58,23 +59,104 @@ const pricingDropDown = [
   { id: 5, minPrice: 40, maxPrice: 70 },
 ];
 
-
 const FilterTeachers = () => {
+  const [filters, setFilters] = useState<Filters>({
+    subject: "",
+    province: "",
+    time_available: "",
+    min_p: 0,
+    max_p: 0,
+  });
+
+
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+
+    const subject = query.get('subject') || "";
+    const province = query.get('province') || "";
+    const time_available = query.get('time_available') || "";
+    const min_p = query.get('min_p') ? parseInt(query.get('min_p')!) : 0;
+    const max_p = query.get('max_p') ? parseInt(query.get('max_p')!) : 0;
+
+    setFilters({
+      subject,
+      province,
+      time_available,
+      min_p,
+      max_p,
+    });
+  }, []);
+
+  const handleFilterChange = (name: keyof Filters, value: string | number) => {
+    setFilters((prevFilters) => {
+      const updatedFilters = { ...prevFilters, [name]: value };
+      updateQueryParams(updatedFilters);
+      return updatedFilters;
+    });
+  };
+
+  const handlePriceChange = (minPrice: number, maxPrice: number) => {
+    setFilters((prevFilters) => {
+      const updatedFilters = {
+        ...prevFilters,
+        min_p: minPrice,
+        max_p: maxPrice,
+      };
+      updateQueryParams(updatedFilters);
+      return updatedFilters;
+    });
+  };
+
+  const updateQueryParams = (filters: Filters) => {
+    const queryParameters: Record<string, string> = {};
+
+    if (filters.subject) {
+      queryParameters.subject = filters.subject;
+    }
+    if (filters.province) {
+      queryParameters.province = filters.province;
+    }
+    if (filters.time_available) {
+      queryParameters.time_available = filters.time_available;
+    }
+    if (filters.min_p !== undefined && filters.min_p !== null) {
+      queryParameters.min_p = filters.min_p.toString();
+    }
+    if (filters.max_p !== undefined && filters.max_p !== null) {
+      queryParameters.max_p = filters.max_p.toString();
+    }
+
+    const query = new URLSearchParams(queryParameters).toString();
+
+    window.history.replaceState(null, "", `?${query}`);
+    window.location.reload();
+  };
+
   return (
-    <div className="bg-[#F0F7FF] w-[80%] flex mx-auto p-3 justify-center items-center rounded-sm">
-      <div className="w-[80%] flex justify-between items-start flex-wrap">
-        <FilterDropdown nameDropdown="Subject" itemsDropdown={itemsDropdown} />
+    <div className=" w-full flex justify-center items-center rounded-sm  py-3 ">
+      <div className="w-[80%] flex justify-between items-center flex-wrap px-1">
         <FilterDropdown
-          nameDropdown="Time Available"
+          nameDropdown="Subject"
+          itemsDropdown={subjectDropdown}
+          selectedValue={filters.subject}
+          onChange={(value) => handleFilterChange("subject", value)}
+        />
+        <FilterDropdown
+          nameDropdown="Time_available"
           itemsDropdown={TimeDropDown}
+          selectedValue={filters.time_available}
+          onChange={(value) => handleFilterChange("time_available", value)}
         />
         <FilterDropdown
           nameDropdown="Province"
           itemsDropdown={ProvinceDropDown}
+          selectedValue={filters.province}
+          onChange={(value) => handleFilterChange("province", value)}
         />
         <FilterDropdownPrice
           nameDropdownPrice="Pricing"
           itemsDropdownPrice={pricingDropDown}
+          onChange={handlePriceChange}
         />
       </div>
     </div>

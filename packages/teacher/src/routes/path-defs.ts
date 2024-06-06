@@ -1,7 +1,7 @@
 export const PATH_TEACHER = {
   base: "/v1/teachers",
-  teacherList: "/teacher-list",
-  teacherSignup: "/teacher-signup",
+  teacherList: " ",
+  teacherSignup: "/become-teacher",
   teacherProfile: "/teacher-profile/:id",
   login: '/login/:userId'
 };
