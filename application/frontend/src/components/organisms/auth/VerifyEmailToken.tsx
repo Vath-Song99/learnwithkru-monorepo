@@ -1,45 +1,55 @@
 "use client"
-import { useRouter, useSearchParams } from "next/navigation";
+import { notFound, useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
+import { useState, useEffect } from "react";
+import { handleClientScriptLoad } from "next/script";
 const VerifyEmailToken = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const handleVerifyEmail = async () => {
-    const token = searchParams.get("token");
-    console.log("this is token:", token);
-    if (token) {
-      // token is present, send it to your backend to exchange for access token
-      exchangetokenForToken(token);
-    } else {
-      // token is not present, handle error or redirect accordingly
-      console.error("No authorization token found");
-      // Redirect to error page or home page
-    }
-  };
+  const [isLoading, setIsLoading] = useState<boolean>(true); // Initialize isLoading to true
 
-  const exchangetokenForToken = async (token: string) => {
-    try {
-      const {data} = await axios.get(
-        `http://localhost:3000/v1/auth/verify?token=${token}`,
-        {
-          withCredentials: true
-        }
+  useEffect(() => {
+    const getCodeAndExchange = async () => {
+      const code = searchParams.get("code");
 
-      );
-      console.log("Token data:", data);
-      // Redirect to dashboard or profile page
-
-      if(data.errors){
-        console.log(`${data.errors.message}`)
+      if (!code) {
+        return new Error("No authorization code found");
       }
-      setTimeout(() => {
-        router.push("/teacher-list");
-      }, 5000);
-    } catch (error) {
-      console.error("Error exchanging token for token:", error);
-      // Redirect to error page or home page
-    }
-  };
+      try {
+        const res = await axios.get(
+          `http://localhost:3000/v1/auth/verify?code=${code}`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (res.data.errors) {
+           if(res.data.status === 400){
+              notFound()
+           }
+           
+        } else if (res.data.data) {
+          router.push("/teachers");
+        }
+        throw new Error("Unexpected Error accurs!");
+      } catch (error: unknown) {
+        throw error;
+      } finally {
+        setIsLoading(false); // Set isLoading to false when request completes (whether success or error)
+      }
+    };
+
+    getCodeAndExchange();
+  }, [router, searchParams]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full flex justify-center pt-10">
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[#7B2CBF]"></div>
+        </div>
+      </div>
+    );
+  }
   
     return (
       <div>
@@ -80,7 +90,7 @@ const VerifyEmailToken = () => {
           </div>
           <p>We&apos;re happy you&apos;re here. Let&apos;s get your email address verified:</p>
           <div className="mt-4">
-            <button className="px-2 py-2 text-blue-200 bg-blue-600 rounded" onClick={handleVerifyEmail}>
+            <button className="px-2 py-2 text-blue-200 bg-blue-600 rounded" onClick={handleClientScriptLoad}>
               Click here
             </button>
             <p className="mt-4 text-sm">

@@ -34,7 +34,6 @@ const FormSignup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<AuthForm>(DEFAULT_FORM_VALUE);
   const [rememberMe, setRememberMe] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   async function fetchsignupData(data: AuthForm) {
     try {
       const response = await axios.post(
@@ -54,6 +53,10 @@ const FormSignup = () => {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
         if (axiosError.response) {
+          const message = axiosError.response.data as any
+          if(message.errors.message.includes("Verification email has been resent")){
+            router.push("http://localhost:8000/send-verify-email");
+          }
           // Request was made and server responded with a status code
           console.log("Response data:", axiosError.response.data);
           console.log("Status code:", axiosError.response.status);
@@ -69,8 +72,6 @@ const FormSignup = () => {
         // Regular JavaScript error
         console.error("Error:", error.message);
       }
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -115,7 +116,7 @@ const FormSignup = () => {
       // stept 3
       await AuthValidateSchema.validate(formData, { abortEarly: false });
       // stept 4
-      addNewAuth(formData);
+      await addNewAuth(formData);
 
       setErrors({});
     } catch (error) {
@@ -131,15 +132,6 @@ const FormSignup = () => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="w-full flex justify-center pt-10">
-        <div className="flex justify-center items-center min-h-screen">
-          <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[#7B2CBF]"></div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="flex">
