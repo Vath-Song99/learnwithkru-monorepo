@@ -34,7 +34,7 @@ const CallbackRedirect = () => {
     };
 
     getCodeAndExchange();
-  }, []);
+  }, [router, searchParams]);
 
   if (isLoading) {
     return (

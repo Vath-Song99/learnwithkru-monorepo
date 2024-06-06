@@ -37,9 +37,9 @@ const TeacherList: React.FC<TeacherListProps> = ({ initialData }) => {
   const { totalPages } = detail;
 
   return (
-    <div className="w-full grid grid-flow-row gap-8">
+    <div className="w-full grid grid-flow-row gap-y-4">
       <div className="w-[80%] mx-auto">
-        <Typography align="left" variant="bold" fontSize="lg">
+        <Typography align="left" variant="bold" fontSize="md">
           See your future teacher
         </Typography>
       </div>

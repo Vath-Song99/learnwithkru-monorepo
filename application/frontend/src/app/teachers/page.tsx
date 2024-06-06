@@ -5,8 +5,6 @@ import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
 import { notFound } from "next/navigation";
 
-// Utility function to get cookies as a string for headers
-
 const getUserData = async (): Promise<{
   isAuth?: boolean;
   errors?: string;
@@ -14,16 +12,12 @@ const getUserData = async (): Promise<{
 }> => {
   try {
     const cookieString = getCookieString();
-    if (
-      !cookieString.includes("persistent") &&
-      !cookieString.includes("session")
-    ) {
-      return { isAuth: false, data: null };
+    if (typeof cookieString === "object") {
+      return cookieString;
     }
-
     const res = await axios.get("http://localhost:3000/v1/users", {
       withCredentials: true,
-      headers: { Cookie: cookieString },
+      headers: { Cookie: cookieString as string },
     });
 
     if (res.data.errors) {
@@ -40,23 +34,48 @@ const getUserData = async (): Promise<{
 async function getTeachersData({
   search_query,
   pageNumber,
+  province,
+  subject,
+  time_available,
+  min_p,
+  max_p,
 }: {
   search_query: string;
   pageNumber: number;
-}): Promise<{
-  errors?: string;
-  data: { teachers: ITeacher[]; detail: PageDetails } | null;
-}> {
+  province: string;
+  subject: string;
+  time_available: string;
+  min_p: number;
+  max_p: number;
+}): Promise<
+  | {
+      errors?: string;
+      data: { teachers: ITeacher[]; detail: PageDetails } | null;
+    }
+  | undefined
+> {
   try {
-    const API_ENDPOINT = `http://localhost:3000/v1/teachers?pageSize=2&pageNumber=${pageNumber}&name=${search_query}`;
+    const API_ENDPOINT = `http://localhost:3000/v1/teachers?pageSize=6&pageNumber=${pageNumber}&name=${search_query}&province=${province}&subject=${subject}&time_available=${time_available}&min_p=${min_p}&max_p=${max_p}`;
     const res = await axios.get(API_ENDPOINT);
 
     return { data: { teachers: res.data.data, detail: res.data.detail } };
   } catch (error: any) {
-    if (error.response?.status === 404) {
-      notFound();
+    console.error("Error fetching teachers data:", error.response.status);
+
+    // Check if error has a response object
+    if (error.response) {
+      const { status } = error.response;
+
+      // Handle 404 or 401 errors
+      if (status === 404 || status === 401) {
+        notFound();
+      }
+      // Handle 500 error
+      else if (status === 500) {
+        throw new Error("Something went wrong!");
+      }
+      return;
     }
-    console.error("Error fetching teachers data:", error);
     throw error;
   }
 }
@@ -69,14 +88,27 @@ const Page = async ({
   const { isAuth, data } = await getUserData();
   const search_query = (searchParams.search_query as string) || "";
   const pageNumber = Number(searchParams.pageNumber as string) || 1;
-  const teachers = await getTeachersData({ search_query, pageNumber });
+  const province = (searchParams.province as string) || "";
+  const subject = (searchParams.subject as string) || "";
+  const time_available = (searchParams.time_available as string) || "";
+  const min_p = Number(searchParams.min_p as string) || 0;
+  const max_p = Number(searchParams.max_p as string) || 0;
+  const teachers = await getTeachersData({
+    search_query,
+    pageNumber,
+    province: province === "All" ? "" : province,
+    subject: subject === "All" ? "" : province,
+    time_available: time_available === "All" ? "" : province,
+    min_p,
+    max_p,
+  });
 
   return (
     <div className="max-w-full grid gap-5">
       <div className="w-full flex justify-center items-center border shadow-sm">
         <Navbar authState={{ isAuth: isAuth ?? false, user: data }} />
       </div>
-      <TeacherList initialData={teachers} />
+      <TeacherList initialData={teachers!} />
       <div className="w-full flex justify-center items-start bg-black">
         <Footer />
       </div>

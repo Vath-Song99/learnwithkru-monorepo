@@ -284,8 +284,8 @@ export class AuthServices {
         authId: _id.toString(),
         firstname: firstname as string,
         lastname: lastname as string,
-        email: newUser!.email as string,
-        picture: newUser!.picture as string,
+        email: newUser?.email as string,
+        picture: newUser?.picture as string,
       };
       const requestUser = new RequestUserService();
       const user = await requestUser.CreateUser(userData);

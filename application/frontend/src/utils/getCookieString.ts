@@ -6,6 +6,10 @@ export const getCookieString = () => {
   const persistent = cookiesStore.get("persistent")?.value;
   const session = cookiesStore.get("session")?.value;
   const sessionSig = cookiesStore.get("session.sig")?.value;
-
-  return `_ga=${_ga};persistent=${persistent};session=${session};session.sig=${sessionSig}`;
+  if (!persistent && !session && !sessionSig) {
+    return { isAuth: false, data: null };
+  } else if (persistent && session && sessionSig) {
+    return `_ga=${_ga};persistent=${persistent};session=${session};session.sig=${sessionSig}`;
+  }
+  return;
 };

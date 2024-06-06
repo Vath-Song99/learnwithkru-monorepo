@@ -1,7 +1,8 @@
 import { IUser } from "@/@types/user";
 import { Homepage, Navbar } from "@/components";
+import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
-import { cookies } from "next/headers";
+
 
 const getUserData = async (): Promise<{
   isAuth?: boolean;
@@ -9,29 +10,27 @@ const getUserData = async (): Promise<{
   data: IUser | null;
 }> => {
   try {
-    const cookiesStore = cookies();
-    const _ga = cookiesStore.get("_ga");
-    const persistent = cookiesStore.get("persistent");
-    const session = cookiesStore.get("session");
-    const sessionSig = cookiesStore.get("session.sig");
-
-    if (!persistent?.value && !session?.value) {
-      return { isAuth: false, data: null };
+    const cookieString = getCookieString();
+    
+    if(typeof cookieString === 'object'){
+      return cookieString
     }
     const res = await axios.get("http://localhost:3000/v1/users", {
       withCredentials: true,
-      headers: {
-        Cookie: `_ga=${_ga?.value}persistent=${persistent?.value};session=${session?.value};session.sig=${sessionSig?.value}`,
-      },
+      headers: { Cookie: cookieString as string},
     });
+
     if (res.data.errors) {
       return { errors: res.data.errors, data: null };
     }
+
     return { isAuth: true, data: res.data.data };
   } catch (error: unknown) {
+    console.error("Error fetching user data:", error);
     throw error;
   }
 };
+
 const Page = async () => {
   const { isAuth, errors, data } = await getUserData();
 
