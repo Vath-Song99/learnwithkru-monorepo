@@ -1,5 +1,5 @@
 "use client";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -172,7 +172,7 @@ const Navbar: React.FC<NavbarProps> = ({
             <Notification className="hidden lg:inline lg:ml-7 lg:mt-2"></Notification>
             <ProfileDropDown
               icon={
-                !authState.user.picture ? (
+                !authState.user?.picture ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -348,7 +348,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   style={{ marginTop: "0.5rem" }}
                 />
               )}
-              <Link href={"become-a-teacher-signup-steps"}>
+              <Link href={"become-teacher "}>
                 Become a teacher
               </Link>
             </li>
@@ -363,6 +363,18 @@ const Navbar: React.FC<NavbarProps> = ({
                 />
               )}
               <Link href={"teacher-list"}>Find teacher</Link>
+            </li>
+            <li
+              className="cursor-pointer py-3 hover:underline hover:bg-red-500 hover:text-white w-52 relative text-red-500"
+              onClick={() => handleItemClick("Log out")}
+            >
+              {selectedItem === "Logout" && (
+                <span
+                  className="absolute left-[-15px] top-[9px] h-[50%] w-1 bg-[#7B2CBF]"
+                  style={{ marginTop: "0.5rem" }}
+                />
+              )}
+              <Link href={"logout"}>Logout </Link>
             </li>
           </ul>
         </nav>

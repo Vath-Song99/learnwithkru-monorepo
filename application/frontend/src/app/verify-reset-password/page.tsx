@@ -11,7 +11,10 @@ const Page = () => {
     <UserProvider>
     <div className="max-w-full grid">
       <div className="w-full flex justify-center items-center">
-        <Navbar setIsShowModal={setIsShowModal} isShowModal={isShowModal} />
+        <Navbar setIsShowModal={setIsShowModal} isShowModal={isShowModal} authState={{
+            isAuth: false,
+            user: undefined
+          }} />
       </div>
       <VerifyResetPassword/>
       <div className="w-full flex justify-center items-start bg-gray-900"></div>

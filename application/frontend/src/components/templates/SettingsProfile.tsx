@@ -131,9 +131,9 @@ const SettingsProfile = () => {
     }
   };
   return (
-    <div className="w-[100%] sm:w-full md:w-[90%] lg:w-[100%] xl:w-[80%] h-150 mx-auto flex sm:flex-col md:flex-col lg:flex-row xl:flex-row">
+    <div className="w-[100%] sm:w-full md:w-[90%] lg:w-[100%] xl:w-[80%] h-150 mx-auto flex flex-col sm:flex-col md:flex-col lg:flex-row xl:flex-row">
       {/* Left profile */}
-      <div className="flex flex-col h-[600px] gap-y-3 items-center md:items-center bg-[#F8F8F8]  lg:w-[35%] xl:w-[40%] w-full md:w-full rounded-md">
+      <div className=" p-4 flex flex-col h-[600px] gap-y-3 items-center md:items-center bg-[#F8F8F8]  lg:w-[35%] xl:w-[40%] w-full md:w-full rounded-md">
         <Typography fontSize="lg" variant="bold" className="mt-4">
           Ny Sreyneang
         </Typography>
@@ -175,7 +175,7 @@ const SettingsProfile = () => {
       </div>
 
       {/* Right profile */}
-      <div className="flex flex-col   w-[100%] md:w-[100%] rounded-md    sm:ml-0 md:ml-0 lg:ml-10 xl:ml-10">
+      <div className="p-4 flex flex-col   w-[100%] md:w-[100%] rounded-md    sm:ml-0 md:ml-0 lg:ml-10 xl:ml-10">
         {/* edit profile */}
         <div className="bg-[#F8F8F8] pt-5 mt-5 ml-0 sm:ml-0 lg:ml-0 xl:ml-0 w-[100%] md:w-[100%] rounded-md">
           <Typography

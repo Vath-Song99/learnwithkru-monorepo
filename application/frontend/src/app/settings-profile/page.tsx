@@ -9,7 +9,10 @@ const page = () => {
   return (
     <div className="w-full grid grid-flow-row gap-10 ">
       <div className="w-full flex justify-center items-center">
-        <Navbar setIsShowModal={setIsShowModal} isShowModal={isShowModal} />
+        <Navbar setIsShowModal={setIsShowModal} isShowModal={isShowModal} authState={{
+          isAuth: false,
+          user: undefined
+        }} />
       </div>
       <SettingProfile />
       <div className="w-full flex justify-center items-start bg-black mt-10 ">

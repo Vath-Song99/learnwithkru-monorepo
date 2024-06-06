@@ -158,9 +158,19 @@ const SignupToBecomeStudent = () => {
                             )}
                         </div>
                         <div>
-                            <Typography className="flex justify-start text-nowrap">
-                                Fill Your Student Card
-                            </Typography>
+                            <div className="flex justify-between  sm:justify-between  w-[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] p-3  " >
+                                <Typography className="flex justify-start text-nowrap">
+                                    Fill Your Student Card
+                                </Typography>
+                                <Typography
+                                    className="text-red-500"
+
+                                >
+                                    *optional
+                                </Typography>
+                            </div>
+
+
                             <InputForm
                                 type="file"
                                 placeholder="student_card"
@@ -170,6 +180,8 @@ const SignupToBecomeStudent = () => {
                                 onChange={() => { }}
                                 className="border border-[#445455] outline-none w-[300px] md:w-[350px] sm:w-[350px] lg:w-[500px] h-14 p-3"
                             />
+
+
                         </div>
                         {/* <div>
                             <Typography className="flex justify-start">Education</Typography>
