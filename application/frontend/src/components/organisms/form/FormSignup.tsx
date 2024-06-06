@@ -1,5 +1,5 @@
 "use client";
-import { AuthForm, AuthModel } from "@/@types/users/users";
+import { AuthForm } from "@/@types/users/users";
 import { Button, InputForm } from "@/components";
 import { AuthValidateSchema } from "@/schema/UserValidateSchema";
 import * as Yup from "yup";
@@ -7,14 +7,12 @@ import React, {
   ChangeEvent,
   FormEvent,
   FormEventHandler,
-  useContext,
   useState,
 } from "react";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import { setLocalStorage } from "@/utils/localStorage";
-import { Mycontext } from "@/context/CardContext";
-
+import { useRouter } from "next/navigation";
 // TODOLIST
 // handle values in a form create state is handle form
 // handle error in from  nad create state in handle error
@@ -36,7 +34,7 @@ const FormSignup = () => {
   const [formData, setFormData] = useState<AuthForm>(DEFAULT_FORM_VALUE);
   const [rememberMe, setRememberMe] = useState(false);
 
-
+  const router = useRouter()
   async function fetchsignupData(data: AuthForm) {
     try {
       const response = await axios.post(
@@ -48,10 +46,10 @@ const FormSignup = () => {
           },
         }
       );
-      // Handle successful response
-      console.log("Data:", response.data);
-      alert("Check your Email for verificaton!")
-      return response.data;
+      if(response.data.errors){
+        throw new Error(response.data.errors)
+      }
+      return response.data
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
@@ -82,11 +80,10 @@ const FormSignup = () => {
       // Optionally fetch data again if rememberMe is not checked
 
       const responseData = await fetchsignupData(auth);
-      console.log("Response Data:", responseData); // Logging success data
-
-
-      // Save user data to localStorage
-      const authObject = {  
+      if(responseData){
+        router.push("http://localhost:8000/")
+      }
+      const authObject = {
         lastname: auth.lastname,
         firstname: auth.firstname,
         email: auth.email,
@@ -262,9 +259,9 @@ const FormSignup = () => {
               className=" outline-none"
               onChange={handleCheckboxChange}
             />
-            <Link href={"/signup"} className="text-sm">
+            <p className="text-sm">
               Remember me
-            </Link>
+            </p>
           </div>
           <Link
             href={"/login"}

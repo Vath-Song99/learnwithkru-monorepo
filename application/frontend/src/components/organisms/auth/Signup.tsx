@@ -1,26 +1,22 @@
 "use client";
 import { Button, FormSignup } from "@/components";
 import Link from "next/link";
-import Router, { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Image from "next/image";
 
 const Signup = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [Password, setPassword] = useState("");
   const [googleLoading, setGoogleLoading] = useState(false);
   const [facebookloading, setFacebookLoading] = useState(false);
-  const router = useRouter()
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  const router = useRouter();
+
   const handleSigninWithGoogle = () => {
     const url = "http://localhost:3000/v1/auth/google";
-    router.push(url)
+    router.push(url);
   };
   const handleSigninWithFacebook = () => {
     const url = "http://localhost:3000/v1/auth/facebook";
-    router.push(url)
+    router.push(url);
   };
 
   // Example usage: Handling the error at the caller level
@@ -49,7 +45,6 @@ const Signup = () => {
   return (
     <div className="w-full h-[100vh] flex justify-center items-center  mx-auto">
       {/* form */}
-
 
       <div className="pt-4 pb-8 px-8 flex items-center justify-center">
         <div className="grid gap-3">
@@ -97,7 +92,7 @@ const Signup = () => {
                 </svg>
 
                 <p className="text-sm text-slate-950  ">
-                  {googleLoading ? "Laoding ...": "continue in with Google"}
+                  {googleLoading ? "Laoding ..." : "continue in with Google"}
                 </p>
               </div>
             </Button>
@@ -131,7 +126,7 @@ const Signup = () => {
                 </svg>
 
                 <p className="text-sm text-slate-950 ">
-                {facebookloading ? "Laoding ...": "Sign in with Facebook"}
+                  {facebookloading ? "Laoding ..." : "Sign in with Facebook"}
                 </p>
               </div>
             </Button>
