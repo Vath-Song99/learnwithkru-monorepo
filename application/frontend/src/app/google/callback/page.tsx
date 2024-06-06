@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
+import { notFound, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const CallbackRedirect = () => {
@@ -13,21 +13,26 @@ const CallbackRedirect = () => {
       const code = searchParams.get("code");
 
       if (!code) {
-        console.error("No authorization code found");
-        return;
+        return new Error("No authorization code found");
       }
-
       try {
-        const { data } = await axios.get(
+        const res = await axios.get(
           `http://localhost:3000/v1/auth/google/callback?code=${code}`,
           {
             withCredentials: true,
           }
         );
-        console.log("Token data:", data);
-        router.push("/teachers");
-      } catch (error) {
-        console.error("Error exchanging code for token:", error);
+        if (res.data.errors) {
+           if(res.data.status === 400){
+              notFound()
+           }
+           
+        } else if (res.data.data) {
+          router.push("/teachers");
+        }
+        throw new Error("Unexpected Error accurs!");
+      } catch (error: unknown) {
+        throw error;
       } finally {
         setIsLoading(false); // Set isLoading to false when request completes (whether success or error)
       }
