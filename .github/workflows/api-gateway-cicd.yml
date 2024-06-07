@@ -81,9 +81,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          script: |
-            
-            mkdir -p /home/***/apps/api-gateway/build/configs
+          script: |           
+            sudo mkdir -p /home/***/apps/api-gateway/build/configs
             cat <<EOF > /home/***/apps/api-gateway/build/configs/.env.prod
           NODE_ENV=${{ secrets.NODE_ENV }}
           PORT=${{ secrets.PORT }}
@@ -100,8 +99,6 @@ jobs:
           STUDENT_SERVICE_URL=${{ secrets.STUDENT_SERVICE_URL }}
           TEST=${{ secrets.TEST }}
           EOF
-
-
       - name: Start
         uses: appleboy/ssh-action@master
         with:
