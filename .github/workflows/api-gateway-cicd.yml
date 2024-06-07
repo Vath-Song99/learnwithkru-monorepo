@@ -111,7 +111,6 @@ jobs:
             # Load the full user environment for non-interactive shells
             source /home/ubuntu/.nvm/nvm.sh
             source /home/ubuntu/.profile
-
             cd /home/ubuntu/apps/api-gateway/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
