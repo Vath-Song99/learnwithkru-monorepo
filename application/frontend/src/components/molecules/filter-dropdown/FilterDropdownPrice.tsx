@@ -8,6 +8,7 @@ import {
   LinkDropdownPage,
 } from "@/components/atoms";
 import { Select } from "@/components/atoms/select/select";
+import React from "react";
 import { useState } from "react";
 interface FilterDropdownPriceProps {
   className?: string;

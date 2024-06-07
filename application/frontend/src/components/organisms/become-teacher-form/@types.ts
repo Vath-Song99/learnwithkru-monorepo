@@ -62,14 +62,14 @@ export interface BecomeTeacherData {
   university: string;
   year_experience: string;
   type_degree: string;
-  certificate: string;
+  certificate:  string | null;
 }
 
 export interface TeachersdescriptionProps {
   bio: string;
   teaching_experience: string;
   motivation: string;
-  video: string;
+  video: string | null;
 }
 
 
