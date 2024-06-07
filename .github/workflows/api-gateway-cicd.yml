@@ -111,6 +111,9 @@ jobs:
             # Load the full user environment for non-interactive shells
             source /home/ubuntu/.nvm/nvm.sh
             source /home/ubuntu/.profile
+            # Ensure node and yarn are available
+            nvm use 20
+            npm install -g yarn
             cd /home/ubuntu/apps/api-gateway/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
