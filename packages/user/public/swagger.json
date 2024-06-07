@@ -209,7 +209,7 @@
 				]
 			}
 		},
-		"/v1/users/user-profile": {
+		"/v1/users": {
 			"get": {
 				"operationId": "GetUserProfile",
 				"responses": {

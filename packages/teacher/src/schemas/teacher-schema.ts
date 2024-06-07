@@ -7,6 +7,7 @@ export const teacherSchemas = z.object({
   phone_number: z
     .string()
     .min(8)
+    .max(10)
     .regex(/^\+?(?:855|0)\d{8}$/),
   subject: z.string(),
   province: z.string(),
@@ -25,4 +26,5 @@ export const teacherSchemas = z.object({
   price: z.number(),
   certificate: z.string(),
   video: z.string(),
+  teaching_experience: z.string().min(25).max(150)
 });

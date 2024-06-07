@@ -1,3 +1,5 @@
+"use client";
+import { usePathname, useSearchParams } from "next/navigation";
 import React from "react";
 
 interface ItemListProps {
@@ -11,13 +13,25 @@ const ItemList: React.FC<ItemListProps> = ({
   pageNumber,
   totalPages,
 }) => {
+  const pathName = usePathname();
+  const searchParams = useSearchParams();
+
+  const searchValue = searchParams.get("search_query");
+  console.log(searchValue);
+
   const handlePreviousPage = () => {
     setPageNumber((prev) => Math.max(prev - 1, 1));
+    const params = new URLSearchParams(window.location.search);
+    params.set("pageNumber", (pageNumber - 1).toString());
+    window.location.href = `${pathName}?${params.toString()}`;
   };
-  console.log(totalPages, pageNumber);
+
   const handleNextPage = () => {
     if (totalPages > pageNumber) {
       setPageNumber((prev) => prev + 1);
+      const params = new URLSearchParams(window.location.search);
+      params.set("pageNumber", (pageNumber + 1).toString());
+      window.location.href = `${pathName}?${params.toString()}`;
     }
   };
 
@@ -33,7 +47,7 @@ const ItemList: React.FC<ItemListProps> = ({
       <span className="px-4 py-2">{pageNumber}</span>
       <button
         onClick={handleNextPage}
-        // disabled={!hasMore}
+        disabled={totalPages <= pageNumber}
         className="px-4 py-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50"
       >
         Next

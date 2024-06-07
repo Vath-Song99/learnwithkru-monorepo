@@ -1,29 +1,42 @@
-"use client"
-import React, { ChangeEvent, ReactElement, useState } from "react";
-import { InputForm, Typography } from "@/components/atoms";
-
-const SearchInput = ({ className, setSearch }: { className?: string, setSearch: React.Dispatch<React.SetStateAction<string>> }) => {
-  //catch value 
-
-  const [value, setValue] = useState("")
+"use client";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { InputForm } from "@/components/atoms";
+import { useSearchParams } from "next/navigation";
+import Image from "next/image";
+const SearchInput = ({ className }: { className?: string }) => {
+  const router = useSearchParams();
+  const [value, setValue] = useState("");
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
-    if (setSearch) { // Check if setSearch is defined before calling it
-      setSearch(e.target.value);
-    }
   };
+
+  useEffect(() => {
+    const search_query = router.get("search_query");
+    if (search_query) {
+      setValue(search_query);
+    }
+  }, [router]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      setSearch(event.currentTarget.value);
+      window.location.href = `http://localhost:8000/teachers?search_query=${value}`;
+    }
+  };
+
+  const handleSearchOnclick = (
+    e: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    if (value) {
+      window.location.href = `http://localhost:8000/teachers?search_query=${value}`;
     }
   };
   return (
-    <div className={`w-[80%] mx-auto ${className}`}>
-      <div className="w-full flex justify-center items-center border shadow-sm rounded-md py-1  gap-5 ">
-        <div className="lg:w-[80%] w-[80%] flex items-center justify-between ">
-          <div className="flex items-center md:gap-4 gap-">
-            <svg
+    <div className={`w-[80%] flex justify-between items-center mx-auto   ${className} `}>
+      <div className="w-[95%] border shadow-sm rounded-md  rounded-s-full  ">
+        
+          <div className="px-4 md:gap-x-4">
+            {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -36,49 +49,22 @@ const SearchInput = ({ className, setSearch }: { className?: string, setSearch: 
                 strokeLinejoin="round"
                 d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
               />
-            </svg>
+            </svg> */}
             <InputForm
               type="text"
               borderColor="none"
               className="outline-none border-none text-xs md:text-sm"
-              placeholder="Searching ..."
+              placeholder="Search"
               value={value}
               onChange={handleInput}
               onKeyEnter={handleKeyDown}
             />
           </div>
-        </div>
-      </div>
 
-      <div className="w-full flex justify-center items-center mt-5">
-        <div className="lg:w-[80%] w-[80%] flex items-center justify-between ">
-        </div>
       </div>
-      <div className="flex items-center  md:gap-8 gap-4 ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="md:w-6 md:h-6 w-5 text-[#455445]"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
-              />
-            </svg>
-            <Typography
-              className="text-xs"
-              fontSize="sm"
-              colorscheme="secondary"
-              variant="semibold"
-              align="justify"
-            >
-              Choose Option
-            </Typography>
-          </div>
+      <button className="px-4 h-full bg-[#dfdede] rounded-e-full hover:bg-[#a6a4a4]" onClick={handleSearchOnclick}>
+          <Image src={'/logos/search.svg'} alt="search" width={30} height={30}></Image>
+          </button>
     </div>
   );
 };
