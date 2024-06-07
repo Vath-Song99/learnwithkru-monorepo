@@ -9,7 +9,7 @@ on:
 
 defaults:
   run:
-    working-directory: api-gateway
+    working-directory: packages/api-gateway
 
 jobs:
   build:
@@ -46,7 +46,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
-          path: .api-gateway/build
+          path: packages/api-gateway/build
 
       - name: Ensure target directory exists
         uses: appleboy/ssh-action@master
@@ -66,7 +66,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }} # Update as per your setup
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "api-gateway/build/*"
+          source: "packages/api-gateway/build/*"
           target: "/home/ubuntu/apps/"
 
       - name: Create .env file
