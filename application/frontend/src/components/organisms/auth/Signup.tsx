@@ -1,7 +1,7 @@
 "use client";
 import { Button, FormSignup } from "@/components";
 import Link from "next/link";
-import Router, { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Image from "next/image";
 
@@ -49,8 +49,6 @@ const Signup = () => {
   return (
     <div className="w-full h-[100vh] flex justify-center items-center  mx-auto">
       {/* form */}
-
-
       <div className="pt-4 pb-8 px-8 flex items-center justify-center">
         <div className="grid gap-3">
           <div className="flex flex-col  gap-2 ">
