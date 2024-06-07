@@ -111,14 +111,24 @@ jobs:
             # Load the full user environment for non-interactive shells
             source /home/ubuntu/.nvm/nvm.sh
             source /home/ubuntu/.profile
+
             # Ensure node and yarn are available
             nvm use 20
             npm install -g yarn
+
+            # Verify yarn installation
+            if ! command -v yarn &> /dev/null; then
+              echo "Yarn could not be found"
+              exit 1
+            fi
+
             cd /home/ubuntu/apps/api-gateway/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
+
             # Install Dependencies
             yarn install
+
             # Check if the PM2 process is running
             if pm2 show api-gateway > /dev/null; then
               echo "Application is running. Restarting..."
@@ -126,3 +136,4 @@ jobs:
             else
               echo "Application is not running. Starting..."
               yarn start
+            fi
