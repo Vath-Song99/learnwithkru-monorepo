@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: .api-gateway/build
+          path: packages/api-gateway/build
 
   deploy:
     needs: build
@@ -63,7 +63,7 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.EC2_IP }}
-          username: ${{ secrets.EC2_USERNAME }} # Update as per your setup
+          username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: "packages/api-gateway/build/*"
@@ -78,7 +78,7 @@ jobs:
           port: 22
           script: |
             cat <<EOF > /home/ubuntu/apps/api-gateway/build/configs/.env.prod
-            NODE_ENV=${{ secrets.NODE_ENV}}
+            NODE_ENV=${{ secrets.NODE_ENV }}
             PORT=${{ secrets.PORT }}
             COOKIE_SECRET_KEY_ONE=${{ secrets.COOKIE_SECRET_KEY_ONE }}
             COOKIE_SECRET_KEY_TWO=${{ secrets.COOKIE_SECRET_KEY_TWO }}
@@ -93,18 +93,19 @@ jobs:
             STUDENT_SERVICE_URL=${{ secrets.STUDENT_SERVICE_URL }}
             TEST=${{ secrets.TEST }}
             EOF
+
       - name: Start
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_IP }}
-          username: ${{ secrets.EC2_USERNAME }} # Update as per your setup
+          username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
             # Load the full user environment for non-interactive shells
             source /home/ubuntu/.nvm/nvm.sh
             source /home/ubuntu/.profile
-            
+
             cd /home/ubuntu/apps/api-gateway/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
