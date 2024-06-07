@@ -82,6 +82,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            mkdir -p /home/***/apps/api-gateway/build/configs
             cat <<EOF > /home/ubuntu/apps/api-gateway/build/configs/.env.prod
             NODE_ENV=${{ secrets.NODE_ENV }}
             PORT=${{ secrets.PORT }}
