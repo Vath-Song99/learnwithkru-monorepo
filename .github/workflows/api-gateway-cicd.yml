@@ -83,6 +83,7 @@ jobs:
           port: 22
           script: |           
             sudo mkdir -p /home/***/apps/api-gateway/build/configs
+            sudo chown -R $USER:$USER /home/***/apps
             cat <<EOF > /home/***/apps/api-gateway/build/configs/.env.prod
           NODE_ENV=${{ secrets.NODE_ENV }}
           PORT=${{ secrets.PORT }}
