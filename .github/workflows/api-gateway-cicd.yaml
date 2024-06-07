@@ -118,4 +118,3 @@ jobs:
             else
               echo "Application is not running. Starting..."
               yarn start
-            fi
