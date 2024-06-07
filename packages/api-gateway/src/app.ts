@@ -76,7 +76,7 @@ app.use("*", (req: Request, res: Response, _next: NextFunction) => {
     .json({ message: "The endpoint called does not exist." });
 });
 
-// Error handler catch all
+// Error handler catch
 app.use(errorHandler);
 
 export default app;

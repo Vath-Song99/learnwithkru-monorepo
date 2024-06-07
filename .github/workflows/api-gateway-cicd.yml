@@ -45,6 +45,14 @@ jobs:
           name: build
           path: packages/api-gateway/build
 
+      - name: Add SSH Key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add Known Hosts
+        run: ssh-keyscan -H ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
+
       - name: Ensure target directory exists
         uses: appleboy/ssh-action@master
         with:
