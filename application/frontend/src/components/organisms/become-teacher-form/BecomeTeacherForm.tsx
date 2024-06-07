@@ -18,13 +18,13 @@ const DEFAULT_FORM_VALUE = {
   university: "",
   year_experience: "",
   type_degree: "",
-  certificate: "",
+  certificate:  ""
 };
 
 const dataExperience = {
   dataYear: [
     { id: "1244", numberData: 1 },
-    { id: "124d4", numberData: 2},
+    { id: "124664", numberData: 2},
     { id: "12444", numberData: 3 },
   ],
 };
@@ -39,17 +39,12 @@ const dataDegree = {
 };
 
 const BecomeTeacherForm = ({
-  title,
   description,
-  inputForms,
-  buttonTitle,
-  fileLabel,
   checkboxtext,
   currentPage,
   setCurrentPage,
   pageIndex,
   setdataTutor,
-  dataTutor,
 }: BecomeTeacherFormTypes) => {
   const [showForm, setShowForm] = useState(false);
   const [isFormComplete, setIsFormComplete] = useState(false);
@@ -72,16 +67,20 @@ const BecomeTeacherForm = ({
     }
     setLocalStorageTeacher("educationTeacher", { ...formData, [name]: value });
   };
-
+ 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const imageFile = event.target.files && event.target.files[0];
     if (imageFile) {
-      const imageUrl = URL.createObjectURL(imageFile);
-      setFormData({ ...formData, certificate: imageUrl });
-      setLocalStorageTeacher("educationTeacher", { ...formData, degreeFile: imageUrl });
+      if (imageFile.size > 1024 * 1024) { // 1MB limit
+        setErrors((prevErrors) => ({ ...prevErrors, certificate: "Image size is too large" }));
+      } else {
+        const imageUrl = URL.createObjectURL(imageFile);
+        setFormData({ ...formData, certificate: imageUrl });
+        setErrors((prevErrors) => ({ ...prevErrors, certificate: "" }));
+      }
     }
   };
-
+ 
   const nextPage = () => {
     if (!isFormComplete) {
       return;
@@ -100,23 +99,26 @@ const BecomeTeacherForm = ({
     e.preventDefault();
 
     try {
-      await teachersExperience.validate(formData, { abortEarly: false });
+   await teachersExperience.validate(formData, { abortEarly: false });
       setIsFormComplete(true);
       if (pageIndex !== undefined) {
         setCurrentPage((prevPage) => Math.min(prevPage + 1, pageIndex.length - 1));
       }
+      setErrors({});
       const year_experience= parseInt(formData.year_experience)
       setdataTutor((prev: any) => ({ ...prev, university: formData.university,
          type_degree: formData.type_degree,
          certificate: formData.certificate,
          year_experience: year_experience }));
       setLocalStorageTeacher("educationTeacher", formData);
-      setErrors({});
+    
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const newErrors: { [key: string]: string } = {};
         error.inner.forEach((e) => {
-          if (e.path) newErrors[e.path] = e.message;
+          if (e.path) {
+            newErrors[e.path] = e.message;
+          }
         });
         setErrors(newErrors);
       }
@@ -146,6 +148,8 @@ const BecomeTeacherForm = ({
   useEffect(() => {
     const userStorage = getLocalStorageTeacher("educationTeacher") || DEFAULT_FORM_VALUE;
     setFormData(userStorage);
+    console.log("alete then beck ",userStorage.
+      certificate)
     const userTrue = getLocalStorageTeacher("educationTrue") || false;
     setShowForm(userTrue);
   }, []);
@@ -256,7 +260,7 @@ const BecomeTeacherForm = ({
                         Year of experience
                       </option>
                       {dataExperience.dataYear.map((dataYear) => (
-                        <option key={dataYear.id} value={dataYear.numberData}>
+                        <option  value={dataYear.numberData}>
                           {dataYear.numberData}
                         </option>
                       ))}
@@ -323,7 +327,7 @@ const BecomeTeacherForm = ({
                             borderColor="file"
                             name="certificate"
                             ref={inputFileRef}
-                            accept=".png,.jpg,.jpeg,.pdf"
+                         accept="image/*"
                             onChange={handleImageChange}
                             className="pl-3 cursor-pointer file:cursor-pointer outline-none text-stone-400 file:text-sm file:text-stone-400 file:bg-none file:border-0 text-xs"
                           />

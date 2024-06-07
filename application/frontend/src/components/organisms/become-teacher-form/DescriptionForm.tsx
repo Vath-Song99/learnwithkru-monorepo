@@ -16,13 +16,11 @@ const DEFAULT_FORM_VALUE: TeachersdescriptionProps = {
 const DescriptionForm = ({
   title,
   description,
-  buttonTitle,
   fileLabel,
   pageIndex,
   setCurrentPage,
   currentPage,
   setdataTutor,
-  dataTutor,
 }: BecomeTeacherFormTypes) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -37,11 +35,16 @@ const DescriptionForm = ({
     }
   };
 
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const imageFile = event.target.files && event.target.files[0];
-    if (imageFile) {
-      const Urlvideo = URL.createObjectURL(imageFile);
-      setFormData({ ...formData, video: Urlvideo });
+  const handleVideoChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const videoFile = event.target.files && event.target.files[0];
+    if (videoFile) {
+      if (videoFile.size > 10*1024 * 1024) { // 1MB limit
+        setErrors((prevErrors) => ({ ...prevErrors, video: "video size is too large" }));
+      } else {
+        const videoUrl = URL.createObjectURL(videoFile);
+        setFormData({ ...formData, video: videoUrl });
+        setErrors((prevErrors) => ({ ...prevErrors, certificate: "" }));
+      }
     }
   };
 
@@ -185,7 +188,7 @@ const DescriptionForm = ({
                   <input
                     type="file"
                     name="video"
-                    onChange={handleImageChange}
+                    onChange={handleVideoChange}
                     className="hidden"
                     ref={inputFileRef}
                     accept="video/*"

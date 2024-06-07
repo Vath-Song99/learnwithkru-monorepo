@@ -20,10 +20,6 @@ export const validationSchema = Yup.object().shape({
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/,
       "Password must  uppercase  lowercase number special character"
     ),
-  address: Yup.string().required("Address is required"),
-  phoneNumber: Yup.string()
-    .matches(/^[0-9]+$/, "Phone number must contain only digits")
-    .required("Phone number is required"),
 });
 export const validationTeacher = Yup.object().shape({
   Firstname: Yup.string()
@@ -50,4 +46,16 @@ export const validationTeacher = Yup.object().shape({
     .matches(/^[0-9]+$/, "Phone number must contain only digits")
     .required("Phone number is required"),
   bio: Yup.string().required("Bio is required"),
+  pictureTeacher:  Yup.string()
+  .test("file-size", "Image size is too large", function (value) {
+    const file =
+      value && this.options.context && this.options.context.files
+        ? this.options.context.files[value]
+        : null;
+    if (file && file.size) {
+      return file.size <= 1024 * 1024; // 1MB limit
+    }
+    return true;
+  })
+  .required("Please upload an image"),
 });
