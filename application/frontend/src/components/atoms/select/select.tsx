@@ -65,7 +65,7 @@ const Select: React.FC<SelectProps> = ({
       case "select":
         return "w-full h-[40px]";
       case "timeSelect":
-        return "w-[200px] h-[40px]";
+        return "w-full sm:w-[200px] h-[40px]";
       case "sm":
         return "w-[332px] h-[40px]";
       case "md":

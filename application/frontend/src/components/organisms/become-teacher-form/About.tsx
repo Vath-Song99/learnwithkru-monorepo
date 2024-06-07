@@ -146,17 +146,17 @@ const AboutForm = ({
 }, []);
 
   return (
-    <div className=" h-auto w-[300px] sm:w-[480px] md:w-[500px] lg:w-[500px] " id={`${id}`}>
+    <div className="h-auto w-[300px] sm:w-[480px] md:w-[500px] lg:w-[500px] " id={`${id}`}>
       <Typography align="left" fontSize="lg" variant="bold" className="py-2">
         {title}
       </Typography>
       <Typography align="left" fontSize="sm" className="py-2">
         {description}
       </Typography>
-      <form action="" onSubmit={handleSubmit}>
+      <form action="" onSubmit={handleSubmit} className="">
         <div className="flex flex-col  gap-4 ">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex flex-col w-full sm:w-auto ">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:gap-x-[10px]">
+            <div className="flex flex-col w-full">
               <InputForm
                 type="text"
                 placeholder="First name"
@@ -175,7 +175,7 @@ const AboutForm = ({
                 </div>
               )}
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col mt-4 sm:mt-[1px] sm:w-[240px]">
               <InputForm
                 type="text"
                 placeholder="Last name"
@@ -195,7 +195,7 @@ const AboutForm = ({
               )}
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:gap-x-[10px] ">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:gap-x-[10px]">
             <div className="flex flex-col">
               <div className="flex items-center w-full  sm:w-[240px]">
                 <button
@@ -260,15 +260,16 @@ const AboutForm = ({
               )}
             </div>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col sm:w-full">
             <Select
               borderSize="select"
               borderColor="secondary"
               borderRadius="md"
+        
               name="province"
               value={formData.province}
               onChange={onChangeSelect}
-              className="outline-none">
+              className="outline-none sm:w-full">
               <option value="0" selected>
                 Select province
               </option>

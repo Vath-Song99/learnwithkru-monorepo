@@ -1,10 +1,23 @@
 "use client";
 import { Button, Typography } from "@/components/atoms";
-import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import * as Yup from "yup";
-import { BecomeTeacherData, BecomeTeacherFormTypes, TeachersdescriptionProps } from "./@types";
+import {
+  BecomeTeacherData,
+  BecomeTeacherFormTypes,
+  TeachersdescriptionProps,
+} from "./@types";
 import { DescriptionTeachers } from "@/schema/becomeTeacher";
-import { getLocalStorageTeacher, setLocalStorageTeacher } from "@/utils/localStorage";
+import {
+  getLocalStorageTeacher,
+  setLocalStorageTeacher,
+} from "@/utils/localStorage";
 
 const DEFAULT_FORM_VALUE: TeachersdescriptionProps = {
   bio: "",
@@ -24,7 +37,8 @@ const DescriptionForm = ({
 }: BecomeTeacherFormTypes) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const inputFileRef = useRef<HTMLInputElement>(null);
-  const [formData, setFormData] = useState<TeachersdescriptionProps>(DEFAULT_FORM_VALUE);
+  const [formData, setFormData] =
+    useState<TeachersdescriptionProps>(DEFAULT_FORM_VALUE);
   const [isFormComplete, setIsFormComplete] = useState(false);
 
   const onChangeInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -55,7 +69,9 @@ const DescriptionForm = ({
       setIsFormComplete(true);
       setdataTutor((prev: BecomeTeacherData) => ({ ...prev, ...formData }));
       if (pageIndex !== undefined) {
-        setCurrentPage((prevPage) => Math.min(prevPage + 1, pageIndex.length - 1));
+        setCurrentPage((prevPage) =>
+          Math.min(prevPage + 1, pageIndex.length - 1)
+        );
       }
       setLocalStorageTeacher("descriptionTeacher", formData);
       setErrors({});
@@ -86,14 +102,23 @@ const DescriptionForm = ({
 
   return (
     <div className="w-[370px] sm:w-[460px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-auto flex flex-col items-center">
-      <Typography align="left" fontSize="lg" variant="bold" className="py-2 pl-5 sm:pl-0 flex justify-start w-full">
-        {title}
-      </Typography>
-      <Typography align="left" fontSize="sm" className="py-2 pl-5 sm:pl-0 flex justify-start">
-        {description}
-      </Typography>
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col items-start gap-4 py-3">
+        <Typography
+          align="left"
+          fontSize="lg"
+          variant="bold"
+          className="py-2 sm:pl-0 flex justify-start w-full"
+        >
+          {title}
+        </Typography>
+        <Typography
+          align="left"
+          fontSize="sm"
+          className="py-2 sm:pl-0 flex justify-start"
+        >
+          {description}
+        </Typography>
+        <div className="flex flex-col items-start gap-4 py-5">
           <div className="flex flex-col items-end">
             <div className="flex justify-start">
               <div className="flex flex-col w-20 sm:mt-[45px] mt-[40px]">
@@ -178,12 +203,21 @@ const DescriptionForm = ({
               <div>
                 <span className="text-sm flex justify-center">{fileLabel}</span>
                 <label className="w-[380px] sm:w-[570px] h-27 flex flex-col items-center py-6 border-purple-500 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-gray-400">
-                  <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <svg
+                    className="w-8 h-8"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
                     <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                   </svg>
-                  <span className="mt-2 text-base leading-normal">Select a Video</span>
+                  <span className="mt-2 text-base leading-normal">
+                    Select a Video
+                  </span>
                   {formData.video && (
-                    <span className="mt-2 text-base leading-normal">{formData.video}</span>
+                    <span className="mt-2 text-base leading-normal">
+                      {formData.video}
+                    </span>
                   )}
                   <input
                     type="file"
@@ -204,26 +238,26 @@ const DescriptionForm = ({
               </div>
             )}
           </div>
-       <div className="flex flex-col">
-       <div className="flex justify-end gap-4">
-            {currentPage > 0 && (
+          <div className="flex flex-col self-end">
+            <div className="flex justify-end gap-4">
+              {currentPage > 0 && (
+                <Button
+                  onClick={handleBack}
+                  radius="md"
+                  className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  Back
+                </Button>
+              )}
               <Button
-                onClick={handleBack}
+                type="submit"
                 radius="md"
                 className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
-                Back
+                Next
               </Button>
-            )}
-            <Button
-              type="submit"
-              radius="md"
-              className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              Next
-            </Button>
+            </div>
           </div>
-       </div>
         </div>
       </form>
     </div>
