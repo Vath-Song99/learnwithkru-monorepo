@@ -1,14 +1,15 @@
 import * as Yup from "yup";
+
 const createClassSchema = Yup.object().shape({
-  classroom: Yup.string()
-    .required()
-    .min(3, "classromm should be at least 3 characters long"),
+  class_name: Yup.string()
+    .required("Classroom is required")
+    .min(3, "Classroom should be at least 3 characters long"),
   subject: Yup.string()
-    .required()
-    .min(3, "classromm should be at least 3 characters long"),
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Please enter an email"),
+    .required("Subject is required")
+    .min(3, "Subject should be at least 3 characters long"),
+    email: Yup.array().of(
+    Yup.string().email("Invalid email address").required("Email is required")
+  ),
 });
 
 export { createClassSchema };

@@ -138,7 +138,6 @@ const AboutForm = ({
       }
     }
   };
-
 // Retrieve data from localStorage when the component mounts
  // Check if the users data is in local storage for the first render
  useEffect(() => {
