@@ -261,24 +261,24 @@ const TimeAvailableForm = ({
     <div className="w-auto max-w-[200px] sm:max-w-[400px] flex flex-col">
       <div className="flex justify-center">
         <div className="flex flex-col">
-          <div className="flex flex-col justify-center text-wrap md:text-nowrap w-auto sm:w-full">
+          <div className="flex flex-col justify-center text-wrap">
             <Typography
-              align="center"
+              align="left"
               fontSize="lg"
               variant="bold"
-              className="py-2 text-center sm:text-start "
+              className="py-2 sm:text-start"
             >
               {title}
             </Typography>
             <Typography
-              align="center"
+              align="left"
               fontSize="sm"
-              className=" text-wrap  w-[350px] pl-12 text-center sm:text-start sm:text-nowrap "
+              className=" text-wrap  w-[350px]"
             >
               {description}
             </Typography>
             <Typography
-              align="center"
+              align="left"
               fontSize="lg"
               variant="bold"
               className="py-2 sm:text-start"
@@ -286,15 +286,15 @@ const TimeAvailableForm = ({
               {setTimeAvailable}
             </Typography>
             <Typography
-              align="center"
+              align="left"
               fontSize="sm"
-              className="text-wrap w-[350px] pl-12 text-center sm:text-start sm:text-nowrap "
+              className="text-wrap w-[350px] "
             >
               {setTimeDescription}
             </Typography>
           </div>
           {weeks.map((weekItem, keekIndex) => (
-            <div className="flex flex-col" key={keekIndex}>
+            <div className="flex flex-col mt-5" key={keekIndex}>
               <form action="" onSubmit={handleSubmit}>
                 {/* Monday */}
                 <div className="flex flex-row">
@@ -321,7 +321,7 @@ const TimeAvailableForm = ({
                       <>
                         {weekItem.mondayData.map((dataItem, index) => (
                           <div key={index}>
-                            <div className="flex justify-between py-2">
+                            <div className="flex flex-col sm:justify-between py-2">
                               <TimeslotSelector
                                 weekItem={weekItem} // Ensure you pass the correct week item
                                 index={index}
@@ -369,7 +369,6 @@ const TimeAvailableForm = ({
                       </>
                     )}
                   </div>
-
                 </div>
                 {/* Tuesday */}
                 <div className="flex flex-row">
@@ -381,7 +380,7 @@ const TimeAvailableForm = ({
                       name="tuesday"
                       onChange={handleCheckboxChange}
                       checked={daysOfWeek.tuesday}
-                      className="border border-purple-500 outline-none text-xs "
+                      className="border border-purple-500 outline-none text-xs"
                     />
                   </div>
                   <div className="flex pl-[20px]">
@@ -396,7 +395,7 @@ const TimeAvailableForm = ({
                       <>
                         {weekItem.tuesdayData.map((item, index) => (
                           <div key={index}>
-                            <div className="flex justify-between py-2">
+                            <div className="flex flex-col sm:justify-between py-2">
                               <TimeslotSelector
                                 weekItem={weekItem} // Ensure you pass the correct week item
                                 index={index}
@@ -474,7 +473,7 @@ const TimeAvailableForm = ({
                       <>
                         {weekItem.wednesdayData.map((item, index) => (
                           <div key={index}>
-                            <div className="flex justify-between py-2">
+                            <div className="flex flex-col sm:justify-between py-2">
                               <TimeslotSelector
                                 weekItem={weekItem} // Ensure you pass the correct week item
                                 index={index}
@@ -549,7 +548,7 @@ const TimeAvailableForm = ({
                       <>
                         {weekItem.thursdayData.map((item, index) => (
                           <div key={index}>
-                            <div className="flex justify-between py-2">
+                            <div className="flex flex-col sm:justify-between py-2">
                               <TimeslotSelector
                                 weekItem={weekItem} // Ensure you pass the correct week item
                                 index={index}
@@ -624,7 +623,7 @@ const TimeAvailableForm = ({
                       <>
                         {weekItem.fridayData.map((item, index) => (
                           <div key={index}>
-                            <div className="flex justify-between py-2">
+                            <div className="flex flex-col sm:justify-between py-2">
                               <TimeslotSelector
                                 weekItem={weekItem} // Ensure you pass the correct week item
                                 index={index}
@@ -695,7 +694,7 @@ const TimeAvailableForm = ({
                       <>
                         {weekItem.saturdayData.map((dataItem, index) => (
                           <div key={index}>
-                            <div className="flex justify-between py-2">
+                            <div className="flex flex-col sm:justify-between py-2">
                               <TimeslotSelector
                                 weekItem={weekItem} // Ensure you pass the correct week item
                                 index={index}
@@ -770,7 +769,7 @@ const TimeAvailableForm = ({
                       <>
                         {weekItem.sundayData.map((dataItem, index) => (
                           <div key={index}>
-                            <div className="flex justify-between py-2">
+                            <div className="flex flex-col sm:justify-between py-2">
                               <TimeslotSelector
                                 weekItem={weekItem} // Ensure you pass the correct week item
                                 index={index}
@@ -821,7 +820,7 @@ const TimeAvailableForm = ({
 
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col mt-5 mb-10">
                   <div className="flex justify-end gap-4">
                     {currentPage > 0 && (
                       <Button

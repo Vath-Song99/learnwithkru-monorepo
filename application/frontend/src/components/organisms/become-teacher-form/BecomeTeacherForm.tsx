@@ -155,22 +155,21 @@ const BecomeTeacherForm = ({
   }, []);
 
   return (
-    <div className="h-auto w-[300px] sm:w-[480px] md:w-[500px] lg:w-[800px] flex justify-center">
-      <div className="flex flex-col w-full sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] h-auto">
-        <div>
+    <div className="h-auto w-[350px] sm:w-[800px] md:w-[800px] lg:w-[800px] xl:w-[1000px] flex justify-center">
+      <div className="flex flex-col w-full sm:w-[90%] md:w-[80%] lg:w-[60%] xl:w-[50%] h-auto">
           <div className="flex flex-col justify-start items-start">
             <div className="flex justify-start sm:justify-start">
-              <Typography tags="h1" variant="bold" className="w-auto">
+              <Typography align="left" fontSize="lg" variant="bold" className="w-auto">
                 Teaching Certification
               </Typography>
             </div>
             <div className="mt-2">
-              <Typography fontSize="sm" className="flex items-start text-left sm:text-nowrap md:text-nowrap lg:text-nowrap w-full">
+              <Typography fontSize="sm" align="left" className="flex text-wrap w-full">
                 {description}
               </Typography>
             </div>
           </div>
-          <div className="flex justify-center sm:justify-start md:justify-center mt-2">
+          <div className="flex justify-center sm:justify-start md:justify-center mt-5 mb-5">
             <div className="flex w-[400px] justify-center sm:justify-start md:justify-center">
               <div className="flex py-[2px] pr-[10px]">
                 <InputForm
@@ -185,13 +184,12 @@ const BecomeTeacherForm = ({
               <div className="flex">{checkboxtext}</div>
             </div>
           </div>
-        </div>
-        <div className="flex justify-center">
+        <div className="w-full flex justify-center">
           {!showForm ? (
             <div className="flex justify-center sm:justify-start md:justify-center w-full mt-3">
-              <form action="" onSubmit={handleSubmitNoDegree}>
-                <div className="flex flex-col gap-4 pl-[30px] sm:pl-[5px] md:pl-[10px]">
-                  <div className="flex flex-col pl-[20px] w-[450px] sm:w-[450px]">
+              <form action="" onSubmit={handleSubmitNoDegree} className="w-full">
+                <div className="w-full flex flex-col gap-4 pl-[30px] sm:pl-[5px] md:pl-[10px]">
+                  <div className="flex flex-col w-[450px] sm:w-[450px]">
                     <InputForm
                       borderRadius="md"
                       borderSize="Subject"
@@ -225,10 +223,10 @@ const BecomeTeacherForm = ({
               </form>
             </div>
           ) : (
-            <div className="flex justify-center sm:justify-start md:justify-center sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]">
+            <div className="w-full flex justify-center sm:justify-start md:justify-center sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]">
               <form action="" onSubmit={handleSubmit}>
-                <div className="flex flex-col gap-4 pl-[30px] sm:pl-[5px] md:pl-[10px]">
-                  <div className="flex flex-col pl-[20px] w-[300px] sm:w-[450px]">
+                <div className="w-full flex flex-col gap-4">
+                  <div className="flex flex-col w-[300px] sm:w-[450px]">
                     <InputForm
                       placeholder="university"
                       borderRadius="md"
@@ -247,7 +245,7 @@ const BecomeTeacherForm = ({
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col pl-[20px] w-[300px] sm:w-[450px]">
+                  <div className="flex flex-col w-[300px] sm:w-[450px]">
                     <Select
                       borderRadius="md"
                       borderSize="Subject"
@@ -273,7 +271,7 @@ const BecomeTeacherForm = ({
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col pl-[20px] w-[300px] sm:w-[450px]">
+                  <div className="flex flex-col w-[300px] sm:w-[450px]">
                     <Select
                       borderRadius="md"
                       borderSize="Subject"
@@ -295,12 +293,12 @@ const BecomeTeacherForm = ({
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col pl-[20px] w-[300px] sm:w-[450px]">
+                  <div className="flex flex-col w-[300px] sm:w-[450px]">
                     <div className="flex justify-start">
                       <Typography>Please Input Your Degree To verify</Typography>
                     </div>
                   </div>
-                  <div className="flex flex-col pl-[20px] w-[300px] sm:w-[450px]">
+                  <div className="flex flex-col w-[300px] sm:w-[450px]">
                     <div className="flex flex-col">
                       <div className="flex flex-col relative border border-[#7B2CBF] focus:border-2 rounded-md">
                         <div className="flex justify-between cursor-pointer">
