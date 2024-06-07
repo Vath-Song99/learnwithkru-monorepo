@@ -108,11 +108,18 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            # Load the full user environment for non-interactive shells
-            source /home/ubuntu/.nvm/nvm.sh
-            source /home/ubuntu/.profile
+            # Check if nvm is installed
+            if [ -s "$HOME/.nvm/nvm.sh" ]; then
+              source "$HOME/.nvm/nvm.sh"
+            elif [ -s "/usr/local/nvm/nvm.sh" ]; then
+              source "/usr/local/nvm/nvm.sh"
+            else
+              echo "nvm is not installed."
+              exit 1
+            fi
 
             # Ensure node and yarn are available
+            nvm install 20
             nvm use 20
             npm install -g yarn
 
