@@ -1,5 +1,5 @@
 "use client";
-import { AuthForm, AuthModel } from "@/@types/users/users";
+import { AuthForm } from "@/@types/users/users";
 import { Button, InputForm } from "@/components";
 import { AuthValidateSchema } from "@/schema/UserValidateSchema";
 import * as Yup from "yup";
@@ -7,14 +7,12 @@ import React, {
   ChangeEvent,
   FormEvent,
   FormEventHandler,
-  useContext,
   useState,
 } from "react";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import { setLocalStorage } from "@/utils/localStorage";
-import { Mycontext } from "@/context/CardContext";
-
+import { useRouter } from "next/navigation";
 // TODOLIST
 // handle values in a form create state is handle form
 // handle error in from  nad create state in handle error
@@ -31,12 +29,11 @@ const DEFAULT_FORM_VALUE = {
   password: "",
 };
 const FormSignup = () => {
+  const router = useRouter();
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<AuthForm>(DEFAULT_FORM_VALUE);
   const [rememberMe, setRememberMe] = useState(false);
-
-
   async function fetchsignupData(data: AuthForm) {
     try {
       const response = await axios.post(
@@ -48,14 +45,18 @@ const FormSignup = () => {
           },
         }
       );
-      // Handle successful response
-      console.log("Data:", response.data);
-      alert("Check your Email for verificaton!")
+      if (response.data.errors) {
+        throw new Error(response.data.errors);
+      }
       return response.data;
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
         if (axiosError.response) {
+          const message = axiosError.response.data as any
+          if(message.errors.message.includes("Verification email has been resent")){
+            router.push("http://localhost:8000/send-verify-email");
+          }
           // Request was made and server responded with a status code
           console.log("Response data:", axiosError.response.data);
           console.log("Status code:", axiosError.response.status);
@@ -77,16 +78,11 @@ const FormSignup = () => {
   // Call the function to make the request
   const addNewAuth = async (auth: AuthForm): Promise<void> => {
     try {
-      // Call the fetchData function
-      await fetchsignupData(auth); // Await added for consistency
-      // Optionally fetch data again if rememberMe is not checked
-
       const responseData = await fetchsignupData(auth);
-      console.log("Response Data:", responseData); // Logging success data
-
-
-      // Save user data to localStorage
-      const authObject = {  
+      if (responseData) {
+        router.push("http://localhost:8000/send-verify-email");
+      }
+      const authObject = {
         lastname: auth.lastname,
         firstname: auth.firstname,
         email: auth.email,
@@ -120,7 +116,7 @@ const FormSignup = () => {
       // stept 3
       await AuthValidateSchema.validate(formData, { abortEarly: false });
       // stept 4
-      addNewAuth(formData);
+      await addNewAuth(formData);
 
       setErrors({});
     } catch (error) {
@@ -135,7 +131,8 @@ const FormSignup = () => {
       }
     }
   };
-  console.log();
+
+
   return (
     <div className="flex">
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -262,9 +259,7 @@ const FormSignup = () => {
               className=" outline-none"
               onChange={handleCheckboxChange}
             />
-            <Link href={"/signup"} className="text-sm">
-              Remember me
-            </Link>
+            <p className="text-sm">Remember me</p>
           </div>
           <Link
             href={"/login"}

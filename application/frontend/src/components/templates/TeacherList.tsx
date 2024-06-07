@@ -1,11 +1,13 @@
-"use client"
-import { FilterTeachers, TeacherListCards } from "@/components/organisms";
-import React, { useEffect, useState } from "react";
-import { Typography } from "../atoms";
-import axios from "axios";
-import { SearchInput } from "../molecules";
-import { ITeacher } from "@/@types/teacher.type";
+"use client";
 
+import React, { useState } from "react";
+import { FilterTeachers, TeacherListCards } from "@/components/organisms";
+import { Typography } from "../atoms";
+import { SearchInput } from "../molecules";
+import { ItemList } from "../molecules/pagination";
+import { ITeacher, PageDetails } from "@/@types/teacher.type";
+
+<<<<<<< HEAD
 const TeacherList = () => {
   const [search, setSearch] = useState("")
   const [data, setData] = useState<ITeacher[]>([]);
@@ -50,9 +52,39 @@ const TeacherList = () => {
     } finally {
       setIsLoading(false)
     }
+=======
+interface TeacherListProps {
+  initialData: {
+    errors?: string;
+    data: {
+      teachers: ITeacher[];
+      detail: PageDetails;
+    } | null;
+>>>>>>> 719902b1a3fe2e3d24eb6ef0f293efc1560560d4
   };
+}
+
+const TeacherList: React.FC<TeacherListProps> = ({ initialData }) => {
+  const { data } = initialData;
+  const [pageNumber, setPageNumber] = useState<number>(
+    data?.detail.currentPage || 1
+  );
+
+  if (!data) {
+    return (
+      <div className="w-full text-center">
+        <Typography align="center" variant="bold" fontSize="lg">
+          Error loading data.
+        </Typography>
+      </div>
+    );
+  }
+
+  const { teachers, detail } = data;
+  const { totalPages } = detail;
 
   return (
+<<<<<<< HEAD
     <div className="w-full grid grid-flow-row gap-8 ">
       <div className="w-[80%] mx-auto">
         <Typography
@@ -66,6 +98,22 @@ const TeacherList = () => {
       <SearchInput setSearch={setSearch} />
       <FilterTeachers />
       <TeacherListCards data={data} isLoading={isLoading} search={search} />
+=======
+    <div className="w-full grid grid-flow-row gap-y-4">
+      <div className="w-[80%] mx-auto">
+        <Typography align="left" variant="bold" fontSize="md">
+          See your future teacher
+        </Typography>
+      </div>
+      <SearchInput />
+      <FilterTeachers />
+      <TeacherListCards data={teachers} isLoading={!teachers.length} />
+      <ItemList
+        setPageNumber={setPageNumber}
+        pageNumber={pageNumber}
+        totalPages={totalPages}
+      />
+>>>>>>> 719902b1a3fe2e3d24eb6ef0f293efc1560560d4
     </div>
   );
 };

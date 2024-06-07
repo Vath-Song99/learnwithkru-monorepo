@@ -2,7 +2,7 @@ export const PATH_USER = {
 
   BASE: "/v1/users",
   CREATE_USER: "/create",
-  USER_PROFILE: "/user-profile",
+  USER_PROFILE: "/",
   UPDATE_USER: "/update/:authId",
   GET_USER_BY_AUTH_ID: "/by-auth-id/:authId", // Fetch user by their authentication ID
   GET_USER_BY_USER_ID: "/by-user-id/:userId", // Fetch user by their user ID

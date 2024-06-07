@@ -21,7 +21,7 @@ import { StudentSchemas } from "../schemas/student-validate";
 @Route("/v1/students")
 export class StudentController extends Controller {
   @SuccessResponse(StatusCode.OK, "OK")
-  @Middlewares(authorize(["student", "user"]))
+  @Middlewares(authorize(["user"]))
   @Middlewares(studentValidate(StudentSchemas))
   @Post(PATH_STUDENT.SIGNUP)
   async Signup(
@@ -48,11 +48,11 @@ export class StudentController extends Controller {
   @Get(PATH_STUDENT.LOGIN)
   async Login(
     @Path() userId: string
-  ): Promise<{ message: string;  token: string }> {
+  ): Promise<{ message: string; token: string }> {
     try {
       const service = new StudentServices();
       const respone = await service.Login(userId);
-      return { message: "Success login" ,token: respone.token };
+      return { message: "Success login", token: respone.token };
     } catch (error: unknown) {
       throw error;
     }

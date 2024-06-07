@@ -23,11 +23,13 @@ export const authorize = (requireRole: string[]) => {
         );
       }
       (req as RequestWithUser).user = decoded;
-      
-      logger.info(`User with role '${role}' authorized for '${requireRole}' role`);
+
+      logger.info(
+        `User with role '${role}' authorized for '${requireRole}' role`
+      );
       _next();
     } catch (error: unknown) {
-      logger.error('Authorization error:', error);
+      logger.error("Authorization error:", error);
       if (error instanceof BaseCustomError) {
         _next(error);
       }

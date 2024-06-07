@@ -3,6 +3,7 @@ import { CardTeachers } from "@/components/molecules";
 import React from "react";
 import { ITeacher } from "@/@types/teacher.type";
 
+<<<<<<< HEAD
 const TeacherListCards = ({ isLoading, data }: { isLoading: boolean, search: string, data: ITeacher[] }) => {
   // const filteredData = data.filter((info) => {
   //   const searchStr = String(search).trim();
@@ -10,17 +11,31 @@ const TeacherListCards = ({ isLoading, data }: { isLoading: boolean, search: str
   //     ? true
   //     : info.first_name.toLowerCase().includes(searchStr.toLowerCase());
   // });
+=======
+interface TeacherListCardsProps {
+  isLoading: boolean;
+  data: ITeacher[];
+}
+
+const TeacherListCards: React.FC<TeacherListCardsProps> = ({
+  isLoading,
+  data = [],
+}) => {
+  // If data is undefined, default to an empty array
+>>>>>>> 719902b1a3fe2e3d24eb6ef0f293efc1560560d4
   if (isLoading) {
-    return <div className="w-full flex justify-center">
-      <div className="flex justify-center items-center">
-        <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[#7B2CBF]">
+    return (
+      <div className="w-full flex justify-center">
+        <div className="flex justify-center items-center">
+          <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[#7B2CBF]"></div>
         </div>
       </div>
-    </div>; // Render loading state
+    ); // Render loading state
   }
   return (
     <div className="w-full flex justify-center">
       <div className="w-[80%] flex justify-center lg:justify-between flex-wrap gap-4">
+<<<<<<< HEAD
         {data.length === 0 ? ("No teacher found!"
         ) : (
           data.map((item, index) => (
@@ -47,6 +62,16 @@ const TeacherListCards = ({ isLoading, data }: { isLoading: boolean, search: str
               onFavoriteClick={() => { }} />
           ))
         )}
+=======
+        {data.map((item: ITeacher, index: number) => (
+          <CardTeachers
+            key={index}
+            items={item}
+            isFavorite={false}
+            onFavoriteClick={() => item._id}
+          />
+        ))}
+>>>>>>> 719902b1a3fe2e3d24eb6ef0f293efc1560560d4
       </div>
     </div>
   );

@@ -8,14 +8,8 @@ import {
 import { ButtonDropDown } from "@/components/molecules/button-dropdown";
 import { ProfileDropDown } from "@/components/molecules/profile-dropdown";
 import { Notification } from "@/components/organisms/notification";
-const itemsDropdown = [
-  {
-    itemName: "English",
-  },
-  {
-    itemName: "Khmer",
-  },
-];
+import { IUser } from "@/@types/user";
+
 // langue
 const options = [
   {
@@ -106,15 +100,11 @@ const options = [
 ];
 interface NavbarProps {
   className?: string;
-  setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  isShowModal: boolean;
-  authState: { isAuth: boolean; user: any };
+  authState: { isAuth: boolean; user: IUser | null };
 }
 
 const Navbar: React.FC<NavbarProps> = ({
   className,
-  setIsShowModal,
-  isShowModal,
   authState,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -130,7 +120,6 @@ const Navbar: React.FC<NavbarProps> = ({
     console.log("Selected option:", value);
   };
   // login
-  const [isLogin, setIsLogin] = useState(false);
 
   return (
     <nav
@@ -158,7 +147,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </Link>
           <Link
             className="text-[#455445] text-sm hover:underline"
-            href={"teacher-list"}
+            href={"/teachers"}
           >
             Find teacher
           </Link>
@@ -182,7 +171,7 @@ const Navbar: React.FC<NavbarProps> = ({
             <Notification className="hidden lg:inline lg:ml-7 lg:mt-2"></Notification>
             <ProfileDropDown
               icon={
-                !authState.user.picture ? (
+                !authState.user!.picture ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -199,7 +188,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   </svg>
                 ) : (
                   <Image
-                    src={authState.user.picture}
+                    src={authState.user!.picture}
                     alt="user's profile picture"
                     width={500}
                     height={500}
