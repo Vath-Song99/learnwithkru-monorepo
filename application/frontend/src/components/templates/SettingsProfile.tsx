@@ -1,9 +1,12 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { ChangeEvent, useRef, useState } from "react";
 import Image from "next/image";
 import * as Yup from "yup";
 import { Button, InputForm, Typography } from "../atoms";
-import { validationSchema, validationTeacher } from "@/schema/editProfileSchema";
+import {
+  validationSchema,
+  validationTeacher,
+} from "@/schema/editProfileSchema";
 import Link from "next/link";
 
 interface MenuItemProps {
@@ -20,14 +23,16 @@ const MenuItem: React.FC<MenuItemProps> = ({
   return (
     <Link
       onClick={() => handleClick(itemName)}
-      className={`cursor-pointer text-[20px] sm:text-[20px] md:text-[16px] lg:text-[20px] xl:text-[20px] ${active ? "border-b-2 border-[#7B2CBF] text-[#7B2CBF]" : ""}`}
-      style={{ padding: "15px" }} href={""}    >
+      className={`cursor-pointer text-[20px] sm:text-[20px] md:text-[16px] lg:text-[20px] xl:text-[20px] ${
+        active ? "border-b-2 border-[#7B2CBF] text-[#7B2CBF]" : ""
+      }`}
+      style={{ padding: "15px" }}
+      href={""}
+    >
       {itemName}
     </Link>
   );
 };
-
-
 
 const SettingsProfile = () => {
   const [selectedItem, setSelectedItem] = useState<string>("User Info");
@@ -35,50 +40,65 @@ const SettingsProfile = () => {
     setSelectedItem(item);
   };
 
-  const [file, setFile] = useState(null);
+  const inputFileRef = useRef<HTMLInputElement>(null);
   const [previewURL, setPreviewURL] = useState<string | null>(null);
+  const [users, setUsers] = useState("teachers");
 
-  const handleFileInput = (e: any) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      if (!selectedFile.type.startsWith('image/')) {
-        alert("Please select an image file");
-      } else if (selectedFile.size > 2 * 1024 * 1024) {
-        alert("The file size should be less than 2MB");
-      } else {
-        const reader = new FileReader();
-        reader.onload = () => {
-          setPreviewURL(reader.result as string);
-        };
-        reader.readAsDataURL(selectedFile);
-      }
-    }
-  }
-  const [formValues, setFormValues] = useState({ // Corrected state variable name from "form" to "formValues"
+  const [formValues, setFormValues] = useState({
+    // Corrected state variable name from "form" to "formValues"
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    address: "",
-    phoneNumber: "",
+    picture: "",
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const imageFile = event.currentTarget.files
+      ? event.currentTarget.files[0]
+      : null;
+    if (imageFile) {
+      const imageUrl = URL.createObjectURL(imageFile);
+      if (imageFile.size > 1024 * 1024) {
+        // 1MB limit
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          picture: "Image size is too large",
+        }));
+        setPreviewURL('');
+      } else {
+        const imageUrl = URL.createObjectURL(imageFile);
+        setFormValues({ ...formValues, picture: imageUrl });
+        setPreviewURL(imageUrl);
+        setErrors((prevErrors) => ({ ...prevErrors, picture: "" }));
+      }
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
     if (errors[name]) {
       setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     }
   };
-  const handleSubmit: React.FormEventHandler<HTMLFormElement | HTMLTextAreaElement> = async (event) => {
+  const handleSubmit: React.FormEventHandler<
+    HTMLFormElement | HTMLTextAreaElement
+  > = async (event) => {
     event.preventDefault();
-    // Handle form submission
+    // Check if image file exceeds 1MB
+    if (errors.picture) {
+      return;
+    }
     try {
       await validationSchema.validate(formValues, { abortEarly: false });
-    }
-    catch (error) {
 
+      setErrors({});
+      console.log("user data", formValues);
+    } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const newErrors: { [key: string]: string } = {};
         error.inner.forEach((e) => {
@@ -100,25 +120,50 @@ const SettingsProfile = () => {
     Password: "",
     Address: "",
     PhoneNumber: "",
-  })
+    pictureTeacher: '',
+  });
 
-
-  const handleChangeFormTeacher = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChangeFormTeacher = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormTeacher({ ...formteacher, [name]: value });
     if (errors[name]) {
       setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     }
   };
+  const handleChangeProfileTeacher = (event: ChangeEvent<HTMLInputElement>) => {
+    const imageFile = event.currentTarget.files
+      ? event.currentTarget.files[0]
+      : null;
+    if (imageFile) {
+      const imageUrl = URL.createObjectURL(imageFile);
+      if (imageFile.size > 1024 * 1024) {
+        // 1MB limit
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          pictureTeacher: "Image size is too large",
+        }));
+        setPreviewURL('');
+      } else {
+        const imageUrl = URL.createObjectURL(imageFile);
+        setFormTeacher({ ...formteacher, pictureTeacher: imageUrl });
+        setPreviewURL(imageUrl);
+        setErrors((prevErrors) => ({ ...prevErrors, pictureTeacher: "" }));
+      }
+    }
+  };
 
-
-  const handleSubmitFormTeacher: React.FormEventHandler<HTMLFormElement> = async (event) => {
+  const handleSubmitFormTeacher: React.FormEventHandler<
+    HTMLFormElement
+  > = async (event) => {
     event.preventDefault();
+    if (errors.pictureTeacher) {
+      return;
+    }
     try {
       await validationTeacher.validate(formValues, { abortEarly: false });
-    }
-    catch (error) {
-
+    } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const newErrors: { [key: string]: string } = {};
         error.inner.forEach((e) => {
@@ -131,217 +176,194 @@ const SettingsProfile = () => {
     }
   };
   return (
-    <div className="w-[100%] sm:w-full md:w-[90%] lg:w-[100%] xl:w-[80%] h-150 mx-auto flex sm:flex-col md:flex-col lg:flex-row xl:flex-row">
-      {/* Left profile */}
-      <div className="flex flex-col h-[600px] gap-y-3 items-center md:items-center bg-[#F8F8F8]  lg:w-[35%] xl:w-[40%] w-full md:w-full rounded-md">
-        <Typography fontSize="lg" variant="bold" className="mt-4">
-          Ny Sreyneang
-        </Typography>
-        <div className="flex mt-3 w-[160px] h-[160px] items-center justify-end rounded-full overflow-hidden">
-          {!previewURL ?
-            <Image
-              className="object-cover w-full h-full"
-              src="/Profiles/example1.jpg"
-              alt="Bordered avatar"
-              width={160}
-              height={160}
-
-            /> :
-            (previewURL && <img src={previewURL} alt="Preview" className=" w-[160px] h-[160px] flex justify-start" />)
-
-          }
-
-        </div>
-        <label className="bg-[#007C00] text-white w-[100%] h-[45px] sm:w-[90%] sm:h-[45px] md:w-[55%] md:h-[45px] lg:w-[85%] lg:h-[35px] mt-5 rounded-md xl:w-[80%] xl:h-[40px] sm:text-[14px] md:text-[14px] lg:text-[14px] xl:text-[16px] flex items-center justify-center cursor-pointer">
-          <input
-            type="file"
-            className="hidden"
-            onChange={handleFileInput}
-          />
-
-          Upload new photo
-        </label>
-        <Typography className="text-[12px]">
-          The photo should be less than 2mb size
-        </Typography>
-        {file && (
-          <div>
-            <Typography>
-              Selected file: {(file as File).name} ({(file as File).size / 1024} KB)
-            </Typography>
-          </div>
-        )}
-        <Typography className="text-[12px]">member since: 12 September 2024</Typography>
-      </div>
-
-      {/* Right profile */}
-      <div className="flex flex-col   w-[100%] md:w-[100%] rounded-md    sm:ml-0 md:ml-0 lg:ml-10 xl:ml-10">
-        {/* edit profile */}
-        <div className="bg-[#F8F8F8] pt-5 mt-5 ml-0 sm:ml-0 lg:ml-0 xl:ml-0 w-[100%] md:w-[100%] rounded-md">
-          <Typography
-            className="text-center md:text-left ml-0 md:ml-10 lg:ml-10 xl:ml-10 py-4 text-[30px] md:text-[30px] lg:text-[40px] xl:text-[40px]"
-            variant="bold"
-            align="left"
-          >
-            Edit profile
-          </Typography>
-          <div className="flex ml-10">
-            <MenuItem
-              itemName="User Info"
-              active={selectedItem === "User Info"}
-              handleClick={handleItemClick}
-            />
-            <div style={{ margin: "0 15px" }}></div>
-            <MenuItem
-              itemName="Teacher Info"
-              active={selectedItem === "Teacher Info"}
-              handleClick={handleItemClick}
-            />
-          </div>
-        </div>
-
-        {
-          //user setting 
-          selectedItem === 'User Info' ? (
-            <form onSubmit={handleSubmit}>
-
-              <div className="flex flex-col mt-5 sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-between">
-                <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
-                  <Typography align="left" fontSize="md">
-                    First Name
-                  </Typography>
-                  <InputForm
-                    className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
-                    type="text"
-                    borderRadius="md"
-                    placeholder="First Name"
-                    name="firstName"
-                    value={formValues.firstName}
-                    onChange={handleChange}
-                  />
-                  {errors.firstName && (
-                    <>
-                      <p className="text-red-500">{errors.firstName}</p>
-                    </>
+    <>
+      {users == "user" && (
+        <>
+          <form onSubmit={handleSubmit}>
+            <div className="w-[100%] sm:w-full md:w-[90%] lg:w-[100%] xl:w-[80%] h-150 mx-auto flex sm:flex-col md:flex-col lg:flex-row xl:flex-row">
+              <div className="flex flex-col h-[600px] gap-y-3 items-center md:items-center bg-[#F8F8F8]  lg:w-[35%] xl:w-[40%] w-full md:w-full rounded-md">
+                <Typography fontSize="lg" variant="bold" className="mt-4">
+                  Ny Sreyneang
+                </Typography>
+                <div className="flex mt-3 w-[160px] h-[160px] items-center justify-end rounded-full overflow-hidden">
+                  {!previewURL ? (
+                    <Image
+                      className="object-cover w-full h-full"
+                      src="/Profiles/example1.jpg"
+                      alt="Bordered avatar"
+                      width={160}
+                      height={160}
+                    />
+                  ) : (
+                    previewURL && (
+                      <img
+                        src={previewURL}
+                        alt="Preview"
+                        className=" w-[160px] h-[160px] flex justify-start"
+                      />
+                    )
                   )}
                 </div>
-                <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
-                  <Typography align="left" fontSize="md">
-                    Last Name
-                  </Typography>
-                  <InputForm
-                    className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
-                    type="Last Name"
-                    placeholder="Last Name"
-                    borderRadius="md"
-                    name="lastName"
-                    value={formValues.lastName}
-                    onChange={handleChange}
+                <label className="bg-[#007C00] text-white w-[100%] h-[45px] sm:w-[90%] sm:h-[45px] md:w-[55%] md:h-[45px] lg:w-[85%] lg:h-[35px] mt-5 rounded-md xl:w-[80%] xl:h-[40px] sm:text-[14px] md:text-[14px] lg:text-[14px] xl:text-[16px] flex items-center justify-center cursor-pointer">
+                  <input
+                    type="file"
+                    className="hidden"
+                    name="picture"
+                     accept="image/*"
+                    onChange={handleImageChange}
+                    ref={inputFileRef}
                   />
-                  {errors.lastName && (
-                    <>
-                      <p className="text-red-500">{errors.lastName}</p>
-                    </>
-                  )}
-                </div>
+                  Upload new photo
+                </label>
+                {errors.picture && (
+                  <div className="flex justify-start">
+                    <small className="mt-2" style={{ color: "red" }}>
+                      {errors.picture}
+                    </small>
+                  </div>
+                )}
               </div>
-              <div className="flex flex-col mt-2 sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-between">
-                <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
-                  <Typography align="left" fontSize="md">
-                    Email
-                  </Typography>
-                  <InputForm
-                    className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
-                    type="email"
-                    borderRadius="md"
-                    placeholder="Email"
-                    name="email"
-                    value={formValues.email}
-                    onChange={handleChange}
-                  />
-                  {errors.email && (
+              <div className="flex flex-col   w-[100%] md:w-[100%] rounded-md    sm:ml-0 md:ml-0 lg:ml-10 xl:ml-10">
+                <div className="flex flex-col mt-5 sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-between">
+                  <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
+                    <Typography align="left" fontSize="md">
+                      First Name
+                    </Typography>
+                    <InputForm
+                      className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
+                      type="text"
+                      borderRadius="md"
+                      placeholder="First Name"
+                      name="firstName"
+                      value={formValues.firstName}
+                      onChange={handleChange}
+                    />
+                    {errors.firstName && (
+                      <>
+                        <p className="text-red-500">{errors.firstName}</p>
+                      </>
+                    )}
+                  </div>
+                  <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
+                    <Typography align="left" fontSize="md">
+                      Last Name
+                    </Typography>
+                    <InputForm
+                      className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
+                      type="Last Name"
+                      placeholder="Last Name"
+                      borderRadius="md"
+                      name="lastName"
+                      value={formValues.lastName}
+                      onChange={handleChange}
+                    />
+                    {errors.lastName && (
+                      <>
+                        <p className="text-red-500">{errors.lastName}</p>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div className="flex flex-col mt-2 sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-between">
+                  <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
+                    <Typography align="left" fontSize="md">
+                      Email
+                    </Typography>
+                    <InputForm
+                      className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
+                      type="email"
+                      borderRadius="md"
+                      placeholder="Email"
+                      name="email"
+                      value={formValues.email}
+                      onChange={handleChange}
+                    />
+                    {errors.email && (
+                      <>
+                        <p className=" text-red-500">{errors.email}</p>
+                      </>
+                    )}
+                  </div>
+                  <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
+                    <Typography align="left" fontSize="md">
+                      Password
+                    </Typography>
+                    <InputForm
+                      className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
+                      type="password"
+                      placeholder="Password"
+                      borderRadius="md"
+                      name="password"
+                      value={formValues.password}
+                      onChange={handleChange}
+                    />
+                    {errors.password && (
+                      <>
+                        <p className="text-red-500">{errors.password}</p>
+                      </>
+                    )}
+                  </div>
+                </div>
 
-                    <>
-                      <p className=" text-red-500">
-                        {errors.email}
-                      </p>
-                    </>
-                  )}
-
-                </div>
-                <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
-                  <Typography align="left" fontSize="md">
-                    Password
-                  </Typography>
-                  <InputForm
-                    className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
-                    type="password"
-                    placeholder="Password"
-                    borderRadius="md"
-                    name="password"
-                    value={formValues.password}
-                    onChange={handleChange}
-                  />
-                  {errors.password && (
-                    <>
-                      <p className="text-red-500">{errors.password}</p>
-                    </>
-                  )}
-                </div>
+                <Button
+                  fontSize="md"
+                  className="w-full mt-8 mb-10 h-[45px] sm:w-[120px] sm:h-[45px] md:w-[150px] md:h-[45px] lg:w-[150px] lg:h-[45px] rounded-md xl:w-[160px] xl:h-[45px]"
+                  onClick={() => handleSubmit}
+                >
+                  Update Info
+                </Button>
               </div>
-              <div className="flex flex-col mt-2 sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-between">
-                <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
-                  <Typography align="left" fontSize="md">
-                    Address
-                  </Typography>
-                  <InputForm
-                    className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
-                    type="address"
-                    borderRadius="md"
-                    placeholder="Address"
-                    name="address"
-                    value={formValues.address}
-                    onChange={handleChange}
-                  />
-                  {errors.address && (
-                    <>
-                      <p className="text-red-500">{errors.address}</p>
-                    </>
+            </div>
+          </form>
+        </>
+      )}
+      {users == "teachers" && (
+        <>
+          <form onSubmit={handleSubmitFormTeacher}>
+            <div className="w-[100%] sm:w-full md:w-[90%] lg:w-[100%] xl:w-[80%] h-150 mx-auto flex sm:flex-col md:flex-col lg:flex-row xl:flex-row">
+            <div className="flex flex-col h-[600px] gap-y-3 items-center md:items-center bg-[#F8F8F8]  lg:w-[35%] xl:w-[40%] w-full md:w-full rounded-md">
+                <Typography fontSize="lg" variant="bold" className="mt-4">
+                  Ny Sreyneang
+                </Typography>
+                <div className="flex mt-3 w-[160px] h-[160px] items-center justify-end rounded-full overflow-hidden">
+                  {!previewURL ? (
+                    <Image
+                      className="object-cover w-full h-full"
+                      src="/Profiles/example1.jpg"
+                      alt="Bordered avatar"
+                      width={160}
+                      height={160}
+                    />
+                  ) : (
+                    previewURL && (
+                      <img
+                        src={previewURL}
+                        alt="Preview"
+                        className=" w-[160px] h-[160px] flex justify-start"
+                      />
+                    )
                   )}
                 </div>
-                <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
-                  <Typography align="left" fontSize="md">
-                    Phone Number
-                  </Typography>
-                  <InputForm
-                    className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
-                    type="Tel"
-                    placeholder="Phone Number"
-                    borderRadius="md"
-                    name="phoneNumber"
-                    value={formValues.phoneNumber}
-                    onChange={handleChange}
+                <label className="bg-[#007C00] text-white w-[100%] h-[45px] sm:w-[90%] sm:h-[45px] md:w-[55%] md:h-[45px] lg:w-[85%] lg:h-[35px] mt-5 rounded-md xl:w-[80%] xl:h-[40px] sm:text-[14px] md:text-[14px] lg:text-[14px] xl:text-[16px] flex items-center justify-center cursor-pointer">
+                  <input
+                    type="file"
+                    className="hidden"
+                    name="pictureTeacher"
+                     accept="image/*"
+                    onChange={handleChangeProfileTeacher}
+                    ref={inputFileRef}
                   />
-                  {errors.phoneNumber && (
-                    <>
-                      <p className="text-red-500">{errors.phoneNumber}</p>
-                    </>
-                  )}
-                </div>
+                  Upload new photo
+                </label>
+                {errors.pictureTeacher && (
+                  <div className="flex justify-start">
+                    <small className="mt-2" style={{ color: "red" }}>
+                      {errors.pictureTeacher}
+                    </small>
+                  </div>
+                )}
               </div>
-              <Button
-                fontSize="md"
-                className="w-full mt-8 mb-10 h-[45px] sm:w-[120px] sm:h-[45px] md:w-[150px] md:h-[45px] lg:w-[150px] lg:h-[45px] rounded-md xl:w-[160px] xl:h-[45px]"
-                onClick={() => handleSubmit}
-              >
-                Update Info
-              </Button>
-            </form>
-          )
-            :
-            //teacher setting  
-            (
-              <form onSubmit={handleSubmitFormTeacher}>
+              <div className="flex flex-col   w-[100%] md:w-[100%] rounded-md    sm:ml-0 md:ml-0 lg:ml-10 xl:ml-10">
                 <div className="flex flex-col mt-5 sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-between">
                   <div className="flex flex-col md:w-[100%] lg:w-[100%] mt-3 xl:w-[100%]">
                     <Typography align="center" fontSize="md" className="mb-2">
@@ -356,9 +378,7 @@ const SettingsProfile = () => {
                     />
                     {errors.bio && (
                       <>
-                        <p className="text-red-500">
-                          {errors.bio}
-                        </p>
+                        <p className="text-red-500">{errors.bio}</p>
                       </>
                     )}
                   </div>
@@ -378,9 +398,7 @@ const SettingsProfile = () => {
                       onChange={handleChangeFormTeacher}
                     />
                     {errors.Firstname && (
-                      <p className="text-red-500">
-                        {errors.Firstname}
-                      </p>
+                      <p className="text-red-500">{errors.Firstname}</p>
                     )}
                   </div>
                   <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
@@ -397,9 +415,7 @@ const SettingsProfile = () => {
                       onChange={handleChangeFormTeacher}
                     />
                     {errors.Lastname && (
-                      <p className="text-red-500">
-                        {errors.Lastname}
-                      </p>
+                      <p className="text-red-500">{errors.Lastname}</p>
                     )}
                   </div>
                 </div>
@@ -418,9 +434,7 @@ const SettingsProfile = () => {
                       onChange={handleChangeFormTeacher}
                     />
                     {errors.Email && (
-                      <p className="text-red-500">
-                        {errors.Email}
-                      </p>
+                      <p className="text-red-500">{errors.Email}</p>
                     )}
                   </div>
                   <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
@@ -437,9 +451,7 @@ const SettingsProfile = () => {
                       onChange={handleChangeFormTeacher}
                     />
                     {errors.Password && (
-                      <p className="text-red-500">
-                        {errors.Password}
-                      </p>
+                      <p className="text-red-500">{errors.Password}</p>
                     )}
                   </div>
                 </div>
@@ -458,9 +470,7 @@ const SettingsProfile = () => {
                       onChange={handleChangeFormTeacher}
                     />
                     {errors.Address && (
-                      <p className="text-red-500">
-                        {errors.Address}
-                      </p>
+                      <p className="text-red-500">{errors.Address}</p>
                     )}
                   </div>
                   <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
@@ -477,11 +487,8 @@ const SettingsProfile = () => {
                       onChange={handleChangeFormTeacher}
                     />
                     {errors.PhoneNumber && (
-                      <p className="text-red-500">
-                        {errors.PhoneNumber}
-                      </p>
+                      <p className="text-red-500">{errors.PhoneNumber}</p>
                     )}
-
                   </div>
                 </div>
                 <Button
@@ -491,13 +498,13 @@ const SettingsProfile = () => {
                 >
                   Submit
                 </Button>
-              </form>
-            )
+              </div>
+            </div>
+          </form>
+        </>
+      )}
 
-        }
-
-      </div>
-    </div >
+    </>
   );
 };
 
