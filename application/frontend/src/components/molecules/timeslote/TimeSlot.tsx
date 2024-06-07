@@ -21,9 +21,9 @@ const TimeslotSelector: React.FC<TimeslotSelectorProps> = ({
   setDataTime,
 }) => (
   <div className="flex flex-col sm:flex-row">
-    <div className="flex flex-col pl-[90px] sm:pl-[2px]">
+    <div className="flex flex-col">
       <div className="flex flex-col pr-[180px] sm:pr-[220px]">
-        <Typography fontSize="sm" className="sm:text-start">
+        <Typography align='left' fontSize="sm" className="sm:text-start">
           From
         </Typography>
       </div>
@@ -42,9 +42,9 @@ const TimeslotSelector: React.FC<TimeslotSelectorProps> = ({
         ))}
       </Select>
     </div>
-    <div className="flex flex-col pl-[90px] sm:pl-[2px]">
-      <div className="flex flex-col pr-[180px] sm:pr-[220px]">
-        <Typography fontSize="sm" className="sm:text-start">
+    <div className="flex flex-col">
+      <div className="flex flex-col mt-5 sm:mt-0 md:mt-0 lg:md:mt-0 xl:md:mt-0">
+        <Typography align='left' fontSize="sm" className="sm:text-start">
           To
         </Typography>
       </div>
