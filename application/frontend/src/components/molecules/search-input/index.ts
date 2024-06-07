@@ -1,3 +1,3 @@
 import { SearchInput } from "./SearchInput";
-
-export {SearchInput}
+import {SearchTopTeachers} from './SearchTopTeachers'
+export {SearchInput, SearchTopTeachers}

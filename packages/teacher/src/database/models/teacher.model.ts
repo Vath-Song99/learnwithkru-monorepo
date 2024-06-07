@@ -101,6 +101,14 @@ const teacherSchema = new Schema({
     type: String,
     required: true,
   },
+  createdAt: {
+    type: Date, default: Date.now
+  },
+  teaching_experience: {
+    type: String,
+    min: 25,
+    max:150
+  }
 });
 
 const teacherModel = mongoose.model<IteacherDocs>("teachers", teacherSchema);

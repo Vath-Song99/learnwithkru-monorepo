@@ -13,6 +13,7 @@ import { logger } from "./utils/logger";
 import unless from "./middlewares/unless-route";
 import { verifyUser } from "./middlewares/auth-middleware";
 import cookieParser from "cookie-parser";
+import { OptionSession } from "./utils/cookieOption";
 
 const app: Application = express();
 
@@ -25,15 +26,7 @@ app.set("trust proxy", 1);
 app.use(compression());
 app.use(cookieParser());
 app.use(
-  cookieSession({
-    name: "session",
-    keys: [`${config.cookieSecretKeyOne}`, `${config.cookieSecretKeyTwo}`],
-    maxAge: 24 * 60 * 60 * 1000,
-    secure: config.env !== "development", // update with value from config
-    ...(config.env !== "development" && {
-      sameSite: "none",
-    }),
-  })
+  cookieSession(OptionSession)
 );
 
 // Prevent HTTP Parameter Pollution attacks
@@ -83,6 +76,7 @@ app.use("*", (req: Request, res: Response, _next: NextFunction) => {
     .json({ message: "The endpoint called does not exist." });
 });
 
+// Error handler catch
 app.use(errorHandler);
 
 export default app;

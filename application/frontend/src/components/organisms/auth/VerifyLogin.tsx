@@ -1,6 +1,6 @@
 "use client";
 import { Typography } from "@/components/atoms";
-import { Button, Link, user } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -37,13 +37,7 @@ const VerifyLogin = ({ isAuth, type }: { isAuth: boolean, type: string }) => {
       document.body.style.overflow = "";
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isPopupOpen]);
-
-  console.log("Isauth", isAuth, "toggle: ", isPopupOpen);
-
-  // if (isPopupOpen && ) {
-  //   router.push("http://localhost:8000/student-form")
-  // }
+  }, [isLogin, isPopupOpen, router, type]);
 
   return (
     <div className="relative">
