@@ -65,14 +65,10 @@ const DEFAULT_FORM_VALUE = {
 const AboutForm = ({
   title,
   description,
-  inputForms,
-  buttonTitle,
   id,
-  currentPage,
   pageIndex,
   setCurrentPage,
   setdataTutor,
-  dataTutor,
 }: BecomeTeacherFormTypes) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] = useState<AboutFormProps>(DEFAULT_FORM_VALUE);
