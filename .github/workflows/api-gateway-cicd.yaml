@@ -93,7 +93,7 @@ jobs:
             STUDENT_SERVICE_URL=${{ secrets.STUDENT_SERVICE_URL }}
             TEST=${{ secrets.TEST }}
             EOF
-++
+            
       - name: Start
         uses: appleboy/ssh-action@master
         with:
