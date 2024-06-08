@@ -139,7 +139,7 @@ jobs:
             # Check if the PM2 process is running
             if pm2 show auth > /dev/null; then
               echo "Application is running. Restarting..."
-              restart auth
+              yarn restart
             else
               echo "Application is not running. Starting..."
               yarn start
