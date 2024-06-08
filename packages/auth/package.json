@@ -55,9 +55,9 @@
   },
   "scripts": {
     "start:dev": "nodemon --legacy-watch src/server.ts",
-    "start": "pm2 start /ecosystem.config.js",
+    "start": "pm2 start ecosystem.config.js",
     "stop": "pm2 stop all",
-    "restart": "pm2 restart /ecosystem.config.js",
+    "restart": "pm2 restart ecosystem.config.js",
     "delete": "pm2 delete all",
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json && cp package.json ./build/ && cp -R configs ./build/ && cp private_key.pem ./build/ && cp ecosystem.config.js ./build/ && cp -R public ./build/",
     "gen:spec": "tsoa spec ",
