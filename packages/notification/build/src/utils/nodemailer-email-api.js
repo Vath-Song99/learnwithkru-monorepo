@@ -13,11 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer_1 = __importDefault(require("nodemailer"));
-const nodemailer_smtp_server_1 = __importDefault(require("./nodemailer-smtp-server"));
-const email_templates_1 = __importDefault(require("email-templates"));
-const server_1 = require("../server");
 const path_1 = __importDefault(require("path"));
 const logger_1 = require("./logger");
+const nodemailer_smtp_server_1 = __importDefault(require("./nodemailer-smtp-server"));
+const config_1 = __importDefault(require("./config"));
+const email_templates_1 = __importDefault(require("email-templates"));
 class NodemailerEmailApi {
     constructor() {
         this.transporter = nodemailer_1.default.createTransport(new nodemailer_smtp_server_1.default().getConfig());
@@ -27,7 +27,7 @@ class NodemailerEmailApi {
             try {
                 const email = new email_templates_1.default({
                     message: {
-                        from: `Micro Sample <${(0, server_1.getConfig)().senderEmail}>`,
+                        from: `Learnwithkru <${(0, config_1.default)().senderEmail}>`,
                     },
                     send: true,
                     preview: false,

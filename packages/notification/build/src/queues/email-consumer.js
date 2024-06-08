@@ -12,25 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.consumeAuthEmailMessages = void 0;
+exports.consumeNotificationMessages = exports.consumeAuthEmailMessages = void 0;
 const logger_1 = require("../utils/logger");
 const connection_1 = require("./connection");
-const server_1 = require("../server");
 const email_sender_1 = __importDefault(require("../utils/email-sender"));
+const config_1 = __importDefault(require("../utils/config"));
+const socket_sender_1 = require("../utils/socket-sender");
+// TODO:
+// 1. Check If Channel Exist. If Not Create Once
+// 2. Define ExchangeName, RoutingKey, QueueName
+// 3. Check if Exchange Exist, If Not Create Once
+// 4. Check if Queue Exist, If Not Create Once
+// 5. Bind the Exchange to Queue by Routing Key
+// 6. Consumer: Send Email When there is a message from Queue
 function consumeAuthEmailMessages(channel) {
     return __awaiter(this, void 0, void 0, function* () {
-        // TODO:
-        // 1. Check If Channel Exist. If Not Create Once
-        // 2. Define ExchangeName, RoutingKey, QueueName
-        // 3. Check if Exchange Exist, If Not Create Once
-        // 4. Check if Queue Exist, If Not Create Once
-        // 5. Bind the Exchange to Queue by Routing Key
-        // 6. Consumer: Send Email When there is a message from Queue
         try {
             if (!channel) {
                 channel = (yield (0, connection_1.createQueueConnection)());
             }
-            const exchangeName = 'microsample-email-notification';
+            const exchangeName = 'learnwithkru-verify-email';
             const routingKey = 'auth-email';
             const queueName = 'auth-email-queue';
             yield channel.assertExchange(exchangeName, 'direct');
@@ -42,8 +43,8 @@ function consumeAuthEmailMessages(channel) {
             channel.consume(queue.queue, (msg) => __awaiter(this, void 0, void 0, function* () {
                 const { receiverEmail, username, verifyLink, resetLink, template } = JSON.parse(msg.content.toString());
                 const locals = {
-                    appLink: `${(0, server_1.getConfig)().clientUrl}`,
-                    appIcon: ``,
+                    appLink: `${(0, config_1.default)().clientUrl}`,
+                    appIcon: `https://learnwithkru.com/_next/image?url=%2FLogos%2FKruLogo.png&w=640&q=75`,
                     username,
                     verifyLink,
                     resetLink,
@@ -60,28 +61,37 @@ function consumeAuthEmailMessages(channel) {
     });
 }
 exports.consumeAuthEmailMessages = consumeAuthEmailMessages;
-// export async function consumeSubmissionEmailMessages(
-//   channel: Channel
-// ): Promise<void> {
-//   try {
-//     if (!channel) {
-//       channel = (await createQueueConnection()) as Channel;
-//     }
-//     const exchangeName = 'microsample-submission-notification';
-//     const routingKey = 'submission-email';
-//     const queueName = 'submission-email-queue';
-//     await channel.assertExchange(exchangeName, 'direct');
-//     const queue = await channel.assertQueue(queueName, {
-//       durable: true,
-//       autoDelete: false,
-//     });
-//     await channel.bindQueue(queue.queue, exchangeName, routingKey);
-//     channel.consume(queue.queue, async (msg: ConsumeMessage | null) => {
-//     });
-//   } catch (error) {
-//     logger.error(
-//       `NotificationService EmailConsumer consumeAuthEmailMessages() method error: ${error}`
-//     );
-//   }
-// }
+function consumeNotificationMessages(channel) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            if (!channel) {
+                channel = (yield (0, connection_1.createQueueConnection)());
+            }
+            const exchangeName = 'learnwithkru-notification-message';
+            const routingKey = 'notification-message';
+            const queueName = 'notification-message-queue';
+            yield channel.assertExchange(exchangeName, 'direct');
+            const queue = yield channel.assertQueue(queueName, {
+                durable: true,
+                autoDelete: false,
+            });
+            yield channel.bindQueue(queue.queue, exchangeName, routingKey);
+            channel.consume(queue.queue, (msg) => __awaiter(this, void 0, void 0, function* () {
+                const { type, title, message, timestamp, template, receiver } = JSON.parse(msg.content.toString());
+                const messageDetailsLocals = {
+                    type,
+                    title,
+                    message,
+                    timestamp
+                };
+                const notificationUserSender = socket_sender_1.SocketSender.getInstance();
+                yield notificationUserSender.sendNotification(template, receiver, messageDetailsLocals);
+            }));
+        }
+        catch (error) {
+            logger_1.logger.error(`NotificationService EmailConsumer consumeNotificationMessage() method error: ${error}`);
+        }
+    });
+}
+exports.consumeNotificationMessages = consumeNotificationMessages;
 //# sourceMappingURL=email-consumer.js.map
