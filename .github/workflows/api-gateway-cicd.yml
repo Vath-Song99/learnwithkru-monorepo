@@ -118,18 +118,13 @@ jobs:
               exit 1
             fi
 
-            # Ensure node and yarn are available
-            nvm install 20
-            nvm use 20
-            npm install -g yarn
-
             # Verify yarn installation
             if ! command -v yarn &> /dev/null; then
               echo "Yarn could not be found"
               exit 1
             fi
 
-            cd /home/ubuntu/apps/api-gateway/build
+            cd /home/ubuntu/apps/packages/api-gateway/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
 
