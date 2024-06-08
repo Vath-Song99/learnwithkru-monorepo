@@ -30,7 +30,15 @@
     "gen:student": "yarn workspace student-service gen:all",
     "gen:teacher": "yarn workspace teacher-service gen:all",
     "gen:user": "yarn workspace user-service gen:all",
-    "gen:all": "concurrently \"yarn gen:auth\" \"yarn gen:student\" \"yarn gen:teacher\"  \"yarn gen:user\""
+    "gen:all": "concurrently \"yarn gen:auth\" \"yarn gen:student\" \"yarn gen:teacher\"  \"yarn gen:user\"",
+    "build:app": "yarn workspace learnwithkru-application build",
+    "build:api-gateway": "yarn workspace api-gateway build",
+    "build:auth-service": "yarn workspace authentication-service build",
+    "build:notificaton-service": "yarn workspace notification-service build",
+    "build:student-service": "yarn workspace student-service build",
+    "build:teacher-service": "yarn workspace teacher-service build",
+    "build:user-service": "yarn workspace user-service build",
+    "build:all": "concurrently \"yarn build:api-gateway\" \"yarn build:auth-service\" \"yarn build:notificaton-service\" \"yarn build:student-service\" \"yarn build:teacher-service\" \"yarn build:user-service\""
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
