@@ -108,6 +108,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            #!/bin/bash
+
             # Check if nvm is installed
             if [ -s "$HOME/.nvm/nvm.sh" ]; then
               source "$HOME/.nvm/nvm.sh"
@@ -124,17 +126,24 @@ jobs:
               exit 1
             fi
 
-            cd /home/ubuntu/apps/packages/api-gateway/build
+            cd /home/ubuntu/apps/api-gateway/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
 
+            # Check if server.js exists in the correct directory
+            if [ ! -f ./src/server.js ]; then
+              echo "server.js not found in ./src/"
+              exit 1
+            fi
+
             # Install Dependencies
+            echo "Installing dependencies..."
             yarn install
 
             # Check if the PM2 process is running
             if pm2 show api-gateway > /dev/null; then
               echo "Application is running. Restarting..."
-              yarn restart
+              restart api-gateway
             else
               echo "Application is not running. Starting..."
               yarn start
