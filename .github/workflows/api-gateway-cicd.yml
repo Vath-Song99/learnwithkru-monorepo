@@ -143,7 +143,7 @@ jobs:
             # Check if the PM2 process is running
             if pm2 show api-gateway > /dev/null; then
               echo "Application is running. Restarting..."
-              restart api-gateway
+              yarn restart
             else
               echo "Application is not running. Starting..."
               yarn start
