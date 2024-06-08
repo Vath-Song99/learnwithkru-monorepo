@@ -126,7 +126,7 @@ jobs:
               exit 1
             fi
 
-            cd /home/ubuntu/apps/api-gateway/build
+            cd /home/ubuntu/apps/packages/api-gateway/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
 
