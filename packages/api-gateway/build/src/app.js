@@ -66,6 +66,7 @@ app.use("*", (req, res, _next) => {
         .status(consts_1.StatusCode.NotFound)
         .json({ message: "The endpoint called does not exist." });
 });
+// Erorr handler i have try 310 times
 app.use(error_handler_1.errorHandler);
 exports.default = app;
 //# sourceMappingURL=app.js.map

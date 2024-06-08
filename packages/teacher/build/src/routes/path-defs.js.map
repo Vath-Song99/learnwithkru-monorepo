@@ -1,0 +1,1 @@
+{"version":3,"file":"path-defs.js","sourceRoot":"","sources":["../../../src/routes/path-defs.ts"],"names":[],"mappings":";;;AAAa,QAAA,YAAY,GAAG;IAC1B,IAAI,EAAE,cAAc;IACpB,WAAW,EAAE,GAAG;IAChB,aAAa,EAAE,iBAAiB;IAChC,cAAc,EAAE,sBAAsB;IACtC,KAAK,EAAE,gBAAgB;CACxB,CAAC;AAGW,QAAA,UAAU,GAAG;IACxB,IAAI,EAAE,cAAc;IACpB,WAAW,EAAE,QAAQ;CACtB,CAAA"}
