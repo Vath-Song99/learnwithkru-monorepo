@@ -1,15 +1,15 @@
-name: CI/CD API Gateway
+name: CI/CD Auth Sevice
 
 on:
   push:
     branches:
       - main
     paths:
-      - "packages/api-gateway/**"
+      - "packages/auth/**"
 
 defaults:
   run:
-    working-directory: packages/api-gateway
+    working-directory: packages/auth
 
 jobs:
   build:
@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: packages/api-gateway/build
+          path: packages/auth/build
 
   deploy:
     needs: build
@@ -43,7 +43,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
-          path: packages/api-gateway/build
+          path: packages/auth/build
 
       - name: Add SSH Key
         uses: webfactory/ssh-agent@v0.5.3
@@ -71,7 +71,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "packages/api-gateway/build/*"
+          source: "packages/auth/build/*"
           target: "/home/ubuntu/apps/"
 
       - name: Create .env file
@@ -82,22 +82,18 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            sudo mkdir -p /home/***/apps/api-gateway/build/configs
+            sudo mkdir -p /home/***/apps/auth/build/configs
             sudo chown -R $USER:$USER /home/***/apps
-            cat <<EOF > /home/***/apps/api-gateway/build/configs/.env.prod
+            cat <<EOF > /home/***/apps/auth/build/configs/.env.prod
             NODE_ENV=${{ secrets.NODE_ENV }}
             PORT=${{ secrets.PORT }}
-            COOKIE_SECRET_KEY_ONE=${{ secrets.COOKIE_SECRET_KEY_ONE }}
-            COOKIE_SECRET_KEY_TWO=${{ secrets.COOKIE_SECRET_KEY_TWO }}
-            COOKIE_PERSISTENT_KEY=${{ secrets.COOKIE_PERSISTENT_KEY }}
             CLIENT_URL=${{ secrets.CLIENT_URL }}
             LOG_LEVEL=${{ secrets.LOG_LEVEL }}
             RABBITMQ_ENDPOINT=${{ secrets.RABBITMQ_ENDPOINT }}
             USER_SERVICE_URL=${{ secrets.USER_SERVICE_URL }}
-            AUTH_SERVICE_URL=${{ secrets.AUTH_SERVICE_URL }}
             TEACHER_SERVICE_URL=${{ secrets.TEACHER_SERVICE_URL }}
-            NOTIFICATION_SERVICE_URL=${{ secrets.NOTIFICATION_SERVICE_URL }}
             STUDENT_SERVICE_URL=${{ secrets.STUDENT_SERVICE_URL }}
+            MONGODB_URL=${{ secrets.MONGODB_URL}}
             TEST=${{ secrets.TEST }}
             EOF
       - name: Start
@@ -126,7 +122,7 @@ jobs:
               exit 1
             fi
 
-            cd /home/ubuntu/apps/packages/api-gateway/build
+            cd /home/ubuntu/apps/packages/auth/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
 
@@ -141,9 +137,9 @@ jobs:
             yarn install
 
             # Check if the PM2 process is running
-            if pm2 show api-gateway > /dev/null; then
+            if pm2 show auth > /dev/null; then
               echo "Application is running. Restarting..."
-              restart api-gateway
+              restart auth
             else
               echo "Application is not running. Starting..."
               yarn start
