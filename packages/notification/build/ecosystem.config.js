@@ -1,6 +1,6 @@
 module.exports = {
     apps : [{
-      name: "auth-service",
+      name: "notification-service",
       script: "./src/server.js", // Adjust this path to where your server's entry point is
       instances: 1,
       autorestart: true,

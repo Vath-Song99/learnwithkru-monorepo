@@ -93,7 +93,7 @@ jobs:
             USER_SERVICE_URL=${{ secrets.USER_SERVICE_URL }}
             TEACHER_SERVICE_URL=${{ secrets.TEACHER_SERVICE_URL }}
             STUDENT_SERVICE_URL=${{ secrets.STUDENT_SERVICE_URL }}
-            MONGODB_URL=${{ secrets.MONGODB_URL}}
+            MONGODB_URL=${{ secrets.AUTH_MONGODB_URL}}
             TEST=${{ secrets.TEST }}
             EOF
       - name: Start
