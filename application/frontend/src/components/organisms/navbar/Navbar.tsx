@@ -1,10 +1,8 @@
 "use client";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  Button,
-} from "@/components";
+import { Button } from "@/components";
 import { ButtonDropDown } from "@/components/molecules/button-dropdown";
 import { ProfileDropDown } from "@/components/molecules/profile-dropdown";
 import { Notification } from "@/components/organisms/notification";
@@ -103,10 +101,7 @@ interface NavbarProps {
   authState: { isAuth: boolean; user: IUser | null };
 }
 
-const Navbar: React.FC<NavbarProps> = ({
-  className,
-  authState,
-}) => {
+const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string | null>("Home");
   const handleItemClick = (item: string) => {
@@ -141,7 +136,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </Link>
           <Link
             className="text-[#455445] text-sm hover:underline"
-            href={"/become-teacher"}
+            href={"/become-teacher/become-teacher-form"}
           >
             Become a teacher
           </Link>
@@ -256,130 +251,270 @@ const Navbar: React.FC<NavbarProps> = ({
         </svg>
       </button>
       {/* Slider Navbar Content */}
-      <div
-        className={`fixed lg:hidden xl:hidden inset-y-0 right-0 flex flex-col items-start z-50 bg-white w-64 md:w-72 lg:w-80 xl:w-96 shadow-lg transform transition-all duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-      >
-        <div className="flex items-center justify-between w-full px-4 py-2">
-          <div className="flex">
-            <button className="">
-              <div className="flex w-[30px] h-[30px] bg-gray-200 justify-center items-center rounded-md hover:bg-gray-200 hover:rounded-md">
-                {/* Account icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                >
-                  <g
-                    fill="#0A0A0A"
-                    stroke="#A9A9A9"
-                    strokeDasharray="28"
-                    strokeDashoffset="28"
-                    strokeLinecap="round"
-                    strokeWidth="2"
+      {authState.isAuth ? (
+        <div
+          className={`fixed lg:hidden xl:hidden inset-y-0 right-0 flex flex-col items-start z-50 bg-white w-64 md:w-72 lg:w-80 xl:w-96 shadow-lg transform transition-all duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"
+            }`}
+        >
+          <div className="flex items-center justify-between w-full px-4 py-2">
+            <div className="flex">
+              <button className="">
+                <div className="flex w-[30px] h-[30px] bg-gray-200 justify-center items-center rounded-md hover:bg-gray-200 hover:rounded-md">
+                  {/* Account icon */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
                   >
-                    <path d="M4 21V20C4 16.6863 6.68629 14 10 14H14C17.3137 14 20 16.6863 20 20V21">
-                      <animate
-                        fill="freeze"
-                        attributeName="stroke-dashoffset"
-                        dur="0.4s"
-                        values="28;0"
+                    <g
+                      fill="#0A0A0A"
+                      stroke="#A9A9A9"
+                      strokeDasharray="28"
+                      strokeDashoffset="28"
+                      strokeLinecap="round"
+                      strokeWidth="2"
+                    >
+                      <path d="M4 21V20C4 16.6863 6.68629 14 10 14H14C17.3137 14 20 16.6863 20 20V21">
+                        <animate
+                          fill="freeze"
+                          attributeName="stroke-dashoffset"
+                          dur="0.4s"
+                          values="28;0"
+                        />
+                      </path>
+                      <path d="M12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7C16 9.20914 14.2091 11 12 11Z">
+                        <animate
+                          fill="freeze"
+                          attributeName="stroke-dashoffset"
+                          begin="0.5s"
+                          dur="0.4s"
+                          values="28;0"
+                        />
+                      </path>
+                    </g>
+                  </svg>
+                </div>
+              </button>
+              <ProfileDropDown
+                icon={
+                  !authState.user!.picture ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-4 h-4"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
                       />
-                    </path>
-                    <path d="M12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7C16 9.20914 14.2091 11 12 11Z">
-                      <animate
-                        fill="freeze"
-                        attributeName="stroke-dashoffset"
-                        begin="0.5s"
-                        dur="0.4s"
-                        values="28;0"
-                      />
-                    </path>
-                  </g>
-                </svg>
-              </div>
-            </button>
-            <Link href={"login"} className="ml-5 p-3 hover:underline">
-              Log in
-            </Link>
-          </div>
-          <button
-            onClick={toggleModal}
-            className="text-gray-600 focus:outline-none "
-          >
-            {/* Close icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="#F01C1C"
-                d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6l-5.6 5.6Z"
-              />
-            </svg>
-          </button>
-        </div>
-        <div className="w-full h-[1.2px] bg-gray-200"></div>
-        <nav className="flex  py-2 flex-col items-start justify-start">
-          <ul className="ml-5">
-            <li
-              className="cursor-pointer py-3 hover:underline relative"
-              onClick={() => handleItemClick("Home")}
-            >
-              {selectedItem === "Home" && (
-                <span
-                  className="absolute left-[-15px] top-[9px] h-[50%] w-1 bg-[#7B2CBF]"
-                  style={{ marginTop: "0.5rem" }}
-                />
-              )}
-              <Link href={"/"}>Home</Link>
-            </li>
-            <li
-              className="cursor-pointer py-3 hover:underline relative"
-              onClick={() => handleItemClick("Become a teacher")}
-            >
-              {selectedItem === "Become a teacher" && (
-                <span
-                  className="absolute left-[-15px] top-[9px] h-[50%] w-1 bg-[#7B2CBF]"
-                  style={{ marginTop: "0.5rem" }}
-                />
-              )}
-              <Link href={"become-a-teacher-signup-steps"}>
-                Become a teacher
-              </Link>
-            </li>
-            <li
-              className="cursor-pointer py-3 hover:underline relative"
-              onClick={() => handleItemClick("Find teacher")}
-            >
-              {selectedItem === "Find teacher" && (
-                <span
-                  className="absolute left-[-15px] top-[9px] h-[50%] w-1 bg-[#7B2CBF]"
-                  style={{ marginTop: "0.5rem" }}
-                />
-              )}
-              <Link href={"teacher-list"}>Find teacher</Link>
-            </li>
-          </ul>
-        </nav>
-        <div className="w-[90%] mx-auto h-[1.2px] bg-gray-200"></div>
+                    </svg>
+                  ) : (
+                    <Image
+                      src={authState.user!.picture}
+                      alt="user's profile picture"
+                      width={500}
+                      height={500}
+                      className="w-40 rounded-full"
+                    ></Image>
+                  )
+                }
+                className="ml-10 hidden sm:hidden md:hidden xl:inline lg:inline"
+                onChange={handleChange}
+              >
 
-        {/* <ButtonDropDown
+              </ProfileDropDown>
+            </div>
+            <button
+              onClick={toggleModal}
+              className="text-gray-600 focus:outline-none "
+            >
+              {/* Close icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="#F01C1C"
+                  d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6l-5.6 5.6Z"
+                />
+              </svg>
+            </button>
+          </div>
+          <div className="w-full h-[1.2px] bg-gray-200"></div>
+          <nav className="flex  py-2 flex-col items-start justify-start">
+            <ul className="ml-5">
+              <li
+                className="cursor-pointer py-3 hover:underline relative"
+                onClick={() => handleItemClick("Home")}
+              >
+                {selectedItem === "Home" && (
+                  <span
+                    className="absolute left-[-15px] top-[9px] h-[50%] w-1 bg-[#7B2CBF]"
+                    style={{ marginTop: "0.5rem" }}
+                  />
+                )}
+                <Link href={"/"}>Home</Link>
+              </li>
+              <li
+                className="cursor-pointer py-3 hover:underline relative"
+                onClick={() => handleItemClick("Become a teacher")}
+              >
+                {selectedItem === "Become a teacher" && (
+                  <span
+                    className="absolute left-[-15px] top-[9px] h-[50%] w-1 bg-[#7B2CBF]"
+                    style={{ marginTop: "0.5rem" }}
+                  />
+                )}
+                <Link href={"/become-teacher/become-teacher-form"}>Become a teacher</Link>
+              </li>
+              <li
+                className="cursor-pointer py-3 hover:underline relative"
+                onClick={() => handleItemClick("Find teacher")}
+              >
+                {selectedItem === "Find teacher" && (
+                  <span
+                    className="absolute left-[-15px] top-[9px] h-[50%] w-1 bg-[#7B2CBF]"
+                    style={{ marginTop: "0.5rem" }}
+                  />
+                )}
+                <Link href={"teacher-list"}>Find teacher</Link>
+              </li>
+            </ul>
+          </nav>
+          <div className="w-[90%] mx-auto h-[1.2px] bg-gray-200"></div>
+          <ButtonDropDown
+            options={options}
+            onChange={handleChange}
+            className="border-blue-500 flex mt-16 ml-7"
+          ></ButtonDropDown>
+          {/* Background Overlay  */}
+        </div>
+      ) : (
+        <div
+          className={`fixed lg:hidden xl:hidden inset-y-0 right-0 flex flex-col items-start z-50 bg-white w-64 md:w-72 lg:w-80 xl:w-96 shadow-lg transform transition-all duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"
+            }`}
+        >
+          <div className="flex items-center justify-between w-full px-4 py-2">
+            <div className="flex">
+              <button className="">
+                <div className="flex w-[30px] h-[30px] bg-gray-200 justify-center items-center rounded-md hover:bg-gray-200 hover:rounded-md">
+                  {/* Account icon */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                  >
+                    <g
+                      fill="#0A0A0A"
+                      stroke="#A9A9A9"
+                      strokeDasharray="28"
+                      strokeDashoffset="28"
+                      strokeLinecap="round"
+                      strokeWidth="2"
+                    >
+                      <path d="M4 21V20C4 16.6863 6.68629 14 10 14H14C17.3137 14 20 16.6863 20 20V21">
+                        <animate
+                          fill="freeze"
+                          attributeName="stroke-dashoffset"
+                          dur="0.4s"
+                          values="28;0"
+                        />
+                      </path>
+                      <path d="M12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7C16 9.20914 14.2091 11 12 11Z">
+                        <animate
+                          fill="freeze"
+                          attributeName="stroke-dashoffset"
+                          begin="0.5s"
+                          dur="0.4s"
+                          values="28;0"
+                        />
+                      </path>
+                    </g>
+                  </svg>
+                </div>
+              </button>
+              <Link href={"login"} className="ml-5 p-3 hover:underline">
+                Log in
+              </Link>
+            </div>
+            <button
+              onClick={toggleModal}
+              className="text-gray-600 focus:outline-none "
+            >
+              {/* Close icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="#F01C1C"
+                  d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6l-5.6 5.6Z"
+                />
+              </svg>
+            </button>
+          </div>
+          <div className="w-full h-[1.2px] bg-gray-200"></div>
+          <nav className="flex  py-2 flex-col items-start justify-start">
+            <ul className="ml-5">
+              <li
+                className="cursor-pointer py-3 hover:underline relative"
+                onClick={() => handleItemClick("Home")}
+              >
+                {selectedItem === "Home" && (
+                  <span
+                    className="absolute left-[-15px] top-[9px] h-[50%] w-1 bg-[#7B2CBF]"
+                    style={{ marginTop: "0.5rem" }}
+                  />
+                )}
+                <Link href={"/"}>Home</Link>
+              </li>
+              <li
+                className="cursor-pointer py-3 hover:underline relative"
+                onClick={() => handleItemClick("Become a teacher")}
+              >
+                {selectedItem === "Become a teacher" && (
+                  <span
+                    className="absolute left-[-15px] top-[9px] h-[50%] w-1 bg-[#7B2CBF]"
+                    style={{ marginTop: "0.5rem" }}
+                  />
+                )}
+                <Link href={"become-teacher/become-teacher-form"}>Become a teacher</Link>
+              </li>
+              <li
+                className="cursor-pointer py-3 hover:underline relative"
+                onClick={() => handleItemClick("Find teacher")}
+              >
+                {selectedItem === "Find teacher" && (
+                  <span
+                    className="absolute left-[-15px] top-[9px] h-[50%] w-1 bg-[#7B2CBF]"
+                    style={{ marginTop: "0.5rem" }}
+                  />
+                )}
+                <Link href={"teacher-list"}>Find teacher</Link>
+              </li>
+            </ul>
+          </nav>
+          <div className="w-[90%] mx-auto h-[1.2px] bg-gray-200"></div>
+          {/* Background Overlay  */}
+
+          {/* <ButtonDropDown
             options={options}
             onChange={handleChange}
             className="border-blue-500 flex mt-16 ml-7"
           ></ButtonDropDown> */}
-      </div>
-      {/* Background Overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={toggleModal}
-        ></div>
+        </div>
       )}
+
       {/* End mobile screen */}
     </nav>
   );

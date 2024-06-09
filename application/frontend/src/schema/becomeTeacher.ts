@@ -1,4 +1,16 @@
 import * as Yup from "yup";
+
+const TeacherSignup = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Please enter an email"),
+  password: Yup.string()
+    .required("Please enter a password")
+    .min(8, "Password must be at least 8 characters"),  
+});
+
+export { TeacherSignup };
+
 const becomeTeacher = Yup.object().shape({
   lastname: Yup.string()
     .required()

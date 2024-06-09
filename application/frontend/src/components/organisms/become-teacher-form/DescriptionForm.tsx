@@ -1,5 +1,5 @@
 "use client";
-import { Button, InputForm, Typography } from "@/components/atoms";
+import { Button, Typography } from "@/components/atoms";
 import React, {
   ChangeEvent,
   FormEvent,
@@ -19,8 +19,6 @@ const DEFAULT_FORM_VALUE = {
 const DescriptionForm = ({
   title,
   description,
-  inputForms,
-  buttonTitle,
   fileLabel,
   pageIndex,
   setCurrentPage,

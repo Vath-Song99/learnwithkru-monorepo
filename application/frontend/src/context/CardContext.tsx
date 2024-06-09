@@ -1,40 +1,3 @@
-<<<<<<< HEAD
-"use client";
-import React, { createContext, useState } from "react";
-interface CardTeachers {
-  isFavorite: boolean;
-  userId: string;
-  first_name: string;
-  last_name: string;
-  picture: string;
-  subject: string;
-  phone_number: string;
-  province: string;
-  university: string;
-  year_experience: number;
-  type_degree: string;
-  bio: string;
-  teacher_experience: string;
-  motivation: string;
-  date_available: object;
-  price: string;
-  video: string;
-  Degree: string;
-}
-interface ContextProps {
-  Data: CardTeachers[];
-  setData: React.Dispatch<React.SetStateAction<CardTeachers[]>>;
-  // addNewAuth: (auth: AuthForm) => Promise<void>;
-}
-export const Mycontext = createContext<ContextProps>({
-  Data: [],
-  setData: () => { },
-  // addNewAuth: async () => { }
-});
-
-const CardContext = ({ children }: { children: React.ReactNode }) => {
-  const [Data, setData] = useState<CardTeachers[]>([]);
-=======
 // <<<<<<< HEAD
 // // "use client";
 // // import { AuthForm } from "@/@types/users/users";
@@ -210,7 +173,6 @@ const CardContext = ({ children }: { children: React.ReactNode }) => {
 //       const API_ENDPOINT =
 //         "http://localhost:3000/v1/teachers/teacher-list?pageSize=10&pageNumber=1"; // Replace with your actual token
 //       const response = await axios.get(API_ENDPOINT, { withCredentials: true });
->>>>>>> 719902b1a3fe2e3d24eb6ef0f293efc1560560d4
 
 //       console.log(response);
 //       return response.data;

@@ -8,10 +8,6 @@ const studentSchema = yup.object().shape({
     .max(50, "School name cannot exceed 50 characters"),
   education: yup.string().required("Education level is required"),
   grade: yup.string().required("Grade is required"),
-<<<<<<< HEAD
-  student_card: yup.mixed().notRequired(),
-  
-=======
   student_card: yup
     .mixed()
     .notRequired() // Make student_card not required
@@ -26,7 +22,6 @@ const studentSchema = yup.object().shape({
       // Validate for size (less than 3MB)
       return (value as File).size <= 3 * 1024 * 1024;
     }),
->>>>>>> 719902b1a3fe2e3d24eb6ef0f293efc1560560d4
 });
 
 export { studentSchema };

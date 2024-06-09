@@ -24,7 +24,7 @@ const VerifyLogin = ({ isAuth, type }: { isAuth: boolean, type: string }) => {
         router.push("http://localhost:8000/student-form")
       }
       else if (isLogin && type === "teacher") {
-        router.push("http://localhost:8000/become-teacher")
+        router.push("http://localhost:8000/become-teacher/become-teacher-form")
 
       }
       document.body.style.overflow = "hidden";
@@ -38,7 +38,6 @@ const VerifyLogin = ({ isAuth, type }: { isAuth: boolean, type: string }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isLogin, isPopupOpen, router, type]);
-
   return (
     <div className="relative">
       <svg

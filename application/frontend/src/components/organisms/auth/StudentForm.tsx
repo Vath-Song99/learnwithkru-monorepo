@@ -19,10 +19,6 @@ interface Student {
 const SignupToBecomeStudent = () => {
     const [grade, setGrade] = useState<string>("1");
     const [education, setEducation] = useState<string>("Primary School");
-
-
-
-
     const [validate, setValidate] = useState<Student>({
         school_name: "",
         student_card: '',
