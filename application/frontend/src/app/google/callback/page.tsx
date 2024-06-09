@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import axios from "axios";
 import { notFound, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -13,8 +13,9 @@ const CallbackRedirect = () => {
       const code = searchParams.get("code");
 
       if (!code) {
-        return new Error("No authorization code found");
+        throw new Error("No authorization code found"); // Throw error instead of returning it
       }
+
       try {
         const res = await axios.get(
           `http://localhost:3000/v1/auth/google/callback?code=${code}`,
@@ -22,17 +23,20 @@ const CallbackRedirect = () => {
             withCredentials: true,
           }
         );
+        console.log("res: ", res.data)
+        
         if (res.data.errors) {
-           if(res.data.status === 400){
-              notFound()
+           if(res.data.status === 400 || res.data.status === 404){
+              notFound(); // Use notFound directly
            }
-           
-        } else if (res.data.data) {
-          router.push("/teachers");
+        } else if (res.data.message.includes("Success signup") && res.status === 200) {
+          router.push("/teachers"); // Use router.push directly
+          return;
         }
-        throw new Error("Unexpected Error accurs!");
-      } catch (error: unknown) {
-        throw error;
+        
+      } catch (error) {
+        console.error("Error:", error); // Log error
+        // Handle error cases here, e.g., redirect to error page or show error message
       } finally {
         setIsLoading(false); // Set isLoading to false when request completes (whether success or error)
       }

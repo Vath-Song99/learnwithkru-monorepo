@@ -171,7 +171,7 @@ const Navbar: React.FC<NavbarProps> = ({
             <Notification className="hidden lg:inline lg:ml-7 lg:mt-2"></Notification>
             <ProfileDropDown
               icon={
-                !authState.user!.picture ? (
+                authState.user?.picture  === null ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -188,7 +188,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   </svg>
                 ) : (
                   <Image
-                    src={authState.user!.picture}
+                    src={authState.user?.picture as string}
                     alt="user's profile picture"
                     width={500}
                     height={500}
