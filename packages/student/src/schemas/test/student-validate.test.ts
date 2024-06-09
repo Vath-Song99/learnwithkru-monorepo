@@ -1,24 +1,52 @@
-// src/tests/studentSchema.test.ts
-import { StudentSchemas } from '../student-validate';
 
-describe('StudentSchema', () => {
-  it('should validate a correct student object', () => {
-    const validStudent = {
-      schoolName: 'Example School',
-      education: 'High School',
+import { StudentSchemas } from "../student-validate"; // Adjust the import path accordingly
+
+describe('StudentSchemas', () => {
+  it('should validate the schema correctly', () => {
+    const validData = {
+      school_name: "Springfield Elementary",
+      education: "High School",
       grade: 10,
-      studentCard: '1234567890'
+      student_card: "ABC123"
     };
-    expect(() => StudentSchemas.parse(validStudent)).not.toThrow();
+
+    expect(() => StudentSchemas.parse(validData)).not.toThrow();
+
+    const invalidData = {
+      school_name: "S",
+      education: "H",
+      grade: "10", // Incorrect type
+      student_card: "ABC123"
+    };
+
+    expect(() => StudentSchemas.parse(invalidData)).toThrow();
   });
 
-  it('should throw an error for an invalid student object', () => {
-    const invalidStudent = {
-      schoolName: 'E',
-      education: 'H',
-      grade: 'ten',
-      studentCard: 1234567890
+  it('should fail if required fields are missing', () => {
+    const missingFields = {};
+
+    expect(() => StudentSchemas.parse(missingFields)).toThrow();
+  });
+
+  it('should fail if fields exceed max length', () => {
+    const invalidData = {
+      school_name: "S".repeat(51), // Exceeds max length
+      education: "High School",
+      grade: 10,
+      student_card: "ABC123"
     };
-    expect(() => StudentSchemas.parse(invalidStudent)).toThrow();
+
+    expect(() => StudentSchemas.parse(invalidData)).toThrow();
+  });
+
+  it('should fail if fields are below min length', () => {
+    const invalidData = {
+      school_name: "S",
+      education: "H", // Below min length
+      grade: 10,
+      student_card: "ABC123"
+    };
+
+    expect(() => StudentSchemas.parse(invalidData)).toThrow();
   });
 });

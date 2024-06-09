@@ -21,7 +21,7 @@ export const ValidateInput = (schema: Schema) => {
         );
       }
       console.log("Somthign went wrong!");
-      _next(new ApiError("Somthing went wrong!"));
+      _next(new ApiError("Something went wrong!"));
     }
   };
 };
