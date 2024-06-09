@@ -1,4 +1,4 @@
-name: CI/CD Student Service
+name: CI/CD student Sevice
 
 on:
   push:
@@ -33,21 +33,17 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: build/
+          path: packages/student/build
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository (needed for context if any)
-        uses: actions/checkout@v4
-
       - name: Get the Production Artifact
         uses: actions/download-artifact@v2
         with:
           name: build
-          path: build/
+          path: packages/student/build
 
       - name: Add SSH Key
         uses: webfactory/ssh-agent@v0.5.3
@@ -62,18 +58,19 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            mkdir -p /home/ubuntu/apps/student/build
-            chown -R ubuntu:ubuntu /home/ubuntu/apps/student
+            mkdir -p /home/ubuntu/apps
+            chown ubuntu:ubuntu /home/ubuntu/apps
 
       - name: Copy files to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_IP }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          source: "build/*"
-          target: "/home/ubuntu/apps/student/build/"
+          uses: appleboy/scp-action@master
+          with:
+            host: ${{ secrets.EC2_IP }}
+            username: ${{ secrets.EC2_USERNAME }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            port: 22
+            source: "packages/student/build/."
+            target: "/home/ubuntu/apps/"
+
 
       - name: Create .env file
         uses: appleboy/ssh-action@master
@@ -83,19 +80,18 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cat <<EOF > /home/ubuntu/apps/student/build/configs/.env.production
+            cat <<EOF > /home/***/apps/student/build/configs/.env.production
             NODE_ENV=${{ secrets.NODE_ENV }}
             PORT=${{ secrets.STUDENT_PORT }}
             CLIENT_URL=${{ secrets.CLIENT_URL }}
             LOG_LEVEL=${{ secrets.LOG_LEVEL }}
             RABBITMQ_ENDPOINT=${{ secrets.RABBITMQ_ENDPOINT }}
             USER_SERVICE_URL=${{ secrets.USER_SERVICE_URL }}
-            MONGODB_URL=${{ secrets.STUDENT_MONGODB_URL }}
-            JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}
+            MONGODB_URL=${{ secrets.STUDENT_MONGODB_URL}}
+            JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN}}
             TEST=${{ secrets.TEST }}
             EOF
-
-      - name: Start the service
+      - name: Start
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_IP }}
