@@ -9,7 +9,7 @@ import { RegisterRoutes } from "./routes/v1/routes";
 
 //app
 const app: Application = express();
-//global middleware
+
 //global middleware
 app.set("trust proxy", 1);
 app.use(
@@ -38,6 +38,7 @@ app.get("/swagger.json", (_req, res) => {
   res.sendFile(path.join(__dirname, "./swagger-dist/swagger.json"));
 });
 
+// Api routes
 RegisterRoutes(app);
 
 //error handler globale middleware

@@ -1,11 +1,15 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const config_1 = __importDefault(require("./config"));
 class NodemailerSmtpServer {
     constructor() {
-        this.host = process.env.SMTP_HOST;
-        this.port = parseInt(process.env.SMTP_PORT, 10);
-        this.user = process.env.SENDER_EMAIL;
-        this.pass = process.env.SENDER_EMAIL_PASSWORD;
+        this.host = (0, config_1.default)().smtpHost;
+        this.port = parseInt((0, config_1.default)().smtpPort);
+        this.user = (0, config_1.default)().senderEmail;
+        this.pass = (0, config_1.default)().senderEmailPassword;
     }
     getConfig() {
         return {

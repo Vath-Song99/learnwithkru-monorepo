@@ -11,3 +11,15 @@ export function setLocalStorage(name: string, data: any) {
 export const getCurrentDateTime = () => {
   return new Date().toLocaleString(); // Or any preferred date-time format
 };
+
+
+export function setLocalStorageTeacher(name: string, data: any) {
+  localStorage.setItem(name, JSON.stringify(data));
+}
+
+
+
+export function getLocalStorageTeacher(name: string) {
+  const item = localStorage.getItem(name);
+  return item ? JSON.parse(item) : null;
+}

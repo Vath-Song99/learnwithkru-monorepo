@@ -5,12 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.healthRoutes = void 0;
 const express_1 = __importDefault(require("express"));
-const consts_1 = require("./utils/consts");
+const http_status_code_1 = __importDefault(require("./utils/http-status-code"));
 const router = express_1.default.Router();
 function healthRoutes() {
     router.get('/notification-health', (_req, res) => {
         res
-            .status(consts_1.StatusCode.OK)
+            .status(http_status_code_1.default.OK)
             .json({ message: 'Notification service is healthy and OK' });
     });
     return router;
