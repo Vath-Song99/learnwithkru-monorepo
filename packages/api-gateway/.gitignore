@@ -1,5 +1,7 @@
 node_modules/
 
+
+ecosystem.config.js/
 # configs/.env/
 # configs/.env.prod/
 

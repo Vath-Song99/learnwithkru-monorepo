@@ -49,7 +49,7 @@
     "start": "cross-env NODE_ENV=production pm2 start ./build/src/server.js -i 5 --attach --watch",
     "stop": "pm2 stop all",
     "delete": "pm2 delete all",
-    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json && cp package.json ./build/ && cp -R configs ./build/ && cp public_key.pem ./build/ && cp ecosystem.config.js ./build/",
+    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json && cp package.json ./build/&& cp -R configs ./build/ && cp public_key.pem ./build/ && cp ecosystem.config.js ./build/",
     "gen:spec": "tsoa spec",
     "gen:routes": "tsoa routes",
     "gen:all": "yarn gen:spec && yarn gen:routes",
