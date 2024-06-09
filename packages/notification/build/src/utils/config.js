@@ -3,8 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv_1 = __importDefault(require("dotenv"));
 const api_error_1 = __importDefault(require("../errors/api-error"));
+const dotenv_1 = __importDefault(require("dotenv"));
+const path_1 = __importDefault(require("path"));
 function createConfig(configPath) {
     dotenv_1.default.config({ path: configPath });
     // Validate essential configuration
@@ -16,6 +17,8 @@ function createConfig(configPath) {
         'RABBITMQ_ENDPOINT',
         'SENDER_EMAIL',
         'SENDER_EMAIL_PASSWORD',
+        'SMTP_HOST',
+        'SMTP_PORT'
     ];
     const missingConfig = requiredConfig.filter((key) => !process.env[key]);
     if (missingConfig.length > 0) {
@@ -30,7 +33,15 @@ function createConfig(configPath) {
         rabbitMQ: process.env.RABBITMQ_ENDPOINT,
         senderEmail: process.env.SENDER_EMAIL,
         senderEmailPassword: process.env.SENDER_EMAIL_PASSWORD,
+        smtpHost: process.env.SMTP_HOST,
+        smtpPort: process.env.SMTP_PORT
     };
 }
-exports.default = createConfig;
+const getConfig = (currentEnv = 'development') => {
+    const configPath = currentEnv === "development"
+        ? path_1.default.join(__dirname, `../../configs/.env`)
+        : path_1.default.join(__dirname, `../../configs/.env.${currentEnv}`);
+    return createConfig(configPath);
+};
+exports.default = getConfig;
 //# sourceMappingURL=config.js.map

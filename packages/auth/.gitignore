@@ -4,6 +4,8 @@ node_modules/
 
 configs/.env
 
+./build/configs/.env
+
 # configs/.env.prod
 
 
