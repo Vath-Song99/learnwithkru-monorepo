@@ -90,7 +90,7 @@ jobs:
             STUDENT_SERVICE_URL=${{ secrets.STUDENT_SERVICE_URL }}
             MONGODB_URL=${{ secrets.AUTH_MONGODB_URL}}
             JWT_EXPIRES_IN=${{secrets.JWT_EXPIRES_IN}}
-            API_GATEWAY=${{secret.API_GATEWAY}}
+            API_GATEWAY=${{secrets.API_GATEWAY}}
             GOOGLE_CLIENT_ID=${{secrets.GOOGLE_CLIENT_ID}}
             GOOGLE_CLIENT_SECRET=${{secrets.GOOGLE_CLIENT_SECRET}}
             GOOGLE_REDIRECT_URI=${{secrets.GOOGLE_REDIRECT_URI}}

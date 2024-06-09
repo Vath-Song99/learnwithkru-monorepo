@@ -7,7 +7,7 @@ import getConfig from "./utils/config";
 import loggerMiddleware from "./middlewares/logger-handler";
 import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./routes/v1/routes";
-//app
+
 dotenv.config({ path: "configs/.env" });
 const app: Application = express();
 
