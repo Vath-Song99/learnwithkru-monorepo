@@ -14,7 +14,6 @@ const routes_1 = require("./routes/v1/routes");
 //app
 const app = (0, express_1.default)();
 //global middleware
-//global middleware
 app.set("trust proxy", 1);
 app.use((0, cors_1.default)({
     origin: (0, config_1.default)().apiGateway,
