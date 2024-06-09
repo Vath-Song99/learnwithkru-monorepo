@@ -8,6 +8,26 @@ interface InputFormsTypes {
   borderRadius?: string;
 }
 
+export  interface BecomeTeacherType{
+  first_name: string;
+  last_name: string;
+  subject: string;
+  phone_number: string;
+  province: string
+  
+  university: string;
+  year_experience: number;
+  type_degree: string;
+  certificate: string;
+  
+  bio: string;
+  motivation: string;
+  video:string
+  teaching_experience: string;
+  
+  price: number;
+    }
+
 export interface BecomeTeacherFormTypes {
   title: string;
   id?: string;
@@ -17,10 +37,11 @@ export interface BecomeTeacherFormTypes {
   fileLabel?: string;
   InputFormhalf?: string;
   checkboxtext?: string;
-  currentPage?: number;
+  currentPage: number;
   pageIndex?: number[];
   setCurrentPage: Dispatch<SetStateAction<number>>;
-  setDataTutor: Dispatch<SetStateAction<any>>
+  setdataTutor?:  any
+  dataTutor: BecomeTeacherType | undefined;
 }
 
 export interface TimeAvailableFormTypes extends BecomeTeacherFormTypes {
@@ -29,30 +50,37 @@ export interface TimeAvailableFormTypes extends BecomeTeacherFormTypes {
 }
 
 export interface AboutFormProps {
-  lastname: string;
-  firstname: string;
-  phonenumber: string;
-  province: string;
-  subject: string;
+  first_name: string;
+last_name: string;
+subject: string;
+phone_number: string;
+province: string
 }
+
 
 export interface BecomeTeacherData {
   university: string;
-  yearExperience: string;
-  typeDegree: string;
-  degreeFile: string;
+  year_experience: string;
+  type_degree: string;
+  certificate:  string | null;
 }
 
 export interface TeachersdescriptionProps {
   bio: string;
-  teachingExperience: string;
-  motivatePotentail: string;
-  videoTeaching: string;
+  teaching_experience: string;
+  motivation: string;
+  video: string | null;
 }
 
 
-export interface TeachersAvailability {
- monday: {
+export interface teachersProps {
+    lastname: string;
+    firstname: string;
+    phonenumber: string;
+    province: string;
+    subject: string;
+
+}
+
+
  
- }
-}
