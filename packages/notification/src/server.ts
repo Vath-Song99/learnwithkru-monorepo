@@ -9,6 +9,7 @@ import { SocketNotificationEmailApi } from './utils/socket-notification-api';
 
 async function run() {
   try {
+    // currect env
     const currentEnv = process.env.NODE_ENV || 'development';
     const config = getConfig(currentEnv);
 
