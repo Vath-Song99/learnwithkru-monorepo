@@ -4,25 +4,23 @@ import createConfig from "./utils/config";
 import MongoDBConnector from "./database";
 async function run() {
   try {
+    // set currectEnv
     const currentEnv = process.env.NODE_ENV || "development";
-
     const configPath = path.join(
       __dirname,
       currentEnv === "development"
         ? "../configs/.env"
         : currentEnv === "staging"
-          ? "../configs/.env.staging"
-          : "../configs/.env.production"
+        ? "../configs/.env.staging"
+        : "../configs/.env.production"
     );
     const config = createConfig(configPath);
-
 
     // Activate Database
     const mongodb = MongoDBConnector.getInstance();
     await mongodb.connect({ url: config.mongoUrl as string });
     // Start Server
-    const server = app.listen(config.port, () => {
-    });
+    const server = app.listen(config.port, () => {});
     const exitHandler = async () => {
       if (server) {
         server.close(async () => {
@@ -30,7 +28,7 @@ async function run() {
           await mongodb.disconnect();
           console.log("mongodb disconnected!");
 
-          // Gracefully Terminate 
+          // Gracefully Terminate
           process.exit(1); // terminate the process due to error
         });
       } else {
