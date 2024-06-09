@@ -23,7 +23,7 @@ const logInit = ({ env, logLevel, }) => {
     if (env !== "development") {
         exports.logger.add(new winston_1.default.transports.File({
             level: logLevel,
-            filename: path_1.default.join(__dirname, "../../logs/auth-service.log"),
+            filename: path_1.default.join(__dirname, "../../logs/api-gateway.log"),
         }));
     }
 };

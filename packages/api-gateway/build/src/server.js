@@ -47,7 +47,8 @@ exports.publicKey = fs.readFileSync(path.join(__dirname, "../public_key.pem"), '
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const config = (0, createConfig_1.default)();
+            const currentEnv = process.env.NODE_ENV || "development";
+            const config = (0, createConfig_1.default)(currentEnv);
             // Activate Logger
             (0, logger_1.logInit)({ env: process.env.NODE_ENV, logLevel: config.logLevel });
             // Start Server

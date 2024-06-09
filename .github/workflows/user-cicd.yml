@@ -81,7 +81,7 @@ jobs:
           script: |
             cat <<EOF > /home/***/apps/user/build/configs/.env.production
             NODE_ENV=${{ secrets.NODE_ENV }}
-            PORT=${{ secrets.PORT }}
+            PORT=${{ secrets.USER_PORT }}
             CLIENT_URL=${{ secrets.CLIENT_URL }}
             LOG_LEVEL=${{ secrets.LOG_LEVEL }}
             RABBITMQ_ENDPOINT=${{ secrets.RABBITMQ_ENDPOINT }}
