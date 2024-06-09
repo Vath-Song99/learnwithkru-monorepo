@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import * as Yup from "yup";
 import { Button, InputForm, Typography } from "../atoms";
@@ -8,6 +8,8 @@ import {
   validationTeacher,
 } from "@/schema/editProfileSchema";
 import Link from "next/link";
+import { Select } from "../atoms/select/select";
+import axios from "axios";
 
 interface MenuItemProps {
   itemName: string;
@@ -23,9 +25,8 @@ const MenuItem: React.FC<MenuItemProps> = ({
   return (
     <Link
       onClick={() => handleClick(itemName)}
-      className={`cursor-pointer text-[20px] sm:text-[20px] md:text-[16px] lg:text-[20px] xl:text-[20px] ${
-        active ? "border-b-2 border-[#7B2CBF] text-[#7B2CBF]" : ""
-      }`}
+      className={`cursor-pointer text-[20px] sm:text-[20px] md:text-[16px] lg:text-[20px] xl:text-[20px] ${active ? "border-b-2 border-[#7B2CBF] text-[#7B2CBF]" : ""
+        }`}
       style={{ padding: "15px" }}
       href={""}
     >
@@ -66,7 +67,7 @@ const SettingsProfile = () => {
           ...prevErrors,
           picture: "Image size is too large",
         }));
-        setPreviewURL('');
+        setPreviewURL("");
       } else {
         const imageUrl = URL.createObjectURL(imageFile);
         setFormValues({ ...formValues, picture: imageUrl });
@@ -120,9 +121,8 @@ const SettingsProfile = () => {
     Password: "",
     Address: "",
     PhoneNumber: "",
-    pictureTeacher: '',
+    pictureTeacher: "",
   });
-
   const handleChangeFormTeacher = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -137,6 +137,7 @@ const SettingsProfile = () => {
       ? event.currentTarget.files[0]
       : null;
     if (imageFile) {
+
       const imageUrl = URL.createObjectURL(imageFile);
       if (imageFile.size > 1024 * 1024) {
         // 1MB limit
@@ -144,7 +145,7 @@ const SettingsProfile = () => {
           ...prevErrors,
           pictureTeacher: "Image size is too large",
         }));
-        setPreviewURL('');
+        setPreviewURL("");
       } else {
         const imageUrl = URL.createObjectURL(imageFile);
         setFormTeacher({ ...formteacher, pictureTeacher: imageUrl });
@@ -153,7 +154,39 @@ const SettingsProfile = () => {
       }
     }
   };
+  interface PricingOption {
+    id: number;
+    itemName: string;
+    // Add any other properties here if needed
+  }
+  const [priceDropdown, setItemsDropdown] = useState<PricingOption[]>([]);
+  const [defaultValue, setDefaultValue] = useState('');
+  const fetchData = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/v1/teacher', {
+        // Add any data to be sent in the request body
+      });
+      const data = response.data;
+      setItemsDropdown(data);
+      console.log("this is price teacher : ", data);
+      if (data.length > 0) {
+        setDefaultValue(data[0].itemName);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }; useEffect(() => {
+    fetchData();
+  }, []);
 
+  const TimeDropdown = [
+    { id: 0, itemName: "select your time available" },
+    { id: 1, itemName: "7:00 - 8:00" },
+    { id: 2, itemName: "8:00 - 9:00" },
+    { id: 3, itemName: "9:00 - 10:00" },
+    { id: 4, itemName: "10:00 - 11:00" },
+    { id: 5, itemName: "11:00 - 12:00" },
+  ]
   const handleSubmitFormTeacher: React.FormEventHandler<
     HTMLFormElement
   > = async (event) => {
@@ -209,7 +242,7 @@ const SettingsProfile = () => {
                     type="file"
                     className="hidden"
                     name="picture"
-                     accept="image/*"
+                    accept="image/*"
                     onChange={handleImageChange}
                     ref={inputFileRef}
                   />
@@ -320,8 +353,8 @@ const SettingsProfile = () => {
       {users == "teachers" && (
         <>
           <form onSubmit={handleSubmitFormTeacher}>
-            <div className="w-[100%] sm:w-full md:w-[90%] lg:w-[100%] xl:w-[80%] h-150 mx-auto flex sm:flex-col md:flex-col lg:flex-row xl:flex-row">
-            <div className="flex flex-col h-[600px] gap-y-3 items-center md:items-center bg-[#F8F8F8]  lg:w-[35%] xl:w-[40%] w-full md:w-full rounded-md">
+            <div className="w-[100%] sm:w-full md:w-[90%] lg:w-[100%] xl:w-[80%]  mx-auto flex flex-col  md:flex-col lg:flex-row xl:flex-row pl-4 pr-4">
+              <div className="flex flex-col h-[400px] gap-y-3 items-center md:items-center bg-[#f8f8f8] lg:w-[35%] xl:w-[40%] w-full md:w-full rounded-md ">
                 <Typography fontSize="lg" variant="bold" className="mt-4">
                   Ny Sreyneang
                 </Typography>
@@ -344,12 +377,12 @@ const SettingsProfile = () => {
                     )
                   )}
                 </div>
-                <label className="bg-[#007C00] text-white w-[100%] h-[45px] sm:w-[90%] sm:h-[45px] md:w-[55%] md:h-[45px] lg:w-[85%] lg:h-[35px] mt-5 rounded-md xl:w-[80%] xl:h-[40px] sm:text-[14px] md:text-[14px] lg:text-[14px] xl:text-[16px] flex items-center justify-center cursor-pointer">
+                <label className="bg-[#007C00] pl-4 pr-4 text-white w-[90%] h-[45px] sm:w-[90%] sm:h-[45px] md:w-[55%] md:h-[45px] lg:w-[85%] lg:h-[35px] mt-5 rounded-md xl:w-[80%] xl:h-[40px] sm:text-[14px] md:text-[14px] lg:text-[14px] xl:text-[16px] flex items-center justify-center cursor-pointer">
                   <input
                     type="file"
                     className="hidden"
                     name="pictureTeacher"
-                     accept="image/*"
+                    accept="image/*"
                     onChange={handleChangeProfileTeacher}
                     ref={inputFileRef}
                   />
@@ -458,13 +491,13 @@ const SettingsProfile = () => {
                 <div className="flex flex-col mt-2 sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-between">
                   <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
                     <Typography align="left" fontSize="md">
-                      Address
+                      Province
                     </Typography>
                     <InputForm
                       className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
                       type="address"
                       borderRadius="md"
-                      placeholder="Address"
+                      placeholder="Province"
                       name="Address"
                       value={formteacher.Address}
                       onChange={handleChangeFormTeacher}
@@ -491,6 +524,41 @@ const SettingsProfile = () => {
                     )}
                   </div>
                 </div>
+                <div className="flex flex-col mt-2 sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-between">
+                  <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
+                    <Typography align="left" fontSize="md">
+                      Time Available
+                    </Typography>
+                    <Select
+                      className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
+                      borderRadius="md"
+                      defaultValue={TimeDropdown[0].itemName}
+                    >
+                      {TimeDropdown.map((item) => (
+                        <option key={item.id} value={item.itemName} disabled={item.id == 0}>
+                          {item.itemName}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                  <div className="flex flex-col md:w-[45%] lg:w-[45%] mt-3 xl:w-[45%]">
+                    <Typography align="left" fontSize="md">
+                      Pricing
+                    </Typography>
+                    <Select
+                      className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
+                      borderRadius="md"
+                      defaultValue={defaultValue}
+                      onChange={(e) => setDefaultValue(e.target.value)}
+                    >
+                      {priceDropdown.map((item) => (
+                        <option key={item.id} value={item.itemName} disabled={item.id === 0}>
+                          {item.itemName}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                </div>
                 <Button
                   fontSize="md"
                   className="w-full mt-8 mb-10 h-[45px] sm:w-[120px] sm:h-[45px] md:w-[150px] md:h-[45px] lg:w-[150px] lg:h-[45px] rounded-md xl:w-[160px] xl:h-[45px]"
@@ -503,7 +571,6 @@ const SettingsProfile = () => {
           </form>
         </>
       )}
-
     </>
   );
 };
