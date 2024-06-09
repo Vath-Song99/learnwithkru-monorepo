@@ -1,95 +1,90 @@
-"use client";
-import React, { useState } from "react";
-import { Button, InputForm, Typography } from "@/components/atoms";
+import React from 'react';
+import { Typography } from '@/components/atoms';
+import { Select } from '@/components/atoms/select/select';
+import { DataTimeProp, WeekData } from '@/components/organisms/become-teacher-form/TimeAvailableForm';
 
-const TimeSlote = ({ day }: { day: string }) => {
-  const [fromTime, setFromTime] = useState("");
-  const [toTime, setToTime] = useState("");
-  const [error, setError] = useState("");
+interface TimeslotSelectorProps {
+  weekItem: WeekData;
+  index: number;
+  day: keyof WeekData;
+  handleTimeslot: (e: React.ChangeEvent<HTMLSelectElement>, idx: number, day: keyof WeekData) => void;
+  dataTime: DataTimeProp[];
+  setDataTime: React.Dispatch<React.SetStateAction<DataTimeProp[]>>;
+}
 
-  const handleFromTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFromTime(e.target.value);
-    if (e.target.value === toTime) {
-      setError("From time cannot be the same as To time.");
-    } else {
-      setError("");
-    }
-  };
-
-  const handleToTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setToTime(e.target.value);
-    if (e.target.value === fromTime) {
-      setError("To time cannot be the same as From time.");
-    } else {
-      setError("");
-    }
-  };
-
-  return (
-    <div className="w-[464px]">
-      <div className="flex items-center justify-start gap-2">
-        <input type="checkbox" className="w-6" />
-        <div className="w-full">
-          <div className="flex items-center  gap-2">
-            <InputForm type="checkbox" className="h-[12px] w-[12px]" />
-            <label htmlFor="" className="font-bold">
-              {day}
-            </label>
-          </div>
-          <div className="w-full flex justify-between items-center">
-            <div className="grid ">
-              <label
-                htmlFor="fromTime"
-                className="inline-block font-bold text-sm"
-              >
-                From
-              </label>
-              <select
-                id="fromTime"
-                name="fromTime"
-                value={fromTime}
-                onChange={handleFromTimeChange}
-                className="pr-20 pl-2 py-[5px] border border-black rounded-md outline-none "
-              >
-                <option value="">Select</option>
-                <option value="9:00 AM">9:00 AM</option>
-                <option value="10:00 AM">10:00 AM</option>
-                <option value="11:00 AM">11:00 AM</option>
-              </select>
-            </div>
-            <div className="grid ">
-              <label
-                htmlFor="toTime"
-                className="inline-block font-bold text-sm"
-              >
-                To
-              </label>
-              <select
-                id="toTime"
-                name="toTime"
-                value={toTime}
-                onChange={handleToTimeChange}
-                className="pr-20 pl-2 py-[5px] border border-black rounded-md outline-none "
-              >
-                <option value="">Select</option>
-                <option value="9:00 AM">9:00 AM</option>
-                <option value="10:00 AM">10:00 AM</option>
-                <option value="11:00 AM">11:00 AM</option>
-              </select>
-            </div>
-          </div>
-          {error && <Typography className="text-red-500">{error}</Typography>}
-          <Typography
-            align="left"
-            fontSize="sm"
-            variant="semibold"
-            className="hover:underline py-2"
-          >
-            Add another timeslot +
-          </Typography>
-        </div>
+const TimeslotSelector: React.FC<TimeslotSelectorProps> = ({
+  weekItem,
+  index,
+  day,
+  handleTimeslot,
+  dataTime,
+  setDataTime,
+}) => (
+  <div className="flex flex-col sm:flex-row">
+    <div className="flex flex-col">
+      <div className="flex flex-col pr-[180px] sm:pr-[220px]">
+        <Typography align='left' fontSize="sm" className="sm:text-start">
+          From
+        </Typography>
       </div>
+      <Select
+        borderRadius="md"
+        borderSize="timeSelect"
+        name="start"
+        defaultValue={dataTime.find((item) => item.hour === '9:00')?.hour}
+        onChange={(e) => handleTimeslot(e, index, day)}
+        className="border border-purple-500 outline-none text-xs"
+      >
+        {dataTime.map((datahour) => (
+          <option key={datahour.id} value={datahour.hour}>
+            {datahour.hour}
+          </option>
+        ))}
+      </Select>
     </div>
-  );
-};
-export { TimeSlote };
+    <div className="flex flex-col">
+      <div className="flex flex-col mt-5 sm:mt-0 md:mt-0 lg:md:mt-0 xl:md:mt-0">
+        <Typography align='left' fontSize="sm" className="sm:text-start">
+          To
+        </Typography>
+      </div>
+      <Select
+        borderRadius="md"
+        borderSize="timeSelect"
+        defaultValue={dataTime.find((item) => item.hour === '10:00')?.hour}
+        onChange={(e) => handleTimeslot(e, index, day)}
+        name="end"
+        className="border border-purple-500 outline-none text-xs"
+      >
+        {weekItem[day][index].start
+          ? dataTime.map((data, idx) => {
+              const fromIndex = dataTime.findIndex(
+                (eachSlot) => eachSlot.hour === weekItem[day][index].start
+              );
+              if (idx > fromIndex) {
+                return (
+                  <option key={data.id} value={data.hour}>
+                    {data.hour}
+                  </option>
+                );
+              }
+              if (fromIndex === 23) {
+                return (
+                  <option key={1} value={data.hour}>
+                    {data.hour}
+                  </option>
+                );
+              }
+              return null;
+            })
+          : dataTime.map((data) => (
+              <option key={data.id} value={data.hour}>
+                {data.hour}
+              </option>
+            ))}
+      </Select>
+    </div>
+  </div>
+);
+
+export default TimeslotSelector;

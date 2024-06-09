@@ -82,7 +82,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cat <<EOF > /home/ubuntu/apps/api-gateway/build/configs/.env.prod
+            sudo mkdir -p /home/***/apps/api-gateway/build/configs
+            sudo chown -R $USER:$USER /home/***/apps
+            cat <<EOF > /home/***/apps/api-gateway/build/configs/.env.prod
             NODE_ENV=${{ secrets.NODE_ENV }}
             PORT=${{ secrets.PORT }}
             COOKIE_SECRET_KEY_ONE=${{ secrets.COOKIE_SECRET_KEY_ONE }}
@@ -98,7 +100,6 @@ jobs:
             STUDENT_SERVICE_URL=${{ secrets.STUDENT_SERVICE_URL }}
             TEST=${{ secrets.TEST }}
             EOF
-
       - name: Start
         uses: appleboy/ssh-action@master
         with:
@@ -107,15 +108,38 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            # Load the full user environment for non-interactive shells
-            source /home/ubuntu/.nvm/nvm.sh
-            source /home/ubuntu/.profile
+            #!/bin/bash
 
-            cd /home/ubuntu/apps/api-gateway/build
+            # Check if nvm is installed
+            if [ -s "$HOME/.nvm/nvm.sh" ]; then
+              source "$HOME/.nvm/nvm.sh"
+            elif [ -s "/usr/local/nvm/nvm.sh" ]; then
+              source "/usr/local/nvm/nvm.sh"
+            else
+              echo "nvm is not installed."
+              exit 1
+            fi
+
+            # Verify yarn installation
+            if ! command -v yarn &> /dev/null; then
+              echo "Yarn could not be found"
+              exit 1
+            fi
+
+            cd /home/ubuntu/apps/packages/api-gateway/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
+
+            # Check if server.js exists in the correct directory
+            if [ ! -f ./src/server.js ]; then
+              echo "server.js not found in ./src/"
+              exit 1
+            fi
+
             # Install Dependencies
+            echo "Installing dependencies..."
             yarn install
+
             # Check if the PM2 process is running
             if pm2 show api-gateway > /dev/null; then
               echo "Application is running. Restarting..."
@@ -123,3 +147,4 @@ jobs:
             else
               echo "Application is not running. Starting..."
               yarn start
+            fi

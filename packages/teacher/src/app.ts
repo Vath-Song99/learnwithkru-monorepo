@@ -11,7 +11,6 @@ import { RegisterRoutes } from "./routes/v1/routes";
 const app: Application = express();
 
 //global middleware
-//global middleware
 app.set("trust proxy", 1);
 app.use(
   cors({
@@ -27,8 +26,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(loggerMiddleware);
 
-// const ROUTE = "/v1/teachers";
-// app.use(ROUTE, TeacherRoute);
+
 // handle swaggerUi
 app.use(
   "/swagger",

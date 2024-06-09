@@ -20,7 +20,6 @@ const BecomeTeacher = () => {
   const [dataTutor, setdataTutor] = useState<BecomeTeacherType>();
 
   const pages = [0, 1, 2, 3, 4];
- // Retrieve data from localStorage when the component mounts
 
   const handleBackButtonClick = (index: number) => {
     switch (index) {
@@ -41,33 +40,38 @@ const BecomeTeacher = () => {
         // Handle other cases
         break;
     }
-
   };
 
   return (
-    <div className="min-h-screen">
-      <div className="h-screen">
-        <TeacherNavbar className="flex justify-start items-center bg-gray-300">
+    <>
+      <div className="w-full sm:w-full md:w-[90%] lg:w-[90%] xl:w-[70%] h-screen flex flex-col">
+        <TeacherNavbar className="flex justify-start items-center">
           {pages.map((_, index) => (
             // eslint-disable-next-line react/jsx-key
-            <TeacherNavbarComponent className="w-[70px] sm:w-[100px] md:w-[150px] lg:w-[200px] flex justify-start items-start     ">
+            <TeacherNavbarComponent className="bg-[#F4F4F8] w-full flex justify-start items-start rounded-sm">
               <div
-                className={`w-[35px] h-[36px] ${currentPage >= index + 1 ? "bg-green-500 " : "bg-black"
-                  } rounded-md text-white flex justify-center items-center`}>
+                className={`w-[35px] h-[36px] ${
+                  currentPage >= index + 1 ? "bg-green-500 " : "bg-black"
+                } rounded-md text-white flex justify-center items-center`}
+              >
                 <div
-                  className={`${currentPage >= index + 1 ? "hideen" : "font-bold"
-                    }`}>
+                  className={`${
+                    currentPage >= index + 1 ? "hideen" : "font-bold"
+                  }`}
+                >
                   {currentPage >= index + 1 && (
                     <Link
                       href={""}
-                      onClick={() => handleBackButtonClick(index)}>
+                      onClick={() => handleBackButtonClick(index)}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="w-6 h-6 stroke-white p-">
+                        className="w-6 h-6 stroke-white p-"
+                      >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -79,13 +83,16 @@ const BecomeTeacher = () => {
                 </div>
 
                 <span
-                  className={currentPage >= index + 1 ? "hidden" : "font-bold"}>
+                  className={currentPage >= index + 1 ? "hidden" : "font-bold"}
+                >
                   {index + 1}
                 </span>
               </div>
 
               <Typography
-                className={`hidden px-[5px] ${index === 0 ? "md:px-[2px]" : ""} hidden  text-nowrap md:text-[10px] lg:text-sm md:block`}
+                className={`hidden px-[5px] ${
+                  index === 0 ? "md:px-[2px]" : ""
+                } hidden  text-nowrap md:text-[10px] lg:text-sm md:block`}
                 tags="h4"
                 variant="bold"
               >
@@ -110,8 +117,7 @@ const BecomeTeacher = () => {
                 setCurrentPage={setCurrentPage}
                 pageIndex={pages}
                 setdataTutor={setdataTutor}
-                dataTutor= {dataTutor}
-
+                dataTutor={dataTutor}
               />
             </>
           )}
@@ -120,7 +126,8 @@ const BecomeTeacher = () => {
               <BecomeTeacherForm
                 fileLabel="Please Input Your Degree To verify"
                 buttonTitle="next"
-                description="Do you have teaching certificates? If so, describe them to enhance your profile credibility and get more students."
+                description="Do you have teaching certificates? If so, describe them to enhance your 
+                profile credibility and get more students."
                 title="Education"
                 checkboxtext="Don't have a Degree?"
                 id="education"
@@ -128,7 +135,7 @@ const BecomeTeacher = () => {
                 setCurrentPage={setCurrentPage}
                 pageIndex={pages}
                 setdataTutor={setdataTutor}
-                dataTutor= {dataTutor}
+                dataTutor={dataTutor}
               />
             </>
           )}
@@ -144,6 +151,7 @@ const BecomeTeacher = () => {
                 setCurrentPage={setCurrentPage}
                 pageIndex={pages}
                 setdataTutor={setdataTutor}
+                dataTutor={dataTutor}
               />
             </>
           )}
@@ -160,7 +168,7 @@ const BecomeTeacher = () => {
                 setCurrentPage={setCurrentPage}
                 pageIndex={pages}
                 setdataTutor={setdataTutor}
-                dataTutor= {dataTutor}
+                dataTutor={dataTutor}
               />
             </>
           )}
@@ -168,21 +176,19 @@ const BecomeTeacher = () => {
             <>
               <PricingForm
                 buttonTitle="Submit"
-                description="Fill your price per Month. It will be shown in the profile’s list"
-                title="Pricing per month"
+                description="Fill your price per Hour. It will be shown in the profile’s list"
+                title="Pricing per hour"
                 setCurrentPage={setCurrentPage}
                 currentPage={currentPage}
                 pageIndex={pages}
                 setdataTutor={setdataTutor}
-                dataTutor= {dataTutor}
+                dataTutor={dataTutor}
               />
             </>
-          )
-
-          }
+          )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

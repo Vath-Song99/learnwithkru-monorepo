@@ -7,10 +7,6 @@ const meta: Meta<typeof Select> = {
   component: Select,
   parameters: {
     layout: "centered",
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/proto/ij4jlwjEniD1K69xLpaSt0/KRU-UI?node-id=3414-3026&t=uHLzNcbxMCTAEoqy-0&scaling=min-zoom&page-id=3412%3A852",
-  }
   },
   tags: ["autodocs"],
 };

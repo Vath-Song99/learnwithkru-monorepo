@@ -1,6 +1,6 @@
-import { User } from "../../@types/user.type";
+import { IUser } from "../../@types/user.type";
 
 
-export interface UserRepo extends User{
+export interface UserRepo extends IUser{
     authId: string;
 }
