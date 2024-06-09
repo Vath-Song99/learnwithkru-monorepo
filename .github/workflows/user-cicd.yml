@@ -82,9 +82,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            sudo mkdir -p /home/***/apps/user/build/configs
-            sudo chown -R $USER:$USER /home/***/apps
-            cat <<EOF > /home/***/apps/user/build/configs/.env.prod
+            cat <<EOF > /home/***/apps/user/build/configs/.env.production
             NODE_ENV=${{ secrets.NODE_ENV }}
             PORT=${{ secrets.PORT }}
             CLIENT_URL=${{ secrets.CLIENT_URL }}
@@ -121,7 +119,7 @@ jobs:
               exit 1
             fi
 
-            cd /home/ubuntu/apps/packages/user/build
+            cd /home/ubuntu/apps/user/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
 

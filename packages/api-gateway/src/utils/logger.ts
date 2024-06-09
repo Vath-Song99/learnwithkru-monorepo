@@ -35,7 +35,7 @@ export const logInit = ({
     logger.add(
       new winston.transports.File({
         level: logLevel,
-        filename: path.join(__dirname, "../../logs/auth-service.log"),
+        filename: path.join(__dirname, "../../logs/api-gateway.log"),
       })
     );
   }

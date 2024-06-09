@@ -7,10 +7,10 @@ import getConfig from '@notifications/utils/config';
 import { SocketSender } from './utils/socket-sender';
 import { SocketNotificationEmailApi } from './utils/socket-notification-api';
 
-
 async function run() {
   try {
-    const config = getConfig();
+    const currentEnv = process.env.NODE_ENV || 'development';
+    const config = getConfig(currentEnv);
 
     // Initialize Logger
     logInit({ env: process.env.NODE_ENV, logLevel: config.logLevel });
@@ -18,7 +18,7 @@ async function run() {
     // start socket server
     const socketSender = SocketSender.getInstance();
     socketSender.activate();
-    socketSender.sendSocketApi(new SocketNotificationEmailApi())
+    socketSender.sendSocketApi(new SocketNotificationEmailApi());
     // Activate Email Sender with Nodemailer API
     const emailSender = EmailSender.getInstance();
     emailSender.activate();

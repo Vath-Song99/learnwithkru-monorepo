@@ -65,14 +65,15 @@ jobs:
             chown ubuntu:ubuntu /home/ubuntu/apps
 
       - name: Copy files to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_IP }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          source: "packages/api-gateway/build/*"
-          target: "/home/ubuntu/apps/"
+          uses: appleboy/scp-action@master
+          with:
+            host: ${{ secrets.EC2_IP }}
+            username: ${{ secrets.EC2_USERNAME }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            port: 22
+            source: "packages/api-gateway/build/*"
+            target: "/home/ubuntu/apps/api-gateway"
+
 
       - name: Create .env file
         uses: appleboy/ssh-action@master
@@ -82,11 +83,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            sudo mkdir -p /home/***/apps/api-gateway/build/configs
-            sudo chown -R $USER:$USER /home/***/apps
-            cat <<EOF > /home/***/apps/api-gateway/build/configs/.env.prod
+            cat <<EOF > /home/***/apps/api-gateway/build/configs/.env.production
             NODE_ENV=${{ secrets.NODE_ENV }}
-            PORT=${{ secrets.PORT }}
+            PORT=${{ secrets.GATEWAY_PORT }}
             COOKIE_SECRET_KEY_ONE=${{ secrets.COOKIE_SECRET_KEY_ONE }}
             COOKIE_SECRET_KEY_TWO=${{ secrets.COOKIE_SECRET_KEY_TWO }}
             COOKIE_PERSISTENT_KEY=${{ secrets.COOKIE_PERSISTENT_KEY }}
@@ -126,7 +125,7 @@ jobs:
               exit 1
             fi
 
-            cd /home/ubuntu/apps/packages/api-gateway/build
+            cd /home/ubuntu/apps/api-gateway/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
 
