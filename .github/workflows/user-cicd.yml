@@ -66,7 +66,7 @@ jobs:
         with:
           host: ${{ secrets.EC2_IP }}
           username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }} 
           port: 22
           source: "packages/user/build/*"
           target: "/home/ubuntu/apps/"
@@ -79,9 +79,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            sudo mkdir -p /home/***/apps/user/build/configs
-            sudo chown -R $USER:$USER /home/***/apps
-            cat <<EOF > /home/***/apps/user/build/configs/.env.prod
+            cat <<EOF > /home/ubuntu/apps/user/build/configs/.env.prod
             NODE_ENV=${{ secrets.NODE_ENV }}
             PORT=${{ secrets.PORT }}
             CLIENT_URL=${{ secrets.CLIENT_URL }}

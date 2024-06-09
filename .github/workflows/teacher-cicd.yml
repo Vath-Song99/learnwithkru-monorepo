@@ -79,8 +79,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            sudo mkdir -p /home/***/apps/teacher/build/configs
-            sudo chown -R $USER:$USER /home/***/apps
             cat <<EOF > /home/***/apps/teacher/build/configs/.env.prod
             NODE_ENV=${{ secrets.NODE_ENV }}
             PORT=${{ secrets.PORT }}
