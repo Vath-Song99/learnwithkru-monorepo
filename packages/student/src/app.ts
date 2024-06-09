@@ -43,8 +43,9 @@ app.use(
 app.get("/swagger.json", (_req, res) => {
   res.sendFile(path.join(__dirname, "./swagger-dist/swagger.json"));
 });
-// app.use(AUTH_ROUTE,Routehealths)
 
+
+// Api routes
 RegisterRoutes(app);
 
 //error handler globale middleware

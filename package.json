@@ -38,7 +38,7 @@
     "build:student-service": "yarn workspace student-service build",
     "build:teacher-service": "yarn workspace teacher-service build",
     "build:user-service": "yarn workspace user-service build",
-    "build:all": "concurrently \"yarn build:api-gateway\" \"yarn build:auth-service\" \"yarn build:notificaton-service\" \"yarn build:student-service\" \"yarn build:teacher-service\" \"yarn build:user-service\""
+    "build:all": "concurrently \"yarn build:notificaton-service\" \"yarn build:student-service\" \"yarn build:teacher-service\" \"yarn build:user-service\""
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

@@ -1,10 +1,8 @@
 // components/ProfileDropDown.tsx
 
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError }  from "axios";
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
-import Image from "next/image";
-import { image, toggle } from "@nextui-org/react";
 interface ProfileDropDownProps {
   children?: React.ReactNode;
   onChange?: (value?: string) => void;
@@ -13,8 +11,13 @@ interface ProfileDropDownProps {
 
 }
 
+
+type LogoutResponse = {
+  message: string;
+  errors?: string[];
+};
+
 const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
-  onChange,
   className,
   icon,
 }) => {
@@ -46,38 +49,40 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
     setIsOpen(false);
   };
 
-  const handleLogout = async (url: string) => {
+  
+  const handleLogout = async (url: string): Promise<LogoutResponse> => {
     try {
-      const response = await axios.get(url, { withCredentials: true });
-
-      if (response.data.errors) {
-        console.error(`Server error response: ${response.data.errors}`);
-        throw new Error(response.data.errors);
+      const response = await axios.get<LogoutResponse>(url, { withCredentials: true });
+  
+      if (response.data.errors && response.data.errors.length > 0) {
+        const errorMessage = `Server error response: ${response.data.errors.join(', ')}`;
+        throw new Error(errorMessage);
       }
-
+  
       return response.data;
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error: ", error.response?.data || error.message);
-      } else {
-        console.error("Unexpected error: ", error);
-      }
+    } catch (error) {
+      logError(error);
       throw error;
     }
   };
-
+  
+  const logError = (error: unknown): void => {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError;
+      console.error("Axios error:", axiosError.response?.data || axiosError.message);
+    } else {
+      console.error("Unexpected error:", error);
+    }
+  };
+  
   const onLogoutClick = async () => {
+    const url = 'http://localhost:3000/v1/auth/logout';
     try {
-      const url = 'http://localhost:3000/v1/auth/logout';
-      const response = await handleLogout(url);
-      console.log("Message response: ", response.message);
+      await handleLogout(url);
       window.location.reload();
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error: ", error.response?.data || error.message);
-      } else {
-        console.error("Unexpected error: ", error);
-      }
+      // Handle the error appropriately
+      console.error("Logout failed:", error);
     }
   };
 

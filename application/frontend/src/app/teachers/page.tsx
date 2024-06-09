@@ -96,9 +96,9 @@ const Page = async ({
   const teachers = await getTeachersData({
     search_query,
     pageNumber,
-    province: province === "All" ? "" : province,
-    subject: subject === "All" ? "" : province,
-    time_available: time_available === "All" ? "" : province,
+    province: province.includes("All") ? "" : province,
+    subject: subject.includes("All") ? "" : subject,
+    time_available: time_available.includes("All") ? "" : time_available,
     min_p,
     max_p,
   });

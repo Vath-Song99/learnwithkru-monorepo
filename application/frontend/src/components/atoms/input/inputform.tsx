@@ -6,7 +6,7 @@ interface InputProps {
   className?: string;
   type?: string;
   placeholder?: string;
-  value?: string;
+  value?: string | number;
   name?: string;
   borderColor?:
   | "phonenumberSize"

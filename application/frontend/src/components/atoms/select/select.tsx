@@ -1,6 +1,5 @@
 "use client";
 
-import { select } from "@nextui-org/react";
 import React, { ReactNode } from "react";
 
 interface SelectProps {
@@ -35,7 +34,7 @@ interface SelectProps {
   paddingY?: "sm" | "md" | "lg" | "xl";
   borderRadius?: "sm" | "md" | "lg" | "xl" | "full" | "borderphone";
   name?: string;
-  value?: string;
+  value?: string | number;
 }
 const Select: React.FC<SelectProps> = ({
   className,
@@ -66,7 +65,7 @@ const Select: React.FC<SelectProps> = ({
       case "select":
         return "w-full h-[40px]";
       case "timeSelect":
-        return "w-[200px] h-[40px]";
+        return "w-full sm:w-[200px] h-[40px]";
       case "sm":
         return "w-[332px] h-[40px]";
       case "md":
