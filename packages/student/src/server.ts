@@ -4,7 +4,7 @@ import createConfig from "./utils/config";
 import MongoDBConnector from "./database";
 async function run() {
   try {
-    // set currectEnv
+    // set currect env
     const currentEnv = process.env.NODE_ENV || "development";
     const configPath = path.join(
       __dirname,
