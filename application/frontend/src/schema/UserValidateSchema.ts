@@ -19,6 +19,18 @@ const AuthValidateSchema = Yup.object().shape({
       /^(?=.*\d)(?=.*[a-z]).{8,}$/,
       "Password must contain at least one lowercase letter and one number"
     ),
+    picture:  Yup.string()
+    .test("file-size", "Image size is too large", function (value) {
+      const file =
+        value && this.options.context && this.options.context.files
+          ? this.options.context.files[value]
+          : null;
+      if (file && file.size) {
+        return file.size <= 1024 * 1024; // 1MB limit
+      }
+      return true;
+    })
+    .required("Please upload an image"),
 });
 
 const AuthValidateLoginSchema = Yup.object().shape({

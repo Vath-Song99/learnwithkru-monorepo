@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/molecules/become-teacher-navbar/TeacherNavbarComponent.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/molecules/become-teacher-navbar/TeacherNavbarComponent.tsx", "src/components/organisms/become-teacher-form/dataTimenew.js", "src/components/organisms/become-teacher-form/data/dataTimenew.js"],
   "exclude": ["node_modules"]
 }
