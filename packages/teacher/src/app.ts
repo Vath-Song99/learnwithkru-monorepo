@@ -26,8 +26,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(loggerMiddleware);
 
-// const ROUTE = "/v1/teachers";
-// app.use(ROUTE, TeacherRoute);
+
 // handle swaggerUi
 app.use(
   "/swagger",

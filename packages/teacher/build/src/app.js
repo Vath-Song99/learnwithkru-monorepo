@@ -26,8 +26,6 @@ app.use(express_1.default.urlencoded({ extended: true, limit: "200mb" }));
 app.set("view engine", "ejs");
 app.set("views", path_1.default.join(__dirname, "views"));
 app.use(logger_handler_1.default);
-// const ROUTE = "/v1/teachers";
-// app.use(ROUTE, TeacherRoute);
 // handle swaggerUi
 app.use("/swagger", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(undefined, {
     swaggerOptions: {
