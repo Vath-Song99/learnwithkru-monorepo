@@ -62,14 +62,14 @@ jobs:
             chown ubuntu:ubuntu /home/ubuntu/apps/user/build
 
       - name: Copy files to EC2
-          uses: appleboy/scp-action@master
-          with:
-            host: ${{ secrets.EC2_IP }}
-            username: ${{ secrets.EC2_USERNAME }}
-            key: ${{ secrets.SSH_PRIVATE_KEY }}
-            port: 22
-            source: "packages/user/build/*"
-            target: "/home/ubuntu/apps/user/build/"
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_IP }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "packages/user/build/*"
+          target: "/home/ubuntu/apps/user/build/"
 
       - name: Create .env file
         uses: appleboy/ssh-action@master

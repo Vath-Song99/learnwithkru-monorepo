@@ -3,6 +3,7 @@ import StatusCode from './utils/http-status-code';
 
 const router: Router = express.Router();
 
+// health
 export function healthRoutes(): Router {
   router.get('/notification-health', (_req: Request, res: Response) => {
     res

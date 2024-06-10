@@ -44,7 +44,7 @@ app.get("/swagger.json", (_req, res) => {
   res.sendFile(path.join(__dirname, "./swagger-dist/swagger.json"));
 });
 
-// Api routes
+// Api router
 RegisterRoutes(app);
 
 //error handler
