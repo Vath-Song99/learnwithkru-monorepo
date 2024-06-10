@@ -5,11 +5,11 @@ on:
     branches:
       - main
     paths:
-      - "packages/auth/**"
+      - "applications/auth/**"
 
 defaults:
   run:
-    working-directory: packages/auth
+    working-directory: applications/auth
 
 jobs:
   build:
@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: packages/auth/build
+          path: applications/auth/build
 
   deploy:
     needs: build
@@ -43,23 +43,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
-          path: packages/auth/build
+          path: applications/auth/build
 
       - name: Add SSH Key
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Ensure target directory exists
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_IP }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            mkdir -p /home/ubuntu/apps/auth/build
-            chown ubuntu:ubuntu /home/ubuntu/apps/auth/build
 
       - name: Copy files to EC2
           uses: appleboy/scp-action@master
@@ -68,8 +57,8 @@ jobs:
             username: ${{ secrets.EC2_USERNAME }}
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             port: 22
-            source: "packages/auth/build/*"
-            target: "/home/ubuntu/apps/auth/build/"
+            source: "applications/auth/build/*"
+            target: "/home/ubuntu/applications/auth/build/"
 
       - name: Create .env file
         uses: appleboy/ssh-action@master
@@ -79,7 +68,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cat <<EOF > /home/***/apps/auth/build/configs/.env.production
+            cat <<EOF > /home/***/applications/auth/build/configs/.env.production
             NODE_ENV=${{ secrets.NODE_ENV }}
             PORT=${{ secrets.AUTH_PORT }}
             CLIENT_URL=${{ secrets.CLIENT_URL }}
@@ -125,7 +114,7 @@ jobs:
               exit 1
             fi
 
-            cd /home/ubuntu/apps/auth/build
+            cd /home/ubuntu/applications/auth/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
 
