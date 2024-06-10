@@ -1,16 +1,20 @@
 import { logInit, logger } from "./utils/logger";
 import app from "./app";
 import getConfig from "./utils/createConfig";
-import * as  fs from 'fs';
+import * as fs from "fs";
 import * as path from "path";
 
 // READ FILE JWT PUBLIC KEY FIRST
-export const publicKey = fs.readFileSync(path.join(__dirname, "../public_key.pem"), 'utf-8')
+export const publicKey = fs.readFileSync(
+  path.join(__dirname, "../public_key.pem"),
+  "utf-8"
+);
 
-// RUN THE SERVER
+// RUN THE SERVER GATEWAY
 async function run() {
   try {
-    const config = getConfig();
+    const currentEnv = process.env.NODE_ENV || "development";
+    const config = getConfig(currentEnv);
 
     // Activate Logger
     logInit({ env: process.env.NODE_ENV, logLevel: config.logLevel });

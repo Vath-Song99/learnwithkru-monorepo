@@ -50,7 +50,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-
       - name: Ensure target directory exists
         uses: appleboy/ssh-action@master
         with:
@@ -69,8 +68,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "packages/notification/build/*"
-          target: "/home/ubuntu/apps/"
+          source: "packages/notification/build/."
+          target: "/home/ubuntu/apps/notification/"
 
       - name: Create .env file
         uses: appleboy/ssh-action@master
@@ -80,9 +79,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cat <<EOF > /home/***/apps/packages/notification/build/configs/.env.prod
+            cat <<EOF > /home/***/apps/notification/build/configs/.env.production
             NODE_ENV=${{ secrets.NODE_ENV }}
-            PORT=${{ secrets.PORT }}
+            PORT=${{ secrets.NOTIFICATION_PORT }}
             CLIENT_URL=${{ secrets.CLIENT_URL }}
             LOG_LEVEL=${{ secrets.LOG_LEVEL }}
             RABBITMQ_ENDPOINT=${{ secrets.RABBITMQ_ENDPOINT }}
@@ -118,7 +117,7 @@ jobs:
               exit 1
             fi
 
-            cd /home/ubuntu/apps/packages/notification/build
+            cd /home/ubuntu/apps/notification/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
 

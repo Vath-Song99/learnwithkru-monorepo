@@ -17,6 +17,7 @@ import { OptionSession } from "./utils/cookieOption";
 
 const app: Application = express();
 
+
 const config = getConfig();
 
 // ===================
@@ -41,7 +42,7 @@ app.use(helmet());
 // Mock getConfig function. Replace with your actual config logic.
 
 const corsOptions = {
-  origin: config.env !== "development" ? "*" : config.clientUrl,
+  origin: config.env === "development" ? "*" : config.clientUrl,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],

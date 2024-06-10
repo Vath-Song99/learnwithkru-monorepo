@@ -26,9 +26,6 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(loggerMiddleware);
 
-// app.use(PATH_STUDENT.BASE, Route)
-// handle swaggerUi
-
 app.use(
   "/swagger",
   swaggerUi.serve,
@@ -43,7 +40,6 @@ app.use(
 app.get("/swagger.json", (_req, res) => {
   res.sendFile(path.join(__dirname, "./swagger-dist/swagger.json"));
 });
-
 
 // Api routes
 RegisterRoutes(app);

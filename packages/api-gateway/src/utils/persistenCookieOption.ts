@@ -1,7 +1,8 @@
 import { CookieOptions } from "express";
 import getConfig from "./createConfig";
 
-const config = getConfig();
+const currentEnv = process.env.NODE_ENV || "development";
+const config = getConfig(currentEnv);
 export const options: CookieOptions = {
   httpOnly: true, // Cookie cannot be accessed via JavaScript
   secure: process.env.NODE_ENV !== "development", // Use secure cookies in production

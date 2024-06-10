@@ -68,8 +68,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "packages/student/build/*"
-          target: "/home/ubuntu/apps/"
+          source: "packages/student/build/."
+          target: "/home/ubuntu/apps/student/"
 
       - name: Create .env file
         uses: appleboy/ssh-action@master
@@ -79,9 +79,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cat <<EOF > /home/***/apps/packages/student/build/configs/.env.prod
+            cat <<EOF > /home/***/apps/student/build/configs/.env.production
             NODE_ENV=${{ secrets.NODE_ENV }}
-            PORT=${{ secrets.PORT }}
+            PORT=${{ secrets.STUDENT_PORT }}
             CLIENT_URL=${{ secrets.CLIENT_URL }}
             LOG_LEVEL=${{ secrets.LOG_LEVEL }}
             RABBITMQ_ENDPOINT=${{ secrets.RABBITMQ_ENDPOINT }}
@@ -116,7 +116,7 @@ jobs:
               exit 1
             fi
 
-            cd /home/ubuntu/apps/packages/student/build
+            cd /home/ubuntu/apps/student/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
 

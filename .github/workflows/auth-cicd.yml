@@ -68,8 +68,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "packages/auth/build/*"
-          target: "/home/ubuntu/apps/"
+          source: "packages/auth/build/."
+          target: "/home/ubuntu/apps/auth"
 
       - name: Create .env file
         uses: appleboy/ssh-action@master
@@ -79,9 +79,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cat <<EOF > /home/***/apps/packages/auth/build/configs/.env.prod
+            cat <<EOF > /home/***/apps/auth/build/configs/.env.production
             NODE_ENV=${{ secrets.NODE_ENV }}
-            PORT=${{ secrets.PORT }}
+            PORT=${{ secrets.AUTH_PORT }}
             CLIENT_URL=${{ secrets.CLIENT_URL }}
             LOG_LEVEL=${{ secrets.LOG_LEVEL }}
             RABBITMQ_ENDPOINT=${{ secrets.RABBITMQ_ENDPOINT }}
@@ -89,6 +89,14 @@ jobs:
             TEACHER_SERVICE_URL=${{ secrets.TEACHER_SERVICE_URL }}
             STUDENT_SERVICE_URL=${{ secrets.STUDENT_SERVICE_URL }}
             MONGODB_URL=${{ secrets.AUTH_MONGODB_URL}}
+            JWT_EXPIRES_IN=${{secrets.JWT_EXPIRES_IN}}
+            API_GATEWAY=${{secrets.API_GATEWAY}}
+            GOOGLE_CLIENT_ID=${{secrets.GOOGLE_CLIENT_ID}}
+            GOOGLE_CLIENT_SECRET=${{secrets.GOOGLE_CLIENT_SECRET}}
+            GOOGLE_REDIRECT_URI=${{secrets.GOOGLE_REDIRECT_URI}}
+            FACEBOOK_APP_ID=${{secrets.FACEBOOK_APP_ID}}
+            FACEBOOK_APP_SECRET=${{secrets.FACEBOOK_APP_SECRET}}
+            FACEBOOK_REDIRECT_URI=${{secrets.FACEBOOK_REDIRECT_URI}}
             TEST=${{ secrets.TEST }}
             EOF
       - name: Start
@@ -117,7 +125,7 @@ jobs:
               exit 1
             fi
 
-            cd /home/ubuntu/apps/packages/auth/build
+            cd /home/ubuntu/apps/auth/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
 
