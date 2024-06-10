@@ -251,12 +251,6 @@ const SignupToBecomeStudent = () => {
                                     <option key={index + 1} value={index + 1}>Grade {index + 1}</option>
                                 ))}
                             </Select>
-
-
-
-
-
-
                         </div>
 
                         <div className="w-[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] flex justify-center md:justify-center lg:justify-start">

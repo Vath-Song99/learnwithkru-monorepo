@@ -1,23 +1,32 @@
+"use client";
 import { Typography } from "@/components/atoms";
 import { RatingStar } from "@/components/organisms/rating-star";
 import Image from "next/image";
 import React from "react";
 
-const Profile = ({ className }: { className?: string }) => {
+interface ProfileProps {
+  className?: string;
+  picture: string;
+  first_name: string;
+  last_name: string;
+  subject: string;
+}
+
+const Profile: React.FC<ProfileProps> = ({ className, picture, first_name, last_name, subject }) => {
   return (
-    <div className={` w-[200px] h-auto ${className}`}>
+    <div className={`w-[200px] h-auto ${className}`}>
       <div className="w-full flex justify-center items-start">
         <Image
-          src={"/Profiles/EnglishTeacher.jpg"}
+          src={picture}
           width={500}
           height={500}
-          alt="Smoeury Songvat profile"
+          alt={`${first_name} ${last_name} Profile`}
           className="w-[160px] h-[160px] rounded-full object-cover border-4 border-white"
-        ></Image>
+        />
       </div>
       <div className="flex flex-col items-center w-full gap-2">
         <Typography align="center" fontSize="md" variant="semibold">
-          Smoeury Songvat
+          {`${first_name} ${last_name}`}
         </Typography>
         <Typography
           align="center"
@@ -26,7 +35,7 @@ const Profile = ({ className }: { className?: string }) => {
           variant="normal"
           className="text-gray-500"
         >
-          English teacher
+          {subject}
         </Typography>
         <RatingStar />
       </div>

@@ -1,94 +1,93 @@
-// /* eslint-disable react/jsx-no-duplicate-props */
-// "use client";
+import { ITeacher, PageDetails } from "@/@types/teacher.type";
+import { IUser } from "@/@types/user";
+import { Footer, Navbar, TeachersProfile } from "@/components";
+import { getCookieString } from "@/utils/getCookieString";
+import axios from "axios";
+import { notFound } from "next/navigation";
 
-// import axios from "axios";
-// import React, { useEffect, useState } from "react";
+const getUserData = async (): Promise<{
+    isAuth?: boolean;
+    errors?: string;
+    data: IUser | null;
+}> => {
+    try {
+        const cookieString = getCookieString();
+        if (typeof cookieString === "object") {
+            return cookieString;
+        }
+        const res = await axios.get("http://localhost:3000/v1/users", {
+            withCredentials: true,
+            headers: { Cookie: cookieString as string },
+        });
 
-// const Page = ({
-//   params,
-// }: {
-//   params: {
-//     id: string;
-//   };
-// }) => {
-//   const [isShowModal, setIsShowModal] = useState<boolean>(false);
-//   const [authState, setAuthState] = useState<{ isAuth: boolean; user: any }>({
-//     isAuth: false,
-//     user: null,
-//   });
-//   const [isLoading, setIsLoading] = useState(true);
-//   const { id } = params;
+        if (res.data.errors) {
+            return { errors: res.data.errors, data: null };
+        }
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const url = "http://localhost:3000/v1/users/user-profile";
-//         const data = await handleUserProfile(url);
-//         console.log("User profile data:", data);
-//         if (!data.data) {
-//           console.log("User not found!", data.data);
-//         }
-//         setAuthState({
-//           isAuth: true,
-//           user: data.data,
-//         });
-//       } catch (error) {
-//         console.error("Error fetching user profile:", error);
-//       } finally {
-//         setIsLoading(false);
-//       }
-//     };
+        return { isAuth: true, data: res.data.data };
+    } catch (error: unknown) {
+        console.error("Error fetching user data:", error);
+        throw error;
+    }
+};
 
-//     if (id) {
-//       fetchData();
-//     }
-//   }, [id]);
+async function getTeachersData(userId: string): Promise<{
+    errors?: string;
+    data: { teachers: ITeacher[]; detail: PageDetails } | null;
+}> {
+    try {
+        const API_ENDPOINT = `http://localhost:3000/v1/teachers?id=${userId}`;
+        const res = await axios.get(API_ENDPOINT);
 
-//   const handleUserProfile = async (url: string): Promise<any> => {
-//     try {
-//       const response = await axios.get(url, { withCredentials: true });
-//       if (response.data.errors) {
-//         console.log("An error occurred:", response.data.errors);
-//       }
-//       return response.data;
-//     } catch (error: unknown) {
-//       console.error("Error fetching data:", error);
-//       throw error;
-//     }
-//   };
+        return { data: { teachers: res.data.data, detail: res.data.detail } };
+    } catch (error: any) {
+        console.error("Error fetching teachers data:", error.response.status);
 
-//   if (isLoading) {
-//     return (
-//       <div className="w-full flex justify-center pt-10">
-//         <div className="flex justify-center items-center min-h-screen">
-//           <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[#7B2CBF]"></div>
-//         </div>
-//       </div>
-//     );
-//   }
+        if (error.response) {
+            const { status } = error.response;
 
-//   return (
-//     <div className="max-w-full h-[200vh]">
-//       <div className="w-full flex justify-center items-center">
-// <<<<<<< HEAD:application/frontend/src/app/teacher-profile/[id]/page.tsx
+            if (status === 404 || status === 401) {
+                notFound();
+            }
 
-//         <Navbar
-//           setIsShowModal={setIsShowModal}
-//           isShowModal={isShowModal}
-//           authState={authState}
-//         />
-// =======
-//         <Navbar  authState={authState} />
-// >>>>>>> 1f71c7e764a631c1eb810af1d931f609df689730:application/frontend/src/app/teacher-profile/page.tsx
-//       </div>
-//       <div className="w-full flex justify-center">
-//         <TeachersProfile teacherId={id as string} />
-//       </div>
-//       <div className="w-full flex justify-center items-start bg-gray-900 mt-10">
-//         <Footer />
-//       </div>
-//     </div>
-//   );
-// };
+        }
+        throw error;
+    }
+}
 
-// export default Page;
+const Page = async ({
+    searchParams,
+}: {
+    searchParams: { [key: string]: string | string[] | undefined };
+}) => {
+    const { isAuth, data } = await getUserData();
+    const userId = searchParams._id as string; // Replace "desired_teacher_id" with the ID of the teacher you want to select
+
+    const teachers = await getTeachersData(userId);
+    const selectedTeacher = teachers?.data?.teachers[0]; // Assuming the first teacher in the array corresponds to the selected teacher
+
+    if (selectedTeacher) {
+        return (
+            <div className="">
+                <div className="w-full flex justify-center items-center border shadow-sm">
+                    <Navbar authState={{ isAuth: isAuth ?? false, user: data }} />
+                </div>
+                <div className=" flex justify-center  items-start">
+                    <TeachersProfile teacher={selectedTeacher} />
+                </div>
+                <div className="w-full flex justify-center items-start bg-black">
+                    <Footer />
+                </div>
+            </div>
+        );
+    } else {
+        // Handle case when selected teacher is not found
+        return (
+            <div>
+                <p>Teacher not found</p>
+            </div>
+        );
+    }
+};
+
+export default Page;

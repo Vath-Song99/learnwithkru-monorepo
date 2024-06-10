@@ -15,11 +15,7 @@ export const validationSchema = Yup.object().shape({
     .required("Email is required"),
   password: Yup.string()
     .required("Password is required")
-    .min(8, "Password must be at least 8 characters")
-    .matches(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/,
-      "Password must  uppercase  lowercase number special character"
-    ),
+    .min(8, "Password must be at least 8 characters"),
 });
 export const validationTeacher = Yup.object().shape({
   Firstname: Yup.string()
@@ -36,26 +32,22 @@ export const validationTeacher = Yup.object().shape({
     .required("Email is required"),
   Password: Yup.string()
     .required("Password is required")
-    .min(8, "Password must be at least 8 characters")
-    .matches(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/,
-      "Password must  uppercase  lowercase number special character"
-    ),
+    .min(8, "Password must be at least 8 characters"),
   Address: Yup.string().required("Address is required"),
   PhoneNumber: Yup.string()
     .matches(/^[0-9]+$/, "Phone number must contain only digits")
     .required("Phone number is required"),
   bio: Yup.string().required("Bio is required"),
-  pictureTeacher:  Yup.string()
-  .test("file-size", "Image size is too large", function (value) {
-    const file =
-      value && this.options.context && this.options.context.files
-        ? this.options.context.files[value]
-        : null;
-    if (file && file.size) {
-      return file.size <= 1024 * 1024; // 1MB limit
-    }
-    return true;
-  })
-  .required("Please upload an image"),
+  pictureTeacher: Yup.string()
+    .test("file-size", "Image size is too large", function (value) {
+      const file =
+        value && this.options.context && this.options.context.files
+          ? this.options.context.files[value]
+          : null;
+      if (file && file.size) {
+        return file.size <= 1024 * 1024; // 1MB limit
+      }
+      return true;
+    })
+    .required("Please upload an image"),
 });

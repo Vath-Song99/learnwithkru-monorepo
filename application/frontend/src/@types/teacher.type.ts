@@ -14,7 +14,11 @@ export interface ITeacher {
   date_available: object;
   price: number;
   video: string;
+  teaching_experience: string;
 }
 
-
-export interface PageDetails { totalPages: number, totalTeachers: number, currentPage: number }
+export interface PageDetails {
+  totalPages: number;
+  totalTeachers: number;
+  currentPage: number;
+}

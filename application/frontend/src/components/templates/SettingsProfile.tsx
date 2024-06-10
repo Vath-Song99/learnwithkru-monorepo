@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import Image from "next/image";
 import * as Yup from "yup";
 import { Button, InputForm, Typography } from "../atoms";
@@ -9,7 +9,6 @@ import {
 } from "@/schema/editProfileSchema";
 import Link from "next/link";
 import { Select } from "../atoms/select/select";
-import axios from "axios";
 
 interface MenuItemProps {
   itemName: string;
@@ -86,9 +85,7 @@ const SettingsProfile = () => {
       setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     }
   };
-  const handleSubmit: React.FormEventHandler<
-    HTMLFormElement | HTMLTextAreaElement
-  > = async (event) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement | HTMLTextAreaElement> = async (event) => {
     event.preventDefault();
     // Check if image file exceeds 1MB
     if (errors.picture) {
@@ -113,6 +110,23 @@ const SettingsProfile = () => {
   };
 
   //form teacher
+  const priceDropdown = [
+    { id: 0, itemName: "select your pricing" },
+    { id: 1, itemName: "$10 - $20" },
+    { id: 2, itemName: "$20 - $30" },
+    { id: 3, itemName: "$30 - $40" },
+    { id: 4, itemName: "$40 - $50" },
+    { id: 5, itemName: "$50 - $60" },
+  ];
+
+  const TimeDropdown = [
+    { id: 0, itemName: "select your time available" },
+    { id: 1, itemName: "7:00 - 8:00" },
+    { id: 2, itemName: "8:00 - 9:00" },
+    { id: 3, itemName: "9:00 - 10:00" },
+    { id: 4, itemName: "10:00 - 11:00" },
+    { id: 5, itemName: "11:00 - 12:00" },
+  ];
   const [formteacher, setFormTeacher] = useState({
     bio: "",
     Firstname: "",
@@ -122,6 +136,8 @@ const SettingsProfile = () => {
     Address: "",
     PhoneNumber: "",
     pictureTeacher: "",
+    selectedPrice: priceDropdown[0].itemName,
+    selectedTime: TimeDropdown[0].itemName,
   });
   const handleChangeFormTeacher = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -137,7 +153,6 @@ const SettingsProfile = () => {
       ? event.currentTarget.files[0]
       : null;
     if (imageFile) {
-
       const imageUrl = URL.createObjectURL(imageFile);
       if (imageFile.size > 1024 * 1024) {
         // 1MB limit
@@ -154,39 +169,24 @@ const SettingsProfile = () => {
       }
     }
   };
-  interface PricingOption {
-    id: number;
-    itemName: string;
-    // Add any other properties here if needed
-  }
-  const [priceDropdown, setItemsDropdown] = useState<PricingOption[]>([]);
-  const [defaultValue, setDefaultValue] = useState('');
-  const fetchData = async () => {
-    try {
-      const response = await axios.post('http://localhost:3000/v1/teacher', {
-        // Add any data to be sent in the request body
-      });
-      const data = response.data;
-      setItemsDropdown(data);
-      console.log("this is price teacher : ", data);
-      if (data.length > 0) {
-        setDefaultValue(data[0].itemName);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  }; useEffect(() => {
-    fetchData();
-  }, []);
 
-  const TimeDropdown = [
-    { id: 0, itemName: "select your time available" },
-    { id: 1, itemName: "7:00 - 8:00" },
-    { id: 2, itemName: "8:00 - 9:00" },
-    { id: 3, itemName: "9:00 - 10:00" },
-    { id: 4, itemName: "10:00 - 11:00" },
-    { id: 5, itemName: "11:00 - 12:00" },
-  ]
+  // Event handlers for select changes
+
+  const handlePriceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value;
+    setFormTeacher((prevFormteacher) => ({
+      ...prevFormteacher,
+      selectedPrice: value,
+    }));
+  };
+
+  const handleTimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value;
+    setFormTeacher((prevFormteacher) => ({
+      ...prevFormteacher,
+      selectedTime: value,
+    }));
+  };
   const handleSubmitFormTeacher: React.FormEventHandler<
     HTMLFormElement
   > = async (event) => {
@@ -195,7 +195,9 @@ const SettingsProfile = () => {
       return;
     }
     try {
-      await validationTeacher.validate(formValues, { abortEarly: false });
+      await validationTeacher.validate(formteacher, { abortEarly: false });
+      setErrors({});
+      console.log("Submit : ", formteacher);
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const newErrors: { [key: string]: string } = {};
@@ -532,10 +534,16 @@ const SettingsProfile = () => {
                     <Select
                       className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
                       borderRadius="md"
-                      defaultValue={TimeDropdown[0].itemName}
+                      value={formteacher.selectedTime}
+                      onChange={handleTimeChange}
+
                     >
                       {TimeDropdown.map((item) => (
-                        <option key={item.id} value={item.itemName} disabled={item.id == 0}>
+                        <option
+                          key={item.id}
+                          value={item.itemName}
+                          disabled={item.id == 0}
+                        >
                           {item.itemName}
                         </option>
                       ))}
@@ -548,11 +556,15 @@ const SettingsProfile = () => {
                     <Select
                       className="h-[50px] w-full border-gray-400 mt-2 focus:outline-[#7B2CBF]"
                       borderRadius="md"
-                      defaultValue={defaultValue}
-                      onChange={(e) => setDefaultValue(e.target.value)}
+                      value={formteacher.selectedPrice}
+                      onChange={handlePriceChange}
                     >
                       {priceDropdown.map((item) => (
-                        <option key={item.id} value={item.itemName} disabled={item.id === 0}>
+                        <option
+                          key={item.id}
+                          value={item.itemName}
+                          disabled={item.id === 0}
+                        >
                           {item.itemName}
                         </option>
                       ))}
