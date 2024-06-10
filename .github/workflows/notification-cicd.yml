@@ -68,7 +68,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "packages/notification/build/."
+          source: "packages/notification/build/*"
           target: "/home/ubuntu/apps/notification/"
 
       - name: Create .env file

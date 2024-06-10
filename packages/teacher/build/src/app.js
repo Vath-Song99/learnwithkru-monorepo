@@ -13,10 +13,12 @@ const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const routes_1 = require("./routes/v1/routes");
 //app
 const app = (0, express_1.default)();
+const currentEnv = process.env.NODE_ENV || "development";
+const config = (0, config_1.default)(currentEnv);
 //global middleware
 app.set("trust proxy", 1);
 app.use((0, cors_1.default)({
-    origin: (0, config_1.default)().apiGateway,
+    origin: config.apiGateway,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 }));

@@ -7,6 +7,9 @@ import NodemailerSmtpServer from './nodemailer-smtp-server';
 import getConfig from './config';
 import Email from 'email-templates';
 
+const currentEnv = process.env.NODE_ENV || 'development';
+const config = getConfig(currentEnv);
+
 export default class NodemailerEmailApi implements EmailApi {
   private transporter: Mail;
 
@@ -24,7 +27,7 @@ export default class NodemailerEmailApi implements EmailApi {
     try {
       const email: Email = new Email({
         message: {
-          from: `Learnwithkru <${getConfig().senderEmail}>`,
+          from: `Learnwithkru <${config.senderEmail}>`,
         },
         send: true,
         preview: false,

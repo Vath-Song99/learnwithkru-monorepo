@@ -17,10 +17,12 @@ const logger_1 = require("../utils/logger");
 const amqplib_1 = __importDefault(require("amqplib"));
 const email_consumer_1 = require("./email-consumer");
 const config_1 = __importDefault(require("../utils/config"));
+const currentEnv = process.env.NODE_ENV || 'development';
+const config = (0, config_1.default)(currentEnv);
 function createQueueConnection() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const connection = yield amqplib_1.default.connect(`${(0, config_1.default)().rabbitMQ}`);
+            const connection = yield amqplib_1.default.connect(`${config.rabbitMQ}`);
             const channel = yield connection.createChannel();
             logger_1.logger.info('Nofiication server connected to queue successfully...');
             closeQueueConnection();

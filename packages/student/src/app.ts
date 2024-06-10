@@ -7,6 +7,9 @@ import loggerMiddleware from "./middlewares/logger-handler";
 import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./routes/v1/routes";
 
+const currentEnv = process.env.NODE_ENV || "development";
+const config = getConfig(currentEnv);
+
 //app
 const app: Application = express();
 //global middleware
@@ -14,7 +17,7 @@ const app: Application = express();
 app.set("trust proxy", 1);
 app.use(
   cors({
-    origin: getConfig().apiGateway,
+    origin: config.apiGateway,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })

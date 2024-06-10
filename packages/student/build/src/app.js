@@ -11,13 +11,15 @@ const config_1 = __importDefault(require("./utils/config"));
 const logger_handler_1 = __importDefault(require("./middlewares/logger-handler"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const routes_1 = require("./routes/v1/routes");
+const currentEnv = process.env.NODE_ENV || "development";
+const config = (0, config_1.default)(currentEnv);
 //app
 const app = (0, express_1.default)();
 //global middleware
 //global middleware
 app.set("trust proxy", 1);
 app.use((0, cors_1.default)({
-    origin: (0, config_1.default)().apiGateway,
+    origin: config.apiGateway,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 }));
@@ -27,8 +29,6 @@ app.use(express_1.default.urlencoded({ extended: true, limit: "200mb" }));
 app.set("view engine", "ejs");
 app.set("views", path_1.default.join(__dirname, "views"));
 app.use(logger_handler_1.default);
-// app.use(PATH_STUDENT.BASE, Route)
-// handle swaggerUi
 app.use("/swagger", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(undefined, {
     swaggerOptions: {
         url: "/swagger.json", // Point to the generated Swagger JSON file

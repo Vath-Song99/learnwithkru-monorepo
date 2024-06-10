@@ -18,7 +18,8 @@ const config_1 = __importDefault(require("./config"));
 const base_custom_error_1 = require("../error/base-custom-error");
 const logger_1 = require("./logger");
 const path_defs_1 = require("../routes/path-defs");
-const config = (0, config_1.default)();
+const currentEnv = process.env.NODE_ENV || "development";
+const config = (0, config_1.default)(currentEnv);
 class RequestUserService {
     CreateUser(_a) {
         return __awaiter(this, arguments, void 0, function* ({ authId, firstname, lastname, email, picture }) {

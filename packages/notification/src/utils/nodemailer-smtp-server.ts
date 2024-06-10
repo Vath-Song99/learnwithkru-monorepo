@@ -1,11 +1,14 @@
 import { SmtpServer, SmtpServerConfig } from './@types/email-sender.type';
 import getConfig from './config';
 
+const currentEnv = process.env.NODE_ENV || 'development';
+const config = getConfig(currentEnv);
+
 export default class NodemailerSmtpServer implements SmtpServer {
-  private host = getConfig().smtpHost;
-  private port = parseInt(getConfig().smtpPort!);
-  private user = getConfig().senderEmail;
-  private pass = getConfig().senderEmailPassword;
+  private host = config.smtpHost;
+  private port = parseInt(config.smtpPort!);
+  private user = config.senderEmail;
+  private pass = config.senderEmailPassword;
 
   getConfig(): SmtpServerConfig {
     return {

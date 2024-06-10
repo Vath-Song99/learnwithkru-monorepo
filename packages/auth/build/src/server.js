@@ -13,22 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authChannel = void 0;
-const path_1 = __importDefault(require("path"));
 const app_1 = __importDefault(require("./app"));
-const config_1 = __importDefault(require("./utils/config"));
 const database_1 = __importDefault(require("./database"));
 const connection_queue_1 = require("./queue/connection.queue");
-function initializeConfig() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const currentEnv = process.env.NODE_ENV || "development";
-        const configPath = path_1.default.join(__dirname, currentEnv === "development"
-            ? "../configs/.env"
-            : currentEnv === "staging"
-                ? "../configs/.env.staging"
-                : "../configs/.env.production");
-        return (0, config_1.default)(configPath);
-    });
-}
+const config_1 = __importDefault(require("./utils/config"));
 function initializeQueueConnection() {
     return __awaiter(this, void 0, void 0, function* () {
         return (yield (0, connection_queue_1.createQueueConnection)());
@@ -53,7 +41,8 @@ function run() {
         let server = null;
         let mongodb = null;
         try {
-            const config = yield initializeConfig();
+            const currentEnv = process.env.NODE_ENV || "development";
+            const config = yield (0, config_1.default)(currentEnv);
             exports.authChannel = yield initializeQueueConnection();
             mongodb = yield initializeDatabase(config.mongoUrl);
             server = yield startServer(parseInt(config.port));

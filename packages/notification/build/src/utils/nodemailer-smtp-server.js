@@ -4,12 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = __importDefault(require("./config"));
+const currentEnv = process.env.NODE_ENV || 'development';
+const config = (0, config_1.default)(currentEnv);
 class NodemailerSmtpServer {
     constructor() {
-        this.host = (0, config_1.default)().smtpHost;
-        this.port = parseInt((0, config_1.default)().smtpPort);
-        this.user = (0, config_1.default)().senderEmail;
-        this.pass = (0, config_1.default)().senderEmailPassword;
+        this.host = config.smtpHost;
+        this.port = parseInt(config.smtpPort);
+        this.user = config.senderEmail;
+        this.pass = config.senderEmailPassword;
     }
     getConfig() {
         return {

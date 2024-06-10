@@ -25,6 +25,8 @@ const socket_sender_1 = require("../utils/socket-sender");
 // 4. Check if Queue Exist, If Not Create Once
 // 5. Bind the Exchange to Queue by Routing Key
 // 6. Consumer: Send Email When there is a message from Queue
+const currentEnv = process.env.NODE_ENV || 'development';
+const config = (0, config_1.default)(currentEnv);
 function consumeAuthEmailMessages(channel) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -43,7 +45,7 @@ function consumeAuthEmailMessages(channel) {
             channel.consume(queue.queue, (msg) => __awaiter(this, void 0, void 0, function* () {
                 const { receiverEmail, username, verifyLink, resetLink, template } = JSON.parse(msg.content.toString());
                 const locals = {
-                    appLink: `${(0, config_1.default)().clientUrl}`,
+                    appLink: `${config.clientUrl}`,
                     appIcon: `https://learnwithkru.com/_next/image?url=%2FLogos%2FKruLogo.png&w=640&q=75`,
                     username,
                     verifyLink,
@@ -82,7 +84,7 @@ function consumeNotificationMessages(channel) {
                     type,
                     title,
                     message,
-                    timestamp
+                    timestamp,
                 };
                 const notificationUserSender = socket_sender_1.SocketSender.getInstance();
                 yield notificationUserSender.sendNotification(template, receiver, messageDetailsLocals);

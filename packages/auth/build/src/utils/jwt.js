@@ -25,6 +25,8 @@ const salt = 10;
 const privateKeyPath = path_1.default.join(__dirname, "../../private_key.pem");
 // Read the private key from the file
 const privateKey = fs_1.default.readFileSync(privateKeyPath, "utf8");
+const currentEnv = process.env.NODE_ENV || "development";
+const config = (0, config_1.default)(currentEnv);
 const generatePassword = (password) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         return yield bcrypt_1.default.hash(password, salt);
@@ -41,7 +43,7 @@ const generateSignature = (_a) => __awaiter(void 0, [_a], void 0, function* ({ _
     };
     try {
         return yield jsonwebtoken_1.default.sign({ payload: payloadData }, privateKey, {
-            expiresIn: (0, config_1.default)().jwtExpiresIn,
+            expiresIn: config.jwtExpiresIn,
             algorithm: "RS256",
         });
     }

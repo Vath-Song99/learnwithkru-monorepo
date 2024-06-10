@@ -18,8 +18,10 @@ const logger_1 = require("./logger");
 const config_1 = __importDefault(require("./config"));
 const path_defs_1 = require("../routes/path-defs");
 const base_custom_error_1 = require("../error/base-custom-error");
+const currentEnv = process.env.NODE_ENV || "development";
+const config = (0, config_1.default)(currentEnv);
 const getUserById = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const url = `${(0, config_1.default)().userService}${path_defs_1.PATH_USER.GET}/${userId}`;
+    const url = `${config.userService}${path_defs_1.PATH_USER.GET}/${userId}`;
     console.log(url);
     try {
         const response = yield axios_1.default.get(url);

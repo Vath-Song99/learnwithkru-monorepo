@@ -1,20 +1,11 @@
-import * as path from "path";
 import app from "./app";
-import createConfig from "./utils/config";
 import MongoDBConnector from "./database";
+import getConfig from "./utils/config";
 async function run() {
   try {
     // set currect env vai
     const currentEnv = process.env.NODE_ENV || "development";
-    const configPath = path.join(
-      __dirname,
-      currentEnv === "development"
-        ? "../configs/.env"
-        : currentEnv === "staging"
-        ? "../configs/.env.staging"
-        : "../configs/.env.production"
-    );
-    const config = createConfig(configPath);
+    const config =  getConfig(currentEnv);
 
     // Activate Database
     const mongodb = MongoDBConnector.getInstance();

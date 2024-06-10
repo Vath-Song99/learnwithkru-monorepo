@@ -4,7 +4,8 @@ import getConfig from "../utils/config";
 
 export async function createQueueConnection(): Promise<Channel | undefined> {
   try {
-    const config = getConfig(process.env.NODE_ENV);
+    const currentEnv = process.env.NODE_ENV || "development";
+    const config = getConfig(currentEnv);
     const rabbitMQUrl = config.rabbitMQ;
 
     // Check if RabbitMQ URL is defined

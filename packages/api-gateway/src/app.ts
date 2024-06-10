@@ -17,8 +17,8 @@ import { OptionSession } from "./utils/cookieOption";
 
 const app: Application = express();
 
-
-const config = getConfig();
+const currentEnv = process.env.NODE_ENV || "development";
+const config = getConfig(currentEnv);
 
 // ===================
 // Security Middleware

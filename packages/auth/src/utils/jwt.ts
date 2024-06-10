@@ -13,6 +13,9 @@ const privateKeyPath = path.join(__dirname, "../../private_key.pem");
 // Read the private key from the file
 const privateKey = fs.readFileSync(privateKeyPath, "utf8");
 
+const currentEnv = process.env.NODE_ENV || "development";
+const config = getConfig(currentEnv);
+
 export const generatePassword = async (password: string) => {
   try {
     return await bcrypt.hash(password, salt);
@@ -32,7 +35,7 @@ export const generateSignature = async ({
   };
   try {
     return await jwt.sign({ payload: payloadData }, privateKey, {
-      expiresIn: getConfig().jwtExpiresIn!,
+      expiresIn: config.jwtExpiresIn!,
       algorithm: "RS256",
     });
   } catch (error: unknown) {

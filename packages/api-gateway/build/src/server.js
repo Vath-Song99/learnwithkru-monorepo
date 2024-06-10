@@ -42,8 +42,8 @@ const createConfig_1 = __importDefault(require("./utils/createConfig"));
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 // READ FILE JWT PUBLIC KEY FIRST
-exports.publicKey = fs.readFileSync(path.join(__dirname, "../public_key.pem"), 'utf-8');
-// RUN THE SERVER
+exports.publicKey = fs.readFileSync(path.join(__dirname, "../public_key.pem"), "utf-8");
+// RUN THE SERVER GATEWAY
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {

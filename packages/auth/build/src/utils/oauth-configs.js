@@ -17,6 +17,8 @@ const axios_1 = __importDefault(require("axios"));
 const base_custom_error_1 = require("../error/base-custom-error");
 const querystring_1 = __importDefault(require("querystring"));
 const config_1 = __importDefault(require("./config"));
+const currentEnv = process.env.NODE_ENV || "development";
+const config = (0, config_1.default)(currentEnv);
 class OauthConfig {
     constructor() {
         // Any initialization logic you want to perform
@@ -52,9 +54,9 @@ class OauthConfig {
         return __awaiter(this, void 0, void 0, function* () {
             const requestBody = {
                 code,
-                client_id: (0, config_1.default)().googleClientId,
-                client_secret: (0, config_1.default)().googleClientSecret,
-                redirect_uri: (0, config_1.default)().googleRedirectUrl,
+                client_id: config.googleClientId,
+                client_secret: config.googleClientSecret,
+                redirect_uri: config.googleRedirectUrl,
                 grant_type: "authorization_code",
             };
             const url = "https://oauth2.googleapis.com/token";
@@ -69,9 +71,9 @@ class OauthConfig {
     FacebookStrategy(code) {
         return __awaiter(this, void 0, void 0, function* () {
             const requestBody = {
-                client_id: (0, config_1.default)().faceAppId,
-                client_secret: (0, config_1.default)().facebookAppSecret,
-                redirect_uri: (0, config_1.default)().facebookRedirectUrl,
+                client_id: config.faceAppId,
+                client_secret: config.facebookAppSecret,
+                redirect_uri: config.facebookRedirectUrl,
                 code,
             };
             const url = `https://graph.facebook.com/v13.0/oauth/access_token`;

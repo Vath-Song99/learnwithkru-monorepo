@@ -18,7 +18,6 @@ const base_custom_error_1 = require("../error/base-custom-error");
 const auth_producer_1 = require("../queue/auth.producer");
 const server_1 = require("../server");
 const account_verification_1 = require("../utils/account-verification");
-const config_1 = __importDefault(require("../utils/config"));
 const date_generate_1 = require("../utils/date-generate");
 const http_request_1 = require("../utils/http-request");
 const http_status_code_1 = __importDefault(require("../utils/http-status-code"));
@@ -26,6 +25,9 @@ const jwt_1 = require("../utils/jwt");
 const logger_1 = require("../utils/logger");
 const account_verification_repository_1 = require("../database/repositories/account-verification.repository");
 const auth_respository_1 = require("../database/repositories/auth.respository");
+const config_1 = __importDefault(require("../utils/config"));
+const currentEnv = process.env.NODE_ENV || "development";
+const config = (0, config_1.default)(currentEnv);
 class SendVerifyEmailService {
     constructor() {
         this.accountVerificationRepo = new account_verification_repository_1.AccountVerificationRepository();
@@ -51,14 +53,14 @@ class SendVerifyEmailService {
                 if (type === "verifyEmail") {
                     messageDetails = {
                         receiverEmail: email,
-                        verifyLink: `${(0, config_1.default)().clientUrl}/verify-email?token=${newAccountVerification.emailVerificationToken}`,
+                        verifyLink: `${config.clientUrl}/verify-email?token=${newAccountVerification.emailVerificationToken}`,
                         template: "verifyEmail",
                     };
                 }
                 else if (type === "verifyResetPassword") {
                     messageDetails = {
                         receiverEmail: email,
-                        verifyLink: `${(0, config_1.default)().clientUrl}/verify-reset-password?token=${newAccountVerification.emailVerificationToken}`,
+                        verifyLink: `${config.clientUrl}/verify-reset-password?token=${newAccountVerification.emailVerificationToken}`,
                         template: "verifyResetPassword",
                     };
                 }
@@ -122,7 +124,7 @@ class SendVerifyEmailService {
                     template: "verifyResetPassword",
                     timestamp: new Date().toLocaleString(),
                     title: "Congratulations on Joining Learnwithkru",
-                    message: "Thank you for joining us. We are excited to help you on your educational journey."
+                    message: "Thank you for joining us. We are excited to help you on your educational journey.",
                 };
                 yield (0, auth_producer_1.publishDirectMessage)(server_1.authChannel, "learnwithkru-notification-message", "notification-message", JSON.stringify(messageDetails), `Success verify verify Email token message has been sent to the notification service`);
                 // Step 8: Delete account verification token from database

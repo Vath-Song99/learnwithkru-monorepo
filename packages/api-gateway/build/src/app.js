@@ -20,7 +20,8 @@ const auth_middleware_1 = require("./middlewares/auth-middleware");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cookieOption_1 = require("./utils/cookieOption");
 const app = (0, express_1.default)();
-const config = (0, createConfig_1.default)();
+const currentEnv = process.env.NODE_ENV || "development";
+const config = (0, createConfig_1.default)(currentEnv);
 // ===================
 // Security Middleware
 // ===================

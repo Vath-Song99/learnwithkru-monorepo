@@ -12,33 +12,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const path_1 = __importDefault(require("path"));
 const app_1 = __importDefault(require("./app"));
-const config_1 = __importDefault(require("./utils/config"));
 const database_1 = __importDefault(require("./database"));
+const config_1 = __importDefault(require("./utils/config"));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            // currect env
             const currentEnv = process.env.NODE_ENV || "development";
-            const configPath = path_1.default.join(__dirname, currentEnv === "development"
-                ? "../configs/.env"
-                : currentEnv === "staging"
-                    ? "../configs/.env.staging"
-                    : "../configs/.env.production");
-            const config = (0, config_1.default)(configPath);
+            const config = (0, config_1.default)(currentEnv);
             // Activate Database
             const mongodb = database_1.default.getInstance();
             yield mongodb.connect({ url: config.mongoUrl });
             // Start Server
-            const server = app_1.default.listen(config.port, () => {
-            });
+            const server = app_1.default.listen(config.port, () => { });
             const exitHandler = () => __awaiter(this, void 0, void 0, function* () {
                 if (server) {
                     server.close(() => __awaiter(this, void 0, void 0, function* () {
                         console.log("server closed!");
                         yield mongodb.disconnect();
                         console.log("mongodb disconnected!");
-                        // Gracefully Terminate 
+                        // Gracefully Terminate
                         process.exit(1); // terminate the process due to error
                     }));
                 }

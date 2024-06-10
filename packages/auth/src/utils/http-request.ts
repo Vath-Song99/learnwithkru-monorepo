@@ -5,7 +5,8 @@ import { logger } from "./logger";
 import { PATH_SERVICE } from "../routes/path-defs";
 import { IUser } from "../@types/user.type";
 
-const config = getConfig();
+const currentEnv = process.env.NODE_ENV || "development";
+const config = getConfig(currentEnv);
 
 export class RequestUserService {
   async CreateUser({ authId, firstname, lastname, email, picture }: IUser) {

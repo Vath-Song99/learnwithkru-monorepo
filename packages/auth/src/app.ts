@@ -2,20 +2,21 @@ import express, { Application } from "express";
 import { errorHandler } from "./middlewares/errorsHandler";
 import path from "path";
 import cors from "cors";
-import dotenv from "dotenv";
-import getConfig from "./utils/config";
 import loggerMiddleware from "./middlewares/logger-handler";
 import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./routes/v1/routes";
+import getConfig from "./utils/config";
 
-dotenv.config({ path: "configs/.env" });
 const app: Application = express();
+
+const currentEnv = process.env.NODE_ENV || "development";
+const config =  getConfig(currentEnv);
 
 //global middleware
 app.set("trust proxy", 1);
 app.use(
   cors({
-    origin: getConfig().apiGateway,
+    origin: config.apiGateway,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })

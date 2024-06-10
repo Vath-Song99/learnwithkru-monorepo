@@ -3,7 +3,8 @@ import getConfig from './config';
 import { JwtPayload } from 'jsonwebtoken';
 import jwt from 'jsonwebtoken'
 
-const config = getConfig()
+const currentEnv = process.env.NODE_ENV || "development";
+const config = getConfig(currentEnv);
 
 export async function getUserInfo(authId: string ) {
    const url = config.authService

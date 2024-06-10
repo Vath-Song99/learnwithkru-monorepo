@@ -10,11 +10,13 @@ import { RegisterRoutes } from "./routes/v1/routes";
 //app
 const app: Application = express();
 
+const currentEnv = process.env.NODE_ENV || "development";
+const config = getConfig(currentEnv);
 //global middleware
 app.set("trust proxy", 1);
 app.use(
   cors({
-    origin:  getConfig().apiGateway,
+    origin: config.apiGateway,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })

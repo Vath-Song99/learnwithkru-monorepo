@@ -5,7 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OptionSession = exports.OptionCookie = void 0;
 const createConfig_1 = __importDefault(require("./createConfig"));
-const config = (0, createConfig_1.default)();
+const currentEnv = process.env.NODE_ENV || "development";
+const config = (0, createConfig_1.default)(currentEnv);
 exports.OptionCookie = {
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds
     httpOnly: true,

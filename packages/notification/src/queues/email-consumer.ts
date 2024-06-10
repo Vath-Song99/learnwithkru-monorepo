@@ -13,6 +13,9 @@ import { IMessageLocals } from '@notifications/utils/@types/socket-sender.type';
 // 4. Check if Queue Exist, If Not Create Once
 // 5. Bind the Exchange to Queue by Routing Key
 // 6. Consumer: Send Email When there is a message from Queue
+
+const currentEnv = process.env.NODE_ENV || 'development';
+const config = getConfig(currentEnv);
 export async function consumeAuthEmailMessages(
   channel: Channel
 ): Promise<void> {
@@ -38,7 +41,7 @@ export async function consumeAuthEmailMessages(
         JSON.parse(msg!.content.toString());
 
       const locals: IEmailLocals = {
-        appLink: `${getConfig().clientUrl}`,
+        appLink: `${config.clientUrl}`,
         appIcon: `https://learnwithkru.com/_next/image?url=%2FLogos%2FKruLogo.png&w=640&q=75`,
         username,
         verifyLink,
@@ -78,16 +81,21 @@ export async function consumeNotificationMessages(
     await channel.bindQueue(queue.queue, exchangeName, routingKey);
 
     channel.consume(queue.queue, async (msg: ConsumeMessage | null) => {
-        const { type, title ,  message , timestamp , template , receiver} = JSON.parse(msg!.content.toString());
+      const { type, title, message, timestamp, template, receiver } =
+        JSON.parse(msg!.content.toString());
 
-        const messageDetailsLocals: IMessageLocals = {
-          type,
-          title,
-          message,
-          timestamp
-        }
-        const notificationUserSender = SocketSender.getInstance();
-        await notificationUserSender.sendNotification(template ,receiver ,messageDetailsLocals )
+      const messageDetailsLocals: IMessageLocals = {
+        type,
+        title,
+        message,
+        timestamp,
+      };
+      const notificationUserSender = SocketSender.getInstance();
+      await notificationUserSender.sendNotification(
+        template,
+        receiver,
+        messageDetailsLocals
+      );
     });
   } catch (error) {
     logger.error(

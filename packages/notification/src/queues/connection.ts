@@ -1,13 +1,16 @@
 import { logger } from '@notifications/utils/logger';
 import client, { Channel, Connection } from 'amqplib';
-import { consumeAuthEmailMessages, consumeNotificationMessages } from './email-consumer';
+import {
+  consumeAuthEmailMessages,
+  consumeNotificationMessages,
+} from './email-consumer';
 import getConfig from '@notifications/utils/config';
 
+const currentEnv = process.env.NODE_ENV || 'development';
+const config = getConfig(currentEnv);
 export async function createQueueConnection(): Promise<Channel | undefined> {
   try {
-    const connection: Connection = await client.connect(
-      `${getConfig().rabbitMQ}`
-    );
+    const connection: Connection = await client.connect(`${config.rabbitMQ}`);
     const channel: Channel = await connection.createChannel();
     logger.info('Nofiication server connected to queue successfully...');
     closeQueueConnection();
@@ -34,7 +37,7 @@ export async function startQueue(): Promise<void> {
   try {
     const emailChannel: Channel = (await createQueueConnection()) as Channel;
     await consumeAuthEmailMessages(emailChannel);
-    await consumeNotificationMessages(emailChannel)
+    await consumeNotificationMessages(emailChannel);
   } catch (error) {
     throw error;
   }

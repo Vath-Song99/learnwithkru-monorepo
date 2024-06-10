@@ -32,7 +32,8 @@ const decodedToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.decodedToken = decodedToken;
-const config = (0, config_1.default)();
+const currentEnv = process.env.NODE_ENV || "development";
+const config = (0, config_1.default)(currentEnv);
 const generateSignature = (_a) => __awaiter(void 0, [_a], void 0, function* ({ _id, }) {
     const payloadData = {
         id: _id,

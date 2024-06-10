@@ -3,7 +3,6 @@ import { ApiError, BaseCustomError } from "../error/base-custom-error";
 import { publishDirectMessage } from "../queue/auth.producer";
 import { authChannel } from "../server";
 import { generateEmailVerificationToken } from "../utils/account-verification";
-import getConfig from "../utils/config";
 import { GenerateTimeExpire } from "../utils/date-generate";
 import { RequestUserService } from "../utils/http-request";
 import StatusCode from "../utils/http-status-code";
@@ -13,6 +12,10 @@ import { AccountVerificationRepository } from "../database/repositories/account-
 import { AuthRepository } from "../database/repositories/auth.respository";
 import { ObjectId } from "mongodb";
 import { IUser } from "../@types/user.type";
+import getConfig from "../utils/config";
+
+const currentEnv = process.env.NODE_ENV || "development";
+const config = getConfig(currentEnv);
 
 export class SendVerifyEmailService {
   private accountVerificationRepo: AccountVerificationRepository;
@@ -53,17 +56,13 @@ export class SendVerifyEmailService {
       if (type === "verifyEmail") {
         messageDetails = {
           receiverEmail: email,
-          verifyLink: `${getConfig().clientUrl}/verify-email?token=${
-            newAccountVerification.emailVerificationToken
-          }`,
+          verifyLink: `${config.clientUrl}/verify-email?token=${newAccountVerification.emailVerificationToken}`,
           template: "verifyEmail",
         };
       } else if (type === "verifyResetPassword") {
         messageDetails = {
           receiverEmail: email,
-          verifyLink: `${getConfig().clientUrl}/verify-reset-password?token=${
-            newAccountVerification.emailVerificationToken
-          }`,
+          verifyLink: `${config.clientUrl}/verify-reset-password?token=${newAccountVerification.emailVerificationToken}`,
           template: "verifyResetPassword",
         };
       }
@@ -153,15 +152,16 @@ export class SendVerifyEmailService {
       // Step 6: Generate JWT token
       const jwtToken = await generateSignature({ _id: data._id.toString() });
       // step 7: Send success message
-      
+
       const messageDetails = {
         receiver: data._id.toString(),
         template: "verifyResetPassword",
         timestamp: new Date().toLocaleString(),
         title: "Congratulations on Joining Learnwithkru",
-        message: "Thank you for joining us. We are excited to help you on your educational journey."
-    };
-    
+        message:
+          "Thank you for joining us. We are excited to help you on your educational journey.",
+      };
+
       await publishDirectMessage(
         authChannel,
         "learnwithkru-notification-message",

@@ -68,8 +68,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "packages/user/build/."
-          target: "/home/ubuntu/apps/user"
+          source: "packages/user/build/*"
+          target: "/home/ubuntu/apps/user/"
 
       - name: Create .env file
         uses: appleboy/ssh-action@master

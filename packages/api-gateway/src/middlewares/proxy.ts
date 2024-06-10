@@ -15,7 +15,8 @@ interface NetworkError extends Error {
   code?: string;
 }
 
-const config = getConfig();
+const currentEnv = process.env.NODE_ENV || "development";
+const config = getConfig(currentEnv);
 
 // TODO SERVICES
 // 1. auth service

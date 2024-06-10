@@ -1,6 +1,9 @@
 import { CookieOptions } from "express";
 import getConfig from "./createConfig";
-const config = getConfig();
+
+
+const currentEnv = process.env.NODE_ENV || "development";
+const config = getConfig(currentEnv);
 
 export const OptionCookie: CookieOptions = {
   maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds

@@ -20,7 +20,7 @@ function createConfig(configPath: string) {
     "GOOGLE_CLIENT_SECRET",
     "FACEBOOK_REDIRECT_URI",
     "GOOGLE_REDIRECT_URI",
-    "USER_SERVICE"
+    "USER_SERVICE",
   ];
   const missingConfig = requiredConfig.filter((key) => !process.env[key]);
 
@@ -48,16 +48,20 @@ function createConfig(configPath: string) {
     googleRedirectUrl: process.env.GOOGLE_REDIRECT_URI,
     userService: process.env.USER_SERVICE,
     studentService: process.env.STUDENT_SERVICE,
-    teacherService: process.env.TEACHER_SERVICE
+    teacherService: process.env.TEACHER_SERVICE,
   };
 }
 
-const getConfig = (currentEnv: string = "development") => {
-  const configPath =
+function getConfig(currentEnv: string | "development") {
+  const configPath = path.join(
+    __dirname,
     currentEnv === "development"
-      ? path.join(__dirname, `../../configs/.env`)
-      : path.join(__dirname, `../../configs/.env.${currentEnv}`);
+      ? "../configs/.env"
+      : currentEnv === "staging"
+      ? "../configs/.env.staging"
+      : "../configs/.env.production"
+  );
   return createConfig(configPath);
-};
+}
 
 export default getConfig;

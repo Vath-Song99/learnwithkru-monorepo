@@ -36,6 +36,8 @@ const oauth_configs_1 = require("../utils/oauth-configs");
 const config_1 = __importDefault(require("../utils/config"));
 const base_custom_error_1 = require("../error/base-custom-error");
 const jwt_1 = require("../utils/jwt");
+const currentEnv = process.env.NODE_ENV || "development";
+const config = (0, config_1.default)(currentEnv);
 let AuthController = class AuthController extends tsoa_1.Controller {
     Singup(requestBody) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -98,7 +100,6 @@ let AuthController = class AuthController extends tsoa_1.Controller {
     }
     googleOAuth() {
         return __awaiter(this, void 0, void 0, function* () {
-            const config = (0, config_1.default)();
             const redirectUri = config.googleRedirectUrl;
             const clientId = config.googleClientId;
             try {
@@ -113,7 +114,6 @@ let AuthController = class AuthController extends tsoa_1.Controller {
     }
     facebookOAuth() {
         return __awaiter(this, void 0, void 0, function* () {
-            const config = (0, config_1.default)();
             const redirectUri = config.facebookRedirectUrl;
             const appId = config.faceAppId;
             try {
@@ -185,7 +185,6 @@ let AuthController = class AuthController extends tsoa_1.Controller {
             }
         });
     }
-    ;
     Logout(authorization) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

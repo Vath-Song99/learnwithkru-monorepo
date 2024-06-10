@@ -6,8 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const routes_1 = require("./routes");
 const app = (0, express_1.default)();
-// Health Route [Not via API Gateway]
+// Health Route [Not via API Gateway
 app.use('/health', routes_1.healthRoutes);
-//export defualt app
 exports.default = app;
 //# sourceMappingURL=app.js.map

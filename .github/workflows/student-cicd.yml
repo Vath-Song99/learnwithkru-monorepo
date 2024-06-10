@@ -68,7 +68,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "packages/student/build/."
+          source: "packages/student/build/*"
           target: "/home/ubuntu/apps/student/"
 
       - name: Create .env file

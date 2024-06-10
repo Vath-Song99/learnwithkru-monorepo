@@ -21,7 +21,8 @@ export const decodedToken = async (token: string) => {
   }
 };
 
-const config = getConfig();
+const currentEnv = process.env.NODE_ENV || "development";
+const config = getConfig(currentEnv);
 
 export const generateSignature = async ({
   _id,

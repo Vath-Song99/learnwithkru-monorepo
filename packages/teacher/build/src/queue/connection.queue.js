@@ -19,7 +19,8 @@ const config_1 = __importDefault(require("../utils/config"));
 function createQueueConnection() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const config = (0, config_1.default)(process.env.NODE_ENV);
+            const currentEnv = process.env.NODE_ENV || "development";
+            const config = (0, config_1.default)(currentEnv);
             const rabbitMQUrl = config.rabbitMQ;
             // Check if RabbitMQ URL is defined
             if (!rabbitMQUrl) {

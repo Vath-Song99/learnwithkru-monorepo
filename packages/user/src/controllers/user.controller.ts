@@ -12,7 +12,7 @@ import {
   Route,
   SuccessResponse,
   Request,
-  Patch
+  Patch,
 } from "tsoa";
 import { authorize } from "../middlewares/authorize";
 import { DecodedUser } from "../@types/express-extend.type";
@@ -73,27 +73,32 @@ export class UserController extends Controller {
   @SuccessResponse(StatusCode.OK, "OK")
   @Get(PATH_USER.USER_PROFILE)
   @Middlewares(authorize(["user"]))
-  async GetUserProfile ( @Request() req: Express.Request):Promise<{message: string, data: UserProfile}> {
-    try{
-      const userId = (req.user as DecodedUser).id as string
+  async GetUserProfile(
+    @Request() req: Express.Request
+  ): Promise<{ message: string; data: UserProfile }> {
+    try {
+      const userId = (req.user as DecodedUser).id as string;
       const service = new UserServices();
-      const {data} = await service.GetUserProfile(userId);
-      return {message: "Success retrived", data}
-    }catch(error: unknown){
-      throw error
+      const { data } = await service.GetUserProfile(userId);
+      return { message: "Success retrived", data };
+    } catch (error: unknown) {
+      throw error;
     }
   }
 
   @SuccessResponse(StatusCode.OK, "OK")
   @Patch(PATH_USER.UPDATE_USER)
-  async UpdateUserByUserId (@Path() authId: string , @Body() requestBody: UserUpdate): Promise<{message: string, data: IUser }>{
-    try{
+  async UpdateUserByUserId(
+    @Path() authId: string,
+    @Body() requestBody: UserUpdate
+  ): Promise<{ message: string; data: IUser }> {
+    try {
       const service = new UserServices();
-      const {data} = await service.UpdateUserByUserId(authId, requestBody)
-      
-      return {message: "Success update", data}
-    }catch(error: unknown){
-      throw error
+      const { data } = await service.UpdateUserByUserId(authId, requestBody);
+
+      return { message: "Success update", data };
+    } catch (error: unknown) {
+      throw error;
     }
   }
 }

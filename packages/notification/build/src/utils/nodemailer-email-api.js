@@ -18,6 +18,8 @@ const logger_1 = require("./logger");
 const nodemailer_smtp_server_1 = __importDefault(require("./nodemailer-smtp-server"));
 const config_1 = __importDefault(require("./config"));
 const email_templates_1 = __importDefault(require("email-templates"));
+const currentEnv = process.env.NODE_ENV || 'development';
+const config = (0, config_1.default)(currentEnv);
 class NodemailerEmailApi {
     constructor() {
         this.transporter = nodemailer_1.default.createTransport(new nodemailer_smtp_server_1.default().getConfig());
@@ -27,7 +29,7 @@ class NodemailerEmailApi {
             try {
                 const email = new email_templates_1.default({
                     message: {
-                        from: `Learnwithkru <${(0, config_1.default)().senderEmail}>`,
+                        from: `Learnwithkru <${config.senderEmail}>`,
                     },
                     send: true,
                     preview: false,

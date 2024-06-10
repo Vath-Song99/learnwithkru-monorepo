@@ -16,7 +16,8 @@ exports.decodedToken = exports.getUserInfo = void 0;
 const axios_1 = __importDefault(require("axios"));
 const config_1 = __importDefault(require("./config"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const config = (0, config_1.default)();
+const currentEnv = process.env.NODE_ENV || "development";
+const config = (0, config_1.default)(currentEnv);
 function getUserInfo(authId) {
     return __awaiter(this, void 0, void 0, function* () {
         const url = config.authService;

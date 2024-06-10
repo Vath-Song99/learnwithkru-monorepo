@@ -1,24 +1,10 @@
-import path from "path";
 import app from "./app";
-import createConfig from "./utils/config";
 import MongoDBConnector from "./database";
 import { Channel } from "amqplib";
 import { createQueueConnection } from "./queue/connection.queue";
+import getConfig from "./utils/config";
 
 export let authChannel: Channel;
-
-async function initializeConfig() {
-  const currentEnv = process.env.NODE_ENV || "development";
-  const configPath = path.join(
-    __dirname,
-    currentEnv === "development"
-      ? "../configs/.env"
-      : currentEnv === "staging"
-      ? "../configs/.env.staging"
-      : "../configs/.env.production"
-  );
-  return createConfig(configPath);
-}
 
 async function initializeQueueConnection() {
   return (await createQueueConnection()) as Channel;
@@ -41,7 +27,8 @@ async function run() {
   let mongodb: MongoDBConnector | null = null;
 
   try {
-    const config = await initializeConfig();
+    const currentEnv = process.env.NODE_ENV || "development";
+    const config = await getConfig(currentEnv);
     authChannel = await initializeQueueConnection();
     mongodb = await initializeDatabase(config.mongoUrl!);
     server = await startServer(parseInt(config.port!));

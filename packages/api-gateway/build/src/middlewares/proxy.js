@@ -9,7 +9,8 @@ const createConfig_1 = __importDefault(require("../utils/createConfig"));
 const consts_1 = require("../utils/consts");
 const route_defs_1 = require("../route-defs");
 const cookieOption_1 = require("../utils/cookieOption");
-const config = (0, createConfig_1.default)();
+const currentEnv = process.env.NODE_ENV || "development";
+const config = (0, createConfig_1.default)(currentEnv);
 // TODO SERVICES
 // 1. auth service
 // 2. student service
