@@ -58,7 +58,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: "applications/user/build/*"
-          target: "/home/ubuntu/applications/user/build/"
+          target: "/home/ubuntu/"
 
       - name: Create .env file
         uses: appleboy/ssh-action@master
