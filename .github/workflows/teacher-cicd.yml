@@ -58,7 +58,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            script: mkdir -p /home/ubuntu/apps/teacher/build
+            mkdir -p /home/ubuntu/apps/teacher/build
             chown ubuntu:ubuntu /home/ubuntu/apps/teacher/build
 
       - name: Copy files to EC2

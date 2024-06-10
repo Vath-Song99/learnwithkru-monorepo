@@ -5,3 +5,5 @@ export const ROUTE_PATHS ={
     USER_SERVICE: "/v1/users",
     NOTIFICATION: "/v1/notification"
 }
+
+// what the fuck

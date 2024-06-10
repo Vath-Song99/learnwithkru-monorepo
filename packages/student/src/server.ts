@@ -3,7 +3,7 @@ import MongoDBConnector from "./database";
 import getConfig from "./utils/config";
 async function run() {
   try {
-    // set currect env vai
+    // set currect
     const currentEnv = process.env.NODE_ENV || "development";
     const config =  getConfig(currentEnv);
 

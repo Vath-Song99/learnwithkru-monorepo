@@ -61,7 +61,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            script: mkdir -p /home/ubuntu/apps/api-gateway/build
+            mkdir -p /home/ubuntu/apps/api-gateway/build
             chown ubuntu:ubuntu /home/ubuntu/apps/api-gateway/build
 
       - name: Copy files to EC2

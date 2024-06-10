@@ -73,7 +73,7 @@ async function run() {
   }
 }
 
-// Only run if not
+// Only run
 if (process.env.NODE_ENV !== 'testing') {
   run();
 }
