@@ -13,7 +13,6 @@ const config = getConfig(currentEnv);
 //app
 const app: Application = express();
 //global middleware
-//global middleware
 app.set("trust proxy", 1);
 app.use(
   cors({

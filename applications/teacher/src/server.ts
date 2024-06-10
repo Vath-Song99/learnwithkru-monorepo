@@ -8,8 +8,7 @@ export let teacherChannel: Channel;
 
 async function run() {
   try {
-    // currect 
-
+    // env
     const currentEnv = process.env.NODE_ENV || "development";
     const config = getConfig(currentEnv);
     async function initializeQueueConnection() {
