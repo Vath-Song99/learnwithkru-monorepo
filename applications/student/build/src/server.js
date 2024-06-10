@@ -18,7 +18,7 @@ const config_1 = __importDefault(require("./utils/config"));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // set currect env vai
+            // set currect
             const currentEnv = process.env.NODE_ENV || "development";
             const config = (0, config_1.default)(currentEnv);
             // Activate Database

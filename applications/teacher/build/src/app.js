@@ -40,7 +40,7 @@ app.get("/swagger.json", (_req, res) => {
 });
 // app.use(AUTH_ROUTE,Routehealths)
 (0, routes_1.RegisterRoutes)(app);
-//error handler globale middleware
+//error handling
 app.use(errorsHandler_1.errorHandler);
 exports.default = app;
 //# sourceMappingURL=app.js.map

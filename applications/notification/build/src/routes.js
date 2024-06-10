@@ -7,6 +7,7 @@ exports.healthRoutes = void 0;
 const express_1 = __importDefault(require("express"));
 const http_status_code_1 = __importDefault(require("./utils/http-status-code"));
 const router = express_1.default.Router();
+// health
 function healthRoutes() {
     router.get('/notification-health', (_req, res) => {
         res
