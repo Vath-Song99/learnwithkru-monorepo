@@ -7,7 +7,7 @@ import loggerMiddleware from "./middlewares/logger-handler";
 import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./routes/v1/routes";
 
-// application
+// application user
 const app: Application = express();
 
 const currentEnv = process.env.NODE_ENV || "development";
