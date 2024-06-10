@@ -22,6 +22,8 @@ async function startServer(port: number) {
   });
 }
 
+
+// run the fun
 async function run() {
   let server: ReturnType<typeof app.listen> | null = null;
   let mongodb: MongoDBConnector | null = null;

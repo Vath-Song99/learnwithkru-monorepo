@@ -61,8 +61,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            mkdir -p /home/ubuntu/apps
-            chown ubuntu:ubuntu /home/ubuntu/apps
+            script: mkdir -p /home/ubuntu/apps/api-gateway/build
+            chown ubuntu:ubuntu /home/ubuntu/apps/api-gateway/build
 
       - name: Copy files to EC2
           uses: appleboy/scp-action@master
@@ -72,10 +72,10 @@ jobs:
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             port: 22
             source: "packages/api-gateway/build/*"
-            target: "/home/ubuntu/apps/api-gateway/"
+            target: "/home/ubuntu/apps/auth/build/"
 
 
-      - name: Create .env file
+      - name: Create .env filee
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_IP }}

@@ -26,9 +26,7 @@ const config = getConfig(currentEnv);
 app.set("trust proxy", 1);
 app.use(compression());
 app.use(cookieParser());
-app.use(
-  cookieSession(OptionSession)
-);
+app.use(cookieSession(OptionSession));
 
 // Prevent HTTP Parameter Pollution attacks
 app.use(hpp());
@@ -77,7 +75,7 @@ app.use("*", (req: Request, res: Response, _next: NextFunction) => {
     .json({ message: "The endpoint called does not exist." });
 });
 
-// Erorr handler i have try 310 times
+// Erorr handler
 app.use(errorHandler);
 
 export default app;

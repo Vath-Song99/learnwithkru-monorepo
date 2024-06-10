@@ -58,18 +58,18 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            mkdir -p /home/ubuntu/apps
-            chown ubuntu:ubuntu /home/ubuntu/apps
+            script: mkdir -p /home/ubuntu/apps/teacher/build
+            chown ubuntu:ubuntu /home/ubuntu/apps/teacher/build
 
       - name: Copy files to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_IP }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          source: "packages/teacher/build/*"
-          target: "/home/ubuntu/apps/teacher/"
+          uses: appleboy/scp-action@master
+          with:
+            host: ${{ secrets.EC2_IP }}
+            username: ${{ secrets.EC2_USERNAME }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            port: 22
+            source: "packages/teacher/build/*"
+            target: "/home/ubuntu/apps/teacher/build/"
 
       - name: Create .env file
         uses: appleboy/ssh-action@master
