@@ -63,6 +63,5 @@ async function run() {
   }
 }
 
-
-// start the server
+// start the api-gateway server
 run();
