@@ -1,7 +1,8 @@
-"use client"
+"use client";
+
 import axios from "axios";
 import { notFound, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 const CallbackRedirect = () => {
   const router = useRouter();
@@ -23,12 +24,12 @@ const CallbackRedirect = () => {
             withCredentials: true,
           }
         );
-        console.log("res: ", res.data)
+        console.log("res: ", res.data);
         
         if (res.data.errors) {
-           if(res.data.status === 400 || res.data.status === 404){
-              notFound(); // Use notFound directly
-           }
+          if (res.data.status === 400 || res.data.status === 404) {
+            notFound(); // Use notFound directly
+          }
         } else if (res.data.message.includes("Success signup") && res.status === 200) {
           router.push("/teachers"); // Use router.push directly
           return;
@@ -58,4 +59,10 @@ const CallbackRedirect = () => {
   return null; // Render nothing when not loading
 };
 
-export default CallbackRedirect;
+const SuspenseWrapper = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <CallbackRedirect />
+  </Suspense>
+);
+
+export default SuspenseWrapper;

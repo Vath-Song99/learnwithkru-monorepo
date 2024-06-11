@@ -1,9 +1,8 @@
 // components/Notification.tsx
 
 import { Typography } from "@/components/atoms";
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { Mycontext } from "@/context/CardContext";
 interface Notification {
   message: string;
   time: string;
@@ -17,7 +16,6 @@ interface NotificationProps {
 
 const Notification: React.FC<NotificationProps> = ({
   className,
-  initialNotifications,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const currentDate = new Date().toLocaleDateString("en-US");
@@ -25,7 +23,7 @@ const Notification: React.FC<NotificationProps> = ({
     hour: "2-digit",
     minute: "2-digit",
   });
-  const [notifications, setNotifications] = useState<Notification[]>([
+  const [notifications] = useState<Notification[]>([
     {
       message:
         "Thank you for being a valued member of our education platform. We're committed to providing you with enriching learning experiences.",

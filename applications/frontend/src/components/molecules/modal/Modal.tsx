@@ -1,5 +1,4 @@
 "use client";
-import { Typography } from "@/components/atoms";
 import React, { ReactNode, useState } from "react";
 
 interface ModalProps {
@@ -20,7 +19,7 @@ const Modal: React.FC<ModalProps>  = ({className}) => {
       z
       {/* Modal content */}
       {isOpen && (
-        <div className="fixed inset-0 overflow-y-auto z-50 flex justify-center items-center bg-black bg-opacity-50">
+        <div className={`fixed inset-0 overflow-y-auto z-50 flex justify-center items-center bg-black bg-opacity-50 ${className}`}>
           <div className="bg-white w-3/4 md:w-1/2 lg:w-1/3 rounded p-4">
             <h2 className="text-lg font-semibold mb-4">Modal Content</h2>
             <p>This is the content of the modal.</p>

@@ -1,6 +1,6 @@
 "use client";
-import { Login, Navbar } from "@/components";
-import React, { useState } from "react";
+import { Login } from "@/components";
+import React from "react";
 
 const page = () => {
   return (

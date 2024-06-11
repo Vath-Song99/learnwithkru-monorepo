@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { TeacherNavbarComponent } from "../molecules";
 import {
   BecomeTeacherForm,
@@ -16,7 +16,6 @@ import { BecomeTeacherType } from "../organisms/become-teacher-form/@types";
 
 const BecomeTeacher = () => {
   const [currentPage, setCurrentPage] = useState(0); // Changed initial page to 0
-  const [activeSection, setActiveSection] = useState("about");
   const [dataTutor, setdataTutor] = useState<BecomeTeacherType>();
 
   const pages = [0, 1, 2, 3, 4];
@@ -25,15 +24,12 @@ const BecomeTeacher = () => {
     switch (index) {
       case 0:
         setCurrentPage(0);
-        setActiveSection("about");
         break;
       case 1:
         setCurrentPage(1);
-        setActiveSection("about");
         break;
       case 2:
         setCurrentPage(2);
-        setActiveSection("about");
         break;
       // Add other cases as needed
       default:

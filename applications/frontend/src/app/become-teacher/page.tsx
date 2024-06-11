@@ -1,4 +1,3 @@
-import { SignupToBecomeTeacher } from "@/components";
 import { BecomeTeacher } from "@/components";
 import React from "react";
 

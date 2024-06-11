@@ -26,8 +26,6 @@ interface PriceProps {
 const PricingForm = ({
   title,
   description,
-  inputForms,
-  fileLabel,
   currentPage,
   pageIndex,
   setCurrentPage,
@@ -36,7 +34,6 @@ const PricingForm = ({
 }: BecomeTeacherFormTypes) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] = useState<PriceProps>(DEFAULT_FORM_VALUE);
-  const [isFormComplete, setIsFormComplete] = useState(false);
 
   const onChangeInput = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
@@ -56,7 +53,6 @@ const PricingForm = ({
 
     try {
       await PriceTeachers.validate(formData, { abortEarly: false });
-      setIsFormComplete(true);
       if (pageIndex !== undefined) {
         setCurrentPage((prevPage) =>
           Math.min(prevPage + 1, pageIndex.length - 1)
@@ -82,11 +78,7 @@ const PricingForm = ({
       }
     }
   };
-  const nextPage = () => {
-    if (!isFormComplete) {
-      return;
-    }
-  };
+
 
   const handleBack = () => {
     if (currentPage > 0) {
