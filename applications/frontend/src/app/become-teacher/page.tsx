@@ -1,5 +1,4 @@
 
-import { SignupToBecomeTeacher } from "@/components";
 import { BecomeTeacher } from "@/components";
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
@@ -13,7 +12,6 @@ export interface IUserBecomeTeacher {
 }
 
 const getUserData = async (): Promise<{
-  isAuth?: boolean;
   errors?: string;
   data: IUserBecomeTeacher | null;
 }> => {
@@ -32,7 +30,7 @@ const getUserData = async (): Promise<{
       return { errors: res.data.errors, data: null };
     }
 
-    return { isAuth: true, data: res.data.data };
+    return { data: res.data.data };
   } catch (error: unknown) {
     console.error("Error fetching user data:", error);
     throw error;
@@ -40,7 +38,7 @@ const getUserData = async (): Promise<{
 };
 
 const page = async () => {
-  const { isAuth, errors, data } = await getUserData();
+  const { errors, data } = await getUserData();
 
   if (errors) {
     <div className="w-full flex justify-center pt-10">

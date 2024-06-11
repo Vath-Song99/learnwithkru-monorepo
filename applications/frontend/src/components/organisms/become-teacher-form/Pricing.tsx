@@ -60,6 +60,7 @@ const PricingForm = ({
           Math.min(prevPage + 1, pageIndex.length - 1)
         );
       }
+      setIsFormComplete(true)
       const priceTeacher = parseInt(formData.priceTeacher);
       setdataTutor((prev: PriceProps) => ({
         ...prev,
@@ -87,37 +88,10 @@ const PricingForm = ({
     // stept 5
     const fetchData = async (teacherData: BecomeTeacherType | undefined) => {
       try {
-      
-        const newTeacher = {
-          first_name: 'John',
-          last_name: 'Doe',
-          picture: 'http://example.com/picture.jpg',
-          phone_number: "085512345",
-          subject: 'Mathematics',
-          province: 'Phnom Penh',
-          university: 'Royal University of Phnom Penh',
-          year_experience: 5,
-          type_degree: 'Bachelor',
-          bio: 'I am a passionate mathematics teacher with over 5 years of experience...',
-          motivation: 'My motivation is to inspire and educate students...',
-          date_available: {
-            day: 'Monday',
-            time: {
-              start: '09:00',
-              end: '17:00',
-            },
-            
-          },
-          price: 20,
-          certificate: 'http://example.com/certificate.jpg',
-          video: 'http://example.com/video.mp4',
-          teaching_experience: 'I have taught various levels of mathematics...'
-        };
 
 
-
-        const data = JSON.stringify(newTeacher);
-        console.log("handle like submit teacher teacherData",newTeacher)
+        const data = JSON.stringify(teacherData);
+        console.log("handle like submit teacher teacherData",teacherData)
         const response = await axios.post(
           "http://localhost:3000/v1/teachers/become-teacher",
           data,
@@ -133,7 +107,7 @@ const PricingForm = ({
           return false
         }
         console.log("teacher",response.data);
-  router.push('/dashboard-teacher')
+  router.push('/settings-profile')
       
       } catch (error) {
         console.error('Error occurred during login:', error);

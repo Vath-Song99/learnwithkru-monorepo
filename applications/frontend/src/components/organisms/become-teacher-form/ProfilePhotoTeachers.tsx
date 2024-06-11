@@ -1,7 +1,7 @@
 "use client";
 import { Button, InputForm, Typography } from "@/components/atoms";
-import { PriceTeachers, ProfilePhoto } from "@/schema/becomeTeacher";
-import { BecomeTeacherFormTypes, BecomeTeacherType } from "./@types";
+import {  ProfilePhoto } from "@/schema/becomeTeacher";
+import { BecomeTeacherFormTypes, } from "./@types";
 import Image from "next/image";
 import React, {
   ChangeEvent,
