@@ -78,7 +78,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cat <<EOF > /home/***/applications/api-gateway/build/configs/.env.production
+            cat <<EOF > /home/ubuntu/applications/api-gateway/build/configs/.env.production
             NODE_ENV=${{ secrets.NODE_ENV }}
             PORT=${{ secrets.GATEWAY_PORT }}
             COOKIE_SECRET_KEY_ONE=${{ secrets.COOKIE_SECRET_KEY_ONE }}

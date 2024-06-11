@@ -47,6 +47,6 @@ app.get("/swagger.json", (_req, res) => {
 // Register routes generated
 RegisterRoutes(app);
 
-//error handling
+//error handler
 app.use(errorHandler);
 export default app;
