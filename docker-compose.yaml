@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   rabbitmq:
     container_name: rabbitmq_container
@@ -19,14 +19,14 @@ services:
   gateway:
     container_name: gateway
     build:
-      context: ./packages/api-gateway
+      context: ./applications/api-gateway
       dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "3000:3000"
     volumes:
-      - ./packages/api-gateway/src:/app/src
-    env_file: ./packages/api-gateway/configs/.env
+      - ./applications/api-gateway/src:/app/src
+    env_file: ./applications/api-gateway/configs/.env
     environment:
       AUTH_SERVICE_URL: http://auth:3001
       TEACHER_SERVICE_URL: "http://teacher:3002"
@@ -37,14 +37,14 @@ services:
   notification:
     container_name: notification_container
     build:
-      context: ./packages/notification
+      context: ./applications/notification
       dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "3005:3005"
     volumes:
-      - ./packages/notification/src:/app/src
-    env_file: ./packages/notification/configs/.env
+      - ./applications/notification/src:/app/src
+    env_file: ./applications/notification/configs/.env
     environment:
       RABBITMQ_ENDPOINT: amqp://learnwithkru:kruIimage@rabbitmq_container:5672
     depends_on:
@@ -54,15 +54,15 @@ services:
   auth:
     container_name: auth
     build:
-      context: ./packages/auth
+      context: ./applications/auth
       dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "3001:3001"
     volumes:
-      - ./packages/auth/src:/app/src
-      - ./packages/auth/public:/app/public
-    env_file: ./packages/auth/configs/.env
+      - ./applications/auth/src:/app/src
+      - ./applications/auth/public:/app/public
+    env_file: ./applications/auth/configs/.env
     environment:
       USER_SERVICE: http://user:3004
       TEACHER_SERVICE: http://teacher:3002
@@ -75,44 +75,44 @@ services:
   user:
     container_name: user
     build:
-      context: ./packages/user
+      context: ./applications/user
       dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "3004:3004"
     volumes:
-      - ./packages/user/src:/app/src
-      - ./packages/user/public:/app/public
-    env_file: ./packages/user/configs/.env
+      - ./applications/user/src:/app/src
+      - ./applications/user/public:/app/public
+    env_file: ./applications/user/configs/.env
     environment:
       AUTH_SERVICE_GET: http://auth:3001
 
   student:
     container_name: student
     build:
-      context: ./packages/student
+      context: ./applications/student
       dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "3003:3003"
     volumes:
-      - ./packages/student/src:/app/src
-      - ./packages/student/public:/app/public
-    env_file: ./packages/student/configs/.env
+      - ./applications/student/src:/app/src
+      - ./applications/student/public:/app/public
+    env_file: ./applications/student/configs/.env
     environment:
       USER_SERVICE: http://user:3004
 
   teacher:
     container_name: teacher
     build:
-      context: ./packages/teacher
+      context: ./applications/teacher
       dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "3002:3002"
     volumes:
-      - ./packages/teacher/src:/app/src
-      - ./packages/teacher/public:/app/public
-    env_file: ./packages/teacher/configs/.env
+      - ./applications/teacher/src:/app/src
+      - ./applications/teacher/public:/app/public
+    env_file: ./applications/teacher/configs/.env
     environment:
       RABBITMQ_ENDPOINT: amqp://learnwithkru:kruIimage@rabbitmq_container:5672

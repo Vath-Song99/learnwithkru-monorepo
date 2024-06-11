@@ -5,11 +5,11 @@ on:
     branches:
       - main
     paths:
-      - "packages/student/**"
+      - "applications/student/**"
 
 defaults:
   run:
-    working-directory: packages/student
+    working-directory: applications/student
 
 jobs:
   build:
@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: packages/student/build
+          path: applications/student/build
 
   deploy:
     needs: build
@@ -43,7 +43,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
-          path: packages/student/build
+          path: applications/student/build
 
       - name: Add SSH Key
         uses: webfactory/ssh-agent@v0.5.3
@@ -58,8 +58,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            mkdir -p /home/ubuntu/apps
-            chown ubuntu:ubuntu /home/ubuntu/apps
+            chown ubuntu:ubuntu /home/ubuntu
 
       - name: Copy files to EC2
         uses: appleboy/scp-action@master
@@ -68,8 +67,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "packages/student/build/*"
-          target: "/home/ubuntu/apps/"
+          source: "applications/student/build/*"
+          target: "/home/ubuntu/"
 
       - name: Create .env file
         uses: appleboy/ssh-action@master
@@ -79,9 +78,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cat <<EOF > /home/***/apps/packages/student/build/configs/.env.prod
+            cat <<EOF > /home/ubuntu/applications/student/build/configs/.env.production
             NODE_ENV=${{ secrets.NODE_ENV }}
-            PORT=${{ secrets.PORT }}
+            PORT=${{ secrets.STUDENT_PORT }}
             CLIENT_URL=${{ secrets.CLIENT_URL }}
             LOG_LEVEL=${{ secrets.LOG_LEVEL }}
             RABBITMQ_ENDPOINT=${{ secrets.RABBITMQ_ENDPOINT }}
@@ -116,7 +115,7 @@ jobs:
               exit 1
             fi
 
-            cd /home/ubuntu/apps/packages/student/build
+            cd /home/ubuntu/applications/student/build
             echo "Checking directory contents..."
             ls -alh # Lists all files in the current directory
 
