@@ -9,7 +9,13 @@ const base_custom_error_1 = require("../error/base-custom-error");
 function createConfig(configPath) {
     dotenv_1.default.config({ path: configPath });
     // Validate essential configuration
-    const requiredConfig = ["NODE_ENV", "PORT", "MONGODB_URL", "LOG_LEVEL", "USER_SERVICE"];
+    const requiredConfig = [
+        "NODE_ENV",
+        "PORT",
+        "MONGODB_URL",
+        "LOG_LEVEL",
+        "USER_SERVICE",
+    ];
     const missingConfig = requiredConfig.filter((key) => !process.env[key]);
     if (missingConfig.length > 0) {
         throw new base_custom_error_1.ApiError(`Missing required environment variables: ${missingConfig.join(", ")}`);
@@ -24,13 +30,13 @@ function createConfig(configPath) {
         userService: process.env.USER_SERVICE,
         cookieSecretKeyOne: process.env.COOKIE_SECRET_KEY_ONE,
         cookieSecretKeyTwo: process.env.COOKIE_SECRET_KEY_TWO,
-        jwtExpiresIn: process.env.JWT_EXPIRES_IN
+        jwtExpiresIn: process.env.JWT_EXPIRES_IN,
     };
 }
-const getConfig = (currentEnv = 'development') => {
+const getConfig = (currentEnv = "production") => {
     const configPath = currentEnv === "development"
         ? path_1.default.join(__dirname, `../../configs/.env`)
-        : path_1.default.join(__dirname, `../../configs/.env.${currentEnv}`);
+        : path_1.default.join(__dirname, `../../configs/.env.production`);
     return createConfig(configPath);
 };
 exports.default = getConfig;

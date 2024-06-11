@@ -31,7 +31,7 @@ function createConfig(configPath) {
         jwtExpiresIn: process.env.JWT_EXPIRES_IN,
     };
 }
-const getConfig = (currentEnv = "development") => {
+const getConfig = (currentEnv = "production") => {
     const configPath = currentEnv === "development"
         ? path_1.default.join(__dirname, `../../configs/.env`)
         : path_1.default.join(__dirname, `../../configs/.env.${currentEnv}`);
