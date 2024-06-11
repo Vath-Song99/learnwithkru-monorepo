@@ -9,7 +9,6 @@ import Image from "next/image";
 import { Button, InputForm } from "@/components/atoms";
 import { createClassSchema } from "@/schema/createClassSchema";
 import * as Yup from "yup";
-import axios from "axios";
 
 interface FormData {
   class_name: string;

@@ -1,5 +1,7 @@
 import { cookies } from "next/headers";
 
+
+// get cookie string
 export const getCookieString = () => {
   const cookiesStore = cookies();
   const _ga = cookiesStore.get("_ga")?.value;

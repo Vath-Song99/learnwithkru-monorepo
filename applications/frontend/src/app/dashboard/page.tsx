@@ -1,10 +1,7 @@
 "use client";
 import { Dashboard } from "@/components/templates/Dashboard";
-import { useState } from "react";
 
 const Page = () => {
-  const [isShowModal, setIsShowModal] = useState<boolean>(false);
-  const handleChange = (value?: string) => {};
 
   return (
     <div className="max-w-full grid">

@@ -45,16 +45,12 @@ export default {
       const hostedZone = HostedZone.fromLookup(stack, "HostedZone", {
         domainName: ROOT_DOMAIN_NAME,
       });
-      console.log(stack.stage, hostedZone);
       // CREATE A SSL CERTIFICATE LINKED TO THE HOSTED ZONE
       const certificate = new cdk.aws_certificatemanager.Certificate(
         stack,
         "Certificate",
         {
-          domainName:
-            stack.stage === "prod"
-              ? DOMAIN_NAME
-              : `${stack.stage}.${DOMAIN_NAME}`,
+          domainName: DOMAIN_NAME,
           validation:
             cdk.aws_certificatemanager.CertificateValidation.fromDns(
               hostedZone
@@ -76,21 +72,15 @@ export default {
 
       // NEXTJS SITE
       const site = new NextjsSite(stack, "site", {
-        bind: [bucket],
         customDomain: {
-          domainName:
-            stack.stage === "prod"
-              ? DOMAIN_NAME
-              : `${stack.stage}.${DOMAIN_NAME}`,
-          domainAlias:
-            stack.stage === "prod"
-              ? `www.${DOMAIN_NAME}`
-              : `www.${stack.stage}.${DOMAIN_NAME}`,
+          domainName: DOMAIN_NAME,
+          domainAlias : `www.${DOMAIN_NAME}`,
           cdk: {
             hostedZone,
             certificate,
           },
         },
+        bind: [bucket],
       });
 
       stack.addOutputs({

@@ -9,7 +9,6 @@ import React, {
   useState,
 } from "react";
 import { ComfirmPassword } from "@/schema/forgetPasswordSchema";
-import axios from "axios";
 const DEFAULT_FORM_VALUE = {
   password: "",
   re_password: "",

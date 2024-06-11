@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const HomepageSlider = ({ className }: { className?: string }) => {
   return (
-    <div className="w-full  bg-[#252525] relative">
+    <div className={`w-full  bg-[#252525] relative ${className}`}>
       <Image
         src={"/Benner/teacherwithstudent.jpg"}
         alt="Benner"

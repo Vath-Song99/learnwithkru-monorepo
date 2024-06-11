@@ -29,14 +29,7 @@ const dataExperience = {
   ],
 };
 
-const dataDegree = {
-  dataDegree: [
-    { id: "12444", name: "1" },
-    { id: "12434", numberData: "2" },
-    { id: "12433344", numberData: "3" },
-    { id: "133344", numberData: "3" },
-  ],
-};
+
 
 const BecomeTeacherForm = ({
   description,
@@ -47,7 +40,6 @@ const BecomeTeacherForm = ({
   setdataTutor,
 }: BecomeTeacherFormTypes) => {
   const [showForm, setShowForm] = useState(false);
-  const [isFormComplete, setIsFormComplete] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] = useState<BecomeTeacherData>(DEFAULT_FORM_VALUE);
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -81,11 +73,6 @@ const BecomeTeacherForm = ({
     }
   };
  
-  const nextPage = () => {
-    if (!isFormComplete) {
-      return;
-    }
-  };
 
   const handleBack = () => {
     if (currentPage > 0) {
@@ -100,7 +87,6 @@ const BecomeTeacherForm = ({
 
     try {
    await teachersExperience.validate(formData, { abortEarly: false });
-      setIsFormComplete(true);
       if (pageIndex !== undefined) {
         setCurrentPage((prevPage) => Math.min(prevPage + 1, pageIndex.length - 1));
       }
@@ -257,8 +243,8 @@ const BecomeTeacherForm = ({
                       <option value="0" selected>
                         Year of experience
                       </option>
-                      {dataExperience.dataYear.map((dataYear) => (
-                        <option  value={dataYear.numberData}>
+                      {dataExperience.dataYear.map((dataYear, index: number) => (
+                        <option key={index}  value={dataYear.numberData}>
                           {dataYear.numberData}
                         </option>
                       ))}
