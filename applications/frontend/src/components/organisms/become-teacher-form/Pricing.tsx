@@ -60,13 +60,13 @@ const PricingForm = ({
           Math.min(prevPage + 1, pageIndex.length - 1)
         );
       }
-      setIsFormComplete(true)
+      setIsFormComplete(true);
       const priceTeacher = parseInt(formData.priceTeacher);
       setdataTutor((prev: PriceProps) => ({
         ...prev,
         priceTeacher: priceTeacher,
       }));
-      addLoginUsers(dataTutor)
+      addTeacher(dataTutor);
       console.log("data submit", dataTutor);
       setLocalStorageTeacher("priceTeacher", formData);
       setErrors({});
@@ -83,15 +83,14 @@ const PricingForm = ({
     }
   };
 
-
-  const addLoginUsers = (teacher: BecomeTeacherType | undefined) => {
+  const addTeacher = (teacher: BecomeTeacherType | undefined) => {
     // stept 5
     const fetchData = async (teacherData: BecomeTeacherType | undefined) => {
       try {
-
+       
 
         const data = JSON.stringify(teacherData);
-        console.log("handle like submit teacher teacherData",teacherData)
+        console.log("handle like submit teacher teacherData", teacherData);
         const response = await axios.post(
           "http://localhost:3000/v1/teachers/become-teacher",
           data,
@@ -102,18 +101,17 @@ const PricingForm = ({
             withCredentials: true,
           }
         );
-        if(response.data.errors){
-          console.log("An error accor: teachers ",response.data.errors)
-          return false
+        if (response.data.errors) {
+          console.log("An error accor: teachers ", response.data.errors);
+          return false;
         }
-        console.log("teacher",response.data);
-  router.push('/settings-profile')
-      
+        console.log("teacher", response.data);
+        router.push("/settings-profile");
       } catch (error) {
-        console.error('Error occurred during login:', error);
-    if (axios.isAxiosError(error)) {
-      console.error('Axios error response: teachers', error.response);
-    }
+        console.error("Error occurred during login:", error);
+        if (axios.isAxiosError(error)) {
+          console.error("Axios error response: teachers", error.response);
+        }
       }
     };
     fetchData(teacher);
@@ -124,7 +122,7 @@ const PricingForm = ({
       return;
     }
   };
-  nextPage()
+  nextPage();
   const handleBack = () => {
     if (currentPage > 0) {
       setCurrentPage((prevPage) => prevPage - 1);
@@ -195,10 +193,99 @@ export { PricingForm };
 
 
 
-// {
-//   "success": false,
-//   "errors": {
-//       "message": "picture is Required,phone_number is Invalid,bio is String must contain at most 200 character(s),motivation is String must contain at most 200 character(s),date_available is Expected object, received array,price is Required,teaching_experience is String must contain at most 150 character(s)",
-//       "code": 422
-//   }
-// }
+[
+  {
+      "day": "monday",
+      "time": [
+          {
+              "start": "9:00",
+              "end": "10:00"
+          },
+          {
+              "start": "9:00",
+              "end": "10:00"
+          }
+      ]
+  },
+  {
+      "day": "tuesday",
+      "time": [
+          {
+              "start": "9:00",
+              "end": "10:00"
+          }
+      ]
+  },
+  {
+      "day": "wednesday",
+      "time": [
+          {
+              "start": "9:00",
+              "end": "10:00"
+          }
+      ]
+  },
+  {
+      "day": "thursday",
+      "time": [
+          {
+              "start": "9:00",
+              "end": "10:00"
+          }
+      ]
+  },
+  {
+      "day": "friday",
+      "time": [
+          {
+              "start": "9:00",
+              "end": "10:00"
+          },
+          {
+              "start": "9:00",
+              "end": "10:00"
+          },
+          {
+              "start": "9:00",
+              "end": "10:00"
+          },
+          {
+              "start": "9:00",
+              "end": "10:00"
+          }
+      ]
+  },
+  {
+      "day": "saturday",
+      "time": [
+          {
+              "start": "16:00",
+              "end": "17:00"
+          },
+          {
+              "start": "13:00",
+              "end": "14:00"
+          },
+          {
+              "start": "13:00",
+              "end": "14:00"
+          }
+      ]
+  },
+  {
+      "day": "sunday",
+      "time": [
+          {
+              "start": "10:00",
+              "end": "11:00"
+          },
+          {
+              "start": "7:00",
+              "end": "8:00"
+          }
+      ]
+  }
+]
+
+
+
