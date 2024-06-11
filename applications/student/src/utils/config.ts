@@ -1,6 +1,7 @@
 import path from "path";
 import dotenv from "dotenv";
 import { ApiError } from "../error/base-custom-error";
+
 function createConfig(configPath: string) {
   dotenv.config({ path: configPath });
 
@@ -11,6 +12,10 @@ function createConfig(configPath: string) {
     "MONGODB_URL",
     "LOG_LEVEL",
     "USER_SERVICE",
+    "API_GATEWAY",
+    "COOKIE_SECRET_KEY_ONE",
+    "COOKIE_SECRET_KEY_TWO",
+    "JWT_EXPIRES_IN",
   ];
   const missingConfig = requiredConfig.filter((key) => !process.env[key]);
 
@@ -35,10 +40,12 @@ function createConfig(configPath: string) {
 }
 
 const getConfig = (currentEnv: string = "production") => {
-  const configPath =
+  const configPath = path.join(
+    __dirname,
     currentEnv === "development"
-      ? path.join(__dirname, `../../configs/.env`)
-      : path.join(__dirname, `../../configs/.env.production`);
+      ? "../../configs/.env"
+      : "../../configs/.env.production"
+  );
   return createConfig(configPath);
 };
 

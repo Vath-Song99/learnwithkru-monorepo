@@ -15,6 +15,10 @@ function createConfig(configPath) {
         "MONGODB_URL",
         "LOG_LEVEL",
         "USER_SERVICE",
+        "API_GATEWAY",
+        "COOKIE_SECRET_KEY_ONE",
+        "COOKIE_SECRET_KEY_TWO",
+        "JWT_EXPIRES_IN",
     ];
     const missingConfig = requiredConfig.filter((key) => !process.env[key]);
     if (missingConfig.length > 0) {
@@ -34,9 +38,9 @@ function createConfig(configPath) {
     };
 }
 const getConfig = (currentEnv = "production") => {
-    const configPath = currentEnv === "development"
-        ? path_1.default.join(__dirname, `../../configs/.env`)
-        : path_1.default.join(__dirname, `../../configs/.env.production`);
+    const configPath = path_1.default.join(__dirname, currentEnv === "development"
+        ? "../../configs/.env"
+        : "../../configs/.env.production");
     return createConfig(configPath);
 };
 exports.default = getConfig;

@@ -15,6 +15,7 @@ function createConfig(configPath) {
         "MONGODB_URL",
         "LOG_LEVEL",
         "AUTH_SERVICE_GET",
+        "API_GATEWAY",
     ];
     const missingConfig = requiredConfig.filter((key) => !process.env[key]);
     if (missingConfig.length > 0) {
@@ -28,7 +29,6 @@ function createConfig(configPath) {
         logLevel: process.env.LOG_LEVEL,
         apiGateway: process.env.API_GATEWAY,
         authService: process.env.AUTH_SERVICE_GET,
-        jwtExpiresIn: process.env.JWT_EXPIRES_IN,
     };
 }
 const getConfig = (currentEnv = "production") => {
