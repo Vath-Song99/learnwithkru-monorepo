@@ -63,4 +63,6 @@ async function run() {
   }
 }
 
+
+// start the server
 run();

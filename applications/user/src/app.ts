@@ -43,7 +43,7 @@ app.get("/swagger.json", (_req, res) => {
 // Api router
 RegisterRoutes(app);
 
-//error handler middleware
+//error handler
 app.use(errorHandler);
 
 export default app;

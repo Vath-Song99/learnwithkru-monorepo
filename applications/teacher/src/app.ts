@@ -13,7 +13,7 @@ const app: Application = express();
 const currentEnv = process.env.NODE_ENV || "development";
 const config = getConfig(currentEnv);
 
-//global middleware
+//global middlewares
 app.set("trust proxy", 1);
 app.use(
   cors({

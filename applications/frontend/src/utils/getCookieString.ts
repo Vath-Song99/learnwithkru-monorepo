@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 
-
 // get cookie string
 export const getCookieString = () => {
   const cookiesStore = cookies();
@@ -10,7 +9,7 @@ export const getCookieString = () => {
   const sessionSig = cookiesStore.get("session.sig")?.value;
   if (!persistent && !session && !sessionSig) {
     return { isAuth: false, data: null };
-  } else if (persistent || session && sessionSig) {
+  } else if (persistent || (session && sessionSig)) {
     return `_ga=${_ga};persistent=${persistent};session=${session};session.sig=${sessionSig}`;
   }
   return;
