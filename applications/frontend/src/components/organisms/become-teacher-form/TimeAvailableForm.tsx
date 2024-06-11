@@ -71,15 +71,14 @@ interface Day {
 const TimeAvailableForm = ({
   title,
   description,
-  inputForms,
-  buttonTitle,
   setTimeAvailable,
-  setTimeDescription,
+  setTimeDescription, 
   setdataTutor,
   currentPage,
   setCurrentPage,
   pageIndex,
 }: TimeAvailableFormTypes) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const initialWeeksState: WeekData[] = [
     {
       mondayData: [{ start: "9:00", end: "10:00" }],
@@ -256,7 +255,7 @@ const TimeAvailableForm = ({
     if (storedDaysOfWeek) {
       setDaysOfWeek(storedDaysOfWeek);
     }
-  }, []);
+  }, [initialWeeksState]);
   return (
     <div className="w-auto max-w-[200px] sm:max-w-[400px] flex flex-col">
       <div className="flex justify-center">
@@ -319,7 +318,7 @@ const TimeAvailableForm = ({
                   <div className="flex flex-col">
                     {daysOfWeek.monday && (
                       <>
-                        {weekItem.mondayData.map((dataItem, index) => (
+                        {weekItem.mondayData.map((_dataItem, index) => (
                           <div key={index}>
                             <div className="flex flex-col sm:justify-between py-2">
                               <TimeslotSelector
@@ -393,7 +392,7 @@ const TimeAvailableForm = ({
                   <div className="flex flex-col">
                     {daysOfWeek.tuesday && (
                       <>
-                        {weekItem.tuesdayData.map((item, index) => (
+                        {weekItem.tuesdayData.map((_item, index) => (
                           <div key={index}>
                             <div className="flex flex-col sm:justify-between py-2">
                               <TimeslotSelector
@@ -471,7 +470,7 @@ const TimeAvailableForm = ({
                   <div className="flex flex-col">
                     {daysOfWeek.wednesday && (
                       <>
-                        {weekItem.wednesdayData.map((item, index) => (
+                        {weekItem.wednesdayData.map((_item, index) => (
                           <div key={index}>
                             <div className="flex flex-col sm:justify-between py-2">
                               <TimeslotSelector
@@ -546,7 +545,7 @@ const TimeAvailableForm = ({
                   <div className="flex flex-col">
                     {daysOfWeek.thursday && (
                       <>
-                        {weekItem.thursdayData.map((item, index) => (
+                        {weekItem.thursdayData.map((_item, index) => (
                           <div key={index}>
                             <div className="flex flex-col sm:justify-between py-2">
                               <TimeslotSelector
@@ -621,7 +620,7 @@ const TimeAvailableForm = ({
                   <div className="flex flex-col">
                     {daysOfWeek.friday && (
                       <>
-                        {weekItem.fridayData.map((item, index) => (
+                        {weekItem.fridayData.map((_item, index) => (
                           <div key={index}>
                             <div className="flex flex-col sm:justify-between py-2">
                               <TimeslotSelector
@@ -692,7 +691,7 @@ const TimeAvailableForm = ({
                   <div className="flex flex-col">
                     {daysOfWeek.saturday && (
                       <>
-                        {weekItem.saturdayData.map((dataItem, index) => (
+                        {weekItem.saturdayData.map((_dataItem, index) => (
                           <div key={index}>
                             <div className="flex flex-col sm:justify-between py-2">
                               <TimeslotSelector
@@ -767,7 +766,7 @@ const TimeAvailableForm = ({
                   <div className="flex flex-col">
                     {daysOfWeek.sunday && (
                       <>
-                        {weekItem.sundayData.map((dataItem, index) => (
+                        {weekItem.sundayData.map((_dataItem, index) => (
                           <div key={index}>
                             <div className="flex flex-col sm:justify-between py-2">
                               <TimeslotSelector

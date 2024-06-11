@@ -1,6 +1,6 @@
 "use client";
 import { VerifyEmailToken } from "@/components";
-import React from "react";
+import React, { Suspense } from "react";
 
 const Page = () => {
  
@@ -14,4 +14,10 @@ const Page = () => {
   );
 };
 
-export default Page;
+const SuspenseWrapper = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <Page />
+  </Suspense>
+);
+
+export default SuspenseWrapper;

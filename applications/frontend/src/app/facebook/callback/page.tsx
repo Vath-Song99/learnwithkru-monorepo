@@ -1,17 +1,20 @@
 "use client";
+
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 const CallbackRedirect = () => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(true); // Initialize isLoading to true
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const searchParams = useSearchParams();
+
   useEffect(() => {
     const code = searchParams.get("code");
     if (!code) {
       throw new Error("No authorization code found");
     }
+
     const exchangeCodeForToken = async (code: string) => {
       try {
         const res = await axios.get(
@@ -46,4 +49,10 @@ const CallbackRedirect = () => {
   return null; // Render nothing when not loading
 };
 
-export default CallbackRedirect;
+const SuspenseWrapper = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <CallbackRedirect />
+  </Suspense>
+);
+
+export default SuspenseWrapper;

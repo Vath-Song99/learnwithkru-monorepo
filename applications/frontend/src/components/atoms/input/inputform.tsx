@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 
 interface InputProps {
   className?: string;
@@ -164,7 +164,6 @@ const InputForm: React.FC<InputProps> = ({
 
   const setClassName = ` ${setBorderSize}  ${setBorderColor} ${setPaddingX} ${setPaddingY} ${setBorderRadius}  ${className}`;
 
-  const [text, setText] = useState("")
 
   return (
     <input

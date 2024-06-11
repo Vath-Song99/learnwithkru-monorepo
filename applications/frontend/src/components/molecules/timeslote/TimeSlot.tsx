@@ -18,7 +18,6 @@ const TimeslotSelector: React.FC<TimeslotSelectorProps> = ({
   day,
   handleTimeslot,
   dataTime,
-  setDataTime,
 }) => (
   <div className="flex flex-col sm:flex-row">
     <div className="flex flex-col">

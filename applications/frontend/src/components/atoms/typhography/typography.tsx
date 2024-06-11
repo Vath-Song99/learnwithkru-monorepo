@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, ReactNode, useState } from "react";
+import React, {  ReactNode } from "react";
 
 interface TypographyProps {
   children: ReactNode;

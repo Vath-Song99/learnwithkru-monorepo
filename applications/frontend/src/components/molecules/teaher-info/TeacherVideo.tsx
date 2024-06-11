@@ -1,5 +1,4 @@
 import { Typography } from "@/components/atoms";
-import Image from "next/image";
 import React from "react";
 import { TeacherVideoTypes } from "./@types";
 

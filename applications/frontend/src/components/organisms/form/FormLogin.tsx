@@ -8,7 +8,7 @@ import React, {
   FormEventHandler,
   useState,
 } from "react";
-import { UsersFormLogin, UsersLogin } from "@/@types/users/users";
+import { UsersFormLogin } from "@/@types/users/users";
 import axios from "axios";
 import { setLocalStorage } from "@/utils/localStorage";
 import Link from "next/link";

@@ -39,7 +39,6 @@ const DescriptionForm = ({
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] =
     useState<TeachersdescriptionProps>(DEFAULT_FORM_VALUE);
-  const [isFormComplete, setIsFormComplete] = useState(false);
 
   const onChangeInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -66,7 +65,6 @@ const DescriptionForm = ({
     e.preventDefault();
     try {
       await DescriptionTeachers.validate(formData, { abortEarly: false });
-      setIsFormComplete(true);
       setdataTutor((prev: BecomeTeacherData) => ({ ...prev, ...formData }));
       if (pageIndex !== undefined) {
         setCurrentPage((prevPage) =>

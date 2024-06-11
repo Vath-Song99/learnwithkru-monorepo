@@ -7,42 +7,16 @@ import {
   validationSchema,
   validationTeacher,
 } from "@/schema/editProfileSchema";
-import Link from "next/link";
 
-interface MenuItemProps {
-  itemName: string;
-  active: boolean;
-  handleClick: (itemName: string) => void;
-}
 
-const MenuItem: React.FC<MenuItemProps> = ({
-  itemName,
-  active,
-  handleClick,
-}) => {
-  return (
-    <Link
-      onClick={() => handleClick(itemName)}
-      className={`cursor-pointer text-[20px] sm:text-[20px] md:text-[16px] lg:text-[20px] xl:text-[20px] ${
-        active ? "border-b-2 border-[#7B2CBF] text-[#7B2CBF]" : ""
-      }`}
-      style={{ padding: "15px" }}
-      href={""}
-    >
-      {itemName}
-    </Link>
-  );
-};
+
 
 const SettingsProfile = () => {
-  const [selectedItem, setSelectedItem] = useState<string>("User Info");
-  const handleItemClick = (item: string) => {
-    setSelectedItem(item);
-  };
+
 
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [previewURL, setPreviewURL] = useState<string | null>(null);
-  const [users, setUsers] = useState("teachers");
+  const [users] = useState("teachers");
 
   const [formValues, setFormValues] = useState({
     // Corrected state variable name from "form" to "formValues"
@@ -59,7 +33,7 @@ const SettingsProfile = () => {
       ? event.currentTarget.files[0]
       : null;
     if (imageFile) {
-      const imageUrl = URL.createObjectURL(imageFile);
+       URL.createObjectURL(imageFile);
       if (imageFile.size > 1024 * 1024) {
         // 1MB limit
         setErrors((prevErrors) => ({
@@ -137,7 +111,7 @@ const SettingsProfile = () => {
       ? event.currentTarget.files[0]
       : null;
     if (imageFile) {
-      const imageUrl = URL.createObjectURL(imageFile);
+       URL.createObjectURL(imageFile);
       if (imageFile.size > 1024 * 1024) {
         // 1MB limit
         setErrors((prevErrors) => ({
@@ -196,7 +170,7 @@ const SettingsProfile = () => {
                     />
                   ) : (
                     previewURL && (
-                      <img
+                      <Image
                         src={previewURL}
                         alt="Preview"
                         className=" w-[160px] h-[160px] flex justify-start"
@@ -336,7 +310,7 @@ const SettingsProfile = () => {
                     />
                   ) : (
                     previewURL && (
-                      <img
+                      <Image
                         src={previewURL}
                         alt="Preview"
                         className=" w-[160px] h-[160px] flex justify-start"

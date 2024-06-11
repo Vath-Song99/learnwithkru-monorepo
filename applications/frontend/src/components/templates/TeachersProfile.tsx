@@ -25,6 +25,7 @@ const TeachersProfile = ({ teacherId }: { teacherId: string }) => {
     };
 
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleRequestTeacher = async () => {

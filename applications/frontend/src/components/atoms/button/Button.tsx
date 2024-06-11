@@ -29,7 +29,6 @@ export const Button: FC<ButtonProps> = ({
   fontSize = "md",
   hover,
   onClick,
-  type
 }) => {
   const getColorSchemeClass = (schemeParam: string) => {
     switch (schemeParam) {
