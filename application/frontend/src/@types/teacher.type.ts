@@ -1,3 +1,4 @@
+
 export interface ITeacher {
   _id: string;
   first_name: string;
@@ -11,7 +12,14 @@ export interface ITeacher {
   type_degree: string;
   bio: string;
   motivation: string;
-  date_available: object;
+  date_available: {
+    day: string;
+
+    time: {
+      start: string;
+      end: string;
+    };
+  };
   price: number;
   video: string;
   teaching_experience: string;

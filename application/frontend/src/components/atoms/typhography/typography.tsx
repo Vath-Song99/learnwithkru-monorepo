@@ -45,7 +45,7 @@ const Typography: React.FC<TypographyProps> = ({
       case "sm":
         return "text-sm";
       case "md":
-        return "text-[20px]";
+        return "text-[18px]";
       case "lg":
         return "text-[25px]";
       case "xl":
