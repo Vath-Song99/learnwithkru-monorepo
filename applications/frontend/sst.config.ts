@@ -59,16 +59,8 @@ export default {
       );
 
       // SPECIFY THE NAME OF BUCKET
-      const bucket = new Bucket(stack, "public", {
-        cdk: {
-          bucket: {
-            bucketName:
-              stack.stage === "dev"
-                ? "learnwithkru-website"
-                : `${stack.stage}-learnwithkru-website`,
-          },
-        },
-      });
+      // Create the S3 bucket
+      const bucket = new Bucket(stack, "PublicBucket");
 
       // NEXTJS SITE
       const site = new NextjsSite(stack, "site", {
