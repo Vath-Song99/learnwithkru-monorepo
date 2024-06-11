@@ -7,6 +7,7 @@ interface InputProps {
   type?: string;
   placeholder?: string;
   value?: string | number;
+  defaultValue?: string
   name?: string;
   borderColor?:
   | "phonenumberSize"
@@ -53,6 +54,7 @@ const InputForm: React.FC<InputProps> = ({
   name,
   ref,
   onChange,
+  defaultValue,
   accept,
   checked,
   onKeyEnter
@@ -171,6 +173,7 @@ const InputForm: React.FC<InputProps> = ({
       type={type}
       value={value}
       name={name}
+      defaultValue={defaultValue}
       ref={ref}
       accept={accept}
       placeholder={placeholder}

@@ -1,3 +1,5 @@
+import { IUser } from "@/@types/user";
+import { IUserBecomeTeacher } from "@/app/become-teacher/page";
 import { Dispatch, SetStateAction } from "react";
 
 interface InputFormsTypes {
@@ -42,6 +44,8 @@ export interface BecomeTeacherFormTypes {
   setCurrentPage: Dispatch<SetStateAction<number>>;
   setdataTutor?:  any
   dataTutor: BecomeTeacherType | undefined;
+  dataUser:  IUserBecomeTeacher | null;
+
 }
 
 export interface TimeAvailableFormTypes extends BecomeTeacherFormTypes {
@@ -54,7 +58,8 @@ export interface AboutFormProps {
 last_name: string;
 subject: string;
 phone_number: string;
-province: string
+province: string;
+email: string;
 }
 
 

@@ -1,2 +1,2 @@
-import {IconStar,IconStarNoBorder} from "./IconStar";
-export {IconStar,IconStarNoBorder}
+import {IconStar,IconStarNoBorder, ProfileIcon, StudentIcon, TeacherIcon} from "./IconStar";
+export {IconStar,IconStarNoBorder,TeacherIcon,StudentIcon,ProfileIcon}

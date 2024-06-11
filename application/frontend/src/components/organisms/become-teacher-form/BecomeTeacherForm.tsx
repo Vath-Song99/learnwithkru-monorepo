@@ -283,7 +283,9 @@ const BecomeTeacherForm = ({
                       <option value="0" selected>
                         Type of Degree
                       </option>
-                      <option value="one">one</option>
+                      <option value="Bachelor's degree">Bachelor's degree</option>
+                      <option value="Bachelor's degree">Bachelor's degree</option>
+                      <option value="Bachelor's degree">Bachelor's degree</option>
                     </Select>
                     {errors.type_degree && (
                       <div className="flex justify-start">
@@ -325,7 +327,7 @@ const BecomeTeacherForm = ({
                             borderColor="file"
                             name="certificate"
                             ref={inputFileRef}
-                         accept="image/*"
+                           accept=".pdf, .jpg, .jpeg"
                             onChange={handleImageChange}
                             className="pl-3 cursor-pointer file:cursor-pointer outline-none text-stone-400 file:text-sm file:text-stone-400 file:bg-none file:border-0 text-xs"
                           />

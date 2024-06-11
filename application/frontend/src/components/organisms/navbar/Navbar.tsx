@@ -1,5 +1,5 @@
 "use client";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -139,12 +139,24 @@ const Navbar: React.FC<NavbarProps> = ({
           <Link className="text-[#455445] text-sm hover:underline" href={"/"}>
             Home
           </Link>
-          <Link
-            className="text-[#455445] text-sm hover:underline"
-            href={"/become-teacher"}
-          >
-            Become a teacher
-          </Link>
+
+
+          {authState.isAuth ? (
+            <Link
+              className="text-[#455445] text-sm hover:underline"
+              href={"/become-teacher"}
+            >
+              Become a teacher
+            </Link>
+          ) : (
+            <Link
+              className="text-[#455445] text-sm hover:underline"
+              href={"signup"}
+            >
+              Become a teacher
+            </Link>
+          )}
+
           <Link
             className="text-[#455445] text-sm hover:underline"
             href={"/teachers"}
@@ -171,7 +183,7 @@ const Navbar: React.FC<NavbarProps> = ({
             <Notification className="hidden lg:inline lg:ml-7 lg:mt-2"></Notification>
             <ProfileDropDown
               icon={
-                authState.user?.picture  === null ? (
+                authState.user?.picture === null ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

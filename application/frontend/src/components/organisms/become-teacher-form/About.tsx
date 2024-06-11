@@ -59,7 +59,8 @@ const DEFAULT_FORM_VALUE = {
   last_name: '',
   subject: '',
   phone_number: '',
-  province: ''
+  province: '',
+  email: '',
 };
 
 const AboutForm = ({
@@ -69,9 +70,14 @@ const AboutForm = ({
   pageIndex,
   setCurrentPage,
   setdataTutor,
+  dataUser
 }: BecomeTeacherFormTypes) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [formData, setFormData] = useState<AboutFormProps>(DEFAULT_FORM_VALUE);
+  const [formData, setFormData] = useState<AboutFormProps>(
+    DEFAULT_FORM_VALUE
+  );
+
+  console.log("formdata handle",dataUser?.firstname)
   const [isFormComplete, setIsFormComplete] = useState(false);
   const onChangeInput = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
@@ -82,6 +88,7 @@ const AboutForm = ({
       setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     }
   };
+
 
   const onChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -106,6 +113,7 @@ const AboutForm = ({
     e.preventDefault();
 
     try {
+     
       await becomeTeacher.validate(formData, { abortEarly: false });
       setIsFormComplete(true);
       setdataTutor((prev: any) => {
@@ -134,12 +142,25 @@ const AboutForm = ({
       }
     }
   };
-// Retrieve data from localStorage when the component mounts
- // Check if the users data is in local storage for the first render
- useEffect(() => {
-  const userStorage = getLocalStorageTeacher("aboutTeacher") ? getLocalStorageTeacher("aboutTeacher") : [];
-  setFormData(userStorage);
-}, []);
+ 
+
+  useEffect(() => {
+    const userStorage = getLocalStorageTeacher("aboutTeacher");
+    
+    if (userStorage) {
+      setFormData(userStorage);
+    } else if (dataUser) {
+      setFormData({
+        first_name: dataUser.firstname || '',
+        last_name: dataUser.lastname || '',
+        email: dataUser.email || '',
+        subject: '',
+        phone_number: '',
+        province: ''
+      });
+    }
+  }, [dataUser]);
+
 
   return (
     <div className="h-auto w-[300px] sm:w-[480px] md:w-[500px] lg:w-[500px] " id={`${id}`}>
@@ -150,14 +171,18 @@ const AboutForm = ({
         {description}
       </Typography>
       <form action="" onSubmit={handleSubmit} className="">
+        {dataUser && (
         <div className="flex flex-col  gap-4 ">
+        
           <div className="flex flex-col sm:flex-row sm:justify-between sm:gap-x-[10px]">
             <div className="flex flex-col w-full">
+           
               <InputForm
                 type="text"
                 placeholder="First name"
                 borderRadius="md"
                 borderSize="md"
+                defaultValue={dataUser.firstname}
                 className="border border-purple-500  outline-none text-xs  w-full sm:w-[240px]"
                 name="first_name"
                 value={formData.first_name}
@@ -179,6 +204,7 @@ const AboutForm = ({
                 borderSize="md"
                 className="border border-purple-500  w-full sm:w-[240px] outline-none text-xs"
                 name="last_name"
+                defaultValue={dataUser.lastname}
                 value={formData.last_name}
                 onChange={onChangeInput}
               />
@@ -256,7 +282,29 @@ const AboutForm = ({
               )}
             </div>
           </div>
-          <div className="flex flex-col sm:w-full">
+        {/* this handle with teacher */}
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:gap-x-[10px]">
+            <div className="flex flex-col w-full">
+              <InputForm
+                type="email"
+                placeholder="email"
+                borderRadius="md"
+                borderSize="md"
+                defaultValue={dataUser.email}
+                className="border border-purple-500  outline-none text-xs  w-full sm:w-[240px]"
+                name="email"
+                value={formData.email}
+                onChange={onChangeInput}
+              />
+              {errors.email && (
+                <div className="flex justify-start">
+                  <small className="mt-2" style={{ color: "red" }}>
+                    {errors.email}
+                  </small>
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col sm:w-full">
             <Select
               borderSize="select"
               borderColor="secondary"
@@ -283,7 +331,7 @@ const AboutForm = ({
               </div>
             )}
           </div>
-
+          </div>
           <div className="flex flex-col">
             <div className="flex justify-end">
               <Button
@@ -295,6 +343,7 @@ const AboutForm = ({
             </div>
           </div>
         </div>
+        )}
       </form>
     </div>
   );

@@ -1,17 +1,18 @@
 import React from "react";
-import { TeacherIcon, Typography } from "../atoms";
+import { ProfileIcon, TeacherIcon, Typography } from "../atoms";
 import { SiderDashboard } from "../molecules/sider-dashboard";
 import { CardAllStudents } from "../molecules/card-all-students";
 import { CardTotalStudents } from "../molecules/card-total-students";
 import { CardCurrentStudents } from "../molecules/card-current-students";
 import { MenuButton } from "../molecules/sider-dashboard/SiderDashboard";
-const Dashboard = () => {
+const ProfileTeachersDashboard = () => {
   return (
     <>
       <div className="flex lg:w-[95%] xl:w-[90%] mx-auto bg-white">
         {/* Sidebar Section */}
         <SiderDashboard>
-        <MenuButton href="#" icon={<TeacherIcon />} label="Teacher" />
+        <MenuButton href="/dashboard" icon={<TeacherIcon />} label="Teacher" />
+        <MenuButton href="/profile-dashboard" icon={<ProfileIcon />} label="Profile" />
         </SiderDashboard>
         <div className="ml-10 lg:15 xl:28">
           <Typography fontSize="lg" align="left" variant="bold">
@@ -38,4 +39,4 @@ const Dashboard = () => {
   );
 };
 
-export { Dashboard };
+export { ProfileTeachersDashboard };
