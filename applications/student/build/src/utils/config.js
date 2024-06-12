@@ -16,8 +16,6 @@ function createConfig(configPath) {
         "LOG_LEVEL",
         "USER_SERVICE",
         "API_GATEWAY",
-        "COOKIE_SECRET_KEY_ONE",
-        "COOKIE_SECRET_KEY_TWO",
         "JWT_EXPIRES_IN",
     ];
     const missingConfig = requiredConfig.filter((key) => !process.env[key]);
