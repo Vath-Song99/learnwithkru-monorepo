@@ -11,6 +11,7 @@ function createConfig(configPath: string) {
     "MONGODB_URL",
     "LOG_LEVEL",
     "AUTH_SERVICE_GET",
+    "API_GATEWAY",
   ];
   const missingConfig = requiredConfig.filter((key) => !process.env[key]);
 
@@ -28,11 +29,10 @@ function createConfig(configPath: string) {
     logLevel: process.env.LOG_LEVEL,
     apiGateway: process.env.API_GATEWAY,
     authService: process.env.AUTH_SERVICE_GET,
-    jwtExpiresIn: process.env.JWT_EXPIRES_IN,
   };
 }
 
-const getConfig = (currentEnv: string = "development") => {
+const getConfig = (currentEnv: string = "production") => {
   const configPath =
     currentEnv === "development"
       ? path.join(__dirname, `../../configs/.env`)

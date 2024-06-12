@@ -10,8 +10,9 @@ const getUserData = async (): Promise<{
   errors?: string;
   data: IUser | null;
 }> => {
+  const cookieString = getCookieString();
+
   try {
-    const cookieString = getCookieString();
     if (typeof cookieString === "object") {
       return cookieString;
     }

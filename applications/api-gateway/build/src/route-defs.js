@@ -6,6 +6,6 @@ exports.ROUTE_PATHS = {
     TEACHER_SERVICE: "/v1/teachers",
     STUDENT_SERVICE: "/v1/students",
     USER_SERVICE: "/v1/users",
-    NOTIFICATION: "/v1/notification"
+    NOTIFICATION: "/v1/notification",
 };
 //# sourceMappingURL=route-defs.js.map
