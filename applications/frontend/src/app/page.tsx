@@ -5,12 +5,13 @@ import axios from "axios";
 
 const getUserData = async (): Promise<IAuth> => {
   const cookieString = getCookieString();
-
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL_LOCAL || "http://localhost:3000";
+  console.log(apiUrl)
   try {
     if (typeof cookieString === "object") {
       return cookieString;
     }
-    const res = await axios.get("http://localhost:3000/v1/users", {
+    const res = await axios.get(`${apiUrl}/v1/users` , {
       withCredentials: true,
       headers: { Cookie: cookieString as string },
     });
@@ -20,8 +21,8 @@ const getUserData = async (): Promise<IAuth> => {
     }
 
     return { isAuth: true, data: res.data.data };
-  } catch (error: unknown) {
-    console.error("Error fetching user data:", error);
+  } catch (error: any) {
+    console.error("Error fetching user data:", error.response.data);
     throw error;
   }
 };
