@@ -7,8 +7,7 @@
   "author": "Smoeury Songvat <vatgaming287@gmail.com>",
   "private": true,
   "workspaces": [
-    "packages/*",
-    "application/*"
+    "applications/*"
   ],
   "scripts": {
     "build:docker": "docker-compose up --build",
@@ -32,6 +31,7 @@
     "gen:user": "yarn workspace user-service gen:all",
     "gen:all": "concurrently \"yarn gen:auth\" \"yarn gen:student\" \"yarn gen:teacher\"  \"yarn gen:user\"",
     "build:app": "yarn workspace learnwithkru-application build",
+    "build:app-prod": "yarn workspace learnwithkru-application deploy:prod",
     "build:api-gateway": "yarn workspace api-gateway build",
     "build:auth-service": "yarn workspace authentication-service build",
     "build:notificaton-service": "yarn workspace notification-service build",
