@@ -5,7 +5,7 @@ import getConfig from "./utils/config";
 async function run() {
   try {
     // currect env
-    const currentEnv = process.env.NODE_ENV || "development";
+    const currentEnv = process.env.NODE_ENV || "production";
     const config = getConfig(currentEnv);
 
     // Activate Database

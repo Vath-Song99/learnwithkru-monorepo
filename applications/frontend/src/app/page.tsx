@@ -22,7 +22,9 @@ const getUserData = async (): Promise<IAuth> => {
 
     return { isAuth: true, data: res.data.data };
   } catch (error: any) {
-    console.error("Error fetching user data:", error.response.data);
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error details:", error.response?.data);
+    }
     throw error;
   }
 };
