@@ -11,7 +11,7 @@ const getUserData = async (): Promise<{
   data: IUser | null;
 }> => {
   try {
-    const cookieString = getCookieString();
+    const cookieString = await getCookieString();
     if (typeof cookieString === "object") {
       return cookieString;
     }
