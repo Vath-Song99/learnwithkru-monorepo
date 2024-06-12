@@ -18,7 +18,7 @@ function createConfig(configPath) {
         'SENDER_EMAIL',
         'SENDER_EMAIL_PASSWORD',
         'SMTP_HOST',
-        'SMTP_PORT'
+        'SMTP_PORT',
     ];
     const missingConfig = requiredConfig.filter((key) => !process.env[key]);
     if (missingConfig.length > 0) {
@@ -34,13 +34,13 @@ function createConfig(configPath) {
         senderEmail: process.env.SENDER_EMAIL,
         senderEmailPassword: process.env.SENDER_EMAIL_PASSWORD,
         smtpHost: process.env.SMTP_HOST,
-        smtpPort: process.env.SMTP_PORT
+        smtpPort: process.env.SMTP_PORT,
     };
 }
-const getConfig = (currentEnv = 'development') => {
-    const configPath = currentEnv === "development"
+const getConfig = (currentEnv = 'production') => {
+    const configPath = currentEnv === 'development'
         ? path_1.default.join(__dirname, `../../configs/.env`)
-        : path_1.default.join(__dirname, `../../configs/.env.${currentEnv}`);
+        : path_1.default.join(__dirname, `../../configs/.env.production`);
     return createConfig(configPath);
 };
 exports.default = getConfig;

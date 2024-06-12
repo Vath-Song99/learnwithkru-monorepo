@@ -1,6 +1,7 @@
 import path from "path";
 import { ApiError } from "../error/base-custom-error";
 import dotenv from "dotenv";
+
 function createConfig(configPath: string) {
   dotenv.config({ path: configPath });
 
@@ -21,6 +22,8 @@ function createConfig(configPath: string) {
     "FACEBOOK_REDIRECT_URI",
     "GOOGLE_REDIRECT_URI",
     "USER_SERVICE",
+    "STUDENT_SERVICE",
+    "TEACHER_SERVICE",
   ];
   const missingConfig = requiredConfig.filter((key) => !process.env[key]);
 
@@ -52,14 +55,14 @@ function createConfig(configPath: string) {
   };
 }
 
-function getConfig(currentEnv: string | "development") {
+function getConfig(currentEnv: string = "production") {
   const configPath = path.join(
     __dirname,
     currentEnv === "development"
-      ? "../configs/.env"
+      ? "../../configs/.env"
       : currentEnv === "staging"
-      ? "../configs/.env.staging"
-      : "../configs/.env.production"
+      ? "../../configs/.env.staging"
+      : "../../configs/.env.production"
   );
   return createConfig(configPath);
 }
