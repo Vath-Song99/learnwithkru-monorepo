@@ -83,8 +83,9 @@ jobs:
             PORT=${{ secrets.STUDENT_PORT }}
             CLIENT_URL=${{ secrets.CLIENT_URL }}
             LOG_LEVEL=${{ secrets.LOG_LEVEL }}
+            API_GATEWAY=${{secrets.API_GATEWAY}}
             RABBITMQ_ENDPOINT=${{ secrets.RABBITMQ_ENDPOINT }}
-            USER_SERVICE_URL=${{ secrets.USER_SERVICE_URL }}
+            USER_SERVICE=${{ secrets.USER_SERVICE_URL }}
             MONGODB_URL=${{ secrets.STUDENT_MONGODB_URL}}
             JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN}}
             TEST=${{ secrets.TEST }}

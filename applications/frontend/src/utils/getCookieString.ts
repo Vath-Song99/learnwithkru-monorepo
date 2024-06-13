@@ -1,8 +1,10 @@
+import { IAuth } from "@/@types/auth";
 import { cookies } from "next/headers";
 
 // get cookie string
-export const getCookieString = () => {
+export const getCookieString = (): string | IAuth => {
   const cookiesStore = cookies();
+
   const _ga = cookiesStore.get("_ga")?.value;
   const persistent = cookiesStore.get("persistent")?.value;
   const session = cookiesStore.get("session")?.value;

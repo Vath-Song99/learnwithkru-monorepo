@@ -10,7 +10,7 @@ import getConfig from "./utils/config";
 const app: Application = express();
 
 const currentEnv = process.env.NODE_ENV || "development";
-const config =  getConfig(currentEnv);
+const config = getConfig(currentEnv);
 
 //global middleware
 app.set("trust proxy", 1);
@@ -47,6 +47,6 @@ app.get("/swagger.json", (_req, res) => {
 // Register routes generated
 RegisterRoutes(app);
 
-//error handler
+//error handler middleware
 app.use(errorHandler);
 export default app;

@@ -15,7 +15,7 @@ const Page = () => {
 };
 
 const SuspenseWrapper = () => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense fallback={<div>Loading.....</div>}>
     <Page />
   </Suspense>
 );

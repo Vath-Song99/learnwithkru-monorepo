@@ -15,8 +15,9 @@ const getUserData = async (): Promise<{
   errors?: string;
   data: IUser | null;
 }> => {
+  const cookieString = getCookieString();
+
   try {
-    const cookieString = getCookieString();
     
     if(typeof cookieString === 'object'){
       return cookieString
@@ -56,7 +57,7 @@ export default async function NotFound() {
         <main className="flex h-full flex-col items-center justify-center gap-2 gap-y-4 py-5">
           <p>Could not find the teacher.</p>
           <Image
-            src={"/logos/no-results.png"}
+            src={"/Logos/no-results.png"}
             width={100}
             height={100}
             alt="Not found"

@@ -10,10 +10,10 @@ import { RegisterRoutes } from "./routes/v1/routes";
 //app
 const app: Application = express();
 
-const currentEnv = process.env.NODE_ENV || "development";
+const currentEnv = process.env.NODE_ENV || "production";
 const config = getConfig(currentEnv);
 
-//global middleware
+//global middlewares
 app.set("trust proxy", 1);
 app.use(
   cors({

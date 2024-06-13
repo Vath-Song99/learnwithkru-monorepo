@@ -1,4 +1,4 @@
-import { IUser } from "@/@types/user";
+import { IAuth } from "@/@types/auth";
 import {
   Footer,
   Navbar,
@@ -7,16 +7,12 @@ import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
 import Image from "next/image";
 
-const getUserData = async (): Promise<{
-  isAuth?: boolean;
-  errors?: string;
-  data: IUser | null;
-}> => {
+const getUserData = async (): Promise<IAuth> => {
+  const cookieString = getCookieString();
+
   try {
-    const cookieString = getCookieString();
-    
     if(typeof cookieString === 'object'){
-      return cookieString
+      return  cookieString as IAuth
     }
 
     const res = await axios.get("http://localhost:3000/v1/users", {

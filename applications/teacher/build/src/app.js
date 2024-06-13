@@ -13,9 +13,9 @@ const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const routes_1 = require("./routes/v1/routes");
 //app
 const app = (0, express_1.default)();
-const currentEnv = process.env.NODE_ENV || "development";
+const currentEnv = process.env.NODE_ENV || "production";
 const config = (0, config_1.default)(currentEnv);
-//global middleware
+//global middlewares
 app.set("trust proxy", 1);
 app.use((0, cors_1.default)({
     origin: config.apiGateway,
@@ -40,7 +40,7 @@ app.get("/swagger.json", (_req, res) => {
 });
 // app.use(AUTH_ROUTE,Routehealths)
 (0, routes_1.RegisterRoutes)(app);
-//error handling
+//error handler
 app.use(errorsHandler_1.errorHandler);
 exports.default = app;
 //# sourceMappingURL=app.js.map
