@@ -48,14 +48,7 @@ export default async function NotFound() {
         <Navbar authState={{ isAuth: isAuth ?? false, user: data }} />
       </div>
       <div className="w-full grid grid-flow-row gap-8">
-        <div className="w-[80%] mx-auto">
-          <Typography align="left" variant="bold" fontSize="lg">
-            See your future teacher
-          </Typography>
-        </div>
-        <SearchInput />
-        <FilterTeachers />
-        <main className="flex h-full flex-col items-center justify-center gap-2 gap-y-4 py-5">
+      <main className="flex h-full flex-col items-center justify-center gap-2  py-48">
           <p>Could not find the teacher.</p>
           <Image
             src={"/Logos/no-results.png"}
@@ -64,10 +57,10 @@ export default async function NotFound() {
             alt="Not found"
           ></Image>
         </main>
-      </div>
       <div className="w-full flex justify-center items-start bg-black">
         <Footer />
       </div>
+    </div>
     </div>
   );
 }

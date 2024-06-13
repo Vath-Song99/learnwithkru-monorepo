@@ -18,8 +18,10 @@ const CallbackRedirect = () => {
       }
 
       try {
+         const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
+
         const res = await axios.get(
-          `http://localhost:3000/v1/auth/google/callback?code=${code}`,
+          `${apiUrl}/v1/auth/google/callback?code=${code}`,
           {
             withCredentials: true,
           }
