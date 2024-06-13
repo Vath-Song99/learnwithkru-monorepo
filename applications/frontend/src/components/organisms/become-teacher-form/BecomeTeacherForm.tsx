@@ -12,24 +12,29 @@ import { BecomeTeacherData, BecomeTeacherFormTypes } from "./@types";
 import { Select } from "@/components/atoms/select/select";
 import * as Yup from "yup";
 import { teachersExperience } from "@/schema/becomeTeacher";
-import { getLocalStorageTeacher, setLocalStorageTeacher } from "@/utils/localStorage";
+import {
+  getLocalStorageTeacher,
+  setLocalStorageTeacher,
+} from "@/utils/localStorage";
 
 const DEFAULT_FORM_VALUE = {
   university: "",
   year_experience: "",
   type_degree: "",
-  certificate:  ""
+  certificate: "",
 };
 
 const dataExperience = {
   dataYear: [
     { id: "1244", numberData: 1 },
-    { id: "124664", numberData: 2},
+    { id: "124664", numberData: 2 },
     { id: "12444", numberData: 3 },
+    { id: "12444", numberData: 4 },
+    { id: "12444", numberData: 5 },
+    { id: "12444", numberData: 6 },
+    { id: "12444", numberData: 7 },
   ],
 };
-
-
 
 const BecomeTeacherForm = ({
   description,
@@ -41,7 +46,8 @@ const BecomeTeacherForm = ({
 }: BecomeTeacherFormTypes) => {
   const [showForm, setShowForm] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [formData, setFormData] = useState<BecomeTeacherData>(DEFAULT_FORM_VALUE);
+  const [formData, setFormData] =
+    useState<BecomeTeacherData>(DEFAULT_FORM_VALUE);
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,12 +65,16 @@ const BecomeTeacherForm = ({
     }
     setLocalStorageTeacher("educationTeacher", { ...formData, [name]: value });
   };
- 
+
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const imageFile = event.target.files && event.target.files[0];
     if (imageFile) {
-      if (imageFile.size > 1024 * 1024) { // 1MB limit
-        setErrors((prevErrors) => ({ ...prevErrors, certificate: "Image size is too large" }));
+      if (imageFile.size > 1024 * 1024) {
+        // 1MB limit
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          certificate: "Image size is too large",
+        }));
       } else {
         const imageUrl = URL.createObjectURL(imageFile);
         setFormData({ ...formData, certificate: imageUrl });
@@ -72,7 +82,6 @@ const BecomeTeacherForm = ({
       }
     }
   };
- 
 
   const handleBack = () => {
     if (currentPage > 0) {
@@ -86,18 +95,22 @@ const BecomeTeacherForm = ({
     e.preventDefault();
 
     try {
-   await teachersExperience.validate(formData, { abortEarly: false });
+      await teachersExperience.validate(formData, { abortEarly: false });
       if (pageIndex !== undefined) {
-        setCurrentPage((prevPage) => Math.min(prevPage + 1, pageIndex.length - 1));
+        setCurrentPage((prevPage) =>
+          Math.min(prevPage + 1, pageIndex.length - 1)
+        );
       }
       setErrors({});
-      const year_experience= parseInt(formData.year_experience)
-      setdataTutor((prev: any) => ({ ...prev, university: formData.university,
-         type_degree: formData.type_degree,
-         certificate: formData.certificate,
-         year_experience: year_experience }));
+      const year_experience = parseInt(formData.year_experience);
+      setdataTutor((prev: any) => ({
+        ...prev,
+        university: formData.university,
+        type_degree: formData.type_degree,
+        certificate: formData.certificate,
+        year_experience: year_experience,
+      }));
       setLocalStorageTeacher("educationTeacher", formData);
-    
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const newErrors: { [key: string]: string } = {};
@@ -117,7 +130,9 @@ const BecomeTeacherForm = ({
     e.preventDefault();
     try {
       if (pageIndex !== undefined) {
-        setCurrentPage((prevPage) => Math.min(prevPage + 1, pageIndex.length - 1));
+        setCurrentPage((prevPage) =>
+          Math.min(prevPage + 1, pageIndex.length - 1)
+        );
       }
       setErrors({});
     } catch (error) {
@@ -132,10 +147,10 @@ const BecomeTeacherForm = ({
   };
 
   useEffect(() => {
-    const userStorage = getLocalStorageTeacher("educationTeacher") || DEFAULT_FORM_VALUE;
+    const userStorage =
+      getLocalStorageTeacher("educationTeacher") || DEFAULT_FORM_VALUE;
     setFormData(userStorage);
-    console.log("alete then beck ",userStorage.
-      certificate)
+    console.log("alete then beck ", userStorage.certificate);
     const userTrue = getLocalStorageTeacher("educationTrue") || false;
     setShowForm(userTrue);
   }, []);
@@ -143,37 +158,50 @@ const BecomeTeacherForm = ({
   return (
     <div className="h-auto w-[350px] sm:w-[800px] md:w-[800px] lg:w-[800px] xl:w-[1000px] flex justify-center">
       <div className="flex flex-col w-full sm:w-[90%] md:w-[80%] lg:w-[60%] xl:w-[50%] h-auto">
-          <div className="flex flex-col justify-start items-start">
-            <div className="flex justify-start sm:justify-start">
-              <Typography align="left" fontSize="lg" variant="bold" className="w-auto">
-                Teaching Certification
-              </Typography>
-            </div>
-            <div className="mt-2">
-              <Typography fontSize="sm" align="left" className="flex text-wrap w-full">
-                {description}
-              </Typography>
-            </div>
+        <div className="flex flex-col justify-start items-start">
+          <div className="flex justify-start sm:justify-start">
+            <Typography
+              align="left"
+              fontSize="lg"
+              variant="bold"
+              className="w-auto"
+            >
+              Teaching Certification
+            </Typography>
           </div>
-          <div className="flex justify-center sm:justify-start md:justify-center mt-5 mb-5">
-            <div className="flex w-[400px] justify-center sm:justify-start md:justify-center">
-              <div className="flex py-[2px] pr-[10px]">
-                <InputForm
-                  type="checkbox"
-                  borderRadius="md"
-                  borderSize="checkbox"
-                  onChange={handleCheckboxChange}
-                  checked={showForm}
-                  className="border border-purple-500outline-none text-xs"
-                />
-              </div>
-              <div className="flex">{checkboxtext}</div>
-            </div>
+          <div className="mt-2">
+            <Typography
+              fontSize="sm"
+              align="left"
+              className="flex text-wrap w-full"
+            >
+              {description}
+            </Typography>
           </div>
+        </div>
+        <div className="flex justify-center sm:justify-start md:justify-center mt-5 mb-5">
+          <div className="flex w-[400px] justify-center sm:justify-start md:justify-center">
+            <div className="flex py-[2px] pr-[10px]">
+              <InputForm
+                type="checkbox"
+                borderRadius="md"
+                borderSize="checkbox"
+                onChange={handleCheckboxChange}
+                checked={showForm}
+                className="border border-purple-500outline-none text-xs"
+              />
+            </div>
+            <div className="flex">{checkboxtext}</div>
+          </div>
+        </div>
         <div className="w-full flex justify-center">
           {!showForm ? (
             <div className="flex justify-center sm:justify-start md:justify-center w-full mt-3">
-              <form action="" onSubmit={handleSubmitNoDegree} className="w-full">
+              <form
+                action=""
+                onSubmit={handleSubmitNoDegree}
+                className="w-full"
+              >
                 <div className="w-full flex flex-col gap-4 pl-[30px] sm:pl-[5px] md:pl-[10px]">
                   <div className="flex flex-col w-[450px] sm:w-[450px]">
                     <InputForm
@@ -243,11 +271,13 @@ const BecomeTeacherForm = ({
                       <option value="0" selected>
                         Year of experience
                       </option>
-                      {dataExperience.dataYear.map((dataYear, index: number) => (
-                        <option key={index}  value={dataYear.numberData}>
-                          {dataYear.numberData}
-                        </option>
-                      ))}
+                      {dataExperience.dataYear.map(
+                        (dataYear, index: number) => (
+                          <option key={index} value={dataYear.numberData}>
+                            {dataYear.numberData}
+                          </option>
+                        )
+                      )}
                     </Select>
                     {errors.year_experience && (
                       <div className="flex justify-start">
@@ -269,9 +299,21 @@ const BecomeTeacherForm = ({
                       <option value="0" selected>
                         Type of Degree
                       </option>
-                      <option value="Bachelor's degree">Bachelor's degree</option>
-                      <option value="Bachelor's degree">Bachelor's degree</option>
-                      <option value="Bachelor's degree">Bachelor's degree</option>
+                      <option value="Associate's degree">
+                        Associate's degree
+                      </option>
+                      <option value="Bachelor's degree">
+                        Bachelor's degree
+                      </option>
+                      <option value="Master's degree">Master's degree</option>
+                      <option value="Doctoral degree">Doctoral degree</option>
+                      <option value="Professional degree">
+                        Professional degree
+                      </option>
+                      <option value="Technical diploma">
+                        Technical diploma
+                      </option>
+                      <option value="Certificate">Certificate</option>
                     </Select>
                     {errors.type_degree && (
                       <div className="flex justify-start">
@@ -283,7 +325,9 @@ const BecomeTeacherForm = ({
                   </div>
                   <div className="flex flex-col w-[300px] sm:w-[450px]">
                     <div className="flex justify-start">
-                      <Typography>Please Input Your Degree To verify</Typography>
+                      <Typography>
+                        Please Input Your Degree To verify
+                      </Typography>
                     </div>
                   </div>
                   <div className="flex flex-col w-[300px] sm:w-[450px]">
@@ -313,7 +357,7 @@ const BecomeTeacherForm = ({
                             borderColor="file"
                             name="certificate"
                             ref={inputFileRef}
-                           accept=".pdf, .jpg, .jpeg"
+                            accept=".pdf, .jpg, .jpeg"
                             onChange={handleImageChange}
                             className="pl-3 cursor-pointer file:cursor-pointer outline-none text-stone-400 file:text-sm file:text-stone-400 file:bg-none file:border-0 text-xs"
                           />

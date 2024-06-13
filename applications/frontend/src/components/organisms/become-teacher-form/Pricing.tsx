@@ -18,7 +18,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const DEFAULT_FORM_VALUE = {
-  priceTeacher: "",
+  priceTeacher: "1",
 };
 
 interface PriceProps {
@@ -42,7 +42,11 @@ const PricingForm = ({
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+
     if (errors[name]) {
       setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     }
@@ -60,13 +64,13 @@ const PricingForm = ({
           Math.min(prevPage + 1, pageIndex.length - 1)
         );
       }
-      setIsFormComplete(true)
+      setIsFormComplete(true);
       const priceTeacher = parseInt(formData.priceTeacher);
       setdataTutor((prev: PriceProps) => ({
         ...prev,
         priceTeacher: priceTeacher,
       }));
-      addLoginUsers(dataTutor)
+      addLoginUsers(dataTutor);
       console.log("data submit", dataTutor);
       setLocalStorageTeacher("priceTeacher", formData);
       setErrors({});
@@ -83,15 +87,12 @@ const PricingForm = ({
     }
   };
 
-
   const addLoginUsers = (teacher: BecomeTeacherType | undefined) => {
     // stept 5
     const fetchData = async (teacherData: BecomeTeacherType | undefined) => {
       try {
-
-
         const data = JSON.stringify(teacherData);
-        console.log("handle like submit teacher teacherData",teacherData)
+        console.log("handle like submit teacher teacherData", teacherData);
         const response = await axios.post(
           "http://localhost:3000/v1/teachers/become-teacher",
           data,
@@ -102,18 +103,19 @@ const PricingForm = ({
             withCredentials: true,
           }
         );
-        if(response.data.errors){
-          console.log("An error accor: teachers ",response.data.errors)
-          return false
+
+        console.log(response);
+        if (response.data.errors) {
+          console.log("An error accor: teachers ", response.data.errors);
+          return false;
         }
-        console.log("teacher",response.data);
-  router.push('/settings-profile')
-      
+        console.log("teacher", response.data);
+        router.push("/settings-profile");
       } catch (error) {
-        console.error('Error occurred during login:', error);
-    if (axios.isAxiosError(error)) {
-      console.error('Axios error response: teachers', error.response);
-    }
+        console.error("Error occurred during login:", error);
+        if (axios.isAxiosError(error)) {
+          console.error("Axios error response: teachers", error.response);
+        }
       }
     };
     fetchData(teacher);
@@ -124,7 +126,7 @@ const PricingForm = ({
       return;
     }
   };
-  nextPage()
+  nextPage();
   const handleBack = () => {
     if (currentPage > 0) {
       setCurrentPage((prevPage) => prevPage - 1);
@@ -179,7 +181,7 @@ const PricingForm = ({
                   radius="md"
                   className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
-                  Next
+                  Submit
                 </Button>
               </div>
             </div>
@@ -191,14 +193,3 @@ const PricingForm = ({
 };
 
 export { PricingForm };
-
-
-
-
-// {
-//   "success": false,
-//   "errors": {
-//       "message": "picture is Required,phone_number is Invalid,bio is String must contain at most 200 character(s),motivation is String must contain at most 200 character(s),date_available is Expected object, received array,price is Required,teaching_experience is String must contain at most 150 character(s)",
-//       "code": 422
-//   }
-// }
