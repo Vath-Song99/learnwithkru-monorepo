@@ -1,71 +1,106 @@
-  import React from "react";
-  import { Button } from "@/components/atoms";
+"use client";
+import { Button } from "@/components/atoms";
+import React from "react";
 
-  const TeacherTimeAvailable = () => {
-    // Define a function to generate time slot buttons for each day
-    const renderTimeSlots = () => {
-      const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-      const timeSlots: React.JSX.Element[] = [];
-
-      // Generate time slots for each day
-      days.forEach((day, dayIndex) => {
-        const timeSlotsForDay = [];
-
-        // Generate time slots for each hour
-        for (let hour = 0; hour < 24; hour++) {
-          const time = `${hour < 10 ? '0' : ''}${hour}:00 - ${hour + 1 < 10 ? '0' : ''}${hour + 1}:00`;
-          timeSlotsForDay.push(
-            <td key={hour} className="px-2 py-2 whitespace-nowrap">
-              <Button
-                colorScheme="tertiary"
-                fontColor="black"
-                className={` text-sm text-gray-600 w-full md:w-28 h-8 ${dayIndex === 5 || dayIndex === 6 ? ' bg-red-500 text-white' : 'text-gray-900'}`}
-              >
-                {time}
-              </Button>
-            </td>
-          );
-        }
-
-        timeSlots.push(
-          <tr key={day} className="border-t">
-            <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              {day}
-            </th>
-            {timeSlotsForDay}
-          </tr>
-        );
-      });
-
-      return timeSlots;
+interface TeachersTimeProps {
+  date_available: {
+    day: string;
+    time: {
+      start: string;
+      end: string;
     };
-
-    return (
-      <div className="flex justify-end px-4 w-[400px] md:w-[900px] lg:w-[1000px]">
-        <div className="overflow-x-auto flex justify-start   mt-3">
-          <table className="table-auto w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Day
-                </th>
-                {/* Add headers for time slots */}
-                {[...Array(24)].map((_, index) => (
-                  <th key={index} className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    {`${index < 10 ? '0' : ''}${index}:00`}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 bg-gray-50">
-              {/* Call the renderTimeSlots function to generate time slots for each day */}
-              {renderTimeSlots()}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-    );
   };
+}
 
-  export { TeacherTimeAvailable };
+const daysOfWeek = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+const hoursOfDay = Array.from({ length: 24 }, (_, i) => i);
+
+const TeacherTimeAvailable: React.FC<TeachersTimeProps> = ({
+  date_available,
+}) => {
+  const times = Array.isArray(date_available.time)
+    ? date_available.time
+    : [date_available.time];
+  const day = date_available.day;
+  const isHourInRange = (
+    hour: number,
+    times: { start: string; end: string }[]
+  ) => {
+    return times.some((time) => {
+      const [startHour] = time.start.split(":").map(Number);
+      const [endHour] = time.end.split(":").map(Number);
+      return hour >= startHour && hour < endHour;
+    });
+  };
+  return (
+    <div className="mt-10  ">
+      <div className=" flex justify-center mt-3 ">
+        <table className="w-[60px] md:[150px] lg:w-[150px]">
+          <thead className="text-white pl-4 pr-4  ">
+            <tr className="flex justify-center  ">
+              {daysOfWeek.map((day) => (
+                <th
+                  key={day}
+                  className=" underline w-[60px] md:[150px] lg:w-[150px] text-[12px] md:text-sm font-medium text-black uppercase "
+                >
+                  <span className="block lg:hidden">{day.substring(0, 3)}</span>
+                  <span className="hidden lg:block">{day}</span>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <div className="h-[300px] w-auto overflow-auto hide-scrollbar">
+            <tbody className="h-[100px] w-[70px] md:[150px] lg:w-[150px] ">
+              {hoursOfDay.map((hour) => (
+                <tr key={hour} className="flex justify-center w-full ">
+                  {daysOfWeek.map((d) => (
+                    <td
+                      key={d}
+                      className=" text-center text-sm font-medium text-white  w-[60px] md:[150px] lg:w-[150px]"
+                    >
+                      {day === d &&
+                        isHourInRange(hour, times) &&
+                        times.map((time, index) => (
+                          <div className="pt-3">
+                            <Button
+                              colorScheme="tertiary"
+                              key={index}
+                              fontSize="sm"
+                              fontColor="black"
+                              className="w-[60px] md:[150px] lg:w-[150px] text-[8px] lg:text-sm font-bold  bg-white underline "
+                            >
+                              {time.start} - {time.end}
+                            </Button>
+                          </div>
+                        ))}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+
+            <style jsx>{`
+              .hide-scrollbar {
+                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none; /* IE 10+ */
+              }
+              .hide-scrollbar::-webkit-scrollbar {
+                display: none; /* Chrome, Safari, Opera */
+              }
+            `}</style>
+          </div>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+export { TeacherTimeAvailable };

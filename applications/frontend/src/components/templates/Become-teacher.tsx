@@ -14,10 +14,10 @@ import { Typography } from "../atoms";
 import Link from "next/link";
 import { PricingForm } from "../organisms/become-teacher-form/Pricing";
 import { BecomeTeacherType } from "../organisms/become-teacher-form/@types";
-import { IUserBecomeTeacher } from "@/app/become-teacher/page";
+import { IUser } from "@/@types/user";
 
 interface BecomeTeacherProps {
-  data: IUserBecomeTeacher | null;
+  data: IUser | null;
 }
 const BecomeTeacher: React.FC<BecomeTeacherProps> = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(0); // Changed initial page to 0
@@ -128,7 +128,7 @@ const BecomeTeacher: React.FC<BecomeTeacherProps> = ({ data }) => {
           )}
           {pages[currentPage] == 1 && (
             <>
-               <ProfilePhotoTeachers
+              <ProfilePhotoTeachers
                 buttonTitle="Submit"
                 description="Choose a photo that will help learners get to know you."
                 title="Profile photo"

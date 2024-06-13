@@ -1,24 +1,22 @@
-"use client";
 import React from "react";
-import Image from "next/image";
 import { Profile } from "@/components/molecules";
-const TeacherDetail = () => {
+
+interface TopTeachersListProps {
+  first_name: string;
+  picture: string;
+  last_name: string;
+  subject: string;
+  classname: string;
+  price: number;
+  phonenumber: string
+
+  // Ensure 'data' prop exists and is of type ITeacher
+}
+
+const TeacherDetail: React.FC<TopTeachersListProps> = ({ first_name, picture, last_name, subject, price, phonenumber, classname }) => {
   return (
-    <div className="w-full pb-40">
-      <div className="w-full  relative">
-        <Image
-          src={"/Profiles/CoverTeacher.avif"}
-          width={1200}
-          height={600}
-          alt="chroychangvar"
-          className="w-full h-[200px] md:h-[280px] rounded-md border object-cover"
-        ></Image>
-        <div className="w-full absolute top-36 md:top-52">
-          <div className="w-full flex justify-center">
-            <Profile />
-          </div>
-        </div>
-      </div>
+    <div className={` flex justify-start pt-10 ${classname} `}>
+      <Profile picture={picture} first_name={first_name} last_name={last_name} subject={subject} price={price} phonenumber={phonenumber} /> {/* Assuming 'data' should be individual teacher data */}
     </div>
   );
 };

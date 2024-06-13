@@ -1,9 +1,7 @@
-
 import { ITeacher } from "@/@types/teacher.type";
 import { IUser } from "@/@types/user";
-import { TeachersProfile, Footer } from "@/components";
+import { Footer, Navbar, TeachersProfile } from "@/components";
 import { getCookieString } from "@/utils/getCookieString";
-import { Navbar } from "@nextui-org/react";
 import axios from "axios";
 import { notFound } from "next/navigation";
 import React from "react";

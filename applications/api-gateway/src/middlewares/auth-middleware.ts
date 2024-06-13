@@ -8,10 +8,10 @@ import { publicKey } from "../server";
 async function verifyUser(req: Request, _res: Response, _next: NextFunction) {
   const sessionCookie = req.session?.jwt;
   const persistentCookie = req.cookies?.persistent;
-  
+
   try {
     if (!sessionCookie) {
-      if(!persistentCookie){
+      if (!persistentCookie) {
         logger.error(
           "Token is not available. Gateway Service verifyUser() method error "
         );
@@ -20,13 +20,12 @@ async function verifyUser(req: Request, _res: Response, _next: NextFunction) {
           StatusCode.Unauthorized
         );
       }
-      (req as Request).session!.jwt = persistentCookie
+      (req as Request).session!.jwt = persistentCookie;
     }
     await verify(sessionCookie || persistentCookie, publicKey, {
       algorithms: ["RS256"],
     });
-     _next();
-   
+    _next();
   } catch (error) {
     _next(error);
   }

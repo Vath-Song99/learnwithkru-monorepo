@@ -8,7 +8,6 @@ export interface IAvailableDay {
   time: ITimeSlot[];
 }
 
-
 export interface ITeacher {
   first_name: string;
   last_name: string;
@@ -22,11 +21,11 @@ export interface ITeacher {
   type_degree: string;
   bio: string;
   motivation: string;
-  date_available: IAvailableDay[];// Adjusted to match nested structure in teacherSchemas
+  date_available: IAvailableDay[]; // Adjusted to match nested structure in teacherSchemas
   price: number;
   certificate: string;
   video: string;
-  teaching_experience: string
+  teaching_experience: string;
   // is_degree?: boolean; // Optional, not defined in teacherSchemas
   // specialization?: string; // Optional, not defined in teacherSchemas
   // teacher_experience?: string; // Optional, not defined in teacherSchemas
