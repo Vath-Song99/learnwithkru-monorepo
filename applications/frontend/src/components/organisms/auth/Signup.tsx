@@ -150,6 +150,7 @@ const Signup = () => {
           src={"/Benner/login.png"}
           width={500}
           height={500}
+          loading={"lazy"}
         ></Image>
       </div>
     </div>

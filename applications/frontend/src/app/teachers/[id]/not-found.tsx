@@ -1,10 +1,7 @@
 import { IUser } from "@/@types/user";
 import {
-  FilterTeachers,
   Footer,
   Navbar,
-  SearchInput,
-  Typography,
 } from "@/components";
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
