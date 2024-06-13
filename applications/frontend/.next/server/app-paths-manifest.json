@@ -1,9 +1,7 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
   "/teachers/page": "app/teachers/page.js",
-  "/teachers/[id]/page": "app/teachers/[id]/page.js",
-  "/google/callback/page": "app/google/callback/page.js",
-  "/become-teacher/page": "app/become-teacher/page.js",
-  "/form-teacher/page": "app/form-teacher/page.js"
+  "/settings-profile/page": "app/settings-profile/page.js",
+  "/student-form/page": "app/student-form/page.js",
+  "/google/callback/page": "app/google/callback/page.js"
 }
