@@ -1,8 +1,4 @@
-<<<<<<< HEAD:application/frontend/src/components/molecules/teaher-info/TeacherVideo.tsx
 import { Button } from "@/components/atoms";
-=======
-import { Typography } from "@/components/atoms";
->>>>>>> b08f1912615899528f3a6d574986bc5a8271d6e9:applications/frontend/src/components/molecules/teaher-info/TeacherVideo.tsx
 import React from "react";
 import { TeacherVideoTypes } from "./@types";
 
@@ -17,7 +13,7 @@ const TeacherVideo = ({ src, classname, }: TeacherVideoTypes) => {
 
         <div className="flex flex-col pt-5 ">
 
-          <Button
+          {/* <Button
             fontColor="black"
             fontSize="lg"
             colorScheme="primary"
@@ -31,7 +27,7 @@ const TeacherVideo = ({ src, classname, }: TeacherVideoTypes) => {
             </p>
 
 
-          </Button>
+          </Button> */}
         </div>
 
 

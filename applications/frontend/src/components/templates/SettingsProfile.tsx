@@ -7,34 +7,27 @@ import {
   validationSchema,
   validationTeacher,
 } from "@/schema/editProfileSchema";
-<<<<<<< HEAD:application/frontend/src/components/templates/SettingsProfile.tsx
 import Link from "next/link";
 import { Select } from "../atoms/select/select";
-=======
->>>>>>> b08f1912615899528f3a6d574986bc5a8271d6e9:applications/frontend/src/components/templates/SettingsProfile.tsx
 
 
-<<<<<<< HEAD:application/frontend/src/components/templates/SettingsProfile.tsx
-const MenuItem: React.FC<MenuItemProps> = ({
-  itemName,
-  active,
-  handleClick,
-}) => {
-  return (
-    <Link
-      onClick={() => handleClick(itemName)}
-      className={`cursor-pointer text-[20px] sm:text-[20px] md:text-[16px] lg:text-[20px] xl:text-[20px] ${active ? "border-b-2 border-[#7B2CBF] text-[#7B2CBF]" : ""
-        }`}
-      style={{ padding: "15px" }}
-      href={""}
-    >
-      {itemName}
-    </Link>
-  );
-};
-=======
-
->>>>>>> b08f1912615899528f3a6d574986bc5a8271d6e9:applications/frontend/src/components/templates/SettingsProfile.tsx
+// const MenuItem: React.FC<MenuItemProps> = ({
+//   itemName,
+//   active,
+//   handleClick,
+// }) => {
+//   return (
+//     <Link
+//       onClick={() => handleClick(itemName)}
+//       className={`cursor-pointer text-[20px] sm:text-[20px] md:text-[16px] lg:text-[20px] xl:text-[20px] ${active ? "border-b-2 border-[#7B2CBF] text-[#7B2CBF]" : ""
+//         }`}
+//       style={{ padding: "15px" }}
+//       href={""}
+//     >
+//       {itemName}
+//     </Link>
+//   );
+// };
 
 const SettingsProfile = () => {
 
