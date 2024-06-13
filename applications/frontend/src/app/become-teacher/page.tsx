@@ -1,9 +1,14 @@
+<<<<<<< HEAD
+import { BecomeTeacher } from "@/components";
+
+=======
 import { IAuth } from "@/@types/auth";
 import { BecomeTeacher } from "@/components";
 
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
 
+>>>>>>> main
 import React from "react";
 
 export interface IUserBecomeTeacher {
@@ -55,8 +60,12 @@ const page = async () => {
 
   return (
     <div className="w-full h-[100vh] flex justify-center items-center">
+<<<<<<< HEAD
+      <BecomeTeacher />
+=======
 
       <BecomeTeacher data={data} />
+>>>>>>> main
     </div>
   );
 };

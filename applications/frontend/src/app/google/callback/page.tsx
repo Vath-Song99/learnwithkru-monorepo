@@ -18,8 +18,10 @@ const CallbackRedirect = () => {
       }
 
       try {
+         const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
+
         const res = await axios.get(
-          `http://localhost:3000/v1/auth/google/callback?code=${code}`,
+          `${apiUrl}/v1/auth/google/callback?code=${code}`,
           {
             withCredentials: true,
           }
@@ -30,11 +32,8 @@ const CallbackRedirect = () => {
           if (res.data.status === 400 || res.data.status === 404) {
             notFound(); // Use notFound directly
           }
-        } else if (res.data.message.includes("Success signup") && res.status === 200) {
-          router.push("/teachers"); // Use router.push directly
-          return;
-        }
-        
+        }           router.push("/teachers"); // Use router.push directly
+
       } catch (error) {
         console.error("Error:", error); // Log error
         // Handle error cases here, e.g., redirect to error page or show error message

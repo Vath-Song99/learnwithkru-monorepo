@@ -4,6 +4,8 @@ export const PATH_TEACHER = {
   teacherSignup: "/become-teacher",
   teacherProfile: "/:id",
   login: "/login/:userId",
+  getTeacher: "/get/:id",
+  updateTeacher: "/update/:id",
 };
 
 export const PATH_CLASS = {

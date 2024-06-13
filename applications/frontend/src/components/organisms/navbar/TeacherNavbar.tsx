@@ -8,8 +8,8 @@ const TeacherNavbar = ({
   className?: string;
 }) => {
   return (
-    <div className={`flex ${className}`}>
-      <div className="flex mx-auto justify-center items-start p-3">{children}</div>
+    <div className={` ${className}`}>
+      <div className="flex mx-auto justify-center items-start">{children}</div>
     </div>
 
   );

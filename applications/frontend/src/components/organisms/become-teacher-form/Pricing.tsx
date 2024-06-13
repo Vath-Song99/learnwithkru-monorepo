@@ -111,7 +111,7 @@ const PricingForm = ({
           return false;
         }
         console.log("teacher", response.data);
-        router.push("/settings-profile");
+        router.push(`/teachers/${response.data.data.id}`);
         clearLocalStorage("priceTeacher")
         clearLocalStorage("aboutTeacher")
         clearLocalStorage("educationTeacher")
