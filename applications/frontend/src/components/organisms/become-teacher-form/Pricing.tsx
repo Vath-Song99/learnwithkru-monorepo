@@ -11,6 +11,7 @@ import React, {
 } from "react";
 import * as Yup from "yup";
 import {
+  clearLocalStorage,
   getLocalStorageTeacher,
   setLocalStorageTeacher,
 } from "@/utils/localStorage";
@@ -18,11 +19,11 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const DEFAULT_FORM_VALUE = {
-  priceTeacher: "",
+  price: "",
 };
 
 interface PriceProps {
-  priceTeacher: string;
+  price: string | number;
 }
 
 const PricingForm = ({
@@ -36,13 +37,15 @@ const PricingForm = ({
 }: BecomeTeacherFormTypes) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] = useState<PriceProps>(DEFAULT_FORM_VALUE);
-  const [isFormComplete, setIsFormComplete] = useState(false);
   const router = useRouter();
+
   const onChangeInput = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const updatedFormData = { ...formData, [name]: value };
+    setFormData(updatedFormData);
+    setLocalStorageTeacher("priceTeacher", updatedFormData); // Update local storage with the new form data
     if (errors[name]) {
       setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     }
@@ -55,21 +58,24 @@ const PricingForm = ({
 
     try {
       await PriceTeachers.validate(formData, { abortEarly: false });
+      // Update dataTutor with the correct price
+      const updatedDataTutor = {
+        ...dataTutor,
+        price: parseInt(formData.price as string, 10),
+      };
+      setdataTutor(updatedDataTutor);
+
+      // Proceed to the next page if applicable
       if (pageIndex !== undefined) {
         setCurrentPage((prevPage) =>
           Math.min(prevPage + 1, pageIndex.length - 1)
         );
       }
-      setIsFormComplete(true);
-      const priceTeacher = parseInt(formData.priceTeacher);
-      setdataTutor((prev: PriceProps) => ({
-        ...prev,
-        priceTeacher: priceTeacher,
-      }));
-      addTeacher(dataTutor);
-      console.log("data submit", dataTutor);
+
       setLocalStorageTeacher("priceTeacher", formData);
       setErrors({});
+      // Add the teacher using the updated dataTutor
+      addTeacher(updatedDataTutor);
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const newErrors: { [key: string]: string } = {};
@@ -83,14 +89,13 @@ const PricingForm = ({
     }
   };
 
-  const addTeacher = (teacher: BecomeTeacherType | undefined) => {
-    // stept 5
-    const fetchData = async (teacherData: BecomeTeacherType | undefined) => {
+  const addTeacher = (teacher: BecomeTeacherType | PriceProps | undefined) => {
+    const fetchData = async (
+      teacherData: BecomeTeacherType | PriceProps | undefined
+    ) => {
       try {
-       
-
         const data = JSON.stringify(teacherData);
-        console.log("handle like submit teacher teacherData", teacherData);
+        console.log("handle submit teacher teacherData", teacherData);
         const response = await axios.post(
           "http://localhost:3000/v1/teachers/become-teacher",
           data,
@@ -101,40 +106,43 @@ const PricingForm = ({
             withCredentials: true,
           }
         );
+        console.log("Log respone: ", response)
         if (response.data.errors) {
-          console.log("An error accor: teachers ", response.data.errors);
+          console.log("An error occurred: teachers ", response.data.errors);
           return false;
         }
         console.log("teacher", response.data);
         router.push("/settings-profile");
+        clearLocalStorage("priceTeacher")
+        clearLocalStorage("aboutTeacher")
+        clearLocalStorage("educationTeacher")
+        clearLocalStorage("descriptionTeacher")
+        clearLocalStorage("timeAvailableTeacher")
+        clearLocalStorage("ProfilePhoto")
+        
       } catch (error) {
-        console.error("Error occurred during login:", error);
+        console.error("Error occurred during submission:", error);
         if (axios.isAxiosError(error)) {
           console.error("Axios error response: teachers", error.response);
         }
       }
     };
     fetchData(teacher);
-    // setLocalStorage("user", authObject);
   };
-  const nextPage = () => {
-    if (!isFormComplete) {
-      return;
-    }
-  };
-  nextPage();
+
   const handleBack = () => {
     if (currentPage > 0) {
       setCurrentPage((prevPage) => prevPage - 1);
     }
   };
-  // Check if the users data is in local storage for the first render
+
   useEffect(() => {
     const userStorage = getLocalStorageTeacher("priceTeacher")
       ? getLocalStorageTeacher("priceTeacher")
-      : [];
+      : DEFAULT_FORM_VALUE;
     setFormData(userStorage);
   }, []);
+
   return (
     <div className="flex flex-col w-[80%] justify-center items-center px-4 sm:w-[60%] md:w-[80%] lg:w-[60%] xl:w-[60%]">
       <div className="flex flex-col">
@@ -153,12 +161,12 @@ const PricingForm = ({
                 borderRadius="md"
                 borderSize="md"
                 className="border border-purple-500 outline-none text-xs w-full sm:w-[240px]"
-                name="priceTeacher"
-                value={formData.priceTeacher}
+                name="price"
+                value={formData.price}
                 onChange={onChangeInput}
               />
-              {errors.priceTeacher && (
-                <p className="text-red-500 text-xs">{errors.priceTeacher}</p>
+              {errors.price && (
+                <p className="text-red-500 text-xs">{errors.price}</p>
               )}
             </div>
             <div className="flex flex-col mt-5">
@@ -177,7 +185,7 @@ const PricingForm = ({
                   radius="md"
                   className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
-                  Next
+                  Submit
                 </Button>
               </div>
             </div>
@@ -189,103 +197,3 @@ const PricingForm = ({
 };
 
 export { PricingForm };
-
-
-
-
-[
-  {
-      "day": "monday",
-      "time": [
-          {
-              "start": "9:00",
-              "end": "10:00"
-          },
-          {
-              "start": "9:00",
-              "end": "10:00"
-          }
-      ]
-  },
-  {
-      "day": "tuesday",
-      "time": [
-          {
-              "start": "9:00",
-              "end": "10:00"
-          }
-      ]
-  },
-  {
-      "day": "wednesday",
-      "time": [
-          {
-              "start": "9:00",
-              "end": "10:00"
-          }
-      ]
-  },
-  {
-      "day": "thursday",
-      "time": [
-          {
-              "start": "9:00",
-              "end": "10:00"
-          }
-      ]
-  },
-  {
-      "day": "friday",
-      "time": [
-          {
-              "start": "9:00",
-              "end": "10:00"
-          },
-          {
-              "start": "9:00",
-              "end": "10:00"
-          },
-          {
-              "start": "9:00",
-              "end": "10:00"
-          },
-          {
-              "start": "9:00",
-              "end": "10:00"
-          }
-      ]
-  },
-  {
-      "day": "saturday",
-      "time": [
-          {
-              "start": "16:00",
-              "end": "17:00"
-          },
-          {
-              "start": "13:00",
-              "end": "14:00"
-          },
-          {
-              "start": "13:00",
-              "end": "14:00"
-          }
-      ]
-  },
-  {
-      "day": "sunday",
-      "time": [
-          {
-              "start": "10:00",
-              "end": "11:00"
-          },
-          {
-              "start": "7:00",
-              "end": "8:00"
-          }
-      ]
-  }
-]
-
-
-

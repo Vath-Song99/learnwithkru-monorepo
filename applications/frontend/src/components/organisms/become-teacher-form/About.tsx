@@ -16,42 +16,59 @@ import { getLocalStorageTeacher, setLocalStorageTeacher } from "@/utils/localSto
 const data = {
   subjects: [
     {
-      id: "122444",
-      subjectName: "english",
+      id: "gegegeg4",
+      subjectName: "English",
     },
     {
-      id: "122445",
-      subjectName: "math",
+      id: "12244gege5",
+      subjectName: "Mathematics",
     },
     {
-      id: "122445545",
-      subjectName: "khmer",
+      id: "1224455geg45",
+      subjectName: "Physics",
+    },
+    {
+      id: "122445geg545",
+      subjectName: "Biology",
+    },
+    {
+      id: "12244554f555",
+      subjectName: "Chemistry",
+    },
+    {
+      id: "1224455455445",
+      subjectName: "Basic Computer",
     },
   ],
 };
 const dataProvince = {
   provinceDatausers: [
-    {
-      id: "1244",
-      provinceData: "Takéo",
-    },
-    {
-      id: "12445",
-      provinceData: "Siem Reap",
-    },
-    {
-      id: "1224545",
-      provinceData: "Phnom Penh",
-    },
-    {
-      id: "1224445",
-      provinceData: "Banteay Meanchey",
-    },
-    {
-      id: "1224445",
-      provinceData: "Kampong Cham",
-    },
-  ],
+    { id: "1", provinceData: "Banteay Meanchey" },
+    { id: "2", provinceData: "Battambang" },
+    { id: "3", provinceData: "Kampong Cham" },
+    { id: "4", provinceData: "Kampong Chhnang" },
+    { id: "5", provinceData: "Kampong Speu" },
+    { id: "6", provinceData: "Kampong Thom" },
+    { id: "7", provinceData: "Kampot" },
+    { id: "8", provinceData: "Kandal" },
+    { id: "9", provinceData: "Kep" },
+    { id: "10", provinceData: "Koh Kong" },
+    { id: "11", provinceData: "Kratié" },
+    { id: "12", provinceData: "Mondulkiri" },
+    { id: "13", provinceData: "Oddar Meanchey" },
+    { id: "14", provinceData: "Pailin" },
+    { id: "15", provinceData: "Phnom Penh" },
+    { id: "16", provinceData: "Preah Sihanouk" },
+    { id: "17", provinceData: "Preah Vihear" },
+    { id: "18", provinceData: "Prey Veng" },
+    { id: "19", provinceData: "Pursat" },
+    { id: "20", provinceData: "Ratanakiri" },
+    { id: "21", provinceData: "Siem Reap" },
+    { id: "22", provinceData: "Stung Treng" },
+    { id: "23", provinceData: "Svay Rieng" },
+    { id: "24", provinceData: "Takéo" },
+    { id: "25", provinceData: "Tboung Khmum" }
+  ]
 };
 
 const DEFAULT_FORM_VALUE = {
@@ -235,7 +252,7 @@ const AboutForm = ({
                 </button>
                 <div className="relative sm:w-[130px] w-full">
                   <InputForm
-                    type="number"
+                    type="text"
                     borderSize="phonenumber"
                     borderColor="phonenumberSize"
                     placeholder="5544-556"

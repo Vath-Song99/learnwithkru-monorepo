@@ -14,7 +14,7 @@ const becomeTeacher = Yup.object().shape({
     phone_number: Yup.string()
     .min(8, 'Phone number must be at least 8 characters')
     .max(10, 'Phone number must be at most 10 characters')
-    .matches(/^\+?(?:855|0)\d{8}$/, 'Phone number must  +855xxxxxxxx or 0xxxxxxxx'),
+    .matches(/^(?:\+855\d{8}|0\d{8})$/, 'Phone number must  +855xxxxxxxx or 0xxxxxxxx'),
   province: Yup.string().required().min(3, "please select province"),
   subject: Yup.string().required().min(3, "please Select Subject "),
 });
@@ -104,7 +104,7 @@ const DescriptionTeachers = Yup.object().shape({
 export { DescriptionTeachers };
 
 const PriceTeachers = Yup.object().shape({
-  priceTeacher: Yup.string()
+  price: Yup.number()
     .required("Please enter a price.")
     .test(
       'is-number',

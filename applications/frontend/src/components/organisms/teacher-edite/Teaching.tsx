@@ -1,4 +1,5 @@
 "use client";
+
 import { Button, InputForm, Typography } from "@/components/atoms";
 import React, {
   ChangeEvent,
@@ -8,11 +9,12 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { BecomeTeacherData, BecomeTeacherFormTypes } from "./@types";
 import { Select } from "@/components/atoms/select/select";
 import * as Yup from "yup";
 import { teachersExperience } from "@/schema/becomeTeacher";
 import { getLocalStorageTeacher, setLocalStorageTeacher } from "@/utils/localStorage";
+import { BecomeTeacherData } from "../become-teacher-form/@types";
+import { BecomeTeacherFormUpdateTypes } from "./@type";
 
 const DEFAULT_FORM_VALUE = {
   university: "",
@@ -59,14 +61,11 @@ const degreeData = {
   ]
 };
 
-const BecomeTeacherForm = ({
+const Teaching = ({
   description,
   checkboxtext,
-  currentPage,
-  setCurrentPage,
-  pageIndex,
-  setdataTutor,
-}: BecomeTeacherFormTypes) => {
+  title,
+}: BecomeTeacherFormUpdateTypes) => {
   const [showForm, setShowForm] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] = useState<BecomeTeacherData>(DEFAULT_FORM_VALUE);
@@ -102,12 +101,6 @@ const BecomeTeacherForm = ({
   };
  
 
-  const handleBack = () => {
-    if (currentPage > 0) {
-      setCurrentPage((prevPage) => prevPage - 1);
-    }
-  };
-
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (
     e: FormEvent<HTMLFormElement>
   ) => {
@@ -115,17 +108,15 @@ const BecomeTeacherForm = ({
 
     try {
    await teachersExperience.validate(formData, { abortEarly: false });
-      if (pageIndex !== undefined) {
-        setCurrentPage((prevPage) => Math.min(prevPage + 1, pageIndex.length - 1));
-      }
+     
       setErrors({});
       const year_experience= parseInt(formData.year_experience)
-      setdataTutor((prev: any) => ({ ...prev, university: formData.university,
+      setFormData((prev: any) => ({ ...prev, university: formData.university,
          type_degree: formData.type_degree,
          certificate: formData.certificate,
          year_experience: year_experience }));
       setLocalStorageTeacher("educationTeacher", formData);
-    
+    console.log("form data",formData.year_experience)
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const newErrors: { [key: string]: string } = {};
@@ -144,14 +135,13 @@ const BecomeTeacherForm = ({
   ) => {
     e.preventDefault();
     try {
-      if (pageIndex !== undefined) {
-        setCurrentPage((prevPage) => Math.min(prevPage + 1, pageIndex.length - 1));
-      }
+ 
       const year_experience= 0;
-      setdataTutor((prev: any) => ({ ...prev, university: formData.university,
-        type_degree: formData.type_degree,
-        certificate: formData.certificate,
+      setFormData((prev: any) => ({ ...prev, university: DEFAULT_FORM_VALUE.university,
+        type_degree: DEFAULT_FORM_VALUE.type_degree,
+        certificate: DEFAULT_FORM_VALUE.certificate,
         year_experience: year_experience }));
+        console.log("form", formData.certificate)
       setErrors({});
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
@@ -220,21 +210,12 @@ const BecomeTeacherForm = ({
                   </div>
                   <div className="flex flex-col">
                     <div className="flex justify-center gap-4">
-                      {currentPage > 0 && (
-                        <Button
-                          onClick={handleBack}
-                          radius="md"
-                          className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                          Back
-                        </Button>
-                      )}
                       <Button
                         type="submit"
                         radius="md"
                         className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       >
-                        Next
+                      Update submit
                       </Button>
                     </div>
                   </div>
@@ -383,15 +364,7 @@ const BecomeTeacherForm = ({
                   </div>
                   <div className="flex flex-col">
                     <div className="flex justify-end gap-4">
-                      {currentPage > 0 && (
-                        <Button
-                          onClick={handleBack}
-                          radius="md"
-                          className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                          Back
-                        </Button>
-                      )}
+                   
                       <Button
                         type="submit"
                         radius="md"
@@ -411,4 +384,6 @@ const BecomeTeacherForm = ({
   );
 };
 
-export { BecomeTeacherForm };
+export { Teaching };
+
+

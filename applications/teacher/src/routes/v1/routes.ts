@@ -35,11 +35,30 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ITimeSlot": {
+        "dataType": "refObject",
+        "properties": {
+            "start": {"dataType":"string","required":true},
+            "end": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IAvailableDay": {
+        "dataType": "refObject",
+        "properties": {
+            "day": {"dataType":"string","required":true},
+            "time": {"dataType":"array","array":{"dataType":"refObject","ref":"ITimeSlot"},"required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ITeacher": {
         "dataType": "refObject",
         "properties": {
             "first_name": {"dataType":"string","required":true},
             "last_name": {"dataType":"string","required":true},
+            "email": {"dataType":"string","required":true},
             "picture": {"dataType":"string","required":true},
             "phone_number": {"dataType":"string","required":true},
             "subject": {"dataType":"string","required":true},
@@ -49,7 +68,7 @@ const models: TsoaRoute.Models = {
             "type_degree": {"dataType":"string","required":true},
             "bio": {"dataType":"string","required":true},
             "motivation": {"dataType":"string","required":true},
-            "date_available": {"dataType":"nestedObjectLiteral","nestedProperties":{"time":{"dataType":"nestedObjectLiteral","nestedProperties":{"end":{"dataType":"string","required":true},"start":{"dataType":"string","required":true}},"required":true},"day":{"dataType":"string","required":true}},"required":true},
+            "date_available": {"dataType":"array","array":{"dataType":"refObject","ref":"IAvailableDay"},"required":true},
             "price": {"dataType":"double","required":true},
             "certificate": {"dataType":"string","required":true},
             "video": {"dataType":"string","required":true},
@@ -109,6 +128,7 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 201,
               });
+              next();
             } catch (err) {
                 return next(err);
             }
@@ -139,6 +159,7 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 200,
               });
+              next();
             } catch (err) {
                 return next(err);
             }
@@ -170,6 +191,7 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 200,
               });
+              next();
             } catch (err) {
                 return next(err);
             }
@@ -200,6 +222,7 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 200,
               });
+              next();
             } catch (err) {
                 return next(err);
             }
@@ -230,6 +253,7 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 200,
               });
+              next();
             } catch (err) {
                 return next(err);
             }
