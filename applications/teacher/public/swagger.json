@@ -428,7 +428,7 @@
 				}
 			}
 		},
-		"/v1/teachers/teacher-profile/{id}": {
+		"/v1/teachers/{id}": {
 			"get": {
 				"operationId": "FindOneTeacher",
 				"responses": {

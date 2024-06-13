@@ -1,6 +1,7 @@
 "use client";
 import React, { FormEvent, useState } from "react";
 import { Image, } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import { Button, InputForm, Typography } from "@/components/atoms";
 import * as Yup from "yup";
 import { studentSchema } from "../../../schema/studentForm";
@@ -18,10 +19,6 @@ interface Student {
 const SignupToBecomeStudent = () => {
     const [grade, setGrade] = useState<string>("1");
     const [education, setEducation] = useState<string>("Primary School");
-
-
-
-
     const [validate, setValidate] = useState<Student>({
         school_name: "",
         student_card: '',
@@ -85,6 +82,7 @@ const SignupToBecomeStudent = () => {
             setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
         }
     };
+    const router = useRouter()
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
         event: FormEvent<HTMLFormElement>
@@ -98,6 +96,7 @@ const SignupToBecomeStudent = () => {
                 formData.append("student_card", validate.student_card);
             }
             console.log("Student Data: ", validate);
+            router.push('/teacher-list');
         } catch (error) {
             if (error instanceof Yup.ValidationError) {
                 const newErrors: { [key: string]: string } = {};
@@ -112,9 +111,7 @@ const SignupToBecomeStudent = () => {
 
         }
     };
-
     return (
-
         <div className="h-fullflex flex-col justify-between items-center">
             <div className="w-full sm:w-[75%] md:w-[60%] lg:w-[150vh] flex xl:justify-between lg:justify-center justify-start items-center xl:gap-20">
                 <div className="w-[80%] md:w-full lg:w-[35%] grid lg:grid-flow-row gap-2 mt-2">
@@ -122,7 +119,7 @@ const SignupToBecomeStudent = () => {
                         align="left"
                         fontSize="xl"
                         variant="2-extrabold"
-                        className="md:text-[30px] lg:text-[40px] flex justify-center"
+                        className="md:text-[30px] lg:text-[40px] flex justify-center    "
                     >
                         Student Form
                     </Typography>
@@ -158,9 +155,19 @@ const SignupToBecomeStudent = () => {
                             )}
                         </div>
                         <div>
-                            <Typography className="flex justify-start text-nowrap">
-                                Fill Your Student Card
-                            </Typography>
+                            <div className="flex justify-between  sm:justify-between  w-[330px] md:w-[350px] sm:w-[350px] lg:w-[500px]" >
+                                <Typography className="flex justify-start text-nowrap">
+                                    Fill Your Student Card
+                                </Typography>
+                                <Typography
+                                    className="text-red-500"
+
+                                >
+                                    *optional
+                                </Typography>
+                            </div>
+
+
                             <InputForm
                                 type="file"
                                 placeholder="student_card"
@@ -170,6 +177,8 @@ const SignupToBecomeStudent = () => {
                                 onChange={() => { }}
                                 className="border border-[#445455] outline-none w-[300px] md:w-[350px] sm:w-[350px] lg:w-[500px] h-14 p-3"
                             />
+
+
                         </div>
                         {/* <div>
                             <Typography className="flex justify-start">Education</Typography>
@@ -242,12 +251,6 @@ const SignupToBecomeStudent = () => {
                                     <option key={index + 1} value={index + 1}>Grade {index + 1}</option>
                                 ))}
                             </Select>
-
-
-
-
-
-
                         </div>
 
                         <div className="w-[330px] md:w-[350px] sm:w-[350px] lg:w-[500px] flex justify-center md:justify-center lg:justify-start">

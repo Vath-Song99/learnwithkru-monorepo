@@ -1,5 +1,4 @@
 import { IUser } from "@/@types/user";
-import { IUserBecomeTeacher } from "@/app/become-teacher/page";
 import { Dispatch, SetStateAction } from "react";
 
 interface InputFormsTypes {
@@ -10,25 +9,25 @@ interface InputFormsTypes {
   borderRadius?: string;
 }
 
-export  interface BecomeTeacherType{
+export interface BecomeTeacherType {
   first_name: string;
   last_name: string;
   subject: string;
   phone_number: string;
-  province: string
-  
+  province: string;
+
   university: string;
   year_experience: number;
   type_degree: string;
   certificate: string;
-  
+
   bio: string;
   motivation: string;
-  video:string
+  video: string;
   teaching_experience: string;
-  
+
   price: number;
-    }
+}
 
 export interface BecomeTeacherFormTypes {
   title: string;
@@ -42,10 +41,9 @@ export interface BecomeTeacherFormTypes {
   currentPage: number;
   pageIndex?: number[];
   setCurrentPage: Dispatch<SetStateAction<number>>;
-  setdataTutor?:  any
+  setdataTutor?: any;
   dataTutor: BecomeTeacherType | undefined;
-  dataUser:  IUserBecomeTeacher | null;
-
+  dataUser: IUser | null;
 }
 
 export interface TimeAvailableFormTypes extends BecomeTeacherFormTypes {
@@ -55,19 +53,18 @@ export interface TimeAvailableFormTypes extends BecomeTeacherFormTypes {
 
 export interface AboutFormProps {
   first_name: string;
-last_name: string;
-subject: string;
-phone_number: string;
-province: string;
-email: string;
+  last_name: string;
+  subject: string;
+  phone_number: string;
+  province: string;
+  email: string;
 }
-
 
 export interface BecomeTeacherData {
   university: string;
   year_experience: string;
   type_degree: string;
-  certificate:  string | null;
+  certificate: string | null;
 }
 
 export interface TeachersdescriptionProps {
@@ -77,15 +74,10 @@ export interface TeachersdescriptionProps {
   video: string | null;
 }
 
-
 export interface teachersProps {
-    lastname: string;
-    firstname: string;
-    phonenumber: string;
-    province: string;
-    subject: string;
-
+  lastname: string;
+  firstname: string;
+  phonenumber: string;
+  province: string;
+  subject: string;
 }
-
-
- 
