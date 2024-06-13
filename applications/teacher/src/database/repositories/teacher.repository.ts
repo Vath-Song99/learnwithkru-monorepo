@@ -2,13 +2,13 @@ import StatusCode from "../../utils/http-status-code";
 import { PaginateRepo } from "../@types/repo-type";
 import { ApiError, BaseCustomError } from "../../error/base-custom-error";
 import { logger } from "../../utils/logger";
-import teacherModel, { IteacherDocs } from "../models/teacher.model";
-import { ITeacher } from "../../@types/teacher.type";
+import teacherModel, { ITeacherDocs } from "../models/teacher.model";
+import { ITeacher, ITeacherUpdate } from "../../@types/teacher.type";
 import { Filter } from "../../@types/queries.type";
 export class TeacherRepository {
   constructor() {}
 
-  async CreateTeacher(teacherData: ITeacher): Promise<IteacherDocs> {
+  async CreateTeacher(teacherData: ITeacher): Promise<ITeacherDocs> {
     try {
       // Log the attempt to create a new teacher
       logger.info(
@@ -61,7 +61,12 @@ export class TeacherRepository {
       // Fetch teachers from the database
       // Fetch teachers and total count concurrently
       const [teachers, totalTeachers] = await Promise.all([
-        teacherModel.find(filter).sort({ createdAt: -1 }).skip(skip).limit(pageSize).lean(),
+        teacherModel
+          .find(filter)
+          .sort({ createdAt: -1 })
+          .skip(skip)
+          .limit(pageSize)
+          .lean(),
         teacherModel.countDocuments(filter),
       ]);
 
@@ -118,7 +123,7 @@ export class TeacherRepository {
     }
   }
 
-  async FindTeacherByUserID(userId: string): Promise<IteacherDocs | null> {
+  async FindTeacherByUserID(userId: string): Promise<ITeacherDocs | null> {
     try {
       // Validate input
       if (!userId) {
@@ -148,6 +153,53 @@ export class TeacherRepository {
 
       // Throw a generic error for other cases
       throw new ApiError("Something went wrong!");
+    }
+  }
+
+  async UpdateTeacher({
+    id,
+    teacherData,
+  }: {
+    id: string;
+    teacherData: ITeacherUpdate;
+  }): Promise<ITeacherDocs> {
+    try {
+      // Log the attempt to update a new teacher
+      logger.info(
+        `Attempting to update a new teacher with data: ${JSON.stringify(
+          teacherData
+        )}`
+      );
+      // update the new teacher
+      const newTeacher = await teacherModel.findByIdAndUpdate(
+        { _id: id },
+        teacherData,
+        { new: true }
+      );
+
+      if (!newTeacher) {
+        // Log the failure to update the teacher
+        logger.error(
+          "Failed to update a new teacher: Teacher creation returned null"
+        );
+        throw new ApiError("Unable to update user in database!");
+      }
+      // Save the new teacher
+      const savedTeacher = await newTeacher.save();
+
+      // Log the success
+      logger.info(
+        `Successfully updated and saved a new teacher with ID: ${savedTeacher.id}`
+      );
+
+      return savedTeacher;
+    } catch (error: unknown) {
+      // Log the error
+      logger.error("Error occurred while creating a new teacher", error);
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError("Somthing went wrong!");
     }
   }
 }

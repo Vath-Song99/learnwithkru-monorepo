@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const api_error_1 = __importDefault(require("../errors/api-error"));
+const api_error_1 = __importDefault(require("@notifications/errors/api-error"));
 // ********************************
 // Singleton Pattern
 // 1. A Class has only single instance

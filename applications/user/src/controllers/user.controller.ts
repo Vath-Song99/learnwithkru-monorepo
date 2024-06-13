@@ -72,7 +72,7 @@ export class UserController extends Controller {
 
   @SuccessResponse(StatusCode.OK, "OK")
   @Get(PATH_USER.USER_PROFILE)
-  @Middlewares(authorize(["user"]))
+  @Middlewares(authorize(["user", "student", "teacher"]))
   async GetUserProfile(
     @Request() req: Express.Request
   ): Promise<{ message: string; data: UserProfile }> {

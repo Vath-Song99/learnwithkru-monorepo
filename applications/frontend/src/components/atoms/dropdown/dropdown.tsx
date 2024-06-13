@@ -44,7 +44,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     setIsOpen(!isOpen);
   };
 
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (

@@ -6,12 +6,11 @@ import {
   RequestBody,
   TokenResponse,
 } from "./@types/oauth.type";
-import querystring from "querystring" 
+import querystring from "querystring";
 import getConfig from "./config";
 
-
 const currentEnv = process.env.NODE_ENV || "development";
-const config =  getConfig(currentEnv);
+const config = getConfig(currentEnv);
 export class OauthConfig {
   private static instance: OauthConfig;
 

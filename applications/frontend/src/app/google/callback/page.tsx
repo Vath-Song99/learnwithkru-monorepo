@@ -30,11 +30,8 @@ const CallbackRedirect = () => {
           if (res.data.status === 400 || res.data.status === 404) {
             notFound(); // Use notFound directly
           }
-        } else if (res.data.message.includes("Success signup") && res.status === 200) {
-          router.push("/teachers"); // Use router.push directly
-          return;
-        }
-        
+        }           router.push("/teachers"); // Use router.push directly
+
       } catch (error) {
         console.error("Error:", error); // Log error
         // Handle error cases here, e.g., redirect to error page or show error message

@@ -40,7 +40,7 @@ interface ITeacherData {
     data: ITeacher | null;
 }
 async function getTeachersData(_id: string): Promise<ITeacherData> {
-    try {
+    try {   
         const cookieStringOrAuth = getCookieString();
 
         if (typeof cookieStringOrAuth === "object") {
