@@ -14,7 +14,7 @@ export const getCookieString = (): string | IAuth => {
   } else if (persistent || (session && sessionSig)) {
     return `_ga=${_ga};persistent=${persistent};session=${session};session.sig=${sessionSig}`;
   }
-  
+
   return { isAuth: false, data: null };
 
   // return new Promise((resolve) =>{

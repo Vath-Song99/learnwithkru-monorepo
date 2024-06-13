@@ -19,7 +19,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             // currect env
-            const currentEnv = process.env.NODE_ENV || "development";
+            const currentEnv = process.env.NODE_ENV || "production";
             const config = (0, config_1.default)(currentEnv);
             // Activate Database
             const mongodb = database_1.default.getInstance();
