@@ -87,6 +87,7 @@ jobs:
             MONGODB_URL=${{ secrets.USER_MONGODB_URL}}
             JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN}}
             API_GATEWAY=${{secrets.API_GATEWAY}}
+            AUTH_SERVICE_GET=${{secrets.AUTH_SERVICE_GET}}
             TEST=${{ secrets.TEST }}
             EOF
       - name: Start

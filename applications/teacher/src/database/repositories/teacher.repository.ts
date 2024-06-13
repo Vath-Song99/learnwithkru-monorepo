@@ -2,13 +2,13 @@ import StatusCode from "../../utils/http-status-code";
 import { PaginateRepo } from "../@types/repo-type";
 import { ApiError, BaseCustomError } from "../../error/base-custom-error";
 import { logger } from "../../utils/logger";
-import teacherModel, { IteacherDocs } from "../models/teacher.model";
+import teacherModel, { ITeacherDocs } from "../models/teacher.model";
 import { ITeacher } from "../../@types/teacher.type";
 import { Filter } from "../../@types/queries.type";
 export class TeacherRepository {
   constructor() {}
 
-  async CreateTeacher(teacherData: ITeacher): Promise<IteacherDocs> {
+  async CreateTeacher(teacherData: ITeacher): Promise<ITeacherDocs> {
     try {
       // Log the attempt to create a new teacher
       logger.info(
@@ -118,7 +118,7 @@ export class TeacherRepository {
     }
   }
 
-  async FindTeacherByUserID(userId: string): Promise<IteacherDocs | null> {
+  async FindTeacherByUserID(userId: string): Promise<ITeacherDocs | null> {
     try {
       // Validate input
       if (!userId) {

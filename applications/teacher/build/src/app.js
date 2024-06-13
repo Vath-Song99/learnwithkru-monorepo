@@ -13,7 +13,7 @@ const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const routes_1 = require("./routes/v1/routes");
 //app
 const app = (0, express_1.default)();
-const currentEnv = process.env.NODE_ENV || "development";
+const currentEnv = process.env.NODE_ENV || "production";
 const config = (0, config_1.default)(currentEnv);
 //global middlewares
 app.set("trust proxy", 1);

@@ -23,3 +23,8 @@ export function getLocalStorageTeacher(name: string) {
   const item = localStorage.getItem(name);
   return item ? JSON.parse(item) : null;
 }
+
+
+export function clearLocalStorage(name: string) {
+  localStorage.removeItem(name);
+}

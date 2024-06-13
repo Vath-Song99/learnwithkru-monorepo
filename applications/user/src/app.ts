@@ -10,7 +10,7 @@ import { RegisterRoutes } from "./routes/v1/routes";
 // application user
 const app: Application = express();
 
-const currentEnv = process.env.NODE_ENV || "development";
+const currentEnv = process.env.NODE_ENV || "production";
 const config = getConfig(currentEnv);
 //global middleware
 app.set("trust proxy", 1);
@@ -40,7 +40,7 @@ app.get("/swagger.json", (_req, res) => {
   res.sendFile(path.join(__dirname, "./swagger-dist/swagger.json"));
 });
 
-// Api router
+// Router
 RegisterRoutes(app);
 
 //error handler
