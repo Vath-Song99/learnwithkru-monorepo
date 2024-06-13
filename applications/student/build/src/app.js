@@ -11,7 +11,7 @@ const config_1 = __importDefault(require("./utils/config"));
 const logger_handler_1 = __importDefault(require("./middlewares/logger-handler"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const routes_1 = require("./routes/v1/routes");
-const currentEnv = process.env.NODE_ENV || "development";
+const currentEnv = process.env.NODE_ENV || "production";
 const config = (0, config_1.default)(currentEnv);
 //app
 const app = (0, express_1.default)();

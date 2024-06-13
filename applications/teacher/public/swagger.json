@@ -55,12 +55,50 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ITimeSlot": {
+				"properties": {
+					"start": {
+						"type": "string"
+					},
+					"end": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"start",
+					"end"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IAvailableDay": {
+				"properties": {
+					"day": {
+						"type": "string"
+					},
+					"time": {
+						"items": {
+							"$ref": "#/components/schemas/ITimeSlot"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"day",
+					"time"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ITeacher": {
 				"properties": {
 					"first_name": {
 						"type": "string"
 					},
 					"last_name": {
+						"type": "string"
+					},
+					"email": {
 						"type": "string"
 					},
 					"picture": {
@@ -92,31 +130,10 @@
 						"type": "string"
 					},
 					"date_available": {
-						"properties": {
-							"time": {
-								"properties": {
-									"end": {
-										"type": "string"
-									},
-									"start": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"end",
-									"start"
-								],
-								"type": "object"
-							},
-							"day": {
-								"type": "string"
-							}
+						"items": {
+							"$ref": "#/components/schemas/IAvailableDay"
 						},
-						"required": [
-							"time",
-							"day"
-						],
-						"type": "object"
+						"type": "array"
 					},
 					"price": {
 						"type": "number",
@@ -135,6 +152,7 @@
 				"required": [
 					"first_name",
 					"last_name",
+					"email",
 					"picture",
 					"phone_number",
 					"subject",

@@ -6,6 +6,7 @@ import { CreateClass } from "./CreateClass";
 import ResetPassword from "./ResetPassword";
 import { BecomeTeacher } from "./Become-teacher";
 
+
 export {
   Homepage,
   TeacherList,

@@ -1,6 +1,6 @@
 import { Filter, IQueries } from "../@types/queries.type";
 import { ITeacher } from "../@types/teacher.type";
-import { IteacherDocs } from "../database/models/teacher.model";
+import { ITeacherDocs } from "../database/models/teacher.model";
 import { TeacherRepository } from "../database/repositories/teacher.repository";
 import { BaseCustomError } from "../error/base-custom-error";
 import StatusCode from "../utils/http-status-code";
@@ -74,7 +74,7 @@ export class TeacherServices {
   async CreateTeacher(
     requestBody: ITeacher,
     userId: string
-  ): Promise<{ data: IteacherDocs; token: string }> {
+  ): Promise<{ data: ITeacherDocs; token: string }> {
     try {
       const teacherData = { userId, ...requestBody };
       const existTeacher = await this.teacherRepo.FindTeacherByUserID(userId);

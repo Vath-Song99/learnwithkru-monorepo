@@ -1,14 +1,62 @@
-<<<<<<<< HEAD:application/frontend/src/app/become-teacher/become-teacher-form/page.tsx
-import { SignupToBecomeTeacher } from "@/components";
-========
+import { IAuth } from "@/@types/auth";
 import { BecomeTeacher } from "@/components";
->>>>>>>> b08f1912615899528f3a6d574986bc5a8271d6e9:applications/frontend/src/app/become-teacher/page.tsx
+
+import { getCookieString } from "@/utils/getCookieString";
+import axios from "axios";
+
 import React from "react";
 
-const page = () => {
+export interface IUserBecomeTeacher {
+  firstname: string;
+  lastname: string;
+  email: string;
+  picture: string | null;
+}
+
+const getUserData = async (): Promise<IAuth> => {
+  const cookieString = getCookieString();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL_LOCAL || "http://localhost:3000";
+  console.log(apiUrl)
+  try {
+    if (typeof cookieString === "object") {
+      return cookieString;
+    }
+    const res = await axios.get(`${apiUrl}/v1/users`, {
+
+      withCredentials: true,
+      headers: { Cookie: cookieString as string },
+    });
+
+    if (res.data.errors) {
+      return { errors: res.data.errors, data: null };
+    }
+
+    return { isAuth: true, data: res.data.data };
+
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error details:", error.response?.data);
+    }
+
+    throw error;
+  }
+};
+
+const page = async () => {
+  const { errors, data } = await getUserData();
+
+  if (errors) {
+    <div className="w-full flex justify-center pt-10">
+      <div className="flex justify-center items-center min-h-screen">
+        <h1 className="">{errors}</h1>
+      </div>
+    </div>;
+  }
+
   return (
     <div className="w-full h-[100vh] flex justify-center items-center">
-      <SignupToBecomeTeacher />
+
+      <BecomeTeacher data={data} />
     </div>
   );
 };

@@ -63,7 +63,7 @@ const SearchInput = ({ className }: { className?: string }) => {
 
       </div>
       <button className="px-4 h-full bg-[#dfdede] rounded-e-full hover:bg-[#a6a4a4]" onClick={handleSearchOnclick}>
-          <Image src={'/logos/search.svg'} alt="search" width={30} height={30}></Image>
+          <Image src={'/Logos/search.svg'} alt="search" width={30} height={30}></Image>
           </button>
     </div>
   );

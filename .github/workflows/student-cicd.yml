@@ -83,6 +83,7 @@ jobs:
             PORT=${{ secrets.STUDENT_PORT }}
             CLIENT_URL=${{ secrets.CLIENT_URL }}
             LOG_LEVEL=${{ secrets.LOG_LEVEL }}
+            API_GATEWAY=${{secrets.API_GATEWAY}}
             RABBITMQ_ENDPOINT=${{ secrets.RABBITMQ_ENDPOINT }}
             USER_SERVICE=${{ secrets.USER_SERVICE_URL }}
             MONGODB_URL=${{ secrets.STUDENT_MONGODB_URL}}

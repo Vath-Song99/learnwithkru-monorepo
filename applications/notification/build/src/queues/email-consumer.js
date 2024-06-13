@@ -13,11 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.consumeNotificationMessages = exports.consumeAuthEmailMessages = void 0;
-const logger_1 = require("../utils/logger");
+const logger_1 = require("@notifications/utils/logger");
 const connection_1 = require("./connection");
-const email_sender_1 = __importDefault(require("../utils/email-sender"));
-const config_1 = __importDefault(require("../utils/config"));
-const socket_sender_1 = require("../utils/socket-sender");
+const email_sender_1 = __importDefault(require("@notifications/utils/email-sender"));
+const config_1 = __importDefault(require("@notifications/utils/config"));
+const socket_sender_1 = require("@notifications/utils/socket-sender");
 // TODO:
 // 1. Check If Channel Exist. If Not Create Once
 // 2. Define ExchangeName, RoutingKey, QueueName
