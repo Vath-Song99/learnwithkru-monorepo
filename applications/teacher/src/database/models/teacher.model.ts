@@ -24,7 +24,7 @@ const teacherSchema = new Schema({
     index: true,
   },
   email: {
-    type: String
+    type: String,
   },
   picture: {
     type: String,
@@ -32,7 +32,7 @@ const teacherSchema = new Schema({
   phone_number: {
     type: String,
     minlength: 8,
-    match: /^\+?(?:855|0)\d{8}$/,
+    maxlength: 10,
     required: true,
   },
   subject: {
@@ -79,10 +79,10 @@ const teacherSchema = new Schema({
           },
           end: {
             type: String,
-          }
-        }
-      ]
-    }
+          },
+        },
+      ],
+    },
   ],
   price: {
     type: Number,
@@ -98,13 +98,13 @@ const teacherSchema = new Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   teaching_experience: {
     type: String,
     minlength: 25,
     maxlength: 150,
-  }
+  },
 });
 
 const teacherModel = mongoose.model<ITeacherDocs>("teachers", teacherSchema);

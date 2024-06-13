@@ -204,6 +204,65 @@
 				},
 				"type": "object",
 				"additionalProperties": false
+			},
+			"ITeacherUpdate": {
+				"properties": {
+					"first_name": {
+						"type": "string"
+					},
+					"last_name": {
+						"type": "string"
+					},
+					"picture": {
+						"type": "string"
+					},
+					"phone_number": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"province": {
+						"type": "string"
+					},
+					"university": {
+						"type": "string"
+					},
+					"year_experience": {
+						"type": "number",
+						"format": "double"
+					},
+					"type_degree": {
+						"type": "string"
+					},
+					"bio": {
+						"type": "string"
+					},
+					"motivation": {
+						"type": "string"
+					},
+					"date_available": {
+						"items": {
+							"$ref": "#/components/schemas/IAvailableDay"
+						},
+						"type": "array"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"certificate": {
+						"type": "string"
+					},
+					"video": {
+						"type": "string"
+					},
+					"teaching_experience": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -506,6 +565,96 @@
 						}
 					}
 				]
+			}
+		},
+		"/v1/teachers/get/{id}": {
+			"get": {
+				"operationId": "GetTeacher",
+				"responses": {
+					"200": {
+						"description": "GET OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"$ref": "#/components/schemas/ITeacher"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/v1/teachers/update/{id}": {
+			"patch": {
+				"operationId": "UpdateTeacher",
+				"responses": {
+					"201": {
+						"description": "Updated",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"$ref": "#/components/schemas/ITeacher"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ITeacherUpdate"
+							}
+						}
+					}
+				}
 			}
 		}
 	},
