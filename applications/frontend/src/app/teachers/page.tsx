@@ -55,7 +55,7 @@ async function getTeachersData({
   | undefined
 > {
   try {
-    const API_ENDPOINT = `http://localhost:3000/v1/teachers?pageSize=6&pageNumber=${pageNumber}&name=${search_query}&province=${province}&subject=${subject}&time_available=${time_available}&min_p=${min_p}&max_p=${max_p}`;
+    const API_ENDPOINT = `https://api.learnwithkru.com/v1/teachers?pageSize=6&pageNumber=${pageNumber}&name=${search_query}&province=${province}&subject=${subject}&time_available=${time_available}&min_p=${min_p}&max_p=${max_p}`;
     const res = await axios.get(API_ENDPOINT);
 
     return { data: { teachers: res.data.data, detail: res.data.detail } };

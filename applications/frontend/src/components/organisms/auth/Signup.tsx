@@ -146,9 +146,10 @@ const Signup = () => {
       <div className="hidden items-center justify-center sm:hidden md:flex lg:flex xl:flex">
         <Image
           alt="login page"
-          src={"/login.png"}
+          src={"/Benner/login.png"}
           width={500}
           height={500}
+          loading={"lazy"}
         ></Image>
       </div>
     </div>

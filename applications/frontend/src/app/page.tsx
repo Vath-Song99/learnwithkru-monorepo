@@ -9,24 +9,24 @@ const getUserData = async (): Promise<{
   errors?: string;
   data: IUser | null;
 }> => {
+  const cookieString = getCookieString();
   try {
-    const cookieString = getCookieString();
     
     if(typeof cookieString === 'object'){
       return cookieString
     }
-    const res = await axios.get("http://localhost:3000/v1/users", {
+    const res = await axios.get("https://localhost:3000/v1/users", {
       withCredentials: true,
       headers: { Cookie: cookieString as string},
     });
-
+    
     if (res.data.errors) {
       return { errors: res.data.errors, data: null };
     }
 
     return { isAuth: true, data: res.data.data };
   } catch (error: unknown) {
-    console.error("Error fetching user data:", error);
+    console.log("Home error",error)
     throw error;
   }
 };
