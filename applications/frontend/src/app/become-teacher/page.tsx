@@ -1,15 +1,7 @@
-<<<<<<< HEAD
-<<<<<<<< HEAD:application/frontend/src/app/become-teacher/become-teacher-form/page.tsx
-import { SignupToBecomeTeacher } from "@/components";
-========
-import { BecomeTeacher } from "@/components";
->>>>>>>> 41878da432bf700523c49376838f4ec8d51f01ad:applications/frontend/src/app/become-teacher/page.tsx
-=======
 
 import { BecomeTeacher } from "@/components";
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
->>>>>>> c8bd534417799e1117ec66f94609eb8dcff02dcd
 import React from "react";
 
 export interface IUserBecomeTeacher {
@@ -58,11 +50,7 @@ const page = async () => {
 
   return (
     <div className="w-full h-[100vh] flex justify-center items-center">
-<<<<<<< HEAD
-      <SignupToBecomeTeacher />
-=======
       <BecomeTeacher  data={data}/>
->>>>>>> c8bd534417799e1117ec66f94609eb8dcff02dcd
     </div>
   );
 };
