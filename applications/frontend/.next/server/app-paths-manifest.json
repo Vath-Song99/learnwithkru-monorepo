@@ -1,7 +1,9 @@
 {
+  "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
   "/teachers/page": "app/teachers/page.js",
   "/teachers/[id]/page": "app/teachers/[id]/page.js",
-  "/user-setting/page": "app/user-setting/page.js",
-  "/login/page": "app/login/page.js"
+  "/google/callback/page": "app/google/callback/page.js",
+  "/become-teacher/page": "app/become-teacher/page.js",
+  "/form-teacher/page": "app/form-teacher/page.js"
 }
