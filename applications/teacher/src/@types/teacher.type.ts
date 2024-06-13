@@ -1,6 +1,18 @@
+export interface ITimeSlot {
+  start: string;
+  end: string;
+}
+
+export interface IAvailableDay {
+  day: string;
+  time: ITimeSlot[];
+}
+
+
 export interface ITeacher {
   first_name: string;
   last_name: string;
+  email: string;
   picture: string;
   phone_number: string;
   subject: string;
@@ -10,13 +22,7 @@ export interface ITeacher {
   type_degree: string;
   bio: string;
   motivation: string;
-  date_available: { 
-    day: string;
-    time: {
-      start: string;
-      end: string;
-    };
-  }; // Adjusted to match nested structure in teacherSchemas
+  date_available: IAvailableDay[];// Adjusted to match nested structure in teacherSchemas
   price: number;
   certificate: string;
   video: string;
