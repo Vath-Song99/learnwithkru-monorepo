@@ -9,13 +9,14 @@ const Signup = () => {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [facebookloading, setFacebookLoading] = useState(false);
   const router = useRouter();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
 
   const handleSigninWithGoogle = () => {
-    const url = "http://localhost:3000/v1/auth/google";
+    const url = `${apiUrl}/v1/auth/google`;
     router.push(url);
   };
   const handleSigninWithFacebook = () => {
-    const url = "http://localhost:3000/v1/auth/facebook";
+    const url = `${apiUrl}/v1/auth/facebook`;
     router.push(url);
   };
 

@@ -20,8 +20,8 @@ const Login = () => {
       } else if (provider === "facebook") {
         setFacebookLoading(true);
       }
-  
-      const url = `http://localhost:3000/v1/auth/${provider}`;
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
+      const url = `${apiUrl}/v1/auth/${provider}`;
       await router.push(url);
     } catch (error) {
       if (provider === "google") {
@@ -30,7 +30,7 @@ const Login = () => {
         setFacebookLoading(false);
       }
   
-      router.push("http://localhost:8000/login");
+      router.push("/login");
       console.error("Signin failed:", error);
       // You can add further user-friendly error handling here
     }
@@ -152,9 +152,9 @@ const Login = () => {
         <div className="hidden items-center justify-center sm:hidden md:flex lg:flex xl:flex">
           <Image
             alt="login page"
-            src={"/login.png"}
-            width={500}
-            height={500}
+            src={"/Benner/login.png"}
+            width={1000}
+            height={1000}
           ></Image>
         </div>
       </div>
