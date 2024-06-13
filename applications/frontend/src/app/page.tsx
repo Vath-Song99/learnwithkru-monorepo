@@ -3,6 +3,7 @@ import { Homepage, Navbar } from "@/components";
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
 
+
 const getUserData = async (): Promise<IAuth> => {
   const cookieString = getCookieString();
   const apiUrl = process.env.NEXT_PUBLIC_API_URL_LOCAL || "http://localhost:3000";
@@ -12,19 +13,22 @@ const getUserData = async (): Promise<IAuth> => {
       return cookieString;
     }
     const res = await axios.get(`${apiUrl}/v1/users` , {
+
       withCredentials: true,
       headers: { Cookie: cookieString as string },
     });
-
+    
     if (res.data.errors) {
       return { errors: res.data.errors, data: null };
     }
 
     return { isAuth: true, data: res.data.data };
+
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
       console.error("Axios error details:", error.response?.data);
     }
+
     throw error;
   }
 };

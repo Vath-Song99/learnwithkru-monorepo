@@ -29,70 +29,63 @@ const DEFAULT_FORM_VALUE = {
   password: "",
 };
 const FormSignup = () => {
-  const router = useRouter();
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<AuthForm>(DEFAULT_FORM_VALUE);
   const [rememberMe, setRememberMe] = useState(false);
-  async function fetchsignupData(data: AuthForm) {
+  const router = useRouter();
+  
+  const  fetchSignupData = async (): Promise<void> => {
+  
     try {
       const response = await axios.post(
         "http://localhost:3000/v1/auth/signup",
-        data,
+        formData,
         {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
+  
+      console.log("Response data:", response.data);
+  
+      // Check for errors in the response data
       if (response.data.errors) {
-        throw new Error(response.data.errors);
+        console.log("respone error : ", response.data.errors)
       }
-      return response.data;
-    } catch (error: any) {
+  
+      // Redirect to the verify email page
+      router.push("http://localhost:8000/send-verify-email");
+    } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
+        
         if (axiosError.response) {
-          const message = axiosError.response.data as any
-          if(message.errors.message.includes("Verification email has been resent")){
+          const responseData = axiosError.response.data as any;
+  
+          // Handle specific error message about verification email
+          if (responseData.errors?.message?.includes("Verification email has been resent")) {
             router.push("http://localhost:8000/send-verify-email");
           }
-          // Request was made and server responded with a status code
-          console.log("Response data:", axiosError.response.data);
-          console.log("Status code:", axiosError.response.status);
-          console.log("Status message:", axiosError.response.statusText);
+  
+          console.error("Response data:", axiosError.response.data);
+          console.error("Status code:", axiosError.response.status);
+          console.error("Status message:", axiosError.response.statusText);
         } else if (axiosError.request) {
-          // Request was made but no response was received
           console.error("No response received:", axiosError.request);
         } else {
-          // Something happened in setting up the request that triggered an error
-          console.error("Error:", axiosError.message);
+          console.error("Error setting up request:", axiosError.message);
         }
       } else {
-        // Regular JavaScript error
-        console.error("Error:", error.message);
+        // Handle non-Axios errors
+        const genericError = error as Error;
+        console.error("Error:", genericError.message);
       }
     }
   }
 
-  // Call the function to make the request
-  const addNewAuth = async (auth: AuthForm): Promise<void> => {
-    try {
-      const responseData = await fetchsignupData(auth);
-      if (responseData) {
-        router.push("http://localhost:8000/send-verify-email");
-      }
-      const authObject = {
-        lastname: auth.lastname,
-        firstname: auth.firstname,
-        email: auth.email,
-      };
-      setLocalStorage("user", authObject);
-      console.log("User data saved to localStorage:", authObject);
-    } catch (error) {
-      console.error("Error occurred while adding new authentication:", error);
-    }
-  };
+
   // stept 1
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -102,21 +95,23 @@ const FormSignup = () => {
       setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     }
   };
-  const handleCheckboxChange = () => {
-    setRememberMe(!rememberMe);
-  };
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (
     e: FormEvent<HTMLFormElement>
   ) => {
-    e.preventDefault();
     try {
+      e.preventDefault()
+      console.log("Got Eventing", formData)
       // stept 3
-      await AuthValidateSchema.validate(formData, { abortEarly: false });
+      // await AuthValidateSchema.validate(formData, { abortEarly: false });
+      await fetchSignupData()
       // stept 4
-      await addNewAuth(formData);
+      const authObject = {
+        lastname: formData.lastname,
+        firstname: formData.firstname,
+        email: formData.email,
+      };
+      setLocalStorage("user", authObject);
 
       setErrors({});
     } catch (error) {
@@ -132,6 +127,22 @@ const FormSignup = () => {
     }
   };
 
+    // Call the function to make the request
+  // const addNewAuth = async (auth: AuthForm): Promise<void> => {
+  //   try {
+  //     console.log("this is new auth")
+
+  //     console.log("User data saved to localStorage:", authObject);
+  //   } catch (error) {
+  //     console.error("Error occurred while adding new authentication:", error);
+  //   }
+  // };
+  const handleCheckboxChange = () => {
+    setRememberMe(!rememberMe);
+  };
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div className="flex">

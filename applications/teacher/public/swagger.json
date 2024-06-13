@@ -55,12 +55,50 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ITimeSlot": {
+				"properties": {
+					"start": {
+						"type": "string"
+					},
+					"end": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"start",
+					"end"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IAvailableDay": {
+				"properties": {
+					"day": {
+						"type": "string"
+					},
+					"time": {
+						"items": {
+							"$ref": "#/components/schemas/ITimeSlot"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"day",
+					"time"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ITeacher": {
 				"properties": {
 					"first_name": {
 						"type": "string"
 					},
 					"last_name": {
+						"type": "string"
+					},
+					"email": {
 						"type": "string"
 					},
 					"picture": {
@@ -92,31 +130,10 @@
 						"type": "string"
 					},
 					"date_available": {
-						"properties": {
-							"time": {
-								"properties": {
-									"end": {
-										"type": "string"
-									},
-									"start": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"end",
-									"start"
-								],
-								"type": "object"
-							},
-							"day": {
-								"type": "string"
-							}
+						"items": {
+							"$ref": "#/components/schemas/IAvailableDay"
 						},
-						"required": [
-							"time",
-							"day"
-						],
-						"type": "object"
+						"type": "array"
 					},
 					"price": {
 						"type": "number",
@@ -135,6 +152,7 @@
 				"required": [
 					"first_name",
 					"last_name",
+					"email",
 					"picture",
 					"phone_number",
 					"subject",
@@ -182,6 +200,65 @@
 					"max_p": {
 						"type": "number",
 						"format": "double"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ITeacherUpdate": {
+				"properties": {
+					"first_name": {
+						"type": "string"
+					},
+					"last_name": {
+						"type": "string"
+					},
+					"picture": {
+						"type": "string"
+					},
+					"phone_number": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"province": {
+						"type": "string"
+					},
+					"university": {
+						"type": "string"
+					},
+					"year_experience": {
+						"type": "number",
+						"format": "double"
+					},
+					"type_degree": {
+						"type": "string"
+					},
+					"bio": {
+						"type": "string"
+					},
+					"motivation": {
+						"type": "string"
+					},
+					"date_available": {
+						"items": {
+							"$ref": "#/components/schemas/IAvailableDay"
+						},
+						"type": "array"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"certificate": {
+						"type": "string"
+					},
+					"video": {
+						"type": "string"
+					},
+					"teaching_experience": {
+						"type": "string"
 					}
 				},
 				"type": "object",
@@ -488,6 +565,96 @@
 						}
 					}
 				]
+			}
+		},
+		"/v1/teachers/get/{id}": {
+			"get": {
+				"operationId": "GetTeacher",
+				"responses": {
+					"200": {
+						"description": "GET OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"$ref": "#/components/schemas/ITeacher"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/v1/teachers/update/{id}": {
+			"patch": {
+				"operationId": "UpdateTeacher",
+				"responses": {
+					"201": {
+						"description": "Updated",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"$ref": "#/components/schemas/ITeacher"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ITeacherUpdate"
+							}
+						}
+					}
+				}
 			}
 		}
 	},

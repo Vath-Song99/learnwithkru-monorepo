@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { ITeacher } from "../../@types/teacher.type";
 
-export interface IteacherDocs extends ITeacher, Document {
+export interface ITeacherDocs extends ITeacher, Document {
   userId: string;
 }
 
@@ -23,13 +23,16 @@ const teacherSchema = new Schema({
     required: true,
     index: true,
   },
+  email: {
+    type: String,
+  },
   picture: {
     type: String,
   },
   phone_number: {
     type: String,
     minlength: 8,
-    match: /^\+?(?:855|0)\d{8}$/,
+    maxlength: 10,
     required: true,
   },
   subject: {
@@ -44,17 +47,12 @@ const teacherSchema = new Schema({
   },
   university: {
     type: String,
-    minlength: 2,
-    maxlength: 70,
-    required: true,
   },
   year_experience: {
     type: Number,
-    required: true,
   },
   type_degree: {
     type: String,
-    required: true,
   },
   bio: {
     type: String,
@@ -68,26 +66,24 @@ const teacherSchema = new Schema({
     maxlength: 200,
     required: true,
   },
-  date_available: {
-    type: {
+  date_available: [
+    {
       day: {
         type: String,
         required: true,
-        index: true,
       },
-      time: {
-        start: {
-          type: String,
-          required: true,
+      time: [
+        {
+          start: {
+            type: String,
+          },
+          end: {
+            type: String,
+          },
         },
-        end: {
-          type: String,
-          required: true,
-        },
-      },
+      ],
     },
-    required: true,
-  },
+  ],
   price: {
     type: Number,
     required: true,
@@ -95,22 +91,22 @@ const teacherSchema = new Schema({
   },
   certificate: {
     type: String,
-    required: true,
   },
   video: {
     type: String,
     required: true,
   },
   createdAt: {
-    type: Date, default: Date.now
+    type: Date,
+    default: Date.now,
   },
   teaching_experience: {
     type: String,
-    min: 25,
-    max:150
-  }
+    minlength: 25,
+    maxlength: 150,
+  },
 });
 
-const teacherModel = mongoose.model<IteacherDocs>("teachers", teacherSchema);
+const teacherModel = mongoose.model<ITeacherDocs>("teachers", teacherSchema);
 
 export default teacherModel;

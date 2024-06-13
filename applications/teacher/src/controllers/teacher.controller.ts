@@ -4,7 +4,10 @@ import { IQueries } from "../@types/queries.type";
 import { PATH_TEACHER } from "../routes/path-defs";
 import { authorize } from "../middlewares/authorize";
 import { ValidateInput } from "../middlewares/validate-input";
-import { teacherSchemas } from "../schemas/teacher-schema";
+import {
+  teacherSchemas,
+  updateTeacherSchemas,
+} from "../schemas/teacher-schema";
 import { DecodedUser } from "../@types/express-extend.type";
 import {
   Body,
@@ -17,8 +20,9 @@ import {
   Request,
   Route,
   Path,
+  Patch,
 } from "tsoa";
-import { ITeacher } from "../@types/teacher.type";
+import { ITeacher, ITeacherUpdate } from "../@types/teacher.type";
 import { logger } from "../utils/logger";
 
 @Route("/v1/teachers")
@@ -92,6 +96,41 @@ export class TeacherController extends Controller {
       const service = new TeacherServices();
       const respone = await service.Login(userId);
       return { message: "Success login", token: respone.token };
+    } catch (error: unknown) {
+      throw error;
+    }
+  }
+
+  @SuccessResponse(StatusCode.OK, "GET OK")
+  @Get(PATH_TEACHER.getTeacher)
+  async GetTeacher(
+    @Path() id: string
+  ): Promise<{ message: string; data: ITeacher }> {
+    try {
+      const serivice = new TeacherServices();
+      const existingTeacher = await serivice.GetTeacher(id);
+
+      return {
+        message: "Success Retrieved teacher",
+        data: existingTeacher.data,
+      };
+    } catch (error: unknown) {
+      throw error;
+    }
+  }
+
+  @Middlewares(ValidateInput(updateTeacherSchemas))
+  @SuccessResponse(StatusCode.CREATED, "Updated")
+  @Patch(PATH_TEACHER.updateTeacher)
+  async UpdateTeacher(
+    @Path() id: string,
+    @Body() requestBody: ITeacherUpdate
+  ): Promise<{ message: string; data: ITeacher }> {
+    try {
+      const service = new TeacherServices();
+      const updatedTeacher = await service.UpdateTeacher({ id, requestBody });
+
+      return { message: "Success updated teacher", data: updatedTeacher.data };
     } catch (error: unknown) {
       throw error;
     }
