@@ -1,7 +1,6 @@
 "use client";
 import { AuthForm } from "@/@types/users/users";
 import { Button, InputForm } from "@/components";
-import { AuthValidateSchema } from "@/schema/UserValidateSchema";
 import * as Yup from "yup";
 import React, {
   ChangeEvent,

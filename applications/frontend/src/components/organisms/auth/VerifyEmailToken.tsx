@@ -1,8 +1,7 @@
 "use client"
-import { notFound, useRouter, useSearchParams } from "next/navigation";
+import {   useSearchParams } from "next/navigation";
 import axios from "axios";
 const VerifyEmailToken = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
 

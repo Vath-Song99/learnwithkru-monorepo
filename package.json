@@ -6,9 +6,9 @@
   "repository": "https://github.com/Vath-Song99/learnwithkru-monorepo.git",
   "author": "Smoeury Songvat <vatgaming287@gmail.com>",
   "private": true,
-  "workspaces": [
-    "applications/*"
-  ],
+  "workspaces": {
+    "packages":["applications/*",  "!applications/frontend"]
+  },
   "scripts": {
     "build:docker": "docker-compose up --build",
     "start:docker": "docker-compose up",
