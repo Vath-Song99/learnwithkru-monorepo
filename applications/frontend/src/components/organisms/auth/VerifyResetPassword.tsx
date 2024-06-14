@@ -18,11 +18,12 @@ const VerifyResetPassword = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
 
   const exchangetokenForToken = async (token: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/v1/auth/verify-reset-password?token=${token}`
+        `${apiUrl}/v1/auth/verify-reset-password?token=${token}`
       );
       const data = await response.json()
       // after success verify front end access user to change their passworx

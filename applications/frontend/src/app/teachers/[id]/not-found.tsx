@@ -19,7 +19,7 @@ const getUserData = async (): Promise<{
     if(typeof cookieString === 'object'){
       return cookieString
     }
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
 
     const res = await axios.get(`${apiUrl}/v1/users` , {
       withCredentials: true,

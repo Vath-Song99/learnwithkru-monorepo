@@ -20,7 +20,7 @@ const Login = () => {
       } else if (provider === "facebook") {
         setFacebookLoading(true);
       }
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
       const url = `${apiUrl}/v1/auth/${provider}`;
       await router.push(url);
     } catch (error) {
@@ -54,15 +54,15 @@ const Login = () => {
             <h1 className="text-3xl tracking-wide font-bold pb-5">
               Login with Kru
             </h1>
-            <h1 className="text-xs tracking-wide pb-5 underline">
+            <h1 className="text-xs text-gray-500 tracking-wide pb-5 underline">
               {" "}
-              don&apos;t have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link
                 href={"/signup"}
                 className="text-[#7B2CBF] hover:text-[gray]"
               >
                 {" "}
-                sign up
+                Sign up
               </Link>
             </h1>
 
@@ -152,9 +152,9 @@ const Login = () => {
         <div className="hidden items-center justify-center sm:hidden md:flex lg:flex xl:flex">
           <Image
             alt="login page"
-            src={"/Benner/login.png"}
-            width={1000}
-            height={1000}
+            src={"/Benner/login.jpg"}
+            width={1200}
+            height={1200}
           ></Image>
         </div>
       </div>
