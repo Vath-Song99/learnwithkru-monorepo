@@ -17,6 +17,8 @@ import getConfig from "../utils/config";
 const currentEnv = process.env.NODE_ENV || "development";
 const config = getConfig(currentEnv);
 
+
+console.log("Notif config ", config)
 export class SendVerifyEmailService {
   private accountVerificationRepo: AccountVerificationRepository;
   private authRepo: AuthRepository;
