@@ -17,7 +17,7 @@ const CallbackRedirect = () => {
 
     const exchangeCodeForToken = async (code: string) => {
       try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
         
         const res = await axios.get(
           `${apiUrl}/v1/auth/facebook/callback?code=${code}`,
