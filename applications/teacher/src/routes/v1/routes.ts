@@ -92,6 +92,29 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ITeacherUpdate": {
+        "dataType": "refObject",
+        "properties": {
+            "first_name": {"dataType":"string"},
+            "last_name": {"dataType":"string"},
+            "picture": {"dataType":"string"},
+            "phone_number": {"dataType":"string"},
+            "subject": {"dataType":"string"},
+            "province": {"dataType":"string"},
+            "university": {"dataType":"string"},
+            "year_experience": {"dataType":"double"},
+            "type_degree": {"dataType":"string"},
+            "bio": {"dataType":"string"},
+            "motivation": {"dataType":"string"},
+            "date_available": {"dataType":"array","array":{"dataType":"refObject","ref":"IAvailableDay"}},
+            "price": {"dataType":"double"},
+            "certificate": {"dataType":"string"},
+            "video": {"dataType":"string"},
+            "teaching_experience": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
 const templateService = new ExpressTemplateService(models, {"noImplicitAdditionalProperties":"throw-on-extras","bodyCoercion":true});
 
@@ -252,6 +275,69 @@ export function RegisterRoutes(app: Router) {
                 next,
                 validatedArgs,
                 successStatus: 200,
+              });
+              next();
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/v1/teachers/get/:id',
+            ...(fetchMiddlewares<RequestHandler>(TeacherController)),
+            ...(fetchMiddlewares<RequestHandler>(TeacherController.prototype.GetTeacher)),
+
+            async function TeacherController_GetTeacher(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    id: {"in":"path","name":"id","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new TeacherController();
+
+              await templateService.apiHandler({
+                methodName: 'GetTeacher',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 200,
+              });
+              next();
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.patch('/v1/teachers/update/:id',
+            ...(fetchMiddlewares<RequestHandler>(TeacherController)),
+            ...(fetchMiddlewares<RequestHandler>(TeacherController.prototype.UpdateTeacher)),
+
+            async function TeacherController_UpdateTeacher(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    id: {"in":"path","name":"id","required":true,"dataType":"string"},
+                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"ITeacherUpdate"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new TeacherController();
+
+              await templateService.apiHandler({
+                methodName: 'UpdateTeacher',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 201,
               });
               next();
             } catch (err) {

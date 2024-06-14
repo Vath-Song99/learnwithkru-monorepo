@@ -7,7 +7,7 @@ const TeacherNavbarComponent = ({
   icon = true,
 }: TeacherNavbarType) => {
   return (
-    <div className={` flex justify-center  items-center gap-4  ${className}`}>
+    <div className={`  ${className}`}>
       <div className="flex justify-center items-center ">{children}</div>
       {icon === true && (
         <svg

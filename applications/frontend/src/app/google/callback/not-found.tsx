@@ -14,8 +14,9 @@ const getUserData = async (): Promise<IAuth> => {
     if(typeof cookieString === 'object'){
       return  cookieString as IAuth
     }
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
 
-    const res = await axios.get("http://localhost:3000/v1/users", {
+    const res = await axios.get(`${apiUrl}/v1/users`, {
       withCredentials: true,
       headers: { Cookie: cookieString },
     });

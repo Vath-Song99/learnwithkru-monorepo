@@ -7,7 +7,6 @@ import React, {
   ChangeEvent,
   FormEvent,
   FormEventHandler,
-  ReactNode,
   useEffect,
   useRef,
   useState,
@@ -148,7 +147,7 @@ const ProfilePhotoTeachers = ({
         <form onSubmit={handleSubmit} className="">
           {dataUser && (
             <div className="flex flex-col items-center justify-center">
-              <div className="bg-white flex w-full p-3 items-center rounded-md shadow-md">
+              <div className="bg-white flex w-full p-3 items-center rounded-md shadow-sm">
                 <div className="flex self-center w-[120px] h-[120px] rounded-full overflow-hidden">
                   {!previewURL ? (
                     <Image
@@ -160,7 +159,7 @@ const ProfilePhotoTeachers = ({
                     />
                   ) : (
                     previewURL && (
-                      <img
+                      <Image
                         src={previewURL}
                         alt="Preview"
                         className=" w-[160px] h-[160px] flex justify-start"
@@ -304,7 +303,7 @@ const ProfilePhotoTeachers = ({
                   </Typography>
                 </div>
               </div>
-              <div className="flex w-full justify-between my-10">
+              <div className="flex w-full justify-end my-10 gap-3">
                 {currentPage > 0 && (
                   <Button
                     onClick={handleBack}

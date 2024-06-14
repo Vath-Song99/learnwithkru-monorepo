@@ -50,11 +50,11 @@ const BecomeTeacher: React.FC<BecomeTeacherProps> = ({ data }) => {
 
   return (
     <>
-      <div className="w-full sm:w-full md:w-[90%] lg:w-[90%] xl:w-[70%] h-screen flex flex-col">
-        <TeacherNavbar className="flex justify-start items-center">
+      <div className="w-full sm:w-full md:w-[90%] lg:w-[90%] xl:w-[70%] h-screen pt-10">
+        <TeacherNavbar className="w-[100%] flex justify-center items-center px-2 py-4 bg-[#F4F4F8] rounded-md">
           {pages.map((_, index) => (
             // eslint-disable-next-line react/jsx-key
-            <TeacherNavbarComponent className="bg-[#F4F4F8] w-full flex justify-start items-start rounded-sm">
+            <TeacherNavbarComponent className=" w-full flex justify-start  lg:gap-x-16 px-1  items-center rounded-sm ">
               <div
                 className={`w-[35px] h-[36px] ${currentPage >= index + 1 ? "bg-green-500 " : "bg-black"
                   } rounded-md text-white flex justify-center items-center`}
