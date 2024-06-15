@@ -137,9 +137,11 @@ const AboutForm = ({
       });
       if (pageIndex !== undefined) {
         // use pageIndex here
-        setCurrentPage((prevPage) =>
-          Math.min(prevPage + 1, pageIndex.length - 1)
-        );
+        setCurrentPage((prevPage) => {
+          const newPage = prevPage + 1;
+          localStorage.setItem('currentPage', newPage.toString());
+          return newPage;
+        });
       }
       setLocalStorageTeacher("aboutTeacher", formData);
       setErrors({});

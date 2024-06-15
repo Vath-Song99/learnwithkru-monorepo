@@ -19,8 +19,12 @@ import { IUser } from "@/@types/user";
 interface BecomeTeacherProps {
   data: IUser | null;
 }
+const localCurrennPage = Number(localStorage.getItem('currentPage'))
+
+
+console.log(localCurrennPage)
 const BecomeTeacher: React.FC<BecomeTeacherProps> = ({ data }) => {
-  const [currentPage, setCurrentPage] = useState(0); // Changed initial page to 0
+  const [currentPage, setCurrentPage] = useState(localCurrennPage); // Changed initial page to 0
   const [dataTutor, setdataTutor] = useState<BecomeTeacherType>();
   const pages = [0, 1, 2, 3, 4, 5];
 
@@ -29,18 +33,23 @@ const BecomeTeacher: React.FC<BecomeTeacherProps> = ({ data }) => {
     switch (index) {
       case 0:
         setCurrentPage(0);
+        localStorage.setItem('currentPage','0') 
         break;
       case 1:
         setCurrentPage(1);
+        localStorage.setItem('currentPage','1')
         break;
       case 2:
         setCurrentPage(2);
+        localStorage.setItem('currentPage','2')
         break;
       case 3:
         setCurrentPage(3);
+        localStorage.setItem('currentPage','3')
         break;
       case 4:
         setCurrentPage(4);
+        localStorage.setItem('currentPage','4')
         break;
       default:
         // Handle other cases

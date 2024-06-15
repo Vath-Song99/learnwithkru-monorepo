@@ -79,7 +79,6 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 201,
               });
-              next();
             } catch (err) {
                 return next(err);
             }
@@ -110,7 +109,6 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 200,
               });
-              next();
             } catch (err) {
                 return next(err);
             }
@@ -141,7 +139,6 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 200,
               });
-              next();
             } catch (err) {
                 return next(err);
             }
@@ -172,7 +169,6 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 200,
               });
-              next();
             } catch (err) {
                 return next(err);
             }
@@ -204,7 +200,6 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 200,
               });
-              next();
             } catch (err) {
                 return next(err);
             }

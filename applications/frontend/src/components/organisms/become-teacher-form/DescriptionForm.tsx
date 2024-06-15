@@ -67,9 +67,11 @@ const DescriptionForm = ({
       await DescriptionTeachers.validate(formData, { abortEarly: false });
       setdataTutor((prev: BecomeTeacherData) => ({ ...prev, ...formData }));
       if (pageIndex !== undefined) {
-        setCurrentPage((prevPage) =>
-          Math.min(prevPage + 1, pageIndex.length - 1)
-        );
+        setCurrentPage((prevPage) => {
+          const newPage = prevPage + 1;
+          localStorage.setItem('currentPage', newPage.toString());
+          return newPage;
+        });
       }
       setLocalStorageTeacher("descriptionTeacher", formData);
       setErrors({});
