@@ -50,11 +50,11 @@ async function getTeachersData({
   min_p: number;
   max_p: number;
 }): Promise<
-  | {
+  {
     errors?: string;
     data: { teachers: ITeacher[]; detail: PageDetails } | null;
   }
-  | undefined
+
 > {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
@@ -78,7 +78,8 @@ async function getTeachersData({
       else if (status === 500) {
         throw new Error("Something went wrong!");
       }
-      return;
+
+      ;
     }
     throw error;
   }

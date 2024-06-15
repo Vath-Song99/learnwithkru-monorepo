@@ -1,36 +1,62 @@
 import React from "react";
 import { TeacherVideoTypes } from "./@types";
+import { Button, Typography } from "@/components/atoms";
+import { RatingStar } from "@/components/organisms/rating-star";
 
-const TeacherVideo = ({ src, classname, }: TeacherVideoTypes) => {
+const TeacherVideo = ({ src, classname, year_experience, type_degree, Province, university }: TeacherVideoTypes) => {
   return (
-    <div className={` w-[500px] md:w-[300px] lg:w-[500px] pt-14 pl-5 sm:pl-0 flex justify-center sm:justify-center md:justify-start md:ml-5 lg:justify-center items-start ${classname}`}>
+    <div className={`relative w-[500px] md:w-[300px] lg:w-[500px] pt-14 pl-5 sm:pl-0 flex justify-center sm:justify-center md:justify-start md:ml-5 lg:justify-center items-start ${classname}`}>
 
-      <div className="">
+      <div className="sticky top-5">
         <video controls className="w-full rounded-md">
           <source src={src} type="video/mp4" />
         </video>
 
-        <div className="flex flex-col pt-5 ">
+        <div className="flex flex-col pt-5 items-center gap-5  ">
+          <div className="flex justify-between w-full   ">
+            <Typography>
+              Year of Experience
+            </Typography>
+            <Typography>
+              {year_experience}
+            </Typography>
+          </div>
 
-          {/* <Button
-            fontColor="black"
-            fontSize="lg"
-            colorScheme="primary"
-            className="h-12 flex items-center justify-center"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
-            </svg>
-            <p className="pl-5">
-              Save to List
-            </p>
+          <div className="flex  justify-between w-full  ">
+            <Typography>
+              Type Degree
+            </Typography>
+            <Typography>
+              {type_degree}
+            </Typography>
+          </div>
+          <div className="flex  justify-between w-full">
+            <Typography>
+              Province
+            </Typography>
+            <Typography>
+              {Province}
+            </Typography>
+          </div>
+          <div className="flex  justify-between w-full   ">
+            <Typography>
+              Went from
+            </Typography>
+            <Typography>
+              {university}
+            </Typography>
+          </div>
+          <div className="">
+            <RatingStar>
+            </RatingStar>
+          </div>
 
 
-          </Button> */}
+
+
+
+
         </div>
-
-
-
       </div>
     </div>
 

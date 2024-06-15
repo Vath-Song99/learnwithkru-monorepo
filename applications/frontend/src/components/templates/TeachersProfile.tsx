@@ -29,7 +29,7 @@ const TeachersProfile: React.FC<TeachersProfileProps> = ({ teacher }) => {
             aboutMe={teacher.bio} description={teacher.motivation} education={teacher.teaching_experience} />
         </div>
 
-        <TeacherVideo src={teacher.video} students={10} ratings={2} />
+        <TeacherVideo src={teacher.video} students={10} ratings={2} year_experience={teacher.year_experience} type_degree={teacher.type_degree} Province={teacher.province} university={teacher.university} />
 
       </div>
       <div className="flex justify-center">

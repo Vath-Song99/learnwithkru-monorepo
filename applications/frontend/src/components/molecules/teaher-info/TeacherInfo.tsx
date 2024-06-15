@@ -46,6 +46,8 @@ const TeacherInfo = ({ aboutMe, className, description, education }: TeacherInfo
           {education}
         </Typography>
       </div>
+  
+      
     </div>
   );
 };

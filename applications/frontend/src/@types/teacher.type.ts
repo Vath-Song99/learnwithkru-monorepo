@@ -46,7 +46,7 @@ export interface ITimeSlot {
 
 export interface IAvailableDay {
   day: string;
-  time: ITimeSlot[];
+  time: ITimeSlot;
 }
 
 export interface ITeacher {
