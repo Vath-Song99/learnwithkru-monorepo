@@ -11,11 +11,10 @@ const config_1 = __importDefault(require("./utils/config"));
 const logger_handler_1 = __importDefault(require("./middlewares/logger-handler"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const routes_1 = require("./routes/v1/routes");
-const currentEnv = process.env.NODE_ENV || "development";
+const currentEnv = process.env.NODE_ENV || "production";
 const config = (0, config_1.default)(currentEnv);
 //app
 const app = (0, express_1.default)();
-//global middleware
 //global middleware
 app.set("trust proxy", 1);
 app.use((0, cors_1.default)({
@@ -38,9 +37,9 @@ app.use("/swagger", swagger_ui_express_1.default.serve, swagger_ui_express_1.def
 app.get("/swagger.json", (_req, res) => {
     res.sendFile(path_1.default.join(__dirname, "./swagger-dist/swagger.json"));
 });
-// Api router
+// Router
 (0, routes_1.RegisterRoutes)(app);
-//error handler
+//error handler middleware
 app.use(errorsHandler_1.errorHandler);
 exports.default = app;
 //# sourceMappingURL=app.js.map

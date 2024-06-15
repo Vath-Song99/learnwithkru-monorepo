@@ -15,15 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const logger_1 = require("./utils/logger");
 const app_1 = __importDefault(require("./app"));
 const connection_1 = require("./queues/connection");
-const email_sender_1 = __importDefault(require("./utils/email-sender"));
-const nodemailer_email_api_1 = __importDefault(require("./utils/nodemailer-email-api"));
-const config_1 = __importDefault(require("./utils/config"));
+const email_sender_1 = __importDefault(require("@notifications/utils/email-sender"));
+const nodemailer_email_api_1 = __importDefault(require("@notifications/utils/nodemailer-email-api"));
+const config_1 = __importDefault(require("@notifications/utils/config"));
 const socket_sender_1 = require("./utils/socket-sender");
 const socket_notification_api_1 = require("./utils/socket-notification-api");
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // currect env
+            // currect envaironment
             const currentEnv = process.env.NODE_ENV || 'development';
             const config = (0, config_1.default)(currentEnv);
             // Initialize Logger

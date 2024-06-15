@@ -1,69 +1,49 @@
 "use client"
-import React, { FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, FormEventHandler, useState } from "react";
 import { Button, InputForm, Typography } from "../atoms";
-
+import * as Yup from "yup";
+const DEFAULT_FORM_VALUE = {
+  email: "",
+};
 const ForgetPassword = () => {
-  const [email, setEmail] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [rePassword, setRePassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [rePasswordError, setRePasswordError] = useState("");
 
-  // Validation function for email
-  const validateEmail = (value: string) => {
-    setEmailError("");
-    if (!value) {
-      setEmailError("Email is required");
-    } else if (!/\S+@\S+\.\S+/.test(value)) {
-      setEmailError("Email is invalid");
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [formData, setFormData] = useState(DEFAULT_FORM_VALUE);
+  const onChangeInput = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    if (errors[name]) {
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     }
   };
 
-  // Validation function for password
-  const validatePassword = (value: string) => {
-    setPasswordError("");
-    if (!value) {
-      setPasswordError("Password is required");
-    } else if (value.length < 8) {
-      setPasswordError("Password must be at least 8 characters long");
+  const UpdatePasswordSchema = Yup.object().shape({
+    email: Yup.string().required("email is required").email(),
+});
+
+const handleSubmit: FormEventHandler<HTMLFormElement> = async (
+  e: FormEvent<HTMLFormElement>
+) => {
+  e.preventDefault();
+  try {
+    await UpdatePasswordSchema.validate(formData, { abortEarly: false });
+    setErrors({});
+    // Handle form submission logic here
+  } catch (error) {
+    if (error instanceof Yup.ValidationError) {
+      const newErrors: { [key: string]: string } = {};
+      error.inner.forEach((e) => {
+        if (e.path) {
+          newErrors[e.path] = e.message;
+        }
+      });
+      setErrors(newErrors);
     }
-  };
+  }
+};
 
-  // Validation function for re-entered password
-  const validateRePassword = (value: string) => {
-    setRePasswordError("");
-    if (!value) {
-      setRePasswordError("Re-entered password is required");
-    } else if (value !== newPassword) {
-      setRePasswordError("Passwords do not match");
-    }
-  };
-
-  // handleChange function to update state for each input and perform validation
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    validateEmail(e.target.value);
-  };
-
-  const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPassword(e.target.value);
-    validatePassword(e.target.value);
-  };
-
-  const handleRePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRePassword(e.target.value);
-    validateRePassword(e.target.value);
-  };
-
-  // handleSubmit function to display input values on submit
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Display input values
-    console.log("Email:", email);
-    console.log("New Password:", newPassword);
-    console.log("Re-entered Password:", rePassword);
-  };
 
   return (
     <>
@@ -88,43 +68,34 @@ const ForgetPassword = () => {
         {/* input form */}
 
         <div className="flex flex-col w-[80%]">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <InputForm
-              className="w-full border-gray-400 focus:outline-[#7B2CBF]"
-              type="email"
-              placeholder="Email"
-              borderRadius="md"
-              value={email}
-              onChange={handleEmailChange}
-            />
-            {emailError && <Typography>{emailError}</Typography>}
-            <InputForm
-              className="w-full border-gray-400 focus:outline-[#7B2CBF]"
-              type="password"
-              placeholder="New Password"
-              borderRadius="md"
-              value={newPassword}
-              onChange={handleNewPasswordChange}
-            />
-            {passwordError && <Typography>{passwordError}</Typography>}
-            <InputForm
-              className="w-full border-gray-400 focus:outline-[#7B2CBF]"
-              type="password"
-              placeholder="Re-Password"
-              borderRadius="md"
-              value={rePassword}
-              onChange={handleRePasswordChange}
-            />
-            {rePasswordError && <Typography>{rePasswordError}</Typography>}
-            <Typography className="flex justify-start">
-              password at least 8 characters
-            </Typography>
-            <div className="flex justify-center">
-              <Button type="submit" className="w-[50%] h-[40px] mb-3" radius="md">
-                Forgot password
-              </Button>
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-col sm:flex-row  sm:justify-center">
+            <div className="flex flex-col">
+              <div className="mb-4 sm:w-[400px]">
+                <label className="block text-gray-700">
+               email
+                </label>
+                <InputForm
+                  type="email"
+                  name="email"
+                    borderRadius="md"
+                     borderSize="forgetpassword"
+                       className="border border-purple-500  outline-none text-xs"
+                  value={formData.email}
+                  onChange={onChangeInput}
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email}</p>
+                )}
+              </div>
+              <div className="flex justify-center">
+              <Button className="w-[50%] h-[45px] mb-3" radius="md" type="submit">
+          Forgot password
+        </Button>
+              </div>
             </div>
-          </form>
+          </div>
+        </form>
         </div>
       </div>
     </>

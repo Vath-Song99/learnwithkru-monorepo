@@ -91,5 +91,6 @@ function run() {
         }
     });
 }
+// start the api-gateway server
 run();
 //# sourceMappingURL=server.js.map

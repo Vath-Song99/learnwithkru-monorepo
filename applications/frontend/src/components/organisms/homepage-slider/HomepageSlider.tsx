@@ -38,7 +38,7 @@ const HomepageSlider = ({ className }: { className?: string }) => {
               align="center"
             >
               Stop wasting your time Learnwithkru platform are provide you the
-              easier way to find the teacher{" "}
+              easier way to find the teacher
             </Typography>
 
             <div className="w-full flex justify-center">
@@ -48,7 +48,7 @@ const HomepageSlider = ({ className }: { className?: string }) => {
                 fontSize="sm"
                 radius="md"
               >
-                <Link href={"teacher-list"}>Get Started</Link>
+                <Link href={"teachers"}>Get Started</Link>
               </Button>
             </div>
           </div>

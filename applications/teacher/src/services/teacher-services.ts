@@ -1,6 +1,6 @@
 import { Filter, IQueries } from "../@types/queries.type";
-import { ITeacher } from "../@types/teacher.type";
-import { IteacherDocs } from "../database/models/teacher.model";
+import { ITeacher, ITeacherUpdate } from "../@types/teacher.type";
+import { ITeacherDocs } from "../database/models/teacher.model";
 import { TeacherRepository } from "../database/repositories/teacher.repository";
 import { BaseCustomError } from "../error/base-custom-error";
 import StatusCode from "../utils/http-status-code";
@@ -74,7 +74,7 @@ export class TeacherServices {
   async CreateTeacher(
     requestBody: ITeacher,
     userId: string
-  ): Promise<{ data: IteacherDocs; token: string }> {
+  ): Promise<{ data: ITeacherDocs; token: string }> {
     try {
       const teacherData = { userId, ...requestBody };
       const existTeacher = await this.teacherRepo.FindTeacherByUserID(userId);
@@ -82,7 +82,7 @@ export class TeacherServices {
       logger.info(`Existing teacher: ${existTeacher}`);
       if (existTeacher) {
         throw new BaseCustomError(
-          "you aready become a teacher !",
+          "you're already become a teacher !",
           StatusCode.BAD_REQUEST
         );
       }
@@ -132,6 +132,84 @@ We're thrilled to have you on board!
         _id: existingTeacher!.id.toString(),
       });
       return { token };
+    } catch (error: unknown) {
+      throw error;
+    }
+  }
+
+  async GetTeacher(id: string): Promise<{ data: ITeacher }> {
+    try {
+      const existingTeacher = await this.teacherRepo.FindTeacherById({ id });
+
+      if (!existingTeacher) {
+        throw new BaseCustomError("No teacher found!", StatusCode.NOT_FOUND);
+      }
+      return { data: existingTeacher };
+    } catch (error: unknown) {
+      throw error;
+    }
+  }
+
+  async UpdateTeacher({
+    id,
+    requestBody,
+  }: {
+    id: string;
+    requestBody: ITeacherUpdate;
+  }): Promise<{ data: ITeacher }> {
+    try {
+      const {
+        first_name,
+        last_name,
+        picture,
+        phone_number,
+        subject,
+        province,
+        university,
+        year_experience,
+        type_degree,
+        bio,
+        motivation,
+        date_available,
+        price,
+        certificate,
+        video,
+        teaching_experience,
+      } = requestBody as ITeacherUpdate;
+      const teacherObject: ITeacherUpdate = {};
+
+      const existingTeacher = this.teacherRepo.FindTeacherById({ id });
+
+      if (!existingTeacher) {
+        throw new BaseCustomError(
+          "No teacher found!, can't update the teacher",
+          StatusCode.NOT_FOUND
+        );
+      }
+      if (first_name) teacherObject.first_name = first_name;
+      if (last_name) teacherObject.last_name = last_name;
+      if (picture) teacherObject.picture = picture;
+      if (phone_number) teacherObject.phone_number = phone_number;
+      if (subject) teacherObject.subject = subject;
+      if (province) teacherObject.province = province;
+      if (university) teacherObject.university = university;
+      if (year_experience) teacherObject.year_experience = year_experience;
+      if (type_degree) teacherObject.type_degree = type_degree;
+      if (bio) teacherObject.bio = bio;
+      if (motivation) teacherObject.motivation = motivation;
+      if (date_available) teacherObject.date_available = date_available;
+      if (price) teacherObject.price = price;
+      if (certificate) teacherObject.certificate = certificate;
+      if (video) teacherObject.video = video;
+      if (teaching_experience)
+        teacherObject.teaching_experience = teaching_experience;
+
+      const updatedTeacher = await this.teacherRepo.UpdateTeacher({
+        id,
+        teacherData: teacherObject,
+      });
+
+      return { data: updatedTeacher };
     } catch (error: unknown) {
       throw error;
     }

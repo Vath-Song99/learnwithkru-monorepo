@@ -7,7 +7,7 @@ import loggerMiddleware from "./middlewares/logger-handler";
 import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./routes/v1/routes";
 
-const currentEnv = process.env.NODE_ENV || "development";
+const currentEnv = process.env.NODE_ENV || "production";
 const config = getConfig(currentEnv);
 
 //app
@@ -43,7 +43,7 @@ app.get("/swagger.json", (_req, res) => {
   res.sendFile(path.join(__dirname, "./swagger-dist/swagger.json"));
 });
 
-// Api router
+// Router
 RegisterRoutes(app);
 
 //error handler middleware

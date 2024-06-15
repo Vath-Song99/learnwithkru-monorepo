@@ -32,8 +32,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const connection = __importStar(require("../../queues/connection"));
-const email_consumer_1 = require("../../queues/email-consumer");
+const connection = __importStar(require("@notifications/queues/connection"));
+const email_consumer_1 = require("@notifications/queues/email-consumer");
 jest.mock('@notifications/queues/connection');
 jest.mock('amqplib');
 describe('Email Consumer', () => {

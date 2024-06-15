@@ -47,6 +47,8 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install
+      - name: Install Dependencies
+        run: yarn build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1

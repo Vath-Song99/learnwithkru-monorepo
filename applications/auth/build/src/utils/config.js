@@ -25,6 +25,8 @@ function createConfig(configPath) {
         "FACEBOOK_REDIRECT_URI",
         "GOOGLE_REDIRECT_URI",
         "USER_SERVICE",
+        "STUDENT_SERVICE",
+        "TEACHER_SERVICE",
     ];
     const missingConfig = requiredConfig.filter((key) => !process.env[key]);
     if (missingConfig.length > 0) {
@@ -51,12 +53,12 @@ function createConfig(configPath) {
         teacherService: process.env.TEACHER_SERVICE,
     };
 }
-function getConfig(currentEnv) {
+function getConfig(currentEnv = "production") {
     const configPath = path_1.default.join(__dirname, currentEnv === "development"
-        ? "../configs/.env"
+        ? "../../configs/.env"
         : currentEnv === "staging"
-            ? "../configs/.env.staging"
-            : "../configs/.env.production");
+            ? "../../configs/.env.staging"
+            : "../../configs/.env.production");
     return createConfig(configPath);
 }
 exports.default = getConfig;

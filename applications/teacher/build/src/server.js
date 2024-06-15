@@ -20,8 +20,8 @@ const config_1 = __importDefault(require("./utils/config"));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // currect 
-            const currentEnv = process.env.NODE_ENV || "development";
+            // env
+            const currentEnv = process.env.NODE_ENV || "production";
             const config = (0, config_1.default)(currentEnv);
             function initializeQueueConnection() {
                 return __awaiter(this, void 0, void 0, function* () {

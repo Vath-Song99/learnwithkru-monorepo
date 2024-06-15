@@ -15,14 +15,16 @@ const getUserData = async (): Promise<{
   errors?: string;
   data: IUser | null;
 }> => {
+  const cookieString = getCookieString();
+
   try {
-    const cookieString = getCookieString();
     
     if(typeof cookieString === 'object'){
       return cookieString
     }
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
 
-    const res = await axios.get("http://localhost:3000/v1/users", {
+    const res = await axios.get(`${apiUrl}/v1/users` , {
       withCredentials: true,
       headers: { Cookie: cookieString },
     });
@@ -56,7 +58,7 @@ export default async function NotFound() {
         <main className="flex h-full flex-col items-center justify-center gap-2 gap-y-4 py-5">
           <p>Could not find the teacher.</p>
           <Image
-            src={"/logos/no-results.png"}
+            src={"/Logos/no-results.png"}
             width={100}
             height={100}
             alt="Not found"

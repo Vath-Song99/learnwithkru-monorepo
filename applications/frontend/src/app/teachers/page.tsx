@@ -10,12 +10,14 @@ const getUserData = async (): Promise<{
   errors?: string;
   data: IUser | null;
 }> => {
+  const cookieString = getCookieString();
+
   try {
-    const cookieString = getCookieString();
     if (typeof cookieString === "object") {
       return cookieString;
     }
-    const res = await axios.get("http://localhost:3000/v1/users", {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
+    const res = await axios.get(`${apiUrl}/v1/users`, {
       withCredentials: true,
       headers: { Cookie: cookieString as string },
     });
@@ -55,7 +57,8 @@ async function getTeachersData({
   | undefined
 > {
   try {
-    const API_ENDPOINT = `http://localhost:3000/v1/teachers?pageSize=6&pageNumber=${pageNumber}&name=${search_query}&province=${province}&subject=${subject}&time_available=${time_available}&min_p=${min_p}&max_p=${max_p}`;
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
+    const API_ENDPOINT = `${apiUrl}/v1/teachers?pageSize=6&pageNumber=${pageNumber}&name=${search_query}&province=${province}&subject=${subject}&time_available=${time_available}&min_p=${min_p}&max_p=${max_p}`;
     const res = await axios.get(API_ENDPOINT);
 
     return { data: { teachers: res.data.data, detail: res.data.detail } };

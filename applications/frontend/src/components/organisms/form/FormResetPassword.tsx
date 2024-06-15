@@ -205,7 +205,7 @@ const FormResetPassword = () => {
 
       <div className="flex justify-center py-5">
         <Button className="w-[50%] h-[45px] mb-3" radius="md" type="submit">
-          Forgot password
+        Reset Password
         </Button>
       </div>
     </form>
