@@ -9,7 +9,7 @@ export const OptionCookie: CookieOptions = {
   httpOnly: true,
   secure: config.env !== "development", // set to true in production
   sameSite: config.env !== "development" ? "lax" : "none", // 'lax' in production, 'none' in development
-  domain: config.env !== "development" ? "https://learnwithkru.com" : undefined, // Set domain in production, undefined in development
+  domain: config.env !== "development" ? ".learnwithkru.com" : undefined, // Set domain in production, undefined in development
   path: "/", // Ensure the path is set to the root
 };
 
@@ -22,6 +22,6 @@ export const OptionSession: CookieSessionInterfaces.CookieSessionOptions = {
   ...(config.env !== "development" && {
     sameSite: "none",
   }),
-  domain: config.env !== "development" ? "https://learnwithkru.com" : undefined, // Set domain in production, undefined in development
+  domain: config.env !== "development" ? ".learnwithkru.com" : undefined, // Set domain in production, undefined in development
   path: "/",
 };
