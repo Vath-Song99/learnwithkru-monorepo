@@ -3,7 +3,7 @@ import "../../../app/globals.css";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="w-full justify-center sm:justify-center md:w-[80%] md:h-[300px] md:flex md:justify-between items-start py-4 lg:py-6 grid gap-3 ">
+    <footer className="w-full justify-start pl-4 sm:pl-0 md:w-[80%] md:h-[300px] md:flex md:justify-between items-start py-4 lg:py-6 grid gap-3 ">
       <div className="w-full md:w-1/4 lg:w-1/4 grid grid-flow-row gap-1 px-4">
         <h4 className="text-white text-xl md:text-[16px] lg:text-xl xl:text-xl">
           1-ON-1 TUTORS

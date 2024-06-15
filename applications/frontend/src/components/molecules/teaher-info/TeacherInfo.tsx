@@ -13,7 +13,7 @@ const TeacherInfo = ({ aboutMe, className, description, education }: TeacherInfo
           className="text-gray-800 text-wrap  pt-1 w-[450px] sm:w-[450px] md:w-[450px] lg:w-[600px] "
           align="left"
           tags="p"
-          fontSize="sm"
+          fontSize="sm" 
         >
           {aboutMe}
         </Typography>

@@ -40,7 +40,8 @@ app.use(helmet());
 // Mock getConfig function. Replace with your actual config logic.
 //config.env === "development" ? "*"
 const corsOptions = {
-  origin : config.clientUrl,
+  origin:
+    config.env === "development" ? "http://localhost:8000" : config.clientUrl,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],

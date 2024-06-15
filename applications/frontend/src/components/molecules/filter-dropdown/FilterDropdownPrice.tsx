@@ -32,7 +32,7 @@ const FilterDropdownPrice: React.FC<FilterDropdownPriceProps> = ({
         borderRadius="md"
         borderSize="timeSelect"
         name="priceRange"
-        className="w-full border  border-purple-200 outline-none text-xs"
+        className="w-full    outline-none text-xs  focus:border-2 "
         onChange={handleSelectChange}
       >
         {itemsDropdownPrice.map((item) => (

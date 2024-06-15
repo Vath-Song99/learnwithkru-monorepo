@@ -31,7 +31,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
         name="subject"
         onChange={(e) => onChange(e.target.value)}
         value={selectedValue}
-        className="w-full border border-purple-200  outline-none text-xs "
+        className="w-full border bg-gray-100 outline-none text-xs "
       >
         {itemsDropdown.map((item) => (
           <option key={item.id} value={item.itemName}>

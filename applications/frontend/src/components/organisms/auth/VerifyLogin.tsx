@@ -9,6 +9,7 @@ const VerifyLogin = ({ isAuth, type }: { isAuth: boolean, type: string }) => {
   const [isLogin, setIsLogin] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
   const router = useRouter()
+
   const togglePopup = () => {
     setPopupOpen(!isPopupOpen);
     setIsLogin(isAuth)
@@ -21,7 +22,7 @@ const VerifyLogin = ({ isAuth, type }: { isAuth: boolean, type: string }) => {
   useEffect(() => {
     if (isPopupOpen) {
       if (isLogin && type === "student") {
-        router.push("http://localhost:8000/student-form")
+        router.push("/student-form")
       }
       else if (isLogin && type === "teacher") {
         router.push("http://localhost:8000/become-teacher/become-teacher-form")

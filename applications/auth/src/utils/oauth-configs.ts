@@ -8,9 +8,11 @@ import {
 } from "./@types/oauth.type";
 import querystring from "querystring";
 import getConfig from "./config";
+import { logger } from "./logger";
 
 const currentEnv = process.env.NODE_ENV || "development";
 const config = getConfig(currentEnv);
+console.log(config);
 export class OauthConfig {
   private static instance: OauthConfig;
 
@@ -30,15 +32,30 @@ export class OauthConfig {
     url: string
   ): Promise<TokenResponse> {
     try {
+      logger.info(`RequestBody: ${requestBody} and url : ${url}`);
       const { data } = await axios.post<TokenResponse>(url, requestBody);
       return data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError<ErrorResponse>;
+        const status = axiosError.response?.status;
+        const statusText = axiosError.response?.statusText;
+        const headers = axiosError.response?.headers;
+        const responseData = axiosError.response?.data;
+
+        console.error("Axios error response:", {
+          status,
+          statusText,
+          headers,
+          responseData,
+        });
+
         const errorMessage =
           axiosError.response?.data?.error_description || axiosError.message;
-        throw new ApiError(`Unable to configure user  API: ${errorMessage}`);
+
+        throw new ApiError(`Unable to configure user API: ${errorMessage}`);
       } else {
+        console.error("Unknown error:", error);
         throw new ApiError(`Unknown error occurred: ${error}`);
       }
     }

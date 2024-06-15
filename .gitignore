@@ -4,4 +4,10 @@ yarn-lock/
 
 Learnwithkru.pem/
 
+<<<<<<< HEAD
 packages/
+=======
+packages/
+
+.sst
+>>>>>>> ca0b15f2c7ccae302e9e5890d41bc5772da93bcd

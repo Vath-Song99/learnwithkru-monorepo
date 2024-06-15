@@ -1,15 +1,9 @@
 "use client";
-import { Button } from "@/components/atoms";
+import { IAvailableDay } from "@/@types/teacher.type";
 import React from "react";
 
 interface TeachersTimeProps {
-  date_available: {
-    day: string;
-    time: {
-      start: string;
-      end: string;
-    };
-  };
+  date_available: IAvailableDay[]
 }
 
 const daysOfWeek = [
@@ -26,20 +20,19 @@ const hoursOfDay = Array.from({ length: 24 }, (_, i) => i);
 const TeacherTimeAvailable: React.FC<TeachersTimeProps> = ({
   date_available,
 }) => {
-  const times = Array.isArray(date_available.time)
-    ? date_available.time
-    : [date_available.time];
-  const day = date_available.day;
-  const isHourInRange = (
-    hour: number,
-    times: { start: string; end: string }[]
-  ) => {
-    return times.some((time) => {
-      const [startHour] = time.start.split(":").map(Number);
-      const [endHour] = time.end.split(":").map(Number);
-      return hour >= startHour && hour < endHour;
-    });
-  };
+  console.log(date_available)
+  // const time = date_available.map(entry => entry.time)
+  // const day = date_available.map(entry => entry.day);
+  // const isHourInRange = (
+  //   hour: number,
+  //   times: { start: string; end: string }[]
+  // ) => {
+  //   return times.some((time) => {
+  //     const [startHour] = time.start.split(":").map(Number);
+  //     const [endHour] = time.end.split(":").map(Number);
+  //     return hour >= startHour && hour < endHour;
+  //   });
+  // };
   return (
     <div className="mt-10  ">
       <div className=" flex justify-center mt-3 ">
@@ -66,13 +59,12 @@ const TeacherTimeAvailable: React.FC<TeachersTimeProps> = ({
                       key={d}
                       className=" text-center text-sm font-medium text-white  w-[60px] md:[150px] lg:w-[150px]"
                     >
-                      {day === d &&
+                      {/* {day === d &&
                         isHourInRange(hour, times) &&
                         times.map((time, index) => (
-                          <div className="pt-3">
+                          <div className="pt-3" key={`${index}-${time}`}>
                             <Button
                               colorScheme="tertiary"
-                              key={index}
                               fontSize="sm"
                               fontColor="black"
                               className="w-[60px] md:[150px] lg:w-[150px] text-[8px] lg:text-sm font-bold  bg-white underline "
@@ -80,7 +72,7 @@ const TeacherTimeAvailable: React.FC<TeachersTimeProps> = ({
                               {time.start} - {time.end}
                             </Button>
                           </div>
-                        ))}
+                        ))} */}
                     </td>
                   ))}
                 </tr>

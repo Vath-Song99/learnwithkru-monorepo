@@ -33,7 +33,7 @@ const TeachersProfile: React.FC<TeachersProfileProps> = ({ teacher }) => {
 
       </div>
       <div className="flex justify-center">
-        <TeacherTimeAvaisdfzjlable date_available={date_available} />
+        <TeacherTimeAvailable date_available={date_available} />
       </div>
 
     </div>

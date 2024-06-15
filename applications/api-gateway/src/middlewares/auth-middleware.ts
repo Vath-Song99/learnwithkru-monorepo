@@ -10,6 +10,7 @@ async function verifyUser(req: Request, _res: Response, _next: NextFunction) {
   const persistentCookie = req.cookies?.persistent;
 
   try {
+    
     if (!sessionCookie) {
       if (!persistentCookie) {
         logger.error(

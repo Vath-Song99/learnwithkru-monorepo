@@ -9,51 +9,58 @@ import {  ShowEasyText, KruVision, SearchTopTeachers } from "@/components/molecu
 import { useEffect, useState } from "react";
 import { ITeacher } from "@/@types/teacher.type";
 import axios from "axios";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
 
 const Homepage = ({ isAuth }: { isAuth: boolean }) => {
   const [search, setSearch] = useState("");
-
   const [data, setData] = useState<ITeacher[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  // const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleString());
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
-        const { data } = await handleRequestTeacher();
-        // Check if teachers is an array
-        if (Array.isArray(data)) {
-          setData(data); // Update state with fetched data
+        const fetchedData = await handleRequestTeacher();
+        if (Array.isArray(fetchedData.data)) {
+          setData(fetchedData.data);
         } else {
-          console.error("Expected an array of data but got:", data);
-        } // Update state with fetched data
+          console.error("Expected an array of data but got:", fetchedData);
+        }
       } catch (error) {
-        console.error("Unexpected error in fetchData method!:");
-        console.error("Fetching data accurs error:", error);
+         handleAxiosError(error,
+        {
+          logError: (message: string) => {
+            // Custom logging implementation, e.g., sending logs to a server
+            console.log('Custom log:', message);
+          },
+          handleErrorResponse(response) {
+            console.log("Respone error: ", response)
+          },
+        },
+        
+          )
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   const handleRequestTeacher = async () => {
+    const API_ENDPOINT = `${apiUrl}/v1/teachers?pageSize=3&pageNumber=1&name=${search}`;
     try {
-      const API_ENDPOINT = `http://localhost:3000/v1/teachers?pageSize=3&pageNumber=1&name=${search}`; // Replace with your actual token
       const response = await axios.get(API_ENDPOINT, { withCredentials: true });
-
-      console.log(response);
       return response.data;
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error fetching teachers:", error);
       throw error;
-    } finally {
-      setIsLoading(false);
     }
   };
-
   return (
-    <div className="max-w-full">
+    <div className="max-w-full ">
       {/* Homepage Benner */}
 
       <HomepageSlider />
@@ -66,7 +73,7 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
 
       <SearchTopTeachers setSearch={setSearch} />
 
-      <div className="grid gap-8 md:gap-12">
+      <div className="grid gap-y-8 md:gap-y-14 ">
         {/*  all subject */}
         {isLoading ? (
           <div className="w-full flex justify-center pt-10">
@@ -75,7 +82,7 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
             </div>
           </div> // Render loading state
         ) : (
-          <TopTeachersList data={data} />
+          <TopTeachersList data={data}  />
         )}
 
         {/* benner card */}

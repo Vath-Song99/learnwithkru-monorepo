@@ -74,8 +74,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
         return (
             <div className="w-full h-[100vh] flex justify-center items-center">
                 <div className="w-auto flex flex-col justify-center items-center ">
-                    <h2 className="text-red-500 py-3">User not {teachersResponse?.errors}! and Please Login to access this resourse</h2>
                     <Image src={`/Benner/error.png`} width={100} height={100} alt='error image'></Image>
+                    <p className="text-red-500 text-sm py-3">Your&apos;re not {teachersResponse?.errors}!, Please Login to access this resourse</p>
                 </div>
             </div>
         )

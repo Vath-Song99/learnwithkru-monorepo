@@ -32,13 +32,13 @@ const SearchTopTeachers = ({ className , setSearch}: { className?: string , setS
     }
   };
   return (
-    <div className={`w-[80%] flex justify-between items-center mx-auto mt-4 ${className} `}>
-      <div className="w-[95%] border shadow-sm rounded-s-full">
+    <div className={`w-[80%] flex  items-center mx-auto mt-4 ${className} `}>
+      <div className="w-[95%] py-[5px] border shadow-sm rounded-s-full">
           <div className="px-4 md:gap-x-4">
             <InputForm
               type="text"
               borderColor="none"
-              className="outline-none border-none text-xs md:text-sm"
+              className="w-full outline-none border-none text-xs md:text-sm"
               placeholder="Search"
               value={value}
               onChange={handleInput}
@@ -46,8 +46,8 @@ const SearchTopTeachers = ({ className , setSearch}: { className?: string , setS
             />
        </div>
       </div>
-      <button className="px-4 py-1.5 h-full bg-[#dfdede] rounded-e-full hover:bg-[#a6a4a4]" onClick={handleSearchOnclick}>
-          <Image src={'/logos/search.svg'} alt="search" width={30} height={30}></Image>
+      <button className="px-4 py-[12px] md:py-[10px] border bg-[#dfdede] rounded-e-full hover:bg-[#a6a4a4]" onClick={handleSearchOnclick}>
+          <Image src={'/Logos/search.svg'} alt="search" width={30} height={30}></Image>
           </button>
     </div>
   );

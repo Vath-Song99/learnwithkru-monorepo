@@ -64,7 +64,6 @@ const degreeData = {
 const Teaching = ({
   description,
   checkboxtext,
-  title,
 }: BecomeTeacherFormUpdateTypes) => {
   const [showForm, setShowForm] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
