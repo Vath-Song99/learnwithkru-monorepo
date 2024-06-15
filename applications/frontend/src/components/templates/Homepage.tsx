@@ -5,7 +5,7 @@ import {
   TopTeachersList,
   Footer,
 } from "@/components/organisms";
-import {  ShowEasyText, KruVision, SearchTopTeachers } from "@/components/molecules";
+import { ShowEasyText, KruVision, SearchTopTeachers } from "@/components/molecules";
 import { useEffect, useState } from "react";
 import { ITeacher } from "@/@types/teacher.type";
 import axios from "axios";
@@ -20,13 +20,10 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await handleRequestTeacher();
-        // Check if teachers is an array
-        if (Array.isArray(data)) {
-          setData(data); // Update state with fetched data
-        } else {
-          console.error("Expected an array of data but got:", data);
-        } // Update state with fetched data
+        const response = await handleRequestTeacher();
+
+
+        setData(response.data)
       } catch (error) {
         console.error("Unexpected error in fetchData method!:");
         console.error("Fetching data accurs error:", error);
@@ -34,14 +31,22 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
     };
 
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, search]);
+
+
+  console.log(data)
 
   const handleRequestTeacher = async () => {
-    try {
-      const API_ENDPOINT = `http://localhost:3000/v1/teachers?pageSize=3&pageNumber=1&name=${search}`; // Replace with your actual token
-      const response = await axios.get(API_ENDPOINT, { withCredentials: true });
 
+    try {
+      // const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
+      const API_ENDPOINT = `https://api.learnwithkru.com/v1/teachers?pageSize=6&pageNumber=1`;// Replace with your actual token
+      console.log("here api: ", API_ENDPOINT)
+      const response = await axios.get(API_ENDPOINT);
+      if (!response.data || response.data.data) {
+        console.log(`An erorr accur: ${response.data?.errors}`)
+      }
       console.log(response);
       return response.data;
     } catch (error: any) {
@@ -71,7 +76,8 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
         {isLoading ? (
           <div className="w-full flex justify-center pt-10">
             <div className="flex justify-center items-center min-h-screen">
-              <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[#7B2CBF]"></div>
+              <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[#7B2CBF]">
+              </div>
             </div>
           </div> // Render loading state
         ) : (
