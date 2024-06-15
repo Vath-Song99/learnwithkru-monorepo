@@ -20,6 +20,7 @@ import { OauthConfig } from "../utils/oauth-configs";
 import getConfig from "../utils/config";
 import { ApiError } from "../error/base-custom-error";
 import { decodedToken } from "../utils/jwt";
+import { logger } from "../utils/logger";
 
 const currentEnv = process.env.NODE_ENV || "development";
 const config = getConfig(currentEnv);
@@ -135,6 +136,7 @@ export class AuthController extends Controller {
     @Query() code: string
   ): Promise<{ message: string; data: IUser; token: string }> {
     try {
+      logger.info(`Google code: ${code}`);
       const authService = new AuthServices();
       const user = await authService.SigninWithGoogleCallBack(code);
 
@@ -158,6 +160,7 @@ export class AuthController extends Controller {
       const authService = new AuthServices();
       const user = await authService.SigninWithFacebookCallBack(code);
 
+      console.log("user: ", user);
       const { firstname, lastname, email, picture } = user.data;
       return {
         message: "Success signup",

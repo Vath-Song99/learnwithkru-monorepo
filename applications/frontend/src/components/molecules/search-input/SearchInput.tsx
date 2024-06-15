@@ -32,8 +32,8 @@ const SearchInput = ({ className }: { className?: string }) => {
     }
   };
   return (
-    <div className={`w-[80%] flex justify-between items-center mx-auto   ${className} `}>
-      <div className="w-[95%] border shadow-sm rounded-md  rounded-s-full  ">
+    <div className={`w-[80%] flex  items-center mx-auto   ${className} `}>
+      <div className="w-[85%]  sm:w-[95%] border py-1 shadow-sm rounded-md  rounded-s-full  ">
         
           <div className="px-4 md:gap-x-4">
             {/* <svg

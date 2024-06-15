@@ -12,7 +12,7 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ data }) => {
 
 
   return (
-    <div className='w-full flex justify-center items-center flex-wrap'>
+    <div className='w-full flex justify-center items-center flex-wrap pt-4'>
 
       <div className='w-[90%] h-auto flex flex-wrap justify-between sm:w-[80%] sm:gap-5 sm:justify-start md:justify-start lg:justify-between'>
         {data.map((item: ITeacher, index: number) => (

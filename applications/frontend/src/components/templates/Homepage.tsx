@@ -22,8 +22,8 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
       setIsLoading(true);
       try {
         const fetchedData = await handleRequestTeacher();
-        if (Array.isArray(fetchedData)) {
-          setData(fetchedData);
+        if (Array.isArray(fetchedData.data)) {
+          setData(fetchedData.data);
         } else {
           console.error("Expected an array of data but got:", fetchedData);
         }
@@ -33,6 +33,9 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
           logError: (message: string) => {
             // Custom logging implementation, e.g., sending logs to a server
             console.log('Custom log:', message);
+          },
+          handleErrorResponse(response) {
+            console.log("Respone error: ", response)
           },
         },
         
@@ -57,7 +60,7 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
     }
   };
   return (
-    <div className="max-w-full">
+    <div className="max-w-full ">
       {/* Homepage Benner */}
 
       <HomepageSlider />
@@ -70,7 +73,7 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
 
       <SearchTopTeachers setSearch={setSearch} />
 
-      <div className="grid gap-8 md:gap-12">
+      <div className="grid gap-y-8 md:gap-y-14 ">
         {/*  all subject */}
         {isLoading ? (
           <div className="w-full flex justify-center pt-10">
@@ -79,7 +82,7 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
             </div>
           </div> // Render loading state
         ) : (
-          <TopTeachersList data={data} />
+          <TopTeachersList data={data}  />
         )}
 
         {/* benner card */}

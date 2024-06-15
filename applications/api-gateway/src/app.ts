@@ -39,9 +39,9 @@ app.use(helmet());
 // Only Allow Specific Origin to Access API Gateway (Frontend)
 // Mock getConfig function. Replace with your actual config logic.
 //config.env === "development" ? "*"
-console.log(config.clientUrl)
 const corsOptions = {
-  origin : config.clientUrl || "http://localhost:8000",
+  origin:
+    config.env === "development" ? "http://localhost:8000" : config.clientUrl,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
