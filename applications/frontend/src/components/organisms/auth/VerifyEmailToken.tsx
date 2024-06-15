@@ -1,10 +1,10 @@
 "use client"
-import {  useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import axios from "axios";
 const VerifyEmailToken = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
 
   const getCodeAndExchange = async () => {
 
@@ -14,7 +14,7 @@ const VerifyEmailToken = () => {
     try {
       console.log("await")
       await axios.get(
-        `http://localhost:3000/v1/auth/verify?code=${code}`,
+        `${apiUrl}/v1/auth/verify?code=${code}`,
         {
           withCredentials: true,
         }

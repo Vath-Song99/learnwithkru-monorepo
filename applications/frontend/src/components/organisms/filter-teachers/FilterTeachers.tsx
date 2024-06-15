@@ -142,7 +142,7 @@ const FilterTeachers = () => {
           onChange={(value) => handleFilterChange("subject", value)}
         />
         <FilterDropdown
-          nameDropdown="Time_available"
+          nameDropdown="Time available"
           itemsDropdown={TimeDropDown}
           selectedValue={filters.time_available}
           onChange={(value) => handleFilterChange("time_available", value)}

@@ -10,7 +10,6 @@ import { Button, InputForm, Typography } from "@/components/atoms";
 import { TeacherSignup } from "@/schema/becomeTeacher";
 import * as Yup from "yup"; // Ensure Yup is imported
 import axios from "axios";
-import { useRouter } from "next/navigation";
 
 // SVG Icon components
 const GoogleIcon = () => (
@@ -123,10 +122,10 @@ const SignupToBecomeTeacher = () => {
 
   const [googleLoading, setGoogleLoading] = useState(false);
   const [facebookLoading, setFacebookLoading] = useState(false);
-  const router = useRouter();
   const handleSignIn = async (provider: string) => {
     try {
-      const url = `http://localhost:3000/v1/teachers/become-teacher`;
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com"
+      const url = `${apiUrl}/v1/teachers/become-teacher`;
       const response = await axios.post(url, { provider }, {
         headers: {
           "Content-Type": "application/json",

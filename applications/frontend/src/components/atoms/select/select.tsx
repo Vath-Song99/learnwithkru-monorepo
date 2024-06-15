@@ -85,7 +85,7 @@ const Select: React.FC<SelectProps> = ({
   const borderColorControl = (borderColorParam: string) => {
     switch (borderColorParam) {
       case "primary":
-        return "b border-[#7B2CBF]";
+        return "border-[#7B2CBF]";
       case "phonenumberSize":
         return "border-r border-t border-b border-[#7B2CBF]";
       case "secondary":

@@ -6,7 +6,7 @@ import axios from "axios";
 
 const getUserData = async (): Promise<IAuth> => {
   const cookieString = getCookieString();
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
   console.log(apiUrl)
   try {
     if (typeof cookieString === "object") {

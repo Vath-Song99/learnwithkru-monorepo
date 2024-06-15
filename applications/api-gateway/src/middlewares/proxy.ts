@@ -22,12 +22,14 @@ const config = getConfig(currentEnv);
 // 1. auth service
 // 2. student service
 // 3. teacher student
+// 4. user service
 
 // Define the proxy rules and targets
 const proxyConfigs: ProxyConfig = {
   [ROUTE_PATHS.AUTH_SERVICE]: {
     target: config.authServiceUrl as string,
     pathRewrite: (path, _req) => {
+      logger.info(`pathRewrite: ${path}`);
       return `${ROUTE_PATHS.AUTH_SERVICE}${path}`;
     },
     changeOrigin: true,

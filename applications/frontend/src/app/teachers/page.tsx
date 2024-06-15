@@ -16,7 +16,7 @@ const getUserData = async (): Promise<{
     if (typeof cookieString === "object") {
       return cookieString;
     }
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
     const res = await axios.get(`${apiUrl}/v1/users`, {
       withCredentials: true,
       headers: { Cookie: cookieString as string },
@@ -57,7 +57,7 @@ async function getTeachersData({
   | undefined
 > {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
     const API_ENDPOINT = `${apiUrl}/v1/teachers?pageSize=6&pageNumber=${pageNumber}&name=${search_query}&province=${province}&subject=${subject}&time_available=${time_available}&min_p=${min_p}&max_p=${max_p}`;
     console.log("Api teacher Endpoint: ", API_ENDPOINT)
     const res = await axios.get(API_ENDPOINT);

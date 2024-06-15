@@ -35,10 +35,11 @@ const SignupToBecomeStudent = () => {
     ];
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     // Student Fetching
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
 
     const handlePostStudent = async (formData: Student) => {
         try {
-            const API_ENDPOINT = "http://localhost:3000/v1/students/become-student"; // Replace with your actual API endpoint
+            const API_ENDPOINT = `${apiUrl}/v1/students/become-student`; // Replace with your actual API endpoint
             const response = await axios.post(API_ENDPOINT, formData,
                 {
                     headers: {

@@ -1,15 +1,17 @@
-// import { publicKey } from "@api-gateway/server";
 import { NextFunction, Request, Response } from "express";
-// import { verify } from "jsonwebtoken";
 
 // Middleware to conditionally apply another middleware unless the route matches a specific path
-export default function unless(path: string, middleware: Function) {
+export default function unless(
+  path: string,
+  middleware: (req: Request, res: Response, next: NextFunction) => void
+) {
   return (req: Request, res: Response, next: NextFunction) => {
-    if (req.path.startsWith(path)) {
-      return next();
-    } else if (req.path.endsWith("teachers")) {
+    const { path: reqPath } = req;
+
+    if (reqPath.startsWith(path) || reqPath.endsWith("teachers")) {
       return next();
     }
+
     middleware(req, res, next);
   };
 }
