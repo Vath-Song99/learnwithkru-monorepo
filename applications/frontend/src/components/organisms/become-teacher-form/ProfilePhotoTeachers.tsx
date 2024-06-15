@@ -70,9 +70,11 @@ const ProfilePhotoTeachers = ({
       await ProfilePhoto.validate(formData, { abortEarly: false });
       setIsFormComplete(true);
       if (pageIndex !== undefined) {
-        setCurrentPage((prevPage) =>
-          Math.min(prevPage + 1, pageIndex.length - 1)
-        );
+        setCurrentPage((prevPage) => {
+          const newPage = prevPage + 1;
+          localStorage.setItem('currentPage', newPage.toString());
+          return newPage;
+        });
       }
       setdataTutor((prev: PriceProps) => ({ ...prev, ...formData }));
       setLocalStorageTeacher("ProfilePhoto", formData);

@@ -156,7 +156,8 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
   };
 
   const onLogoutClick = async () => {
-    const url = "http://localhost:3000/v1/auth/logout";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+    const url = `${apiUrl}/v1/auth/logout`;
     try {
       await handleLogout(url);
       window.location.reload();

@@ -221,11 +221,15 @@ const TimeAvailableForm = ({
       ];
 
       setDays(newDays);
-      setLocalStorageTeacher("timeAvailableTeacher", newDays);
+    //  setLocalStorageTeacher("timeAvailableTeacher", newDays);
       setdataTutor((prev: any) => ({ ...prev, date_available: newDays }));
 
       if (pageIndex !== undefined) {
-        setCurrentPage((prevPage) => Math.min(prevPage + 1, pageIndex.length - 1));
+        setCurrentPage((prevPage) => {
+          const newPage = prevPage + 1;
+          localStorage.setItem('currentPage', newPage.toString());
+          return newPage;
+        });
       }
 
       setIsFormComplete(true);
@@ -234,28 +238,7 @@ const TimeAvailableForm = ({
     }
   };
 
-  useEffect(() => {
-    const userStorage = getLocalStorageTeacher("timeAvailableTeacher") || [];
-    if (userStorage.length > 0) {
-      setDays(userStorage);
-      const initialWeeks = userStorage.reduce((acc: WeekData[], day: Day) => {
-        (acc[0] as any)[`${day.day}Data`] = day.time; // Use 'as any' to bypass TypeScript type checking
-        return acc;
-      }, initialWeeksState);
-      setWeek(initialWeeks);
-      setDaysOfWeek((prevState) =>
-        userStorage.reduce((acc: { [x: string]: boolean; }, day: { day: string | number; time: string | any[]; }) => {
-          acc[day.day] = day.time.length > 0;
-          return acc;
-        }, { ...prevState })
-      );
-    }
 
-    const storedDaysOfWeek = getLocalStorageTeacher("daysOfWeek");
-    if (storedDaysOfWeek) {
-      setDaysOfWeek(storedDaysOfWeek);
-    }
-  }, [initialWeeksState]);
   return (
     <div className="w-auto max-w-[200px] sm:max-w-[400px] flex flex-col">
       <div className="flex justify-center">

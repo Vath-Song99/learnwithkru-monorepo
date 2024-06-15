@@ -54,6 +54,9 @@ const teacherSchema = new Schema({
   type_degree: {
     type: String,
   },
+  certificate: {
+    type: String,
+  },
   bio: {
     type: String,
     minlength: 40,
@@ -89,9 +92,6 @@ const teacherSchema = new Schema({
     required: true,
     index: true,
   },
-  certificate: {
-    type: String,
-  },
   video: {
     type: String,
     required: true,
@@ -104,6 +104,11 @@ const teacherSchema = new Schema({
     type: String,
     minlength: 25,
     maxlength: 150,
+  },
+  rating: {
+    type: Number,
+    max: 5,
+    default: 0,
   },
 });
 
