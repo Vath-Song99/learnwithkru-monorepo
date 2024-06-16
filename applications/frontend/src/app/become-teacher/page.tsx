@@ -3,7 +3,6 @@ import { BecomeTeacher } from "@/components";
 
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
-
 import React from "react";
 
 export interface IUserBecomeTeacher {

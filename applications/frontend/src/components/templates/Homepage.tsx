@@ -5,7 +5,7 @@ import {
   TopTeachersList,
   Footer,
 } from "@/components/organisms";
-import {  ShowEasyText, KruVision, SearchTopTeachers } from "@/components/molecules";
+import { ShowEasyText, KruVision, SearchTopTeachers } from "@/components/molecules";
 import { useEffect, useState } from "react";
 import { ITeacher } from "@/@types/teacher.type";
 import axios from "axios";
@@ -13,7 +13,7 @@ import { handleAxiosError } from "@/utils/axiosErrorhandler";
 
 const Homepage = ({ isAuth }: { isAuth: boolean }) => {
   const [search, setSearch] = useState("");
-  const [data, setData] = useState<ITeacher[]>([]);
+  const [data, setData] = useState<ITeacher[] | null>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
 
@@ -35,7 +35,11 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
             console.log('Custom log:', message);
           },
           handleErrorResponse(response) {
-            console.log("Respone error: ", response)
+               const {errors} = response.data;
+
+               if(errors.code === 404){
+                  setData(null)
+               }
           },
         },
         
@@ -78,7 +82,8 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
         {isLoading ? (
           <div className="w-full flex justify-center pt-10">
             <div className="flex justify-center items-center min-h-screen">
-              <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[#7B2CBF]"></div>
+              <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[#7B2CBF]">
+              </div>
             </div>
           </div> // Render loading state
         ) : (

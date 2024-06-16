@@ -92,7 +92,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
             <div className="w-full flex justify-center items-center border shadow-sm">
                 <Navbar authState={{ isAuth: isAuth ?? false, user: data }} />
             </div>
-            <div className="flex justify-center items-start">
+            <div className="w-full flex justify-center items-start">
                 <TeachersProfile teacher={selectedTeacher as ITeacher} />
             </div>
             <div className="w-full flex justify-center items-start bg-black">

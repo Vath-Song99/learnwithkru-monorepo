@@ -33,13 +33,14 @@ const FormSignup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<AuthForm>(DEFAULT_FORM_VALUE);
   const [rememberMe, setRememberMe] = useState(false);
-  const VERIFY_EMAIL_URL = "http://localhost:8000/send-verify-email";
   const  fetchSignupData = async (): Promise<void> => {
+    const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:8000"
+    const VERIFY_EMAIL_URL = `${baseUrl}/send-verify-email`;
   
     try {
       const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
       await axios.post(
-        `${API_BASE_URL}/auth/signup`,
+        `${API_BASE_URL}/v1/auth/signup`,
         formData,
         {
           headers: {
@@ -60,6 +61,11 @@ const FormSignup = () => {
         handleErrorResponse: (response) => {
           // Custom response handling
           console.log('Handling response:', response);
+          if(response.data.errors){
+            console.log(response.data.errors.message)
+            setErrors({server: response.data.errors.message})
+          }
+          
         }
       });
   }
@@ -116,6 +122,7 @@ const FormSignup = () => {
     }
   };
 
+  console.log(errors)
   return (
     <div className="flex">
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -230,7 +237,15 @@ const FormSignup = () => {
           {errors.password && (
             <div className="flex justify-start">
               <small className="mt-2  h-2" style={{ color: "red" }}>
-                {errors.password}
+                {errors.password }
+                {errors.server}
+              </small>
+            </div>
+          )}
+          {errors.sever && (
+            <div className="flex justify-start">
+              <small className="mt-2  h-2" style={{ color: "red" }}>
+                {errors.server}
               </small>
             </div>
           )}

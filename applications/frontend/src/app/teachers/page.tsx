@@ -50,15 +50,16 @@ async function getTeachersData({
   min_p: number;
   max_p: number;
 }): Promise<
-  | {
-      errors?: string;
-      data: { teachers: ITeacher[]; detail: PageDetails } | null;
-    }
-  | undefined
+  {
+    errors?: string;
+    data: { teachers: ITeacher[]; detail: PageDetails } | null;
+  }
+
 > {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
     const API_ENDPOINT = `${apiUrl}/v1/teachers?pageSize=6&pageNumber=${pageNumber}&name=${search_query}&province=${province}&subject=${subject}&time_available=${time_available}&min_p=${min_p}&max_p=${max_p}`;
+    console.log("Api teacher Endpoint: ", API_ENDPOINT)
     const res = await axios.get(API_ENDPOINT);
 
     return { data: { teachers: res.data.data, detail: res.data.detail } };
@@ -77,7 +78,8 @@ async function getTeachersData({
       else if (status === 500) {
         throw new Error("Something went wrong!");
       }
-      return;
+
+      ;
     }
     throw error;
   }
@@ -105,7 +107,7 @@ const Page = async ({
     min_p,
     max_p,
   });
-
+  console.log(teachers)
   return (
     <div className="max-w-full grid gap-5">
       <div className="w-full flex justify-center items-center border shadow-sm">

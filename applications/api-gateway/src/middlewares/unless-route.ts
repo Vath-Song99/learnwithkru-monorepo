@@ -8,10 +8,11 @@ export default function unless(
   return (req: Request, res: Response, next: NextFunction) => {
     const { path: reqPath } = req;
 
-    if (reqPath.startsWith(path) || reqPath.endsWith("teachers")) {
+    if (reqPath.startsWith(path)) {
+      return next();
+    } else if (reqPath.endsWith("teachers")) {
       return next();
     }
-
     middleware(req, res, next);
   };
 }
