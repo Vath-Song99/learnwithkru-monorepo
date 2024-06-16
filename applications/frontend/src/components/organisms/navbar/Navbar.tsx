@@ -102,10 +102,6 @@ interface NavbarProps {
   className?: string;
   authState: { isAuth: boolean; user: IUser | null };
 }
-type LogoutResponse = {
-  message: string;
-  errors?: string[];
-};
 
 const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -123,9 +119,9 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
   // login
   // logout
 
-  const handleLogout = async (url: string): Promise<LogoutResponse> => {
+  const handleLogout = async (url: string)=> {
     try {
-      const response = await axios.get<LogoutResponse>(url, {
+      const response = await axios.get(url, {
         withCredentials: true,
       });
 
@@ -156,7 +152,7 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
   };
 
   const onLogoutClick = async () => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com"
     const url = `${apiUrl}/v1/auth/logout`;
     try {
       await handleLogout(url);

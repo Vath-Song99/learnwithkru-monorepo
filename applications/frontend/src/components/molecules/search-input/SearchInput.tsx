@@ -22,6 +22,8 @@ const SearchInput = ({ className }: { className?: string }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
      router.push(`/teachers?search_query=${value}`)
+    window.location.reload();
+
     }
   };
 
@@ -31,6 +33,7 @@ const SearchInput = ({ className }: { className?: string }) => {
     e.preventDefault();
     if (value) {
      router.push(`/teachers?search_query=${value}`)
+    window.location.reload();
     }
   };
   return (
