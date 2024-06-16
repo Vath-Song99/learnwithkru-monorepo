@@ -152,7 +152,7 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
   };
 
   const onLogoutClick = async () => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com"
+    const apiUrl = "https://api.learnwithkru.com"
     const url = `${apiUrl}/v1/auth/logout`;
     try {
       await handleLogout(url);

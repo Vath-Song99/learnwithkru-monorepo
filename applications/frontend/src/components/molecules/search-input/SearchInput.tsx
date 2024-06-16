@@ -20,9 +20,9 @@
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key === "Enter") {
-        const query = new URLSearchParams(value).toString();
+        const query = new URLSearchParams({ search_query: value }).toString();
 
-        window.history.replaceState(null, "", `?${query}`);
+        window.history.replaceState(null, "", `?search_query=${query}`);
         window.location.reload();
 
       }
@@ -33,7 +33,7 @@
     ) => {
       e.preventDefault();
       if (value) {
-        const query = new URLSearchParams(value).toString();
+        const query = new URLSearchParams({ search_query: value }).toString();
 
         window.history.replaceState(null, "", `?${query}`);
         window.location.reload();
