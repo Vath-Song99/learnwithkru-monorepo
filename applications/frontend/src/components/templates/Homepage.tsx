@@ -5,7 +5,7 @@ import {
   TopTeachersList,
   Footer,
 } from "@/components/organisms";
-import {  ShowEasyText, KruVision, SearchTopTeachers } from "@/components/molecules";
+import { ShowEasyText, KruVision, SearchTopTeachers } from "@/components/molecules";
 import { useEffect, useState } from "react";
 import { ITeacher } from "@/@types/teacher.type";
 import axios from "axios";
@@ -82,7 +82,8 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
         {isLoading ? (
           <div className="w-full flex justify-center pt-10">
             <div className="flex justify-center items-center min-h-screen">
-              <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[#7B2CBF]"></div>
+              <div className="animate-spin rounded-full h-9 w-9 border-t-4 border-[#7B2CBF]">
+              </div>
             </div>
           </div> // Render loading state
         ) : (

@@ -1,9 +1,9 @@
 "use client";
-import { IAvailableDay } from "@/@types/teacher.type";
+import { IAvailableDay, ITimeSlot } from "@/@types/teacher.type";
 import React from "react";
 
 interface TeachersTimeProps {
-  date_available: IAvailableDay[]
+  date_available: IAvailableDay[];
 }
 
 const daysOfWeek = [
@@ -15,24 +15,28 @@ const daysOfWeek = [
   "Saturday",
   "Sunday",
 ];
-const hoursOfDay = Array.from({ length: 24 }, (_, i) => i);
 
 const TeacherTimeAvailable: React.FC<TeachersTimeProps> = ({
   date_available,
 }) => {
-  console.log(date_available)
-  // const time = date_available.map(entry => entry.time)
-  // const day = date_available.map(entry => entry.day);
-  // const isHourInRange = (
-  //   hour: number,
-  //   times: { start: string; end: string }[]
-  // ) => {
-  //   return times.some((time) => {
-  //     const [startHour] = time.start.split(":").map(Number);
-  //     const [endHour] = time.end.split(":").map(Number);
-  //     return hour >= startHour && hour < endHour;
-  //   });
-  // };
+
+  const sortTimeSlots = (timeSlots: ITimeSlot[]) => {
+    return timeSlots.slice().sort((a, b) => {
+      const [aHour] = a.start.split(":").map(Number);
+      const [bHour] = b.start.split(":").map(Number);
+      return aHour - bHour;
+    });
+  };
+
+  const getTimeSlotsForDay = (day: string) => {
+    const dayData = date_available.find(
+      (d) => d.day.toLowerCase() === day.toLowerCase()
+    );
+    if (!dayData) {
+      return [];
+    }
+    return sortTimeSlots(dayData.time);
+  };
   return (
     <div className="mt-10  ">
       <div className=" flex justify-center mt-3 ">
@@ -52,42 +56,26 @@ const TeacherTimeAvailable: React.FC<TeachersTimeProps> = ({
           </thead>
           <div className="h-[300px] w-auto overflow-auto hide-scrollbar">
             <tbody className="h-[100px] w-[70px] md:[150px] lg:w-[150px] ">
-              {hoursOfDay.map((hour) => (
-                <tr key={hour} className="flex justify-center w-full ">
-                  {daysOfWeek.map((d) => (
-                    <td
-                      key={d}
-                      className=" text-center text-sm font-medium text-white  w-[60px] md:[150px] lg:w-[150px]"
-                    >
-                      {/* {day === d &&
-                        isHourInRange(hour, times) &&
-                        times.map((time, index) => (
-                          <div className="pt-3" key={`${index}-${time}`}>
-                            <Button
-                              colorScheme="tertiary"
-                              fontSize="sm"
-                              fontColor="black"
-                              className="w-[60px] md:[150px] lg:w-[150px] text-[8px] lg:text-sm font-bold  bg-white underline "
-                            >
-                              {time.start} - {time.end}
-                            </Button>
+              <tr className="flex justify-center w-full ">
+                {daysOfWeek.map((day) => (
+                  <td
+                    key={day}
+                    className="text-center text-sm font-medium text-white  w-[60px] md:[150px] lg:w-[150px]"
+                  >
+                    <div className="text-center">
+                      <div>
+                        {getTimeSlotsForDay(day).map((time, index) => (
+                          <div key={index} className=" w-[60px] md:[150px] lg:w-[150px] text-[8px] lg:text-sm font-bold text-black underline ">
+                            {time.start} - {time.end}
                           </div>
-                        ))} */}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
+                        ))}
+                      </div>
+                    </div>
+                  </td>
+                ))}
+              </tr>
 
-            <style jsx>{`
-              .hide-scrollbar {
-                scrollbar-width: none; /* Firefox */
-                -ms-overflow-style: none; /* IE 10+ */
-              }
-              .hide-scrollbar::-webkit-scrollbar {
-                display: none; /* Chrome, Safari, Opera */
-              }
-            `}</style>
+            </tbody>
           </div>
         </table>
       </div>
