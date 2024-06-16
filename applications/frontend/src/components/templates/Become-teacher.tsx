@@ -19,11 +19,13 @@ import { IUser } from "@/@types/user";
 interface BecomeTeacherProps {
   data: IUser | null;
 }
-const localCurrennPage = Number(localStorage.getItem('currentPage'))
 
 
-console.log(localCurrennPage)
 const BecomeTeacher: React.FC<BecomeTeacherProps> = ({ data }) => {
+
+  const localCurrennPage = Number(localStorage.getItem('currentPage'))
+
+
   const [currentPage, setCurrentPage] = useState(localCurrennPage); // Changed initial page to 0
   const [dataTutor, setdataTutor] = useState<BecomeTeacherType>();
   const pages = [0, 1, 2, 3, 4, 5];
