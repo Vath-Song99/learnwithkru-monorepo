@@ -6,9 +6,9 @@ import { RatingStar } from "@/components/organisms/rating-star";
 const TeacherVideo = ({ src, classname, year_experience, type_degree, Province, university }: TeacherVideoTypes) => {
   return (
     <div className="mt-4">
-      <div className={`sm:w-[400px] md:w-[400px] lg:w-[500px] pb-4  lg:border-2 border-[#efefef] rounded-md  pt-8 pl-5 sm:pl-0 flex justify-center sm:justify-center md:justify-center md:ml-5 lg:justify-center items-start ${classname}`}>
+      <div className={`sm:w-[400px] md:w-[400px] pb-4  lg:border-2 border-[#efefef] rounded-md  pt-8 pl-5 sm:pl-0 flex justify-center sm:justify-center md:justify-center md:ml-5 lg:justify-center items-start ${classname}`}>
         < div className="">
-          <video controls className="w-full rounded-md">
+          <video controls className="w-full rounded-sm">
             <source src={src} type="video/mp4" />
           </video>
 

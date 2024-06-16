@@ -14,9 +14,9 @@ interface TeachersProfileProps {
 const TeachersProfile: React.FC<TeachersProfileProps> = ({ teacher }) => {
   const date_available = teacher.date_available;
   return (
-    <div className=" flex  flex-col">
-      <div className="flex flex-col lg:flex-row">
-        <div className=" flex flex-col  md:justify-end lg:justify-start items-center mb-4 lg:mb-0  pl-5 sm:pl-2">
+    <div className="w-full md:w-[65%] flex  flex-col">
+      <div className="flex justify-between lg:flex-row">
+        <div className=" flex flex-col  md:justify-end lg:justify-start items-center ">
           <Profile
             first_name={teacher.first_name}
             picture={teacher.picture}
@@ -43,7 +43,7 @@ const TeachersProfile: React.FC<TeachersProfileProps> = ({ teacher }) => {
           university={teacher.university}
         />
       </div>
-      <div className="flex justify-center">
+      <div className="w-full flex justify-between">
         <TeacherTimeAvailable date_available={date_available} />
       </div>
     </div>

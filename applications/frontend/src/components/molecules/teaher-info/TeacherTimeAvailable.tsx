@@ -40,13 +40,13 @@ const TeacherTimeAvailable: React.FC<TeachersTimeProps> = ({
   return (
     <div className="mt-10  ">
       <div className=" flex justify-center mt-3 ">
-        <table className="w-[60px] md:[150px] lg:w-[150px]">
-          <thead className="text-white pl-4 pr-4  ">
+        <table className="table-auto w-[60px] md:[150px] lg:w-[150px]">
+          <thead className="text-white pl-4 pr-4 table-header-group ">
             <tr className="flex justify-center  ">
               {daysOfWeek.map((day) => (
                 <th
                   key={day}
-                  className=" underline w-[60px] md:[150px] lg:w-[150px] text-[12px] md:text-sm font-medium text-black uppercase "
+                  className="table-row underline w-[60px] md:[150px] lg:w-[150px] text-[12px] md:text-sm font-medium text-gray-600 uppercase "
                 >
                   <span className="block lg:hidden">{day.substring(0, 3)}</span>
                   <span className="hidden lg:block">{day}</span>

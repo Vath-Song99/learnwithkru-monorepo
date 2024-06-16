@@ -4,8 +4,8 @@ import { TeacherInfoTypes } from "./@types";
 
 const TeacherInfo = ({ aboutMe, className, description, education }: TeacherInfoTypes) => {
   return (
-    <div className={` flex flex-col items-start gap-5 w-[500px] justify-center md:justify-start lg:justify-center ${className}`}>
-      <div className=" flex flex-col justify-center md:justify-start lg:justify-start w-[320px] md:w-[500px] lg:w-[400px]">
+    <div className={`pt-10 w-[500px]  flex flex-col gap-y-5  justify-center md:justify-start lg:justify-center pl-5  h-auto ${className}`}>
+      <div className=" flex flex-col ">
         <Typography className="" align="left" fontSize="lg">
           About me
         </Typography>
@@ -18,7 +18,7 @@ const TeacherInfo = ({ aboutMe, className, description, education }: TeacherInfo
           {aboutMe}
         </Typography>
       </div>
-      <div className=" flex flex-col justify-center md:justify-start lg:justify-start w-[320px] md:w-[500px] lg:w-[400px]">
+      <div className=" flex flex-col ">
         <Typography className="" align="left" fontSize="lg">
           Description
         </Typography>
@@ -33,7 +33,7 @@ const TeacherInfo = ({ aboutMe, className, description, education }: TeacherInfo
         </Typography>
 
       </div>
-      <div className=" flex flex-col justify-center md:justify-start lg:justify-start w-[320px] md:w-[500px] lg:w-[400px]  ">
+      <div className=" flex flex-col   ">
         <Typography className="" align="left" fontSize="lg">
           Education
         </Typography>
