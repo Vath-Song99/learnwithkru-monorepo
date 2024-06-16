@@ -137,9 +137,11 @@ const AboutForm = ({
       });
       if (pageIndex !== undefined) {
         // use pageIndex here
-        setCurrentPage((prevPage) =>
-          Math.min(prevPage + 1, pageIndex.length - 1)
-        );
+        setCurrentPage((prevPage) => {
+          const newPage = prevPage + 1;
+          localStorage.setItem('currentPage', newPage.toString());
+          return newPage;
+        });
       }
       setLocalStorageTeacher("aboutTeacher", formData);
       setErrors({});
@@ -163,8 +165,8 @@ const AboutForm = ({
       setFormData(userStorage);
     } else if (dataUser) {
       setFormData({
-        first_name: dataUser.first_name || "",
-        last_name: dataUser.last_name || "",
+        first_name: dataUser.firstname || "",
+        last_name: dataUser.lastname || "",
         email: dataUser.email || "",
         subject: "",
         phone_number: "",
@@ -194,7 +196,7 @@ const AboutForm = ({
                   placeholder="First name"
                   borderRadius="md"
                   borderSize="md"
-                  defaultValue={dataUser.first_name}
+                  defaultValue={dataUser.firstname}
                   className="border border-purple-500  outline-none text-xs  w-full sm:w-[240px]"
                   name="first_name"
                   value={formData.first_name}
@@ -216,7 +218,7 @@ const AboutForm = ({
                   borderSize="md"
                   className="border border-purple-500  w-full sm:w-[240px] outline-none text-xs"
                   name="last_name"
-                  defaultValue={dataUser.last_name}
+                  defaultValue={dataUser.lastname}
                   value={formData.last_name}
                   onChange={onChangeInput}
                 />

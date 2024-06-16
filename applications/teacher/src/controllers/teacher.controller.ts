@@ -102,13 +102,21 @@ export class TeacherController extends Controller {
   }
 
   @SuccessResponse(StatusCode.OK, "GET OK")
+  @Middlewares(authorize(["teacher"]))
   @Get(PATH_TEACHER.getTeacher)
   async GetTeacher(
-    @Path() id: string
+    @Request() req: Express.Request,
+    @Path('id') id?: string , 
   ): Promise<{ message: string; data: ITeacher }> {
     try {
+      const userId = (req.user as DecodedUser).id;
+      let teacherId: string;
+      if(id){
+        teacherId = id
+      }
+      teacherId = userId
       const serivice = new TeacherServices();
-      const existingTeacher = await serivice.GetTeacher(id);
+      const existingTeacher = await serivice.GetTeacher(teacherId as string);
 
       return {
         message: "Success Retrieved teacher",

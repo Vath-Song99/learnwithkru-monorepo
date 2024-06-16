@@ -4,7 +4,7 @@ export const PATH_TEACHER = {
   teacherSignup: "/become-teacher",
   teacherProfile: "/:id",
   login: "/login/:userId",
-  getTeacher: "/get/:id",
+  getTeacher: "/get/:id?",
   updateTeacher: "/update/:id",
 };
 

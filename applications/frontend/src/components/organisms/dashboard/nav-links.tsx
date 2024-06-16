@@ -3,23 +3,22 @@ import { ImProfile } from "react-icons/im";
 import { FaUser } from "react-icons/fa6";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
 import clsx from 'clsx';
-
-const links = [
-  { name: "personal", href: "/settings/personal/", icon: ImProfile },
-  { name: "profile", href: "/settings/profiles", icon: FaUser },
-  { name: "Profile Edit", href: "/settings/edit-profile", icon: ImProfile },
-
-];
-
-export default function NavLinks() {
+export default function NavLinks({}) {
   const pathname = usePathname();
+
+  const links = [
+    { name: "Account", href: "/settings/profiles/", icon: FaUser },
+    { name: "profile", href: `/settings/profile/`, icon: ImProfile },
+    { name: "Profile Edit", href: "/settings/edit-profile", icon: ImProfile },
+  ];
 
   return (
     <>
       {links.map((link) => {
         const LinkIcon = link.icon;
-        const isActive = pathname === link.href || pathname.startsWith(link.href + '/');  // Check if current path is active or starts with link.href
+        const isActive = pathname === link.href || pathname.startsWith(link.href + '/');
 
         return (
           <div key={link.name}>
@@ -33,7 +32,7 @@ export default function NavLinks() {
               <LinkIcon className="w-6" />
               <p className="hidden md:block">{link.name}</p>
             </Link>
-          {isActive}
+            {isActive}
           </div>
         );
       })}

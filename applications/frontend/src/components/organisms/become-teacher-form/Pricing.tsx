@@ -17,6 +17,7 @@ import {
 } from "@/utils/localStorage";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
 
 const DEFAULT_FORM_VALUE = {
   price: "",
@@ -110,8 +111,8 @@ const PricingForm = ({
           console.log("An error occurred: teachers ", response.data.errors);
           return false;
         }
-        console.log("teacher", response.data);
-        router.push(`/teachers/${response.data.data.id}`);
+   
+          router.push(`settings/profile/${response.data.data._id}`);
         clearLocalStorage("priceTeacher")
         clearLocalStorage("aboutTeacher")
         clearLocalStorage("educationTeacher")
@@ -120,10 +121,20 @@ const PricingForm = ({
         clearLocalStorage("ProfilePhoto")
         
       } catch (error) {
-        console.error("Error occurred during submission:", error);
-        if (axios.isAxiosError(error)) {
-          console.error("Axios error response: teachers", error.response);
-        }
+        console.log(error)
+        handleAxiosError(error, {
+          logError: (message) =>{
+            console.log(`error message`, message)
+          },
+          handleErrorResponse(response) {
+              const { errors } = response.data
+
+              if(errors){
+            setErrors({serverError: errors.message})
+                
+              }
+          },
+        })
       }
     };
     fetchData(teacher);
@@ -141,6 +152,7 @@ const PricingForm = ({
     setFormData(userStorage);
   }, []);
 
+  console.log(errors)
   return (
     <div className="flex flex-col w-[80%] justify-center items-center px-4 sm:w-[60%] md:w-[80%] lg:w-[60%] xl:w-[60%]">
       <div className="flex flex-col">
@@ -167,6 +179,13 @@ const PricingForm = ({
                 <p className="text-red-500 text-xs">{errors.price}</p>
               )}
             </div>
+            {
+                  errors.serverError && (
+                    <small className="text-red-500 text-xs mt-2">
+                      {errors.serverError}
+                    </small>
+                  )
+                }
             <div className="flex flex-col mt-5">
               <div className="flex justify-start gap-4">
                 {currentPage > 0 && (
@@ -178,6 +197,7 @@ const PricingForm = ({
                     Back
                   </Button>
                 )}
+          
                 <Button
                   type="submit"
                   radius="md"

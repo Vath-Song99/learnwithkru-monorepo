@@ -225,7 +225,8 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
               <div className="h-5 w-[1px] bg-gray-400 lg:inline hidden"></div>
             </div>
             <Notification className="hidden lg:inline lg:ml-7 lg:mt-2"></Notification>
-            <ProfileDropDown
+            <ProfileDropDown 
+              authState={authState.isAuth}
               icon={
                 authState.user?.picture === null ? (
                   <svg
@@ -256,7 +257,7 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
               onChange={handleChange}
             >
               {" "}
-            </ProfileDropDown>
+            </ProfileDropDown >
           </div>
         </div>
       ) : (

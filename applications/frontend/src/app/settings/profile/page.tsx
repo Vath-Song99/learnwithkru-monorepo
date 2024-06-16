@@ -1,105 +1,103 @@
-"use client";
-import React, { useState } from "react";
+import { ITeacher } from "@/@types/teacher.type";
+import { IUser } from "@/@types/user";
+import { Footer, Navbar, TeachersProfile } from "@/components";
+import { getCookieString } from "@/utils/getCookieString";
+import axios from "axios";
+import { notFound } from "next/navigation";
+import React from "react";
 import Image from "next/image";
-import { Button, Typography } from "@/components";
+// interface IAuth {
+//     isAuth?: boolean;
+//     errors?: string;
+//     data: IUser | null;
+// }
 
-const EmployerProfile: React.FC = async () => {
-  const [employerData, setEmployerData] = useState({
-    id: "1",
-    companyName: "Sathapana Bank",
-    contactEmail: "sathapanabankinfo@gmail.com",
-    contactPhone: "0965774927",
-    contactPerson: "Sal Visal",
-    websiteLink: "https://www.saathapana.com.kh",
-    location: "Phnom Penh",
-    address: "8391 Elgin. St. Celina. Delaware 10",
-    totalEmployees: "10-20",
-    description:
-      "SATHAPANA Limited was originally established as a non-government organization (NGO) in 1995, and at the time of acquisition, it had become a deposit-taking microfinance institution providing funds to the low income people throughout the country with a strong contribution track record in Cambodia economic development.",
-  });
- 
-  const [isOpen, setIsOpen] = useState(false);
+// const getUserData = async (): Promise<IAuth> => {
+//     try {
+//         const cookieStringOrAuth = getCookieString();
 
-  const updateEmployerData = (updatedData: any) => {
-    setEmployerData(updatedData);
-    setIsOpen(false);
-  };
+//         if (typeof cookieStringOrAuth === "object") {
+//             return cookieStringOrAuth;
+//         }
+//         const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
+//         const res = await axios.get(`${apiUrl}/v1/users`, {
+//             withCredentials: true,
+//             headers: { Cookie: cookieStringOrAuth },
+//         });
+
+//         if (res.data.errors) {
+//             return { errors: res.data.errors, data: null };
+//         }
+
+//         return { isAuth: true, data: res.data.data };
+//     } catch (error: unknown) {
+//         console.error("Error fetching user data:", error);
+//         throw error;
+//     }
+// };
+interface ITeacherData {
+    errors?: string;
+    data: ITeacher | null;
+}
+async function getTeachersData(_id: string): Promise<ITeacherData> {
+    try {   
+        const cookieStringOrAuth = getCookieString();
+
+        if (typeof cookieStringOrAuth === "object") {
+            return { errors: "Not authenticated", data: null };
+        }
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
+        console.log(apiUrl)
+        const API_ENDPOINT = `${apiUrl}/v1/teachers/get/${_id}`;
+        const res = await axios.get(API_ENDPOINT, {
+            withCredentials: true,
+            headers: { Cookie: cookieStringOrAuth },
+        });
+
+        if (res.data.errors) {
+            return { errors: res.data.errors, data: null };
+        }
+
+        return { data: res.data.data};
+    } catch (error: any) {
+        throw error;
+    }
+}
+
+const Page = async ({ params }: { params: { id: string } }) => {
+//    const { isAuth, data } = await getUserData();
+    const userId = params.id as string;
+
+    const teachersResponse = await getTeachersData(userId ? userId : '');
 
 
-  return (
-    
-    <>
-      <div className="container xl:max-w-[1200px] bg-[#F8F9FA] rounded-xl mt-5 px-10 py-5">
-        <div className="w-full flex md:flex-row justify-between items-center">
-          <div className="flex items-center mb-4 md:mb-0">
-            <Image
-              src="/company.svg"
-              alt="company logo"
-              width={80}
-              height={80}
-              className="rounded-full w-[60px] h-[60px] md:w-[80px] md:h-[80px]"
-            />
-            <div className="ml-4 md:ml-6">
-              <Typography className="mb-1 md:mb-2 text-[18px] md:text-[20px]">
-                {employerData.companyName}
-              </Typography>
-              <Typography className="text-gray-400 text-[12px] md:text-[16px]">
-                {employerData.contactEmail}
-              </Typography>
+    if(teachersResponse?.errors){
+        return (
+            <div className="w-full h-[100vh] flex justify-center items-center">
+                <div className="w-auto flex flex-col justify-center items-center ">
+                    <Image src={`/Benner/error.png`} width={100} height={100} alt='error image'></Image>
+                    <p className="text-red-500 text-sm py-3">Your&apos;re not {teachersResponse?.errors}!, Please Login to access this resourse</p>
+                </div>
             </div>
-          </div>
-          <div className="flex items-center">
-            <Button
-              onClick={() => setIsOpen(true)}
-              className="bg-[#4B9960] rounded-full flex items-center justify-center gap-2 px-4 md:px-6 py-2"
-            >
-        
-              <span className="hidden md:block">Edit profile</span>
-            </Button>
-          </div>
+        )
+    }
+
+    if (!teachersResponse?.data) {
+        notFound();
+    }
+
+    const selectedTeacher = teachersResponse?.data;
+
+    return (
+        <div className="">
+            <div className="w-full flex justify-center items-center border shadow-sm">
+                {/* <Navbar authState={{ isAuth: isAuth ?? false, user: data }} /> */}
+            </div>
+            <div className="flex justify-center items-start">
+                <TeachersProfile teacher={selectedTeacher as ITeacher} />
+            </div>
         </div>
-     
-        <div className="flex flex-col md:flex-row justify-between mt-5">
-          <div className="w-full">
-            <div className="my-[25px]">
-              <Typography fontSize="lg">Contact Email</Typography>
-              <Typography>{employerData.contactEmail}</Typography>
-            </div>
-            <div className="my-[25px]">
-              <Typography fontSize="lg">Contact Number</Typography>
-              <Typography>{employerData.contactPhone}</Typography>
-            </div>
-            <div className="my-[25px]">
-              <Typography fontSize="lg">Contact Person</Typography>
-              <Typography>{employerData.contactPerson}</Typography>
-            </div>
-            <div className="my-[25px]">
-              <Typography fontSize="lg">Website</Typography>
-              <Typography>{employerData.websiteLink}</Typography>
-            </div>
-            <div className="my-[25px]">
-              <Typography fontSize="lg">Employees</Typography>
-              <Typography>{employerData.totalEmployees}</Typography>
-            </div>
-          </div>
-          <div className="w-full">
-            <div className="my-[25px]">
-              <Typography fontSize="lg">Location</Typography>
-              <Typography>{employerData.location}</Typography>
-            </div>
-            <div className="my-[25px]">
-              <Typography fontSize="lg">Address</Typography>
-              <Typography>{employerData.address}</Typography>
-            </div>
-            <div className="my-[25px]">
-              <Typography fontSize="lg">Company Description</Typography>
-              <Typography>{employerData.description}</Typography>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+    );
 };
 
-export default EmployerProfile;
+export default Page;

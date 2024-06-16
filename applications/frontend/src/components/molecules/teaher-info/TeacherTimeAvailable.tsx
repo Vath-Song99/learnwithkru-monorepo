@@ -15,83 +15,32 @@ const daysOfWeek = [
   "Saturday",
   "Sunday",
 ];
-const hoursOfDay = Array.from({ length: 24 }, (_, i) => i);
-
 const TeacherTimeAvailable: React.FC<TeachersTimeProps> = ({
   date_available,
 }) => {
-  console.log(date_available)
-  // const time = date_available.map(entry => entry.time)
-  // const day = date_available.map(entry => entry.day);
-  // const isHourInRange = (
-  //   hour: number,
-  //   times: { start: string; end: string }[]
-  // ) => {
-  //   return times.some((time) => {
-  //     const [startHour] = time.start.split(":").map(Number);
-  //     const [endHour] = time.end.split(":").map(Number);
-  //     return hour >= startHour && hour < endHour;
-  //   });
-  // };
+  const getTimeSlotsForDay = (day: string) => {
+    const dayData = date_available.find(d => d.day.toLowerCase() === day.toLowerCase());
+    return dayData ? dayData.time : [];
+  };
   return (
-    <div className="mt-10  ">
-      <div className=" flex justify-center mt-3 ">
-        <table className="w-[60px] md:[150px] lg:w-[150px]">
-          <thead className="text-white pl-4 pr-4  ">
-            <tr className="flex justify-center  ">
-              {daysOfWeek.map((day) => (
-                <th
-                  key={day}
-                  className=" underline w-[60px] md:[150px] lg:w-[150px] text-[12px] md:text-sm font-medium text-black uppercase "
-                >
-                  <span className="block lg:hidden">{day.substring(0, 3)}</span>
-                  <span className="hidden lg:block">{day}</span>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <div className="h-[300px] w-auto overflow-auto hide-scrollbar">
-            <tbody className="h-[100px] w-[70px] md:[150px] lg:w-[150px] ">
-              {hoursOfDay.map((hour) => (
-                <tr key={hour} className="flex justify-center w-full ">
-                  {daysOfWeek.map((d) => (
-                    <td
-                      key={d}
-                      className=" text-center text-sm font-medium text-white  w-[60px] md:[150px] lg:w-[150px]"
-                    >
-                      {/* {day === d &&
-                        isHourInRange(hour, times) &&
-                        times.map((time, index) => (
-                          <div className="pt-3" key={`${index}-${time}`}>
-                            <Button
-                              colorScheme="tertiary"
-                              fontSize="sm"
-                              fontColor="black"
-                              className="w-[60px] md:[150px] lg:w-[150px] text-[8px] lg:text-sm font-bold  bg-white underline "
-                            >
-                              {time.start} - {time.end}
-                            </Button>
-                          </div>
-                        ))} */}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-
-            <style jsx>{`
-              .hide-scrollbar {
-                scrollbar-width: none; /* Firefox */
-                -ms-overflow-style: none; /* IE 10+ */
-              }
-              .hide-scrollbar::-webkit-scrollbar {
-                display: none; /* Chrome, Safari, Opera */
-              }
-            `}</style>
+    <div className="p-4 border rounded-lg shadow-md">
+    <h2 className="text-lg font-bold">Team schedule</h2>
+    <div className="grid grid-cols-7 gap-4">
+      {daysOfWeek.map(day => (
+        <div key={day} className="text-center">
+          <div className="font-bold">{day}</div>
+          <div>
+            {getTimeSlotsForDay(day).map((time, index) => (
+              <div key={index} className="bg-blue-500 text-white p-2 rounded mt-2">
+                {time.start} - {time.end}
+              </div>
+            ))}
           </div>
-        </table>
-      </div>
+        </div>
+      ))}
     </div>
+
+  </div>
   );
 };
 

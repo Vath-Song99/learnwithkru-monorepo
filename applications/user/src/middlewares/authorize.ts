@@ -22,7 +22,7 @@ export const authorize = (requireRole: string[]) => {
           role
         )}`
       );
-      if (!requireRole.includes(role)) {
+      if (!requireRole.some(role)) {
         throw new BaseCustomError(
           "Forbidden - Insufficient permissions",
           StatusCode.FORBIDDEN

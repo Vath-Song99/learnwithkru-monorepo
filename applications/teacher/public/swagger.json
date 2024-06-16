@@ -567,7 +567,7 @@
 				]
 			}
 		},
-		"/v1/teachers/get/{id}": {
+		"/v1/teachers/get/{id?}": {
 			"get": {
 				"operationId": "GetTeacher",
 				"responses": {

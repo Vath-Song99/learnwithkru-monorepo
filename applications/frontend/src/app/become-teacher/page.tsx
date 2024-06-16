@@ -15,7 +15,7 @@ export interface IUserBecomeTeacher {
 
 const getUserData = async (): Promise<IAuth> => {
   const cookieString = getCookieString();
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL_LOCAL || "http://localhost:3000";
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
   console.log(apiUrl)
   try {
     if (typeof cookieString === "object") {

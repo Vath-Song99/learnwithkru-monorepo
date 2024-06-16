@@ -1,30 +1,58 @@
 "use client";
-import React, {
-  ChangeEvent,
-  FormEvent,
-  FormEventHandler,
-  useState,
-} from "react";
+import { IUser } from "@/@types/user";
+import Image from "next/image";
+import React, { ChangeEvent, FormEvent, FormEventHandler, useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
 
-const DEFAULT_FORM_VALUE = {
-  firstname: "",
-  lastname: "",
-};
+interface AccountSettingsProp {
+  authState: { isAuth: boolean; user: IUser | null };
+}
 
-const AccountSettingsForm: React.FC = () => {
-  const [profileImage, setProfileImage] = useState<File | null>(null);
+const AccountSettingsForm: React.FC<AccountSettingsProp> = ({ authState }) => {
+  const DEFAULT_FORM_VALUE = {
+    firstname: authState.user?.firstname || "",
+    lastname: authState.user?.lastname || "",
+    picture: authState.user?.picture || ""
+  };
+
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] = useState(DEFAULT_FORM_VALUE);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setProfileImage(e.target.files[0]);
+  useEffect(() => {
+    if (authState.user) {
+      setFormData({
+        firstname: authState.user.firstname || "",
+        lastname: authState.user.lastname || "",
+        picture: authState.user.picture || "",
+      });
+    }
+  }, [authState.user]);
+
+  const inputFileRef = useRef<HTMLInputElement>(null);
+  const [previewURL, setPreviewURL] = useState<string | null>(null);
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const imageFile = event.currentTarget.files
+      ? event.currentTarget.files[0]
+      : null;
+    if (imageFile) {
+      if (imageFile.size > 1024 * 1024) {
+        // 1MB limit
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          picture: "Profile size is too large",
+        }));
+        setPreviewURL("");
+      } else {
+        const imageUrl = URL.createObjectURL(imageFile);
+        setFormData({ ...formData, picture: imageUrl });
+        setPreviewURL(imageUrl);
+        setErrors((prevErrors) => ({ ...prevErrors, picture: "" }));
+      }
     }
   };
-  const onChangeInput = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
-  ) => {
+
+  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     if (errors[name]) {
@@ -32,19 +60,29 @@ const AccountSettingsForm: React.FC = () => {
     }
   };
 
-  const UdadateUser = Yup.object().shape({
-    firstname: Yup.string().required("First name is required"),
-    lastname: Yup.string().required("First name is required"),
-    profileImage: Yup.mixed().nullable(),
+  const UpdateUserSchema = Yup.object().shape({
+    first_name: Yup.string().required("First name is required"),
+    last_name: Yup.string().required("Last name is required"),
+    picture: Yup.string()
+      .test("file-size", "Image size is too large", function (value) {
+        const file =
+          value && this.options.context && this.options.context.files
+            ? this.options.context.files[value]
+            : null;
+        if (file && file.size) {
+          return file.size <= 1024 * 1024; // 1MB limit
+        }
+        return true;
+      })
+      .required("Please upload an image"),
   });
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (
-    e: FormEvent<HTMLFormElement>
-  ) => {
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData.firstname);
     try {
-      await UdadateUser.validate(formData, { abortEarly: false });
+      await UpdateUserSchema.validate(formData, { abortEarly: false });
       setErrors({});
+      // Submit form data to the server or perform any action here.
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const newErrors: { [key: string]: string } = {};
@@ -63,67 +101,82 @@ const AccountSettingsForm: React.FC = () => {
       <h2 className="text-2xl font-bold mb-4 flex justify-center">
         Account Settings
       </h2>
-      <form action="" onSubmit={handleSubmit}>
-        <div className="flex flex-col sm:flex-row sm:justify-center">
-          <div className="flex flex-col  sm:justify-center">
-            <div className="mb-4">
-              <label className="block text-gray-700">Profile image</label>
-              <div className="flex items-center mt-2">
-                {profileImage ? (
-                  <img
-                    src={URL.createObjectURL(profileImage)}
-                    alt="Profile"
-                    className="w-[150px] h-[150px] rounded object-cover"
+      {authState.isAuth && authState.user && (
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-col sm:flex-row sm:justify-center">
+            <div className="flex flex-col sm:justify-center">
+              <div className="mb-4">
+                <label className="block text-gray-700">Profile image</label>
+                <div className="flex items-center mt-2">
+                  {!previewURL ? (
+                    <Image
+                      className="object-cover w-full h-full"
+                      src={authState.user.picture ?? "/default-avatar.png"}
+                      alt="Bordered avatar"
+                      width={160}
+                      height={160}
+                    />
+                  ) : (
+                    previewURL && (
+                      <Image
+                        src={previewURL}
+                        alt="Preview"
+                        className="w-[160px] h-[160px] flex justify-start"
+                        width={160}
+                        height={160}
+                      />
+                    )
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    name="picture"
+                    ref={inputFileRef}
+                    className="w-[200px] sm:w-[400px] px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-violet-600"
                   />
-                ) : (
-                  <div className="w-[150px] h-[150px] rounded bg-gray-300" />
-                )}
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700">
+                  First name <span className="text-red-500">*</span>
+                </label>
                 <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                 className="w-[200px] sm:w-[400px] px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-violet-600"
+                  type="text"
+                  name="firstname"
+                  value={formData.firstname}
+                  onChange={onChangeInput}
+                  className="w-[200px] sm:w-[400px] px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-violet-600"
                 />
+                {errors.firstname && (
+                  <p className="text-red-500 text-sm">{errors.firstname}</p>
+                )}
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700">Last name</label>
+                <input
+                  type="text"
+                  name="last_name"
+                  value={formData.lastname}
+                  onChange={onChangeInput}
+                  className="w-[200px] sm:w-[400px] px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-violet-600"
+                />
+                {errors.lastname && (
+                  <p className="text-red-500 text-sm">{errors.lastname}</p>
+                )}
+              </div>
+
+              <div className="flex flex-col sm:flex-row sm:justify-center">
+                <button className="bg-violet-700 text-white text-[16px] font-bold py-2 px-4 rounded hover:bg-violet-800 focus:outline-none focus:shadow-outline">
+                  Save Changes
+                </button>
               </div>
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">
-                First name <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="firstname"
-                value={formData.firstname}
-                onChange={onChangeInput}
-                className="w-[200px] sm:w-[400px] px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-violet-600"
-              />
-              {errors.firstname && (
-                <p className="text-red-500 text-sm">{errors.firstname}</p>
-              )}
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Last name</label>
-              <input
-                type="text"
-                name="lastname"
-                value={formData.lastname}
-                onChange={onChangeInput}
-               className="w-[200px] sm:w-[400px] px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-violet-600"
-              />
-              {errors.lastname && (
-                <p className="text-red-500 text-sm">{errors.lastname}</p>
-              )}
-            </div>
-            <div className="flex  flex-col sm:flex-row sm:justify-center">
-              <button
-               className="bg-violet-700 text-white text-[16px] font-bold py-2 px-4 rounded hover:bg-violet-800 focus:outline-none focus:shadow-outline"
-               >
-              Save Changes
-              </button>
-            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      )}
     </div>
   );
 };
