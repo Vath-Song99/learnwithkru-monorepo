@@ -35,7 +35,9 @@ const TeacherTimeAvailable: React.FC<TeachersTimeProps> = ({
     if (!dayData) {
       return [];
     }
-    return sortTimeSlots(dayData.time);
+     // Ensure dayData.time is an array before passing it to sortTimeSlots
+  const timeSlots = Array.isArray(dayData.time) ? dayData.time : [dayData.time];
+  return sortTimeSlots(timeSlots);
   };
   return (
     <div className="mt-10  ">
