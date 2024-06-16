@@ -30,7 +30,6 @@ export const teacherSchemas = z.object({
   teaching_experience: z.string().min(25).max(150),
 });
 
-
 export const updateTeacherSchemas = z.object({
   first_name: z.string().min(2).max(25).optional(),
   last_name: z.string().min(2).max(25).optional(),
@@ -43,21 +42,27 @@ export const updateTeacherSchemas = z.object({
   type_degree: z.string().optional(),
   bio: z.string().min(40).max(200).optional(),
   motivation: z.string().min(25).max(200).optional(),
-  date_available: z.array(
-    z.object({
-      day: z.string().optional(),
-      time: z.array(
-        z.object({
-          start: z.string().optional(),
-          end: z.string().optional(),
-        }).optional()
-      ).optional(),
-    }).optional()
-  ).optional(),
+  date_available: z
+    .array(
+      z
+        .object({
+          day: z.string().optional(),
+          time: z
+            .array(
+              z
+                .object({
+                  start: z.string().optional(),
+                  end: z.string().optional(),
+                })
+                .optional()
+            )
+            .optional(),
+        })
+        .optional()
+    )
+    .optional(),
   price: z.number().optional(),
   certificate: z.string().optional(),
   video: z.string().optional(),
   teaching_experience: z.string().min(25).max(150).optional(),
 });
-
-

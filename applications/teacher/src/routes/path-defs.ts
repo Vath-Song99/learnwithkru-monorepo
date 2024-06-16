@@ -12,3 +12,8 @@ export const PATH_CLASS = {
   base: "/v1/teachers",
   createClass: "/class",
 };
+
+
+export const PATH_RATE = {
+  CREATE: '/rate/:teacherId'
+}

@@ -102,10 +102,6 @@ interface NavbarProps {
   className?: string;
   authState: { isAuth: boolean; user: IUser | null };
 }
-type LogoutResponse = {
-  message: string;
-  errors?: string[];
-};
 
 const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -123,9 +119,9 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
   // login
   // logout
 
-  const handleLogout = async (url: string): Promise<LogoutResponse> => {
+  const handleLogout = async (url: string)=> {
     try {
-      const response = await axios.get<LogoutResponse>(url, {
+      const response = await axios.get(url, {
         withCredentials: true,
       });
 
@@ -156,7 +152,8 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
   };
 
   const onLogoutClick = async () => {
-    const url = "http://localhost:3000/v1/auth/logout";
+    const apiUrl = "https://api.learnwithkru.com"
+    const url = `${apiUrl}/v1/auth/logout`;
     try {
       await handleLogout(url);
       window.location.reload();
@@ -442,13 +439,12 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
                 <Typography
                 className="w-full mt-10 self-center"
                 >
-                  <Link
-                    href=""
+                  <button
                     className="w-full text-sm text-red-600 hover:bg-red-200 hover:p-1 hover:rounded-md"
                     onClick={onLogoutClick}
                   >
                     Logout
-                  </Link>
+                  </button>
                 </Typography>
                 {/* <div className="w-[90%] mx-auto h-[1.2px] bg-gray-200"></div> */}
               </>

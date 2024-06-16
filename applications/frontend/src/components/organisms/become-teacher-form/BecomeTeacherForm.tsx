@@ -70,7 +70,7 @@ const BecomeTeacherForm = ({
   pageIndex,
   setdataTutor,
 }: BecomeTeacherFormTypes) => {
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(true);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] =
     useState<BecomeTeacherData>(DEFAULT_FORM_VALUE);
@@ -226,7 +226,7 @@ const BecomeTeacherForm = ({
           </div>
         </div>
         <div className="w-full flex justify-center">
-          {!showForm ? (
+          {showForm ? (
             <div className="flex justify-center sm:justify-start md:justify-center w-full mt-3">
               <form
                 action=""

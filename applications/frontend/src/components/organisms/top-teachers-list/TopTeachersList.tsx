@@ -26,6 +26,7 @@ const TopTeachersList: React.FC<TopTeachersListProps> = ({ data }) => {
             rateStar={0}
             price={item.price}
             students={10}
+            id={item._id}
           />
         ))}
       </div>

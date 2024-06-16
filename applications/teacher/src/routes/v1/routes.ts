@@ -63,16 +63,17 @@ const models: TsoaRoute.Models = {
             "phone_number": {"dataType":"string","required":true},
             "subject": {"dataType":"string","required":true},
             "province": {"dataType":"string","required":true},
-            "university": {"dataType":"string","required":true},
-            "year_experience": {"dataType":"double","required":true},
-            "type_degree": {"dataType":"string","required":true},
+            "university": {"dataType":"string"},
+            "year_experience": {"dataType":"double"},
+            "type_degree": {"dataType":"string"},
+            "certificate": {"dataType":"string"},
             "bio": {"dataType":"string","required":true},
             "motivation": {"dataType":"string","required":true},
             "date_available": {"dataType":"array","array":{"dataType":"refObject","ref":"IAvailableDay"},"required":true},
             "price": {"dataType":"double","required":true},
-            "certificate": {"dataType":"string","required":true},
             "video": {"dataType":"string","required":true},
             "teaching_experience": {"dataType":"string","required":true},
+            "rating": {"dataType":"double"},
         },
         "additionalProperties": false,
     },
@@ -151,7 +152,6 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 201,
               });
-              next();
             } catch (err) {
                 return next(err);
             }
@@ -182,7 +182,6 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 200,
               });
-              next();
             } catch (err) {
                 return next(err);
             }
@@ -214,7 +213,6 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 200,
               });
-              next();
             } catch (err) {
                 return next(err);
             }
@@ -245,7 +243,6 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 200,
               });
-              next();
             } catch (err) {
                 return next(err);
             }
@@ -276,7 +273,6 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 200,
               });
-              next();
             } catch (err) {
                 return next(err);
             }
@@ -308,7 +304,6 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 200,
               });
-              next();
             } catch (err) {
                 return next(err);
             }
@@ -340,7 +335,38 @@ export function RegisterRoutes(app: Router) {
                 validatedArgs,
                 successStatus: 201,
               });
-              next();
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/v1/teachers/rate/:teacherId',
+            ...(fetchMiddlewares<RequestHandler>(TeacherController)),
+            ...(fetchMiddlewares<RequestHandler>(TeacherController.prototype.RateTeacher)),
+
+            async function TeacherController_RateTeacher(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    teacherId: {"in":"path","name":"teacherId","required":true,"dataType":"string"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+                    requestBody: {"in":"body","name":"requestBody","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"rating":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new TeacherController();
+
+              await templateService.apiHandler({
+                methodName: 'RateTeacher',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 201,
+              });
             } catch (err) {
                 return next(err);
             }

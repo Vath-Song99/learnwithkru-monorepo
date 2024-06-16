@@ -50,7 +50,7 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
   }, [search]);
 
   const handleRequestTeacher = async () => {
-    const API_ENDPOINT = `${apiUrl}/v1/teachers?pageSize=3&pageNumber=1&name=${search}`;
+    const API_ENDPOINT = `${apiUrl}/v1/teachers?pageSize=3&name=${search}`;
     try {
       const response = await axios.get(API_ENDPOINT, { withCredentials: true });
       return response.data;

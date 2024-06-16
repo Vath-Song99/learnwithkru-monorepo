@@ -1,7 +1,7 @@
 import StatusCode from "../utils/http-status-code";
 import { TeacherServices } from "../services/teacher-services";
 import { IQueries } from "../@types/queries.type";
-import { PATH_TEACHER } from "../routes/path-defs";
+import { PATH_RATE, PATH_TEACHER } from "../routes/path-defs";
 import { authorize } from "../middlewares/authorize";
 import { ValidateInput } from "../middlewares/validate-input";
 import {
@@ -24,6 +24,7 @@ import {
 } from "tsoa";
 import { ITeacher, ITeacherUpdate } from "../@types/teacher.type";
 import { logger } from "../utils/logger";
+import { RateService } from "../services/rate-services";
 
 @Route("/v1/teachers")
 export class TeacherController extends Controller {
@@ -139,6 +140,30 @@ export class TeacherController extends Controller {
       const updatedTeacher = await service.UpdateTeacher({ id, requestBody });
 
       return { message: "Success updated teacher", data: updatedTeacher.data };
+    } catch (error: unknown) {
+      throw error;
+    }
+  }
+
+  @SuccessResponse(StatusCode.CREATED, "Create Rate")
+  @Middlewares(authorize(["user", "student"]))
+  @Post(PATH_RATE.CREATE)
+  async RateTeacher(
+    @Path() teacherId: string,
+    @Request() req: Express.Request,
+    @Body() requestBody: { rating: string }
+  ): Promise<{ message: string; data: { rating: number } }> {
+    try {
+      const userId = (req.user as DecodedUser).id;
+      const { rating } = requestBody;
+
+      const service = new RateService();
+      const data = await service.CreateRate({
+        user_id: userId,
+        teacher_id: teacherId,
+        rating: Number(rating),
+      });
+      return { message: "Success rate", data: { rating: data } };
     } catch (error: unknown) {
       throw error;
     }
