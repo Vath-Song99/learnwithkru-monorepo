@@ -13,7 +13,7 @@ import { handleAxiosError } from "@/utils/axiosErrorhandler";
 
 const Homepage = ({ isAuth }: { isAuth: boolean }) => {
   const [search, setSearch] = useState("");
-  const [data, setData] = useState<ITeacher[]>([]);
+  const [data, setData] = useState<ITeacher[] | null>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
 
@@ -35,7 +35,11 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
             console.log('Custom log:', message);
           },
           handleErrorResponse(response) {
-            console.log("Respone error: ", response)
+               const {errors} = response.data;
+
+               if(errors.code === 404){
+                  setData(null)
+               }
           },
         },
         

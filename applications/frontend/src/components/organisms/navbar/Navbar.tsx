@@ -119,8 +119,10 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
   // login
   // logout
 
-  const handleLogout = async (url: string)=> {
+  const handleLogout = async ()=> {
     try {
+      const apiUrl = "https://api.learnwithkru.com"
+      const url = `${apiUrl}/v1/auth/logout`;
       const response = await axios.get(url, {
         withCredentials: true,
       });
@@ -131,8 +133,7 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
         )}`;
         throw new Error(errorMessage);
       }
-
-      return response.data;
+      window.location.reload();
     } catch (error) {
       logError(error);
       throw error;
@@ -151,16 +152,9 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
     }
   };
 
-  const onLogoutClick = async () => {
-    const apiUrl = "https://api.learnwithkru.com"
-    const url = `${apiUrl}/v1/auth/logout`;
-    try {
-      await handleLogout(url);
-      window.location.reload();
-    } catch (error) {
-      // Handle the error appropriately
-      console.error("Logout failed:", error);
-    }
+  const onLogoutClick =  () => {
+     handleLogout();
+
   };
 
   return (

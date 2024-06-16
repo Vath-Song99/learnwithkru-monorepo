@@ -48,7 +48,10 @@ const proxyConfigs: ProxyConfig = {
 
         // Extract JWT token from session
         const token = expressReq.session!.jwt;
-        proxyReq.setHeader("Authorization", `Bearer ${token}`);
+        logger.info(`Proxy token : ${token}`);
+        if (token) {
+          proxyReq.setHeader("Authorization", `Bearer ${token}`);
+        }
       },
       proxyRes: (proxyRes, req, res) => {
         let originalBody: Buffer[] = [];
