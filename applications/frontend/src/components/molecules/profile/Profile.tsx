@@ -15,7 +15,7 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = ({ className, picture, first_name, last_name, subject, price, phonenumber }) => {
   return (
-    <div className={`pt-10 w-[500px] flex justify-center md:justify-start lg:justify-start  h-auto ${className}`}>
+    <div className={`pt-10 w-[500px] flex justify-center md:justify-start lg:justify-center pr-4 h-auto ${className}`}>
       <div className=" flex ">
         <Image
           src={picture}
@@ -24,7 +24,7 @@ const Profile: React.FC<ProfileProps> = ({ className, picture, first_name, last_
           alt={`${first_name} ${last_name} Profile`}
           className="w-[190px] h-[190px] rounded-md object-cover border-4 border-white"
         />
-        <div  className="flex flex-col justify-start  items-start pl-6">
+        <div className="flex flex-col justify-start  items-start pl-6">
           <Typography className="md:text-md lg:text-2xl" align="center" fontSize="md" variant="semibold">
             {`${first_name} ${last_name}`}
           </Typography>

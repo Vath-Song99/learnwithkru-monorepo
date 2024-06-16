@@ -1,10 +1,9 @@
 "use client";
-import { IAvailableDay } from "@/@types/teacher.type";
-import { Button } from "@/components"
+import { IAvailableDay, ITimeSlot } from "@/@types/teacher.type";
 import React from "react";
 
 interface TeachersTimeProps {
-  date_available: IAvailableDay[]
+  date_available: IAvailableDay[];
 }
 
 const daysOfWeek = [
@@ -16,24 +15,32 @@ const daysOfWeek = [
   "Saturday",
   "Sunday",
 ];
-const hoursOfDay = Array.from({ length: 24 }, (_, i) => i);
 
 const TeacherTimeAvailable: React.FC<TeachersTimeProps> = ({
   date_available,
 }) => {
-  const time = date_available.map(entry => entry.time)
-  // const timeStart = date_available.map(entry => entry.time.start)
-  // const timeEnd = date_available.map(entry => entry.time.end)
 
+  const sortTimeSlots = (timeSlots: ITimeSlot[]) => {
+    return timeSlots.slice().sort((a, b) => {
+      const [aHour] = a.start.split(":").map(Number);
+      const [bHour] = b.start.split(":").map(Number);
+      return aHour - bHour;
+    });
+  };
 
-  console.log("this is timeStart", time)
-  // console.log("this is time", time[0].start)
-
-  const day = date_available.map(entry => entry.day);
+  const getTimeSlotsForDay = (day: string) => {
+    const dayData = date_available.find(
+      (d) => d.day.toLowerCase() === day.toLowerCase()
+    );
+    if (!dayData) {
+      return [];
+    }
+    return sortTimeSlots(dayData.time);
+  };
   return (
     <div className="mt-10  ">
       <div className=" flex justify-center mt-3 ">
-        {/* <table className="w-[60px] md:[150px] lg:w-[150px]">
+        <table className="w-[60px] md:[150px] lg:w-[150px]">
           <thead className="text-white pl-4 pr-4  ">
             <tr className="flex justify-center  ">
               {daysOfWeek.map((day) => (
@@ -49,53 +56,28 @@ const TeacherTimeAvailable: React.FC<TeachersTimeProps> = ({
           </thead>
           <div className="h-[300px] w-auto overflow-auto hide-scrollbar">
             <tbody className="h-[100px] w-[70px] md:[150px] lg:w-[150px] ">
-              {hoursOfDay.map((hour) => (
-                <tr key={hour} className="flex justify-center w-full ">
-                  {daysOfWeek.map((d) => (
-                    <td
-                      key={d}
-                      className=" text-center text-sm font-medium text-white  w-[60px] md:[150px] lg:w-[150px]"
-                    >
-                      {day &&
-                        time.map((time, index) => (
-                          <div className="pt-3" key={`${index}-${time}`}>
-                            <Button
-                              colorScheme="tertiary"
-                              fontSize="sm"
-                              fontColor="black"
-                              className="w-[60px] md:[150px] lg:w-[150px] text-[8px] lg:text-sm font-bold  bg-white underline "
-                            >jjjx
-
-                            </Button>
+              <tr className="flex justify-center w-full ">
+                {daysOfWeek.map((day) => (
+                  <td
+                    key={day}
+                    className="text-center text-sm font-medium text-white  w-[60px] md:[150px] lg:w-[150px]"
+                  >
+                    <div className="text-center">
+                      <div>
+                        {getTimeSlotsForDay(day).map((time, index) => (
+                          <div key={index} className=" w-[60px] md:[150px] lg:w-[150px] text-[8px] lg:text-sm font-bold text-black underline ">
+                            {time.start} - {time.end}
                           </div>
                         ))}
-                    </td>
-                  ))}
-                </tr>
-              ))}
+                      </div>
+                    </div>
+                  </td>
+                ))}
+              </tr>
+
             </tbody>
-
-            
           </div>
-        </table> */}
-        <ol>
-          {
-            date_available.map((item, index) => {
-              console.log(item);
-              return <li key={index}>{item.day}
-              <ol>
-                {
-                  item.time.map((time, index)=>{
-                    console.log(time);
-                    return <li key={index}>{time.start}, {time.end}</li>
-                  })
-                }
-              </ol>
-              </li>
-            })
-          }
-
-        </ol>
+        </table>
       </div>
     </div>
   );
