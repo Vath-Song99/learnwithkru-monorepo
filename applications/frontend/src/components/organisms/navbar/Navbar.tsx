@@ -438,13 +438,12 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
                 <Typography
                 className="w-full mt-10 self-center"
                 >
-                  <Link
-                    href=""
+                  <button
                     className="w-full text-sm text-red-600 hover:bg-red-200 hover:p-1 hover:rounded-md"
                     onClick={onLogoutClick}
                   >
                     Logout
-                  </Link>
+                  </button>
                 </Typography>
                 {/* <div className="w-[90%] mx-auto h-[1.2px] bg-gray-200"></div> */}
               </>
