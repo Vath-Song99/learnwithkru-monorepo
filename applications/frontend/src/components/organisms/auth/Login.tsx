@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import FormLogin from "../form/FormLogin";
 import { useRouter } from "next/navigation";
-const Login = () => {
+const Login = ({className}:{className?: string}) => {
 
 
   const router = useRouter()
@@ -46,7 +46,7 @@ const Login = () => {
   
   
   return (
-    <div className=" w-full h-[100vh] flex justify-center items-center">
+    <div className={` w-full h-[100vh] flex justify-center items-center ${className}`}>
       <div className="w-[900px] h-[600px] flex justify-between items-center">
         {/* form */}
         <div className="w-full flex items-center justify-center">

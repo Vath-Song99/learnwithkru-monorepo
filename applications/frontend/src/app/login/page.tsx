@@ -1,13 +1,17 @@
 "use client";
 import { Login } from "@/components";
-import React from "react";
+import React, { Suspense } from "react";
 
-const page = () => {
+const Page = () => {
   return (
-    <>
       <Login />
-    </>
   );
 };
 
-export default page;
+const SuspenseWrapper = () => (
+  <Suspense fallback={<div>Loading.....</div>}>
+    <Page />
+  </Suspense>
+);
+
+export default SuspenseWrapper;

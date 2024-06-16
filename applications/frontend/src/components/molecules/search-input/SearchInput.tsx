@@ -1,25 +1,27 @@
 "use client";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { InputForm } from "@/components/atoms";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 const SearchInput = ({ className }: { className?: string }) => {
-  const router = useSearchParams();
+  const searchRouter = useSearchParams();
+  const router = useRouter()
+
   const [value, setValue] = useState("");
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
   useEffect(() => {
-    const search_query = router.get("search_query");
+    const search_query = searchRouter.get("search_query");
     if (search_query) {
       setValue(search_query);
     }
-  }, [router]);
+  }, [searchRouter]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      window.location.href = `http://localhost:8000/teachers?search_query=${value}`;
+     router.push(`/teachers?search_query=${value}`)
     }
   };
 
@@ -28,7 +30,7 @@ const SearchInput = ({ className }: { className?: string }) => {
   ) => {
     e.preventDefault();
     if (value) {
-      window.location.href = `http://localhost:8000/teachers?search_query=${value}`;
+     router.push(`/teachers?search_query=${value}`)
     }
   };
   return (
