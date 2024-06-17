@@ -39,7 +39,7 @@ app.get("/swagger.json", (_req, res) => {
 });
 // Register routes generated
 (0, routes_1.RegisterRoutes)(app);
-//error handler middleware
+//error handler middlewares
 app.use(errorsHandler_1.errorHandler);
 exports.default = app;
 //# sourceMappingURL=app.js.map

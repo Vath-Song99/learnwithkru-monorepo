@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.startQueue = exports.createQueueConnection = void 0;
-const logger_1 = require("@notifications/utils/logger");
+const logger_1 = require("../utils/logger");
 const amqplib_1 = __importDefault(require("amqplib"));
 const email_consumer_1 = require("./email-consumer");
-const config_1 = __importDefault(require("@notifications/utils/config"));
+const config_1 = __importDefault(require("../utils/config"));
 const currentEnv = process.env.NODE_ENV || 'development';
 const config = (0, config_1.default)(currentEnv);
 function createQueueConnection() {

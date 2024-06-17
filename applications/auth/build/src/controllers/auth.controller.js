@@ -36,6 +36,7 @@ const oauth_configs_1 = require("../utils/oauth-configs");
 const config_1 = __importDefault(require("../utils/config"));
 const base_custom_error_1 = require("../error/base-custom-error");
 const jwt_1 = require("../utils/jwt");
+const logger_1 = require("../utils/logger");
 const currentEnv = process.env.NODE_ENV || "development";
 const config = (0, config_1.default)(currentEnv);
 let AuthController = class AuthController extends tsoa_1.Controller {
@@ -129,6 +130,7 @@ let AuthController = class AuthController extends tsoa_1.Controller {
     GoogleOAuth(code) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                logger_1.logger.info(`Google code: ${code}`);
                 const authService = new auth_services_1.AuthServices();
                 const user = yield authService.SigninWithGoogleCallBack(code);
                 const { firstname, lastname, email, picture } = user.data;
@@ -148,6 +150,7 @@ let AuthController = class AuthController extends tsoa_1.Controller {
             try {
                 const authService = new auth_services_1.AuthServices();
                 const user = yield authService.SigninWithFacebookCallBack(code);
+                console.log("user: ", user);
                 const { firstname, lastname, email, picture } = user.data;
                 return {
                     message: "Success signup",

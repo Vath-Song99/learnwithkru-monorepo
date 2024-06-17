@@ -2,8 +2,8 @@ import { rateLimit } from "express-rate-limit";
 import express from "express";
 import getConfig from "@api-gateway/utils/createConfig";
 
-const env = process.env.NODE_ENV || "development";
-const config = getConfig(env);
+const currentEnv = process.env.NODE_ENV || "development";
+const config = getConfig(currentEnv);
 const isDevelopment = config.env === "development";
 const RATE_LIMIT_WINDOW_MS = isDevelopment ? undefined : 15 * 60 * 1000; // 15 minutes in milliseconds
 const MAX_REQUESTS = isDevelopment ? undefined : 100; // Limit each IP to 100 requests per windowMs

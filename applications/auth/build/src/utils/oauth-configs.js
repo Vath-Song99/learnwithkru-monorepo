@@ -17,8 +17,10 @@ const axios_1 = __importDefault(require("axios"));
 const base_custom_error_1 = require("../error/base-custom-error");
 const querystring_1 = __importDefault(require("querystring"));
 const config_1 = __importDefault(require("./config"));
+const logger_1 = require("./logger");
 const currentEnv = process.env.NODE_ENV || "development";
 const config = (0, config_1.default)(currentEnv);
+console.log(config);
 class OauthConfig {
     constructor() {
         // Any initialization logic you want to perform
@@ -33,18 +35,30 @@ class OauthConfig {
     }
     getToken(requestBody, url) {
         return __awaiter(this, void 0, void 0, function* () {
-            var _a, _b;
+            var _a, _b, _c, _d, _e, _f;
             try {
+                logger_1.logger.info(`RequestBody: ${requestBody} and url : ${url}`);
                 const { data } = yield axios_1.default.post(url, requestBody);
                 return data;
             }
             catch (error) {
                 if (axios_1.default.isAxiosError(error)) {
                     const axiosError = error;
-                    const errorMessage = ((_b = (_a = axiosError.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.error_description) || axiosError.message;
-                    throw new base_custom_error_1.ApiError(`Unable to configure user  API: ${errorMessage}`);
+                    const status = (_a = axiosError.response) === null || _a === void 0 ? void 0 : _a.status;
+                    const statusText = (_b = axiosError.response) === null || _b === void 0 ? void 0 : _b.statusText;
+                    const headers = (_c = axiosError.response) === null || _c === void 0 ? void 0 : _c.headers;
+                    const responseData = (_d = axiosError.response) === null || _d === void 0 ? void 0 : _d.data;
+                    console.error("Axios error response:", {
+                        status,
+                        statusText,
+                        headers,
+                        responseData,
+                    });
+                    const errorMessage = ((_f = (_e = axiosError.response) === null || _e === void 0 ? void 0 : _e.data) === null || _f === void 0 ? void 0 : _f.error_description) || axiosError.message;
+                    throw new base_custom_error_1.ApiError(`Unable to configure user API: ${errorMessage}`);
                 }
                 else {
+                    console.error("Unknown error:", error);
                     throw new base_custom_error_1.ApiError(`Unknown error occurred: ${error}`);
                 }
             }
