@@ -42,13 +42,16 @@ const teacherSchema = new mongoose_1.Schema({
         required: true,
         index: true,
     },
+    email: {
+        type: String,
+    },
     picture: {
         type: String,
     },
     phone_number: {
         type: String,
         minlength: 8,
-        match: /^\+?(?:855|0)\d{8}$/,
+        maxlength: 10,
         required: true,
     },
     subject: {
@@ -63,17 +66,15 @@ const teacherSchema = new mongoose_1.Schema({
     },
     university: {
         type: String,
-        minlength: 2,
-        maxlength: 70,
-        required: true,
     },
     year_experience: {
         type: Number,
-        required: true,
     },
     type_degree: {
         type: String,
-        required: true,
+    },
+    certificate: {
+        type: String,
     },
     bio: {
         type: String,
@@ -87,47 +88,47 @@ const teacherSchema = new mongoose_1.Schema({
         maxlength: 200,
         required: true,
     },
-    date_available: {
-        type: {
+    date_available: [
+        {
             day: {
                 type: String,
                 required: true,
-                index: true,
             },
-            time: {
-                start: {
-                    type: String,
-                    required: true,
+            time: [
+                {
+                    start: {
+                        type: String,
+                    },
+                    end: {
+                        type: String,
+                    },
                 },
-                end: {
-                    type: String,
-                    required: true,
-                },
-            },
+            ],
         },
-        required: true,
-    },
+    ],
     price: {
         type: Number,
         required: true,
         index: true,
-    },
-    certificate: {
-        type: String,
-        required: true,
     },
     video: {
         type: String,
         required: true,
     },
     createdAt: {
-        type: Date, default: Date.now
+        type: Date,
+        default: Date.now,
     },
     teaching_experience: {
         type: String,
-        min: 25,
-        max: 150
-    }
+        minlength: 25,
+        maxlength: 150,
+    },
+    rating: {
+        type: Number,
+        max: 5,
+        default: 0,
+    },
 });
 const teacherModel = mongoose_1.default.model("teachers", teacherSchema);
 exports.default = teacherModel;

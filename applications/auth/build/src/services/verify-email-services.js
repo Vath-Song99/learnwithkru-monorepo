@@ -28,6 +28,7 @@ const auth_respository_1 = require("../database/repositories/auth.respository");
 const config_1 = __importDefault(require("../utils/config"));
 const currentEnv = process.env.NODE_ENV || "development";
 const config = (0, config_1.default)(currentEnv);
+console.log("Notif config ", config);
 class SendVerifyEmailService {
     constructor() {
         this.accountVerificationRepo = new account_verification_repository_1.AccountVerificationRepository();

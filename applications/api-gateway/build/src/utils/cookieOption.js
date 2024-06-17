@@ -11,11 +11,11 @@ exports.OptionCookie = {
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds
     httpOnly: true,
     secure: config.env !== "development", // set to true in production
-    sameSite: config.env !== "development" ? "strict" : "lax", // 'strict' in production, 'lax' in development
-    domain: config.env !== "development" ? "www.learnwithkru.com" : undefined, // Set domain in production, undefined in development
+    sameSite: config.env !== "development" ? "lax" : "none", // 'lax' in production, 'none' in development
+    domain: config.env !== "development" ? ".learnwithkru.com" : undefined, // Set domain in production, undefined in development
     path: "/", // Ensure the path is set to the root
 };
-exports.OptionSession = Object.assign({ name: "session", keys: [`${config.cookieSecretKeyOne}`, `${config.cookieSecretKeyTwo}`], maxAge: 24 * 60 * 60 * 1000, secure: config.env !== "development" }, (config.env !== "development" && {
+exports.OptionSession = Object.assign(Object.assign({ name: "session", keys: [`${config.cookieSecretKeyOne}`, `${config.cookieSecretKeyTwo}`], httpOnly: true, maxAge: 24 * 60 * 60 * 1000, secure: config.env !== "development" }, (config.env !== "development" && {
     sameSite: "none",
-}));
+})), { domain: config.env !== "development" ? ".learnwithkru.com" : undefined, path: "/" });
 //# sourceMappingURL=cookieOption.js.map

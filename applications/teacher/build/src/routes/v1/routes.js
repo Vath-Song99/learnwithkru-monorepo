@@ -42,25 +42,45 @@ const models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ITimeSlot": {
+        "dataType": "refObject",
+        "properties": {
+            "start": { "dataType": "string", "required": true },
+            "end": { "dataType": "string", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IAvailableDay": {
+        "dataType": "refObject",
+        "properties": {
+            "day": { "dataType": "string", "required": true },
+            "time": { "dataType": "array", "array": { "dataType": "refObject", "ref": "ITimeSlot" }, "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ITeacher": {
         "dataType": "refObject",
         "properties": {
             "first_name": { "dataType": "string", "required": true },
             "last_name": { "dataType": "string", "required": true },
+            "email": { "dataType": "string", "required": true },
             "picture": { "dataType": "string", "required": true },
             "phone_number": { "dataType": "string", "required": true },
             "subject": { "dataType": "string", "required": true },
             "province": { "dataType": "string", "required": true },
-            "university": { "dataType": "string", "required": true },
-            "year_experience": { "dataType": "double", "required": true },
-            "type_degree": { "dataType": "string", "required": true },
+            "university": { "dataType": "string" },
+            "year_experience": { "dataType": "double" },
+            "type_degree": { "dataType": "string" },
+            "certificate": { "dataType": "string" },
             "bio": { "dataType": "string", "required": true },
             "motivation": { "dataType": "string", "required": true },
-            "date_available": { "dataType": "nestedObjectLiteral", "nestedProperties": { "time": { "dataType": "nestedObjectLiteral", "nestedProperties": { "end": { "dataType": "string", "required": true }, "start": { "dataType": "string", "required": true } }, "required": true }, "day": { "dataType": "string", "required": true } }, "required": true },
+            "date_available": { "dataType": "array", "array": { "dataType": "refObject", "ref": "IAvailableDay" }, "required": true },
             "price": { "dataType": "double", "required": true },
-            "certificate": { "dataType": "string", "required": true },
             "video": { "dataType": "string", "required": true },
             "teaching_experience": { "dataType": "string", "required": true },
+            "rating": { "dataType": "double" },
         },
         "additionalProperties": false,
     },
@@ -76,6 +96,29 @@ const models = {
             "province": { "dataType": "string" },
             "min_p": { "dataType": "double" },
             "max_p": { "dataType": "double" },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ITeacherUpdate": {
+        "dataType": "refObject",
+        "properties": {
+            "first_name": { "dataType": "string" },
+            "last_name": { "dataType": "string" },
+            "picture": { "dataType": "string" },
+            "phone_number": { "dataType": "string" },
+            "subject": { "dataType": "string" },
+            "province": { "dataType": "string" },
+            "university": { "dataType": "string" },
+            "year_experience": { "dataType": "double" },
+            "type_degree": { "dataType": "string" },
+            "bio": { "dataType": "string" },
+            "motivation": { "dataType": "string" },
+            "date_available": { "dataType": "array", "array": { "dataType": "refObject", "ref": "IAvailableDay" } },
+            "price": { "dataType": "double" },
+            "certificate": { "dataType": "string" },
+            "video": { "dataType": "string" },
+            "teaching_experience": { "dataType": "string" },
         },
         "additionalProperties": false,
     },
@@ -165,7 +208,7 @@ function RegisterRoutes(app) {
         });
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/v1/teachers/teacher-profile/:id', ...((0, runtime_1.fetchMiddlewares)(teacher_controller_1.TeacherController)), ...((0, runtime_1.fetchMiddlewares)(teacher_controller_1.TeacherController.prototype.FindOneTeacher)), function TeacherController_FindOneTeacher(request, response, next) {
+    app.get('/v1/teachers/:id', ...((0, runtime_1.fetchMiddlewares)(teacher_controller_1.TeacherController)), ...((0, runtime_1.fetchMiddlewares)(teacher_controller_1.TeacherController.prototype.FindOneTeacher)), function TeacherController_FindOneTeacher(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -207,6 +250,84 @@ function RegisterRoutes(app) {
                     next,
                     validatedArgs,
                     successStatus: 200,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/v1/teachers/get/:id', ...((0, runtime_1.fetchMiddlewares)(teacher_controller_1.TeacherController)), ...((0, runtime_1.fetchMiddlewares)(teacher_controller_1.TeacherController.prototype.GetTeacher)), function TeacherController_GetTeacher(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new teacher_controller_1.TeacherController();
+                yield templateService.apiHandler({
+                    methodName: 'GetTeacher',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: 200,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.patch('/v1/teachers/update/:id', ...((0, runtime_1.fetchMiddlewares)(teacher_controller_1.TeacherController)), ...((0, runtime_1.fetchMiddlewares)(teacher_controller_1.TeacherController.prototype.UpdateTeacher)), function TeacherController_UpdateTeacher(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                requestBody: { "in": "body", "name": "requestBody", "required": true, "ref": "ITeacherUpdate" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new teacher_controller_1.TeacherController();
+                yield templateService.apiHandler({
+                    methodName: 'UpdateTeacher',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: 201,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.post('/v1/teachers/rate/:teacherId', ...((0, runtime_1.fetchMiddlewares)(teacher_controller_1.TeacherController)), ...((0, runtime_1.fetchMiddlewares)(teacher_controller_1.TeacherController.prototype.RateTeacher)), function TeacherController_RateTeacher(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                teacherId: { "in": "path", "name": "teacherId", "required": true, "dataType": "string" },
+                req: { "in": "request", "name": "req", "required": true, "dataType": "object" },
+                requestBody: { "in": "body", "name": "requestBody", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "rating": { "dataType": "string", "required": true } } },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new teacher_controller_1.TeacherController();
+                yield templateService.apiHandler({
+                    methodName: 'RateTeacher',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: 201,
                 });
             }
             catch (err) {

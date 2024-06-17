@@ -37,7 +37,7 @@ const RatingStar = () => {
 
   return (
     <div >
-      <Button onClick={togglePopup} radius="md" className="w-[150px] h-[40px]">
+      <Button onClick={togglePopup} radius="sm" className="w-[300px] h-[40px]">
         Rate me
       </Button>
       {isPopupOpen && (

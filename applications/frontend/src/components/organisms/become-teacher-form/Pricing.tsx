@@ -93,10 +93,10 @@ const PricingForm = ({
       teacherData: BecomeTeacherType | PriceProps | undefined
     ) => {
       try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || "api.learnwithkru.com"
         const data = JSON.stringify(teacherData);
-        console.log("handle submit teacher teacherData", teacherData);
         const response = await axios.post(
-          "http://localhost:3000/v1/teachers/become-teacher",
+          `${baseUrl}/v1/teachers/become-teacher`,
           data,
           {
             headers: {

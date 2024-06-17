@@ -22,7 +22,7 @@
       if (event.key === "Enter") {
         const query = new URLSearchParams({ search_query: value }).toString();
 
-        window.history.replaceState(null, "", `?search_query=${query}`);
+        window.history.replaceState(null, "", `?${query}`);
         window.location.reload();
 
       }

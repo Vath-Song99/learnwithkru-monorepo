@@ -40,13 +40,14 @@ export interface PageDetails {
 }
 
 export interface ITimeSlot {
+  map(arg0: (item: any, index: any) => import("react").JSX.Element): import("react").ReactNode;
   start: string;
   end: string;
 }
 
 export interface IAvailableDay {
   day: string;
-  time: ITimeSlot[];
+  time: ITimeSlot;
 }
 
 export interface ITeacher {

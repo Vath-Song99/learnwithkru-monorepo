@@ -73,7 +73,7 @@ class TeacherServices {
                 const existTeacher = yield this.teacherRepo.FindTeacherByUserID(userId);
                 logger_1.logger.info(`Existing teacher: ${existTeacher}`);
                 if (existTeacher) {
-                    throw new base_custom_error_1.BaseCustomError("you aready become a teacher !", http_status_code_1.default.BAD_REQUEST);
+                    throw new base_custom_error_1.BaseCustomError("you're already become a teacher !", http_status_code_1.default.BAD_REQUEST);
                 }
                 const newTeacher = yield this.teacherRepo.CreateTeacher(teacherData);
                 const token = yield (0, jwt_1.generateSignature)({
@@ -118,6 +118,72 @@ We're thrilled to have you on board!
                     _id: existingTeacher.id.toString(),
                 });
                 return { token };
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
+    GetTeacher(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const existingTeacher = yield this.teacherRepo.FindTeacherById({ id });
+                if (!existingTeacher) {
+                    throw new base_custom_error_1.BaseCustomError("No teacher found!", http_status_code_1.default.NOT_FOUND);
+                }
+                return { data: existingTeacher };
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
+    UpdateTeacher(_a) {
+        return __awaiter(this, arguments, void 0, function* ({ id, requestBody, }) {
+            try {
+                const { first_name, last_name, picture, phone_number, subject, province, university, year_experience, type_degree, bio, motivation, date_available, price, certificate, video, teaching_experience, } = requestBody;
+                const teacherObject = {};
+                const existingTeacher = this.teacherRepo.FindTeacherById({ id });
+                if (!existingTeacher) {
+                    throw new base_custom_error_1.BaseCustomError("No teacher found!, can't update the teacher", http_status_code_1.default.NOT_FOUND);
+                }
+                if (first_name)
+                    teacherObject.first_name = first_name;
+                if (last_name)
+                    teacherObject.last_name = last_name;
+                if (picture)
+                    teacherObject.picture = picture;
+                if (phone_number)
+                    teacherObject.phone_number = phone_number;
+                if (subject)
+                    teacherObject.subject = subject;
+                if (province)
+                    teacherObject.province = province;
+                if (university)
+                    teacherObject.university = university;
+                if (year_experience)
+                    teacherObject.year_experience = year_experience;
+                if (type_degree)
+                    teacherObject.type_degree = type_degree;
+                if (bio)
+                    teacherObject.bio = bio;
+                if (motivation)
+                    teacherObject.motivation = motivation;
+                if (date_available)
+                    teacherObject.date_available = date_available;
+                if (price)
+                    teacherObject.price = price;
+                if (certificate)
+                    teacherObject.certificate = certificate;
+                if (video)
+                    teacherObject.video = video;
+                if (teaching_experience)
+                    teacherObject.teaching_experience = teaching_experience;
+                const updatedTeacher = yield this.teacherRepo.UpdateTeacher({
+                    id,
+                    teacherData: teacherObject,
+                });
+                return { data: updatedTeacher };
             }
             catch (error) {
                 throw error;

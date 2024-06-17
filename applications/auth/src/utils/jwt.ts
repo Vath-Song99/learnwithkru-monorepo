@@ -64,12 +64,17 @@ export const validatePassword = async ({
   }
 };
 
-export const decodedToken = async (token: string) => {
+export const decodedToken = (token: string) => {
   try {
-    const data = (await jwt.decode(token)) as JwtPayload;
-    return data.payload;
-  } catch (error: unknown) {
-    logger.error("Unable to decode in decodeToken() method !", error);
-    throw new ApiError("Can't Decode token!");
+    const decoded = jwt.decode(token) as JwtPayload | null;
+
+    if (!decoded || typeof decoded !== "object" || !("payload" in decoded)) {
+      throw new Error("Invalid token structure");
+    }
+
+    return decoded.payload;
+  } catch (error) {
+    logger.error("Unable to decode in decodeToken() method!", { token, error });
+    throw new ApiError("Can't decode token!");
   }
 };

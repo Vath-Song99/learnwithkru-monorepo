@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SocketSender = void 0;
-const api_error_1 = __importDefault(require("@notifications/errors/api-error"));
+const api_error_1 = __importDefault(require("../errors/api-error"));
 class SocketSender {
     constructor() {
         this.isActive = false;

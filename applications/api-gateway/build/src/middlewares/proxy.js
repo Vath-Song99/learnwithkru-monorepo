@@ -15,11 +15,13 @@ const config = (0, createConfig_1.default)(currentEnv);
 // 1. auth service
 // 2. student service
 // 3. teacher student
+// 4. user service
 // Define the proxy rules and targets
 const proxyConfigs = {
     [route_defs_1.ROUTE_PATHS.AUTH_SERVICE]: {
         target: config.authServiceUrl,
         pathRewrite: (path, _req) => {
+            logger_1.logger.info(`pathRewrite: ${path}`);
             return `${route_defs_1.ROUTE_PATHS.AUTH_SERVICE}${path}`;
         },
         changeOrigin: true,
@@ -31,7 +33,10 @@ const proxyConfigs = {
                 const expressReq = req;
                 // Extract JWT token from session
                 const token = expressReq.session.jwt;
-                proxyReq.setHeader("Authorization", `Bearer ${token}`);
+                logger_1.logger.info(`Proxy token : ${token}`);
+                if (token) {
+                    proxyReq.setHeader("Authorization", `Bearer ${token}`);
+                }
             },
             proxyRes: (proxyRes, req, res) => {
                 let originalBody = [];
