@@ -16,17 +16,17 @@ interface TeachersTimeProps {
     "Saturday",
     "Sunday",
   ];
-  
+  const currentDate = new Date()
+
 
 const TimeAvailableTable: React.FC<TeachersTimeProps> = ({date_available}) => {
-  const [currentDate, setCurrentDate] = useState(new Date());
   const [firstDayOfWeek, setFirstDayOfWeek] = useState(0);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
-  }, [currentDate]);
+  }, []);
 
   const generateCalendar = (year: number, month: number) => {
     const firstDayOfMonth = new Date(year, month, 1);
