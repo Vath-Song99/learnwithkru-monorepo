@@ -35,7 +35,7 @@ export class AuthServices {
     // 4. create new user
     // 5. send verify email
     try {
-      const { firstname, lastname, email, password } = auth;
+      const { first_name, last_name, email, password } = auth;
       // step 1
       const hashedPassword = await generatePassword(password as string);
       // step 2
@@ -67,8 +67,8 @@ export class AuthServices {
 
       // step 3
       const newUser = await this.AuthRepo.CreateAuthUser({
-        firstname,
-        lastname,
+        first_name,
+        last_name,
         email,
         password: hashedPassword,
       });
@@ -114,8 +114,8 @@ export class AuthServices {
 
           const userData: IUser = {
             authId: newUser!._id.toString(),
-            firstname: newUser!.firstname as string,
-            lastname: newUser!.lastname as string,
+            first_name: newUser!.first_name as string,
+            last_name: newUser!.last_name as string,
             email: newUser!.email as string,
             picture: newUser!.picture as string,
           };
@@ -134,8 +134,8 @@ export class AuthServices {
       }
 
       const newUser = await this.AuthRepo.CreateOauthUser({
-        firstname: given_name,
-        lastname: family_name,
+        first_name: given_name,
+        last_name: family_name,
         email,
         googleId: id,
         verified_email,
@@ -143,8 +143,8 @@ export class AuthServices {
       });
       const userData: IUser = {
         authId: newUser!._id.toString(),
-        firstname: newUser!.firstname as string,
-        lastname: newUser!.lastname as string,
+        first_name: newUser!.first_name as string,
+        last_name: newUser!.last_name as string,
         email: newUser!.email as string,
         picture: newUser!.picture as string,
       };
@@ -255,7 +255,7 @@ export class AuthServices {
       //step 2
       const profile = await config.FacebookAccessInfo(access_token);
 
-      const { id, first_name, last_name, email, picture } = profile.data;
+      const { id, firstname, lastname, email, picture } = profile.data;
       // step 3
       const existingUser = await this.AuthRepo.FindUserByFacebookId({
         facebookId: id,
@@ -270,20 +270,20 @@ export class AuthServices {
       }
       //step 4
       const newUser = await this.AuthRepo.CreateOauthUser({
-        firstname: first_name,
-        lastname: last_name,
+        first_name: firstname,
+        last_name: lastname,
         email,
         facebookId: id,
         verified_email: true,
         picture: picture.data.url,
       });
       //step 5
-      const { _id, firstname, lastname } = newUser;
+      const { _id, first_name, last_name } = newUser;
 
       const userData: IUser = {
         authId: _id.toString(),
-        firstname: firstname as string,
-        lastname: lastname as string,
+        first_name: first_name as string,
+        last_name: last_name as string,
         email: newUser?.email as string,
         picture: newUser?.picture as string,
       };

@@ -1,6 +1,6 @@
 export interface UserSignup {
-  firstname: string;
-  lastname: string;
+  first_name: string;
+  last_name: string;
   email?: string;
   password?: string;
 }
@@ -15,10 +15,9 @@ export interface ResetPassword {
 }
 
 export interface IUser {
-
   authId?: string;
-  firstname: string;
-  lastname: string;
+  first_name: string;
+  last_name: string;
   email?: string;
   picture: string | null;
 }

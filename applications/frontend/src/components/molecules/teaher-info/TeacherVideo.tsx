@@ -3,7 +3,7 @@ import { TeacherVideoTypes } from "./@types";
 import { Typography } from "@/components/atoms";
 import { RatingStar } from "@/components/organisms/rating-star";
 
-const TeacherVideo = ({ src, classname, year_experience, type_degree, Province, university }: TeacherVideoTypes) => {
+const TeacherVideo = ({ src, classname, year_experience, type_degree, Province, university , id }: TeacherVideoTypes) => {
   return (
     <div className="mt-4">
       <div className={`sm:w-[400px] md:w-[400px] pb-4  lg:border-2 border-[#efefef] rounded-md  pt-8 pl-5 sm:pl-0 flex justify-center sm:justify-center md:justify-center md:ml-5 lg:justify-center items-start ${classname}`}>
@@ -47,15 +47,9 @@ const TeacherVideo = ({ src, classname, year_experience, type_degree, Province, 
               </Typography>
             </div>
             <div className="">
-              <RatingStar>
+              <RatingStar id={id}>
               </RatingStar>
             </div>
-
-
-
-
-
-
           </div>
         </div>
       </div>

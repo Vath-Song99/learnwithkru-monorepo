@@ -3,12 +3,12 @@ import { ApiError } from "../../error/base-custom-error";
 import { UserModel } from "../models/user.model";
 
 export class UserRepository {
-  async CreateUser({ firstname, lastname, email, authId, picture }: IUser) {
+  async CreateUser({ first_name, last_name, email, authId, picture }: IUser) {
     try {
       const newUser = await UserModel.create({
         authId,
-        firstname,
-        lastname,
+        first_name,
+        last_name,
         email,
         picture,
       });
@@ -47,18 +47,18 @@ export class UserRepository {
     }
   }
 
-  async  UpdateUser(authId: string, userUpdate: UserUpdate) {
+  async UpdateUser(authId: string, userUpdate: UserUpdate) {
     try {
       const updatedUser = await UserModel.findOneAndUpdate(
         { authId },
         { $set: userUpdate },
         { new: true, runValidators: true }
       );
-  
+
       if (!updatedUser) {
-        throw new ApiError('Unable to update user in database!');
+        throw new ApiError("Unable to update user in database!");
       }
-  
+
       return updatedUser;
     } catch (error: unknown) {
       throw new ApiError(`Failed to update user: ${error}`);

@@ -9,7 +9,7 @@ const currentEnv = process.env.NODE_ENV || "development";
 const config = getConfig(currentEnv);
 
 export class RequestUserService {
-  async CreateUser({ authId, firstname, lastname, email, picture }: IUser) {
+  async CreateUser({ authId, first_name, last_name, email, picture }: IUser) {
     const url = `${config.userService}${PATH_SERVICE.USER.CREATE_USER}`;
     console.log(config.userService);
     logger.info(`Attempting to create user at URL: ${url}`);
@@ -19,8 +19,8 @@ export class RequestUserService {
         url,
         {
           authId,
-          firstname,
-          lastname,
+          first_name,
+          last_name,
           email,
           picture,
         },
@@ -107,7 +107,7 @@ export class RequestUserService {
     }
   }
 
-  async UpdateUser({ authId, firstname, lastname, email, picture }: IUser) {
+  async UpdateUser({ authId, first_name, last_name, email, picture }: IUser) {
     const url = `${config.userService}${PATH_SERVICE.USER.UPDATE_USER}/${authId}`;
     logger.info(`Attempting to create user at URL: ${url}`);
 
@@ -116,8 +116,8 @@ export class RequestUserService {
         url,
         {
           authId,
-          firstname,
-          lastname,
+          first_name,
+          last_name,
           email,
           picture,
         },

@@ -6,23 +6,54 @@ import Link from "next/link";
 import React from "react";
 
 interface CardTeacherProps {
-  isFavorite: any;
-  onFavoriteClick: () => void;
   items: ITeacher;
 }
 
 const CardTeachers: React.FC<CardTeacherProps> = ({
-  isFavorite,
-  onFavoriteClick,
   items,
 }) => {
-  const { _id, first_name, last_name, picture, subject, bio, price } = items;
+  const { _id, first_name, last_name, picture, subject, bio, price , total_rating } = items;
   const fullname = `${first_name} ${last_name}`;
 
+  const getStarType = (starIndex: number) => {
+    if (total_rating as number >= starIndex + 1) {
+        return 'full';
+    } else if (total_rating as number > starIndex && total_rating as number < starIndex + 1) {
+        return 'half';
+    } else {
+        return 'empty';
+    }
+};
 
-  const handleFavoriteClick = () => {
-    onFavoriteClick(); // Call the provided onClick handler
-  };
+const renderStar = (starType: string) => {
+    switch (starType) {
+        case 'full':
+            return (
+                <svg className="w-3 h-3 text-yellow-300 cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                </svg>
+            );
+        case 'half':
+            return (
+                <svg className="w-3 h-3 text-yellow-300 cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                    <defs>
+                        <linearGradient id="halfGradient">
+                            <stop offset="50%" stopColor="currentColor" />
+                            <stop offset="50%" stopColor="transparent" />
+                        </linearGradient>
+                    </defs>
+                    <path fill="url(#halfGradient)" d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                </svg>
+            );
+        case 'empty':
+        default:
+            return (
+                <svg className="w-3 h-3 text-gray-300 cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                </svg>
+            );
+    }
+};
   return (
     <div className="w-full  lg:w-[49%] flex  justify-evenly sm:justify-around border-[1.5px] px-1 md:px-0  shadow-sm pt-2 pb-1 md:py-3 hover:border-3 hover:border-[#455445] ">
       <div className="flex flex-col items-center gap-1 justify-center md:justify-start w-[100px]  sm:w-[130px] md:w-[140px] lg:w-[120px]">
@@ -32,10 +63,10 @@ const CardTeachers: React.FC<CardTeacherProps> = ({
         >
           <Image
             src={picture}
-            width={500}
-            height={500}
+            width={600}
+            height={600}
             alt={`${first_name} ${last_name}`}
-            className="w-full h-[100px] sm:h-[110px] md:h-[140px] lg:h-[120px] object-cover"
+            className="w-full h-[100px] sm:h-[110px] md:h-[200px] lg:h-[120px] object-cover"
           ></Image>
 
         </Link>
@@ -48,38 +79,6 @@ const CardTeachers: React.FC<CardTeacherProps> = ({
             {fullname}
           </Typography>
           <div className="flex items-center">
-            <button onClick={handleFavoriteClick} className="cursor-pointer">
-              {!isFavorite ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-4 h-4 fill-white"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-4 h-4 fill-red-500 stroke-red-500 mr-1"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                  />
-                </svg>
-              )}
-            </button>
           </div>
           <button className="hidden md:block py-1 px-2 text-xs bg-[#007C00] text-white hover:bg-white hover:border hover:text-[#455445] hover:border-[#007C00]">
             Send Message
@@ -92,39 +91,15 @@ const CardTeachers: React.FC<CardTeacherProps> = ({
           {/* ot ton mean data */}
           {/* <Typography className="text-xs ">{rateStars}</Typography> */}
 
-          <svg
-            className="w-20 md:w-24"
-            viewBox="0 0 130 30"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M7.32441 19.9231L8.56441 14.6101L4.44141 11.0381L9.87241 10.5681L11.9994 5.55713L14.1264 10.5671L19.5564 11.0371L15.4344 14.6091L16.6744 19.9221L11.9994 17.1021L7.32441 19.9231Z"
-              fill="#B9B900"
-            />
-            <path
-              d="M31.3244 19.9231L32.5644 14.6101L28.4414 11.0381L33.8724 10.5681L35.9994 5.55713L38.1264 10.5671L43.5564 11.0371L39.4344 14.6091L40.6744 19.9221L35.9994 17.1021L31.3244 19.9231Z"
-              fill="#B9B900"
-            />
-            <path
-              d="M55.3244 19.9231L56.5644 14.6101L52.4414 11.0381L57.8724 10.5681L59.9994 5.55713L62.1264 10.5671L67.5564 11.0371L63.4344 14.6091L64.6744 19.9221L59.9994 17.1021L55.3244 19.9231Z"
-              fill="#B9B900"
-            />
-            <path
-              d="M79.3244 19.9231L80.5644 14.6101L76.4414 11.0381L81.8724 10.5681L83.9994 5.55713L86.1264 10.5671L91.5564 11.0371L87.4344 14.6091L88.6744 19.9221L83.9994 17.1021L79.3244 19.9231Z"
-              fill="#B9B900"
-            />
-            <path
-              d="M103.324 19.9231L104.564 14.6101L100.441 11.0381L105.872 10.5681L107.999 5.55713L110.126 10.5671L115.556 11.0371L111.434 14.6091L112.674 19.9221L107.999 17.1021L103.324 19.9231Z"
-              fill="black"
-            />
-          </svg>
 
-          {/* ot ton mean data */}
+         <div className="flex">
+         {[0, 1, 2, 3, 4].map((starIndex) => (
+             <div key={starIndex} >
+                 {renderStar(getStarType(starIndex))}
+             </div>
+         ))}
+     </div>
 
-          {/* <Typography className="text-xs flex items-center" align="left">
-              &#40;{reviews} reviews&#41;
-            </Typography> */}
         </div>
 
         {/* active Students */}

@@ -12,10 +12,10 @@
 					"authId": {
 						"type": "string"
 					},
-					"firstname": {
+					"first_name": {
 						"type": "string"
 					},
-					"lastname": {
+					"last_name": {
 						"type": "string"
 					},
 					"email": {
@@ -27,8 +27,8 @@
 					}
 				},
 				"required": [
-					"firstname",
-					"lastname",
+					"first_name",
+					"last_name",
 					"picture"
 				],
 				"type": "object",
@@ -36,10 +36,10 @@
 			},
 			"UserProfile": {
 				"properties": {
-					"firstname": {
+					"first_name": {
 						"type": "string"
 					},
-					"lastname": {
+					"last_name": {
 						"type": "string"
 					},
 					"email": {
@@ -51,8 +51,8 @@
 					}
 				},
 				"required": [
-					"firstname",
-					"lastname",
+					"first_name",
+					"last_name",
 					"picture"
 				],
 				"type": "object",
@@ -60,10 +60,10 @@
 			},
 			"UserUpdate": {
 				"properties": {
-					"firstname": {
+					"first_name": {
 						"type": "string"
 					},
-					"lastname": {
+					"last_name": {
 						"type": "string"
 					},
 					"picture": {

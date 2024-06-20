@@ -214,4 +214,16 @@ We're thrilled to have you on board!
       throw error;
     }
   }
+  async GetTeacherByUserId(id: string): Promise<{ data: ITeacher }> {
+    try {
+      const existingTeacher = await this.teacherRepo.FindTeacherByUserID(id);
+
+      if (!existingTeacher) {
+        throw new BaseCustomError("No teacher found!", StatusCode.NOT_FOUND);
+      }
+      return { data: existingTeacher };
+    } catch (error: unknown) {
+      throw error;
+    }
+  }
 }

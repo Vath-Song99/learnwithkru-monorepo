@@ -14,4 +14,5 @@ export interface TeacherVideoTypes {
   Province: string;
   university: string;
   type_degree: string;
+  id: string;
 }

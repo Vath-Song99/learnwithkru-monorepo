@@ -8,21 +8,23 @@ export class StudentRepository {
     education,
     grade,
     student_card,
-    firstname,
-    lastname,
+    first_name,
+    last_name,
     email,
     userId,
+    picture,
   }: StudentRepo) {
     try {
       const newStudent = await StudentModel.create({
         userId,
-        firstname,
-        lastname,
+        first_name,
+        last_name,
         email,
         school_name,
         education,
         grade: grade,
         student_card,
+        picture,
       });
 
       if (!newStudent) {
@@ -34,25 +36,25 @@ export class StudentRepository {
     }
   }
 
-  async FindOneStudent(studentId: string){
+  async FindOneStudent(studentId: string) {
     try {
       const student = await StudentModel.findOne({
         _id: studentId,
       });
-      return await student;
+      return  student;
     } catch (error: unknown) {
       throw error;
     }
   }
 
-  async FindByUserId(userId: string){
-    try{
+  async FindByUserId(userId: string) {
+    try {
       const existStudent = await StudentModel.findOne({
-        userId: userId
+        userId: userId,
       });
-      return existStudent
-    }catch(error: unknown){
-      throw error
+      return existStudent;
+    } catch (error: unknown) {
+      throw error;
     }
   }
 }

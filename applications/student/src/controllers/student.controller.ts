@@ -17,6 +17,7 @@ import { authorize } from "../middlewares/authorize";
 import { DecodedUser } from "../@types/express-extend.type";
 import { studentValidate } from "../middlewares/student-validate";
 import { StudentSchemas } from "../schemas/student-validate";
+import { IResponeUser } from "../@types/user.type";
 
 @Route("/v1/students")
 export class StudentController extends Controller {
@@ -53,6 +54,21 @@ export class StudentController extends Controller {
       const service = new StudentServices();
       const respone = await service.Login(userId);
       return { message: "Success login", token: respone.token };
+    } catch (error: unknown) {
+      throw error;
+    }
+  }
+
+  @SuccessResponse(StatusCode.OK, "Get Success")
+  @Get("/:id")
+  async GetStudentProfile(
+    @Path() id: string
+  ): Promise<{ message: string; data: IResponeUser }> {
+    try {
+      const service = new StudentServices();
+      const respone = await service.GetStudentByStudentId(id);
+
+      return { message: "Success retrived", data: respone };
     } catch (error: unknown) {
       throw error;
     }

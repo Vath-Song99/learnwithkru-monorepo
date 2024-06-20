@@ -1,29 +1,57 @@
-import axios from 'axios';
-import getConfig from './config';
-import { JwtPayload } from 'jsonwebtoken';
-import jwt from 'jsonwebtoken'
+import axios from "axios";
+import getConfig from "./config";
+import { handleAxiosError } from "./axiosErrorHandler";
+import { logger } from "./logger";
 
 const currentEnv = process.env.NODE_ENV || "development";
 const config = getConfig(currentEnv);
 
-export async function getUserInfo(authId: string ) {
-   const url = config.authService
-    try {
-        const getUrl = `${url}/v1/auth/users/${authId}`
-        const response = await axios.get(getUrl);
+export class MakeRequest {
+  private static instance: MakeRequest;
 
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching user info:', error);
-        throw error;
+  private constructor() {}
+
+  static GetInstance(): MakeRequest {
+    if (!MakeRequest.instance) {
+      MakeRequest.instance = new MakeRequest();
     }
-}
+    return MakeRequest.instance;
+  }
 
-export const decodedToken = async (token: string) => {
+  private async fetchData(url: string, logContext: string) {
     try {
-      const data = await jwt.decode(token)as JwtPayload;
-      return data.payload;
+      const response = await axios.get(url);
+      return response.data;
     } catch (error: unknown) {
-      throw error;
+      handleAxiosError(error, {
+        logError: (message) => {
+          logger.error(`Error message from ${logContext} Service: ${message}`);
+        },
+        handleErrorResponse: (response) => {
+          const { errors } = response.data;
+          if (errors) {
+            logger.error(
+              `Error occurred in ${logContext}Profile: ${errors.message}`
+            );
+            throw error;
+          }
+        },
+      });
     }
-  };
+  }
+
+  async getUserInfo(authId: string) {
+    const url = `${config.authService}/v1/auth/users/${authId}`;
+    return this.fetchData(url, "auth");
+  }
+
+  async getTeacherProfile(id: string) {
+    const url = `${config.teacherService}/v1/teachers/${id}`;
+    return this.fetchData(url, "teacher");
+  }
+
+  async getStudentProfile(id: string) {
+    const url = `${config.teacherService}/v1/students/${id}`;
+    return this.fetchData(url, "student");
+  }
+}
