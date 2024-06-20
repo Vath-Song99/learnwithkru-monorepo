@@ -23,10 +23,11 @@ export class RateRepository {
     }
   }
 
-  async GetRate(userId: string) {
+  async GetRate(userId: string, teacherId: string) {
     try {
-      const existRate = await rateModel.find({
+      const existRate = await rateModel.findOne({
         user_id: userId,
+        teacher_id: teacherId,
       });
 
       return existRate;

@@ -15,7 +15,7 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = ({ className, picture, first_name, last_name, subject, price, phonenumber }) => {
   return (
-    <div className={`pt-10 w-[500px] flex justify-center md:justify-start lg:justify-center pr-4 h-auto ${className}`}>
+    <div className={`pt-10 w-[500px] flex justify-center md:justify-start   h-auto ${className}`}>
       <div className=" flex ">
         <Image
           src={picture}

@@ -31,6 +31,30 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"IResponeUser": {
+				"properties": {
+					"first_name": {
+						"type": "string"
+					},
+					"last_name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"picture": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"first_name",
+					"last_name",
+					"picture"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -125,6 +149,46 @@
 					{
 						"in": "path",
 						"name": "userId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/v1/students/{id}": {
+			"get": {
+				"operationId": "GetStudentProfile",
+				"responses": {
+					"200": {
+						"description": "Get Success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"$ref": "#/components/schemas/IResponeUser"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
 						"required": true,
 						"schema": {
 							"type": "string"

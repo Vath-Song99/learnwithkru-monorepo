@@ -7,13 +7,13 @@ const userSchemas = new mongoose.Schema({
   authId: {
     type: String,
   },
-  firstname: {
+  first_name: {
     type: String,
     min: 2,
     max: 25,
     require: true,
   },
-  lastname: {
+  last_name: {
     type: String,
     min: 2,
     max: 25,

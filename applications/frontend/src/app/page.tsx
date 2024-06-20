@@ -45,7 +45,7 @@ const Page = async () => {
       </div>
     );
   }
-
+ console.log(data?.picture)
   return (
     <div className="max-w-full grid">
       <div className="w-full flex justify-center items-center">

@@ -23,13 +23,15 @@ import { handleAxiosError } from "@/utils/axiosErrorhandler";
 // handel with remember
 
 const DEFAULT_FORM_VALUE = {
-  lastname: "",
-  firstname: "",
+  last_name: "",
+  first_name: "",
   email: "",
   password: "",
 };
 const FormSignup = () => {
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [errors, setErrors] = useState<{ [key: string]: string | undefined }>({});
+  const [error, setError] = useState<{ [key: string]: string | undefined }>({});
+  const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<AuthForm>(DEFAULT_FORM_VALUE);
   const [rememberMe, setRememberMe] = useState(false);
@@ -61,13 +63,17 @@ const FormSignup = () => {
         handleErrorResponse: (response) => {
           // Custom response handling
           console.log('Handling response:', response);
-          if(response.data.errors){
-            console.log(response.data.errors.message)
-            setErrors({server: response.data.errors.message})
+          const {errors}= response.data
+          if(errors){
+            console.log(errors.message)
+            setError({server: errors.message})
           }
           
         }
       });
+  }
+  finally{
+    setIsLoading(false)
   }
 }
 
@@ -75,6 +81,8 @@ const FormSignup = () => {
     e: FormEvent<HTMLFormElement>
   ) => {
     try {
+
+      setIsLoading(true)
       e.preventDefault()
       console.log("Got Eventing", formData)
       // stept 3
@@ -84,8 +92,8 @@ const FormSignup = () => {
       console.log("was gone")
       // stept 4
       const authObject = {
-        lastname: formData.lastname,
-        firstname: formData.firstname,
+        last_name: formData.last_name,
+        first_name: formData.first_name,
         email: formData.email,
       };
       setLocalStorage("user", authObject);
@@ -127,37 +135,37 @@ const FormSignup = () => {
     <div className="flex">
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <div className="flex flex-col">
-          <label htmlFor="">First Name:</label>
+          <label htmlFor="">First Name</label>
           <InputForm
             type="text"
             placeholder="First Name"
             className="border border-purple-500 rounded-md w-[360px] h-[40px] pl-3 outline-none text-xs"
-            name="firstname"
-            value={formData.firstname}
+            name="first_name"
+            value={formData.first_name}
             onChange={onChangeInput}
           />
-          {errors.firstname && (
+          {errors.first_name && (
             <div className="flex justify-start">
               <small className="mt-2" style={{ color: "red" }}>
-                {errors.firstname}
+                {errors.first_name}
               </small>
             </div>
           )}
         </div>
         <div className="flex flex-col">
-          <label htmlFor="">Last Name:</label>
+          <label htmlFor="">Last Name</label>
           <InputForm
             type="text"
             placeholder="Last Name"
             className="border border-purple-500 rounded-md w-[360px] h-[40px] pl-3 outline-none text-xs"
-            name="lastname"
-            value={formData.lastname}
+            name="last_name"
+            value={formData.last_name}
             onChange={onChangeInput}
           />
-          {errors.lastname && (
+          {errors.last_name && (
             <div className="flex justify-start">
               <small className="mt-2" style={{ color: "red" }}>
-                {errors.lastname}
+                {errors.last_name}
               </small>
             </div>
           )}
@@ -238,14 +246,13 @@ const FormSignup = () => {
             <div className="flex justify-start">
               <small className="mt-2  h-2" style={{ color: "red" }}>
                 {errors.password }
-                {errors.server}
               </small>
             </div>
           )}
-          {errors.sever && (
+          {error.server && (
             <div className="flex justify-start">
               <small className="mt-2  h-2" style={{ color: "red" }}>
-                {errors.server}
+                {error.server}
               </small>
             </div>
           )}
@@ -267,7 +274,7 @@ const FormSignup = () => {
           </Link>
         </div>
         <Button type="submit" radius="md" className="w-full py-2.5 text-sm">
-          Sign up
+          { isLoading ? "Sig up  ....." : "Sign up"}
         </Button>
       </form>
     </div>

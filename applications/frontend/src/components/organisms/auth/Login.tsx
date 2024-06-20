@@ -12,7 +12,6 @@ const Login = ({className}:{className?: string}) => {
 
   const [googleLoading, setGoogleLoading] = useState(false);
   const [facebookLoading, setFacebookLoading] = useState(false);
-  
   const handleSignIn = async (provider: string) => {
     try {
       if (provider === "google") {

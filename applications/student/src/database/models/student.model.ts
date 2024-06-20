@@ -1,25 +1,27 @@
 import mongoose from "mongoose";
 
-
-export interface IStudentDocs extends Document{}
+export interface IStudentDocs extends Document {}
 
 const studentSchemas = new mongoose.Schema({
   userId: {
-    type: String
+    type: String,
   },
-  firstname:{
+  first_name: {
     type: String,
     min: 2,
-    max: 25
+    max: 25,
   },
-  lastname: {
+  last_name: {
     type: String,
     min: 2,
-    max: 25
+    max: 25,
   },
   email: {
     type: String,
     min: 2,
+  },
+  picture: {
+    type: String,
   },
   school_name: {
     type: String,
@@ -42,5 +44,4 @@ const studentSchemas = new mongoose.Schema({
   },
 });
 
-
-export const StudentModel = mongoose.model('students',studentSchemas)
+export const StudentModel = mongoose.model("students", studentSchemas);

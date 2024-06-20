@@ -17,8 +17,7 @@ import getConfig from "../utils/config";
 const currentEnv = process.env.NODE_ENV || "development";
 const config = getConfig(currentEnv);
 
-
-console.log("Notif config ", config)
+console.log("Notif config ", config);
 export class SendVerifyEmailService {
   private accountVerificationRepo: AccountVerificationRepository;
   private authRepo: AuthRepository;
@@ -130,13 +129,13 @@ export class SendVerifyEmailService {
       // Mark user as verified
       user.is_verified = true;
       const newUser = await user.save();
-      const { _id, firstname, lastname, email } = newUser;
+      const { _id, first_name, last_name, email } = newUser;
 
       // Step 5: Create user in database user service
       const userData: IUser = {
         authId: _id.toString(),
-        firstname: firstname!,
-        lastname: lastname!,
+        first_name: first_name!,
+        last_name: last_name!,
         email: email!,
         picture: null,
       } as IUser;
