@@ -1,7 +1,7 @@
 import StatusCode from "../utils/http-status-code";
 import { TeacherServices } from "../services/teacher-services";
 import { IQueries } from "../@types/queries.type";
-import { PATH_RATE, PATH_TEACHER } from "../routes/path-defs";
+import { PATH_TEACHER } from "../routes/path-defs";
 import { authorize } from "../middlewares/authorize";
 import { ValidateInput } from "../middlewares/validate-input";
 import {
@@ -139,25 +139,48 @@ export class TeacherController extends Controller {
 
   @SuccessResponse(StatusCode.CREATED, "Create Rate")
   @Middlewares(authorize(["user", "student"]))
-  @Post(PATH_RATE.CREATE)
+  @Post("/rate/:teacherId") // Define the correct endpoint
   async RateTeacher(
     @Path() teacherId: string,
     @Request() req: Express.Request,
-    @Body() requestBody: { rating: string }
-  ): Promise<{ message: string; data: { rating: number } }> {
+    @Body() requestBody: { rating: number; feedback?: string } // Changed rating to number
+  ): Promise<{ message: string; data: { rating: number; feedback: string } }> {
     try {
       const userId = (req.user as DecodedUser).id;
-      const { rating } = requestBody;
+      const { rating, feedback } = requestBody;
+
+      logger.info(
+        `Received userId ${userId} and RequestBody ${JSON.stringify(
+          requestBody
+        )}`
+      );
 
       const service = new RateService();
       const data = await service.CreateRate({
         user_id: userId,
         teacher_id: teacherId,
-        rating: Number(rating),
+        rating,
+        feedback,
       });
-      return { message: "Success rate", data: { rating: data } };
+
+      this.setStatus(StatusCode.CREATED); // Explicitly set the status code
+      return {
+        message: "Success rate",
+        data: { rating: data.rating, feedback: data?.feedback },
+      };
     } catch (error: unknown) {
+      logger.error(
+        `Error rating teacher: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
       throw error;
+      // Optionally, you could throw a custom error with more context
+      // throw new Error(
+      //   `Failed to rate teacher with ID ${teacherId}: ${
+      //     error instanceof Error ? error.message : "Unknown error"
+      //   }`
+      // );
     }
   }
 }

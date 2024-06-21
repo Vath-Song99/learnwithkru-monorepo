@@ -12,7 +12,8 @@ const rateSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  rating: { type: Number, min: 1, max: 5, required: true },
+  rating: { type: Number, required: true },
+  feedback: { type: String },
   created_at: { type: Date, default: Date.now },
 });
 

@@ -2,10 +2,10 @@ import React from "react";
 import {
   Profile,
   TeacherInfo,
-  TeacherTimeAvailable,
   TeacherVideo,
 } from "@/components";
 import { ITeacher } from "@/@types/teacher.type";
+import TimeAvailableTable from "../molecules/teaher-info/TimeAvailableTable";
 
 interface TeachersProfileProps {
   teacher: ITeacher; // Pass the teacher object directly instead of the ID
@@ -14,9 +14,9 @@ interface TeachersProfileProps {
 const TeachersProfile: React.FC<TeachersProfileProps> = ({ teacher }) => {
   const date_available = teacher.date_available;
   return (
-    <div className="w-full md:w-[65%] flex  flex-col">
-      <div className="flex flex-col justify-between lg:flex-row">
-        <div className=" flex flex-col  md:justify-end lg:justify-start items-center ">
+    <div className="w-full md:w-[65%] flex  flex-col gap-y-10 pb-10">
+      <div className="flex justify-between lg:flex-row">
+        <div className=" flex flex-col  md:justify-end lg:justify-start ">
           <Profile
             first_name={teacher.first_name}
             picture={teacher.picture}
@@ -41,10 +41,16 @@ const TeachersProfile: React.FC<TeachersProfileProps> = ({ teacher }) => {
           type_degree={teacher.type_degree}
           Province={teacher.province}
           university={teacher.university}
+          id={teacher._id}
         />
       </div>
-      <div className="w-full flex justify-between">
+      {/* <div className="w-full flex justify-between">
         <TeacherTimeAvailable date_available={date_available} />
+      </div> */}
+
+      <div>
+      <TimeAvailableTable date_available={date_available}/>
+
       </div>
     </div>
   );

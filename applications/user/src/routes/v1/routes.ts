@@ -15,8 +15,8 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "authId": {"dataType":"string"},
-            "firstname": {"dataType":"string","required":true},
-            "lastname": {"dataType":"string","required":true},
+            "first_name": {"dataType":"string","required":true},
+            "last_name": {"dataType":"string","required":true},
             "email": {"dataType":"string"},
             "picture": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
         },
@@ -26,8 +26,8 @@ const models: TsoaRoute.Models = {
     "UserProfile": {
         "dataType": "refObject",
         "properties": {
-            "firstname": {"dataType":"string","required":true},
-            "lastname": {"dataType":"string","required":true},
+            "first_name": {"dataType":"string","required":true},
+            "last_name": {"dataType":"string","required":true},
             "email": {"dataType":"string"},
             "picture": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
         },
@@ -37,8 +37,8 @@ const models: TsoaRoute.Models = {
     "UserUpdate": {
         "dataType": "refObject",
         "properties": {
-            "firstname": {"dataType":"string"},
-            "lastname": {"dataType":"string"},
+            "first_name": {"dataType":"string"},
+            "last_name": {"dataType":"string"},
             "picture": {"dataType":"string"},
         },
         "additionalProperties": false,

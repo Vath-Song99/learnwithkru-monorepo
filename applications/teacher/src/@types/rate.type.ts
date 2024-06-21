@@ -6,4 +6,5 @@ export interface IRate {
   user_id: string;
   teacher_id: string;
   rating: Number;
+  feedback?: string;
 }

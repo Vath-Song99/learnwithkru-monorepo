@@ -29,15 +29,17 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     <div
       className={`w-full sm:w-[48%] lg:w-[353px] h-auto  p-4 rounded-md border shadow-md ${className}`}
     >
-      <Image
-        className="lg:w-[360px] h-[300px] rounded-md object-cover"
-        src={imageUrl}
-        alt="Image Card"
-        width={360}
-        height={100}
-      >
 
-      </Image>
+<Image
+  className="lg:w-[360px] h-[300px] rounded-md object-cover"
+  src={imageUrl}
+  alt="Image Card"
+  width={500}
+  height={500}
+  quality={100} // Adjust the quality attribute as needed (0-100)
+  priority  
+/>
+
 
       <div className="grid grid-flow-row justify-start gap-2 mt-2">
         <div className="p-0 m-0">

@@ -53,6 +53,18 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ITotalRating": {
+        "dataType": "refObject",
+        "properties": {
+            "r1": {"dataType":"double"},
+            "r2": {"dataType":"double"},
+            "r3": {"dataType":"double"},
+            "r4": {"dataType":"double"},
+            "r5": {"dataType":"double"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ITeacher": {
         "dataType": "refObject",
         "properties": {
@@ -73,7 +85,8 @@ const models: TsoaRoute.Models = {
             "price": {"dataType":"double","required":true},
             "video": {"dataType":"string","required":true},
             "teaching_experience": {"dataType":"string","required":true},
-            "rating": {"dataType":"double"},
+            "total_rating": {"ref":"ITotalRating"},
+            "number_of_ratings": {"dataType":"double"},
         },
         "additionalProperties": false,
     },
@@ -112,6 +125,8 @@ const models: TsoaRoute.Models = {
             "certificate": {"dataType":"string"},
             "video": {"dataType":"string"},
             "teaching_experience": {"dataType":"string"},
+            "total_rating": {"ref":"ITotalRating"},
+            "number_of_rating": {"dataType":"double"},
         },
         "additionalProperties": false,
     },
@@ -347,7 +362,7 @@ export function RegisterRoutes(app: Router) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     teacherId: {"in":"path","name":"teacherId","required":true,"dataType":"string"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
-                    requestBody: {"in":"body","name":"requestBody","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"rating":{"dataType":"string","required":true}}},
+                    requestBody: {"in":"body","name":"requestBody","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"feedback":{"dataType":"string"},"rating":{"dataType":"double","required":true}}},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

@@ -5,16 +5,23 @@ import StatusCode from "../../utils/http-status-code";
 import { ObjectId } from "mongodb";
 import { logger } from "../../utils/logger";
 export class AuthRepository {
-  async CreateAuthUser({ firstname, lastname, email, password }: AuthUserRepo) {
+  async CreateAuthUser({
+    first_name,
+    last_name,
+    email,
+    password,
+  }: AuthUserRepo) {
     try {
-      const existingUser = await this.FindUserByEmail({ email: email as string });
+      const existingUser = await this.FindUserByEmail({
+        email: email as string,
+      });
       if (existingUser) {
         throw new BaseCustomError("Email already exists", StatusCode.FORBIDDEN);
       }
 
       const user = await authModel.create({
-        firstname,
-        lastname,
+        first_name,
+        last_name,
         email,
         password,
       });
@@ -29,8 +36,8 @@ export class AuthRepository {
   }
 
   async CreateOauthUser({
-    firstname,
-    lastname,
+    first_name,
+    last_name,
     email,
     password,
     googleId,
@@ -40,8 +47,8 @@ export class AuthRepository {
   }: OauthUserRepo) {
     try {
       const user = new authModel({
-        firstname,
-        lastname,
+        first_name,
+        last_name,
         email,
         password,
         googleId,
@@ -68,7 +75,7 @@ export class AuthRepository {
       return existingUser;
     } catch (error) {
       logger.error("Unexpected an accurs error: ", error);
-      throw new ApiError("Somthing went wrong!")
+      throw new ApiError("Somthing went wrong!");
     }
   }
   async FindAuthById({ id }: { id: string | ObjectId }) {
@@ -93,21 +100,22 @@ export class AuthRepository {
     }
   }
 
-  async FindUserByIdAndUpdate ({id , updates }:{
-    id: string | ObjectId,
-    updates: UserUpdates
+  async FindUserByIdAndUpdate({
+    id,
+    updates,
+  }: {
+    id: string | ObjectId;
+    updates: UserUpdates;
   }) {
-    try{
-      const existUser = await this.FindAuthById({id})
-      if(!existUser){
-        throw new ApiError("User does't exist!")
+    try {
+      const existUser = await this.FindAuthById({ id });
+      if (!existUser) {
+        throw new ApiError("User does't exist!");
       }
-      const updated = await authModel.findByIdAndUpdate(id , updates ,{
-        new: true
-      })
-      return updated
-    }catch(error: unknown){
-
-    }
+      const updated = await authModel.findByIdAndUpdate(id, updates, {
+        new: true,
+      });
+      return updated;
+    } catch (error: unknown) {}
   }
 }

@@ -9,10 +9,10 @@
 		"schemas": {
 			"UserSignup": {
 				"properties": {
-					"firstname": {
+					"first_name": {
 						"type": "string"
 					},
-					"lastname": {
+					"last_name": {
 						"type": "string"
 					},
 					"email": {
@@ -23,8 +23,8 @@
 					}
 				},
 				"required": [
-					"firstname",
-					"lastname"
+					"first_name",
+					"last_name"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -34,10 +34,10 @@
 					"authId": {
 						"type": "string"
 					},
-					"firstname": {
+					"first_name": {
 						"type": "string"
 					},
-					"lastname": {
+					"last_name": {
 						"type": "string"
 					},
 					"email": {
@@ -49,8 +49,8 @@
 					}
 				},
 				"required": [
-					"firstname",
-					"lastname",
+					"first_name",
+					"last_name",
 					"picture"
 				],
 				"type": "object",

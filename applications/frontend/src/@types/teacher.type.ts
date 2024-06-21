@@ -40,7 +40,9 @@ export interface PageDetails {
 }
 
 export interface ITimeSlot {
-  map(arg0: (item: any, index: any) => import("react").JSX.Element): import("react").ReactNode;
+  map(
+    arg0: (item: any, index: any) => import("react").JSX.Element
+  ): import("react").ReactNode;
   start: string;
   end: string;
 }
@@ -70,6 +72,7 @@ export interface ITeacher {
   certificate: string;
   video: string;
   teaching_experience: string;
+  total_rating?: number;
   // is_degree?: boolean; // Optional, not defined in teacherSchemas
   // specialization?: string; // Optional, not defined in teacherSchemas
   // teacher_experience?: string; // Optional, not defined in teacherSchemas

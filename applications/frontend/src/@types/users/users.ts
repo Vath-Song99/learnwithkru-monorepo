@@ -18,8 +18,8 @@ interface CardTeachersTypes {
 }
 
 export interface AuthModel {
-  lastname: string;
-  firstname: string;
+  last_name: string;
+  first_name: string;
   email: string;
   password: string;
 }

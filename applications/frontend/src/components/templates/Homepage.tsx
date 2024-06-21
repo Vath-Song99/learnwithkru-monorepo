@@ -37,7 +37,7 @@ const Homepage = ({ isAuth }: { isAuth: boolean }) => {
           handleErrorResponse(response) {
                const {errors} = response.data;
 
-               if(errors.code === 404){
+               if(errors?.code === 404){
                   setData(null)
                }
           },
