@@ -204,6 +204,7 @@ We're thrilled to have you on board!
       if (teaching_experience)
         teacherObject.teaching_experience = teaching_experience;
 
+      logger.info(`update teacher obj ${teacherObject}`)
       const updatedTeacher = await this.teacherRepo.UpdateTeacher({
         id,
         teacherData: teacherObject,

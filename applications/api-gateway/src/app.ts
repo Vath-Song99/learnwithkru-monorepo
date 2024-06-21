@@ -5,7 +5,7 @@ import cookieSession from "cookie-session";
 import hpp from "hpp";
 import helmet from "helmet";
 import cors from "cors";
-import { applyRateLimit } from "./middlewares/rate-limit";
+// import { applyRateLimit } from "./middlewares/rate-limit";
 import applyProxy from "./middlewares/proxy";
 import { errorHandler } from "./middlewares/error-handler";
 import { StatusCode } from "./utils/consts";
@@ -50,7 +50,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Apply Limit Request
-applyRateLimit(app);
+// applyRateLimit(app);
 
 // Hide Express Server Information
 app.disable("x-powered-by");

@@ -130,7 +130,8 @@ export class TeacherController extends Controller {
     try {
       const service = new TeacherServices();
       const updatedTeacher = await service.UpdateTeacher({ id, requestBody });
-
+      
+      logger.info(`Updated teacher ${updatedTeacher}`)
       return { message: "Success updated teacher", data: updatedTeacher.data };
     } catch (error: unknown) {
       throw error;

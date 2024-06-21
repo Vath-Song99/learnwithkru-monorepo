@@ -2,20 +2,22 @@
 import { Button, InputForm, Typography } from "@/components/atoms";
 import React, {
   ChangeEvent,
+  FC,
   FormEvent,
   FormEventHandler,
-  useEffect,
   useState,
 } from "react";
-import { AboutFormProps, BecomeTeacherFormTypes } from "./@types";
+
 import Image from "next/image";
 import * as Yup from "yup";
 import { Select } from "@/components/atoms/select/select";
 import { becomeTeacher } from "@/schema/becomeTeacher";
-import {
-  getLocalStorageTeacher,
-  setLocalStorageTeacher,
-} from "@/utils/localStorage";
+import { AboutFormProps, } from "../../become-teacher-form/@types";
+import { ITeacher } from "@/@types/teacher.type";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+
 const data = {
   subjects: [
     {
@@ -74,27 +76,21 @@ const dataProvince = {
   ]
 };
 
+interface DescriptionProps {
+  teacher: ITeacher;
+}
 
-const DEFAULT_FORM_VALUE = {
-  first_name: "",
-  last_name: "",
-  subject: "",
-  phone_number: "",
-  province: "",
-  email: "",
-};
-
-const AboutForm = ({
-  title,
-  description,
-  id,
-  pageIndex,
-  setCurrentPage,
-  setdataTutor,
-  dataUser,
-}: BecomeTeacherFormTypes) => {
+const About: FC<DescriptionProps> = ({ teacher }) => {
+  const router = useRouter();
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [formData, setFormData] = useState<AboutFormProps>(DEFAULT_FORM_VALUE);
+  const [formData, setFormData] = useState<AboutFormProps>({
+    first_name: teacher.first_name || "",
+    last_name: teacher.last_name || "",
+    subject: teacher.subject || "",
+    phone_number: teacher.phone_number || "",
+    province: teacher.province || "",
+    email: teacher.email || ""
+  });
 
   const [isFormComplete, setIsFormComplete] = useState(false);
   const onChangeInput = (
@@ -121,7 +117,6 @@ const AboutForm = ({
   };
 
   nextPage();
-
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (
     e: FormEvent<HTMLFormElement>
   ) => {
@@ -129,21 +124,8 @@ const AboutForm = ({
 
     try {
       await becomeTeacher.validate(formData, { abortEarly: false });
+      aboutTeacher(formData, teacher._id)
       setIsFormComplete(true);
-      setdataTutor((prev: any) => {
-        const newState = { ...prev, ...formData };
-
-        return newState;
-      });
-      if (pageIndex !== undefined) {
-        // use pageIndex here
-        setCurrentPage((prevPage) => {
-          const newPage = prevPage + 1;
-          localStorage.setItem('currentPage', newPage.toString());
-          return newPage;
-        });
-      }
-      setLocalStorageTeacher("aboutTeacher", formData);
       setErrors({});
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
@@ -158,36 +140,70 @@ const AboutForm = ({
     }
   };
 
-  useEffect(() => {
-    const userStorage = getLocalStorageTeacher("aboutTeacher");
 
-    if (userStorage) {
-      setFormData(userStorage);
-    } else if (dataUser) {
-      setFormData({
-        first_name: dataUser.firstname || "",
-        last_name: dataUser.lastname || "",
-        email: dataUser.email || "",
-        subject: "",
-        phone_number: "",
-        province: "",
-      });
-    }
-  }, [dataUser]);
+  const aboutTeacher = (teacher: AboutFormProps,_id: string ) => {
+    const fetchData = async (
+      teacherData: AboutFormProps,
+      _id: string
+    ) => {
+      try {
+        const data = JSON.stringify(teacherData);
+        console.log("user data",data)
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
+        const API_ENDPOINT = `${apiUrl}/v1/teachers/update/${_id}`;
+        console.log("user data",API_ENDPOINT)
+        const response = await axios.post(
+          API_ENDPOINT,
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+        console.log("Log respone: ", response)
+        if (response.data.errors) {
+          console.log("An error occurred: teachers ", response.data.errors);
+          return false;
+        }
+   
+          router.push(`/profile-teacher/${response.data.data._id}`);
+    
+        
+      } catch (error) {
+        console.log(error)
+        handleAxiosError(error, {
+          logError: (message) =>{
+            console.log(`error message`, message)
+          },
+          handleErrorResponse(response) {
+              const { errors } = response.data
+
+              if(errors){
+            setErrors({serverError: errors.message})
+                
+              }
+          },
+        })
+      }
+    };
+    fetchData(teacher, _id);
+  };
 
   return (
     <div
       className="h-auto w-[300px] sm:w-[480px] md:w-[500px] lg:w-[500px] "
-      id={`${id}`}
+    
     >
       <Typography align="left" fontSize="lg" variant="bold" className="py-2">
-        {title}
+        About
       </Typography>
       <Typography align="left" fontSize="sm" className="py-2">
-        {description}
+      Start creating your public tutor profile. Your progress will be automatically saved as you complete each section. You can return at any time to finish your registration
       </Typography>
       <form action="" onSubmit={handleSubmit} className="">
-        {dataUser && (
+     
           <div className="flex flex-col  gap-4 ">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:gap-x-[10px]">
               <div className="flex flex-col w-full">
@@ -196,7 +212,6 @@ const AboutForm = ({
                   placeholder="First name"
                   borderRadius="md"
                   borderSize="md"
-                  defaultValue={dataUser.firstname}
                   className="border border-purple-500  outline-none text-xs  w-full sm:w-[240px]"
                   name="first_name"
                   value={formData.first_name}
@@ -218,7 +233,6 @@ const AboutForm = ({
                   borderSize="md"
                   className="border border-purple-500  w-full sm:w-[240px] outline-none text-xs"
                   name="last_name"
-                  defaultValue={dataUser.lastname}
                   value={formData.last_name}
                   onChange={onChangeInput}
                 />
@@ -307,7 +321,6 @@ const AboutForm = ({
                   placeholder="email"
                   borderRadius="md"
                   borderSize="md"
-                  defaultValue={dataUser.email}
                   className="border border-purple-500  outline-none text-xs  w-full sm:w-[240px]"
                   name="email"
                   value={formData.email}
@@ -364,10 +377,9 @@ const AboutForm = ({
               </div>
             </div>
           </div>
-        )}
       </form>
     </div>
   );
 };
 
-export { AboutForm };
+export { About };
