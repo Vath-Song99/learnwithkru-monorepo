@@ -1,7 +1,7 @@
 import { ITeacher } from "@/@types/teacher.type";
 import { Footer } from "@/components";
-import EmailUser from "@/components/organisms/dashboard/EmailUser";
-import NavLinksAccount from "@/components/organisms/dashboard/NavLinksAccount";
+import { About } from "@/components/organisms/dashboard/teacher-edits/About";
+import NavLinksSubTeachers from "@/components/organisms/dashboard/teacher-edits/nav-side-link";
 import { NavbarTeachers } from "@/components/organisms/navbar-teacher";
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
@@ -17,8 +17,7 @@ async function getTeachersData(_id: string): Promise<ITeacherData> {
     if (typeof cookieStringOrAuth === "object") {
       return { errors: "Not authenticated", data: null };
     }
-    const apiUrl =
-      process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
     const API_ENDPOINT = `${apiUrl}/v1/teachers/${_id}`;
     const res = await axios.get(API_ENDPOINT, {
       withCredentials: true,
@@ -50,10 +49,10 @@ const Page = async ({ params }: { params: { id: string } }) => {
       </div>
       <div className="container xl:max-w-[1200px] bg-[#F8F9FA] rounded-xl mt-5 px-10 py-5">
         <div className="flex flex-row">
-          <NavLinksAccount id={id} />
+          <NavLinksSubTeachers id={id} />
         </div>
         <div className="flex flex-col">
-          <EmailUser teacher={selectedTeacher as ITeacher} />
+          <About teacher={selectedTeacher as ITeacher} />
         </div>
       </div>
       <div className="w-full flex justify-center items-start bg-black">

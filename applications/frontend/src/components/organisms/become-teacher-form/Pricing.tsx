@@ -95,11 +95,11 @@ const PricingForm = ({
       teacherData: BecomeTeacherType | PriceProps | undefined
     ) => {
       try {
-        const data = JSON.stringify(teacherData);
-        console.log("handle submit teacher teacherData", teacherData);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
+        const API_ENDPOINT = `${apiUrl}/v1/teachers/become-teacher`;
         const response = await axios.post(
-          "http://localhost:3000/v1/teachers/become-teacher",
-          data,
+          API_ENDPOINT,
+          teacherData,
           {
             headers: {
               "Content-Type": "application/json",
@@ -113,13 +113,14 @@ const PricingForm = ({
           return false;
         }
    
-          router.push(`/profile-teacher/${response.data.data._id}`);
+          router.push(`/teachers/${response.data.data._id}`);
         clearLocalStorage("priceTeacher")
         clearLocalStorage("aboutTeacher")
         clearLocalStorage("educationTeacher")
         clearLocalStorage("descriptionTeacher")
         clearLocalStorage("timeAvailableTeacher")
         clearLocalStorage("ProfilePhoto")
+        clearLocalStorage("currentPage")
         
       } catch (error) {
         console.log(error)

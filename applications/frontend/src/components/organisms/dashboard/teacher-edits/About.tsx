@@ -11,12 +11,11 @@ import React, {
 import Image from "next/image";
 import * as Yup from "yup";
 import { Select } from "@/components/atoms/select/select";
-import { becomeTeacher } from "@/schema/becomeTeacher";
-import { AboutFormProps, } from "../../become-teacher-form/@types";
 import { ITeacher } from "@/@types/teacher.type";
 import { handleAxiosError } from "@/utils/axiosErrorhandler";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { AboutTeacher, TeacherUpdate } from "@/schema/TeacherUpdate";
 
 const data = {
   subjects: [
@@ -83,16 +82,14 @@ interface DescriptionProps {
 const About: FC<DescriptionProps> = ({ teacher }) => {
   const router = useRouter();
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [formData, setFormData] = useState<AboutFormProps>({
+  const [formData, setFormData] = useState<AboutTeacher>({
     first_name: teacher.first_name || "",
     last_name: teacher.last_name || "",
     subject: teacher.subject || "",
     phone_number: teacher.phone_number || "",
     province: teacher.province || "",
-    email: teacher.email || ""
   });
 
-  const [isFormComplete, setIsFormComplete] = useState(false);
   const onChangeInput = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
@@ -111,9 +108,7 @@ const About: FC<DescriptionProps> = ({ teacher }) => {
     }
   };
   const nextPage = () => {
-    if (!isFormComplete) {
-      return;
-    }
+   
   };
 
   nextPage();
@@ -123,9 +118,8 @@ const About: FC<DescriptionProps> = ({ teacher }) => {
     e.preventDefault();
 
     try {
-      await becomeTeacher.validate(formData, { abortEarly: false });
+      await TeacherUpdate.validate(formData, { abortEarly: false });
       aboutTeacher(formData, teacher._id)
-      setIsFormComplete(true);
       setErrors({});
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
@@ -141,20 +135,17 @@ const About: FC<DescriptionProps> = ({ teacher }) => {
   };
 
 
-  const aboutTeacher = (teacher: AboutFormProps,_id: string ) => {
+  const aboutTeacher = (teacher: AboutTeacher,_id: string ) => {
     const fetchData = async (
-      teacherData: AboutFormProps,
+      teacherData: AboutTeacher,
       _id: string
     ) => {
       try {
-        const data = JSON.stringify(teacherData);
-        console.log("user data",data)
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
         const API_ENDPOINT = `${apiUrl}/v1/teachers/update/${_id}`;
-        console.log("user data",API_ENDPOINT)
-        const response = await axios.post(
+        const response = await axios.put(
           API_ENDPOINT,
-          data,
+          teacherData,
           {
             headers: {
               "Content-Type": "application/json",
@@ -162,24 +153,17 @@ const About: FC<DescriptionProps> = ({ teacher }) => {
             withCredentials: true,
           }
         );
-        console.log("Log respone: ", response)
-        if (response.data.errors) {
-          console.log("An error occurred: teachers ", response.data.errors);
-          return false;
-        }
    
           router.push(`/profile-teacher/${response.data.data._id}`);
-    
-        
+
       } catch (error) {
-        console.log(error)
         handleAxiosError(error, {
           logError: (message) =>{
             console.log(`error message`, message)
           },
           handleErrorResponse(response) {
               const { errors } = response.data
-
+              console.log(response.data)
               if(errors){
             setErrors({serverError: errors.message})
                 
@@ -315,25 +299,6 @@ const About: FC<DescriptionProps> = ({ teacher }) => {
             </div>
             {/* this handle with teacher */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:gap-x-[10px]">
-              <div className="flex flex-col w-full">
-                <InputForm
-                  type="email"
-                  placeholder="email"
-                  borderRadius="md"
-                  borderSize="md"
-                  className="border border-purple-500  outline-none text-xs  w-full sm:w-[240px]"
-                  name="email"
-                  value={formData.email}
-                  onChange={onChangeInput}
-                />
-                {errors.email && (
-                  <div className="flex justify-start">
-                    <small className="mt-2" style={{ color: "red" }}>
-                      {errors.email}
-                    </small>
-                  </div>
-                )}
-              </div>
               <div className="flex flex-col mt-4 sm:mt-[1px] sm:w-[96%]">
                 <Select
                   borderSize="select"

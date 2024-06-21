@@ -14,7 +14,6 @@ const NavLinksAccount: React.FC<NavLinksSubTeachersProps> = ({ id }) => {
   const links = [
     { name: "Account", href: `/account-teacher/manage/account/${id}`,  icon: MdAccountCircle },
     // { name: "Password", href: `/account-teacher/manage/password/${id}`,  icon: MdAccountCircle },
-    { name: "Email", href: `/account-teacher/manage/email/${id}`,  icon: MdAccountCircle },
   
   ];
 

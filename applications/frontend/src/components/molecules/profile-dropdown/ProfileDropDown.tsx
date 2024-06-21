@@ -12,11 +12,6 @@ interface ProfileDropDownProps {
 }
 
 
-type LogoutResponse = {
-  message: string;
-  errors?: string[];
-};
-
 const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
   className,
   icon,
@@ -50,9 +45,9 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
   };
 
   
-  const handleLogout = async (url: string): Promise<LogoutResponse> => {
+  const handleLogout = async (url: string) => {
     try {
-      const response = await axios.get<LogoutResponse>(url, { withCredentials: true });
+      const response = await axios.get(url, { withCredentials: true });
   
       if (response.data.errors && response.data.errors.length > 0) {
         const errorMessage = `Server error response: ${response.data.errors.join(', ')}`;
@@ -76,9 +71,9 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
   };
   
   const onLogoutClick = async () => {
-    const url = 'http://localhost:3000/v1/auth/logout';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
     try {
-      await handleLogout(url);
+      await handleLogout(`${apiUrl}/v1/auth/logout`);
       window.location.reload();
     } catch (error) {
       // Handle the error appropriately
@@ -99,20 +94,22 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
         <div className="absolute left-1/2 transform -translate-x-1/2  mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
 
           <div className=""></div>
-          <Link
+          {/* <Link
             href="/"
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             onClick={handleItemClick}
           >
             Home
-          </Link>
-          <Link
-            href="/user-setting"
+          </Link> */}
+        
+              <Link
+               href={`/settings/about`}
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            onClick={toggleDropDown}
+            onClick={handleItemClick}
           >
             Settings
           </Link>
+           
           <Link
             href="/favorite"
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

@@ -38,6 +38,7 @@ const getUserData = async (): Promise<IAuth> => {
 interface ITeacherData {
     errors?: string;
     data: ITeacher | null;
+    isAuth?: boolean;
 }
 async function getTeachersData(_id: string): Promise<ITeacherData> {
     try {   
@@ -86,11 +87,14 @@ const Page = async ({ params }: { params: { id: string } }) => {
     }
 
     const selectedTeacher = teachersResponse?.data;
-
+    const isTeachers = teachersResponse?.isAuth;
     return (
         <div className="">
             <div className="w-full flex justify-center items-center border shadow-sm">
-                <Navbar authState={{ isAuth: isAuth ?? false, user: data }} />
+                <Navbar authState={{ isAuth: isAuth ?? false, user: data }} 
+                   teacher={selectedTeacher as ITeacher}
+                   isTeachers={isTeachers as boolean}
+                />
             </div>
             <div className="w-full flex justify-center items-start">
                 <TeachersProfile teacher={selectedTeacher as ITeacher} />

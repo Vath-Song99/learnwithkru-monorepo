@@ -8,6 +8,7 @@ import { ProfileDropDown } from "@/components/molecules/profile-dropdown";
 import { Notification } from "@/components/organisms/notification";
 import { IUser } from "@/@types/user";
 import axios, { AxiosError } from "axios";
+import { ITeacher } from "@/@types/teacher.type";
 
 // langue
 const options = [
@@ -101,9 +102,11 @@ interface NavbarProps {
   setIsShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
   className?: string;
   authState: { isAuth: boolean; user: IUser | null };
+  teacher?: ITeacher;
+  isTeachers?: boolean;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
+const Navbar: React.FC<NavbarProps> = ({ className, authState,teacher,isTeachers=false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string | null>("Home");
   const handleItemClick = (item: string) => {
@@ -121,7 +124,7 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
 
   const handleLogout = async ()=> {
     try {
-      const apiUrl = "https://api.learnwithkru.com"
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
       const url = `${apiUrl}/v1/auth/logout`;
       const response = await axios.get(url, {
         withCredentials: true,
@@ -196,7 +199,8 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
             className="text-[#455445] text-sm hover:underline"
             href={"/teachers"}
           >
-            Find teacher
+            Find teacher 
+            
           </Link>
         </div>
       </div>
@@ -217,6 +221,7 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
             </div>
             <Notification className="hidden lg:inline lg:ml-7 lg:mt-2"></Notification>
             <ProfileDropDown
+            
               icon={
                 authState.user?.picture === null ? (
                   <svg
@@ -244,8 +249,7 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
                 )
               }
               className="ml-10 hidden sm:hidden md:hidden xl:inline lg:inline"
-              onChange={handleChange}
-            >
+              onChange={handleChange}            >
               {" "}
             </ProfileDropDown>
           </div>

@@ -20,7 +20,7 @@ async function getTeachersData(_id: string): Promise<ITeacherData> {
       return { errors: "Not authenticated", data: null };
     }
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
-    const API_ENDPOINT = `${apiUrl}/v1/teachers/${_id}`;
+    const API_ENDPOINT = `${apiUrl}/v1/teachers/teacher-profile`;
     const res = await axios.get(API_ENDPOINT, {
       withCredentials: true,
       headers: { Cookie: cookieStringOrAuth },
