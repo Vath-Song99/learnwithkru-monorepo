@@ -52,7 +52,7 @@ const ProvinceDropDown = [
 ];
 
 const pricingDropDown = [
-  { id: 1, minPrice: 5, maxPrice: 70 },
+  { id: 1, minPrice: 0, maxPrice: 10 },
   { id: 2, minPrice: 10, maxPrice: 20 },
   { id: 3, minPrice: 20, maxPrice: 30 },
   { id: 4, minPrice: 30, maxPrice: 40 },
@@ -132,7 +132,7 @@ const FilterTeachers = () => {
     window.location.reload();
   };
 
-  const {min_p , max_p} = filters;
+  const { min_p, max_p } = filters;
 
   return (
     <div className=" w-full flex justify-center items-center rounded-sm  py-3 ">
@@ -157,7 +157,7 @@ const FilterTeachers = () => {
         />
         <FilterDropdownPrice
           nameDropdownPrice="Pricing"
-          selectedValue={{min_p, max_p}}
+          selectedValue={{ min_p, max_p }}
           itemsDropdownPrice={pricingDropDown}
           onChange={handlePriceChange}
         />
