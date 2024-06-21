@@ -90,6 +90,32 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ITotalRating": {
+				"properties": {
+					"r1": {
+						"type": "number",
+						"format": "double"
+					},
+					"r2": {
+						"type": "number",
+						"format": "double"
+					},
+					"r3": {
+						"type": "number",
+						"format": "double"
+					},
+					"r4": {
+						"type": "number",
+						"format": "double"
+					},
+					"r5": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ITeacher": {
 				"properties": {
 					"first_name": {
@@ -148,7 +174,10 @@
 					"teaching_experience": {
 						"type": "string"
 					},
-					"rating": {
+					"total_rating": {
+						"$ref": "#/components/schemas/ITotalRating"
+					},
+					"number_of_ratings": {
 						"type": "number",
 						"format": "double"
 					}
@@ -259,6 +288,13 @@
 					},
 					"teaching_experience": {
 						"type": "string"
+					},
+					"total_rating": {
+						"$ref": "#/components/schemas/ITotalRating"
+					},
+					"number_of_rating": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"type": "object",
@@ -669,12 +705,16 @@
 									"properties": {
 										"data": {
 											"properties": {
+												"feedback": {
+													"type": "string"
+												},
 												"rating": {
 													"type": "number",
 													"format": "double"
 												}
 											},
 											"required": [
+												"feedback",
 												"rating"
 											],
 											"type": "object"
@@ -710,8 +750,12 @@
 						"application/json": {
 							"schema": {
 								"properties": {
-									"rating": {
+									"feedback": {
 										"type": "string"
+									},
+									"rating": {
+										"type": "number",
+										"format": "double"
 									}
 								},
 								"required": [

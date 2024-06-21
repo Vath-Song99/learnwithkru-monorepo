@@ -6,6 +6,7 @@ import NavLinksSubTeachers from "@/components/organisms/dashboard/teacher-edits/
 import { NavbarTeachers } from "@/components/organisms/navbar-teacher";
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
+import React from "react";
 interface ITeacherData {
   errors?: string;
   data: ITeacher | null;

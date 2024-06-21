@@ -14,8 +14,8 @@ const models: TsoaRoute.Models = {
     "UserSignup": {
         "dataType": "refObject",
         "properties": {
-            "firstname": {"dataType":"string","required":true},
-            "lastname": {"dataType":"string","required":true},
+            "first_name": {"dataType":"string","required":true},
+            "last_name": {"dataType":"string","required":true},
             "email": {"dataType":"string"},
             "password": {"dataType":"string"},
         },
@@ -26,8 +26,8 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "authId": {"dataType":"string"},
-            "firstname": {"dataType":"string","required":true},
-            "lastname": {"dataType":"string","required":true},
+            "first_name": {"dataType":"string","required":true},
+            "last_name": {"dataType":"string","required":true},
             "email": {"dataType":"string"},
             "picture": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
         },

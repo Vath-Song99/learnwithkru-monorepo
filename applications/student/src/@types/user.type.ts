@@ -1,8 +1,14 @@
+export interface IUser {
+  authId: string;
+  first_name: string;
+  last_name: string;
+  email?: string;
+  picture: string | null;
+}
 
-export interface User{
-    authId: string
-    firstname: string;
-    lastname: string;
-    email?: string;
-    picture: string | null
- }
+export interface IResponeUser {
+  first_name: string;
+  last_name: string;
+  email?: string;
+  picture: string | null;
+}

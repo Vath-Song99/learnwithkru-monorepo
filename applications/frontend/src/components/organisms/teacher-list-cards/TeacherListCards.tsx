@@ -1,6 +1,6 @@
 "use client";
 import { CardTeachers } from "@/components/molecules";
-import React, { useState } from "react";
+import React from "react";
 import { ITeacher } from "@/@types/teacher.type";
 
 interface TeacherListCardsProps {
@@ -12,16 +12,7 @@ const TeacherListCards: React.FC<TeacherListCardsProps> = ({
   isLoading,
   data = [],
 }) => {
-  const [teachers, setTeachers] = useState<ITeacher[]>(data);
  
-  // Function to toggle favorite status
-  const toggleFavorite = (teacherId: string) => {
-    setTeachers(prevTeachers =>
-      prevTeachers.map(teacher =>
-        teacher._id === teacherId ? { ...teacher, isFavorite: !teacher.isFavorite } : teacher
-      )
-    );
-  };
 
   // If data is undefined, default to an empty array
   if (isLoading) {
@@ -37,12 +28,10 @@ const TeacherListCards: React.FC<TeacherListCardsProps> = ({
   return (
     <div className="w-full flex justify-center">
       <div className="w-[80%] flex justify-center lg:justify-between flex-wrap gap-4">
-        {teachers.map((teacher: ITeacher, index: number) => (
+        {data.map((teacher: ITeacher, index: number) => (
           <CardTeachers
             key={index}
             items={teacher}
-            isFavorite={teacher.isFavorite || false} // Set isFavorite based on teacher's status
-            onFavoriteClick={() => toggleFavorite(teacher._id)}
           />
         ))}
       </div>
