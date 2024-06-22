@@ -44,9 +44,6 @@ const TeachersProfile: React.FC<TeachersProfileProps> = ({ teacher }) => {
           id={teacher._id}
         />
       </div>
-      {/* <div className="w-full flex justify-between">
-        <TeacherTimeAvailable date_available={date_available} />
-      </div> */}
 
       <div>
       <TimeAvailableTable date_available={date_available}/>

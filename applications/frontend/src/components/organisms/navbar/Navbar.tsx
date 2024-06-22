@@ -248,9 +248,10 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState,teacher,isTeachers
                   ></Image>
                 )
               }
+              authState={authState}
               className="ml-10 hidden sm:hidden md:hidden xl:inline lg:inline"
               onChange={handleChange}            >
-              {" "}
+             
             </ProfileDropDown>
           </div>
         </div>

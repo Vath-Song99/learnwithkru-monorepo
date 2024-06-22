@@ -33,7 +33,7 @@ export class MakeRequest {
             logger.error(
               `Error occurred in ${logContext}Profile: ${errors.message}`
             );
-            throw error;
+            throw errors;
           }
         },
       });
@@ -51,7 +51,7 @@ export class MakeRequest {
   }
 
   async getStudentProfile(id: string) {
-    const url = `${config.teacherService}/v1/students/${id}`;
+    const url = `${config.studentService}/v1/students/${id}`;
     return this.fetchData(url, "student");
   }
 }

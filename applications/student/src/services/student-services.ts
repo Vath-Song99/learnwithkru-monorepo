@@ -4,6 +4,7 @@ import { BaseCustomError } from "../error/base-custom-error";
 import StatusCode from "../utils/http-status-code";
 import { getUserById } from "../utils/htttp-request";
 import { generateSignature } from "../utils/jwt";
+import { logger } from "../utils/logger";
 import { IStudentDecoded } from "./@types/student-service";
 
 export class StudentServices {
@@ -31,7 +32,8 @@ export class StudentServices {
       }
       const data = await getUserById(decodeId);
 
-      const { first_name, last_name, email, picture } = data;
+      console.log(data);
+      const { first_name, last_name, email, picture } = data.data;
       const newStudent = await this.StudentRepo.CreateStudent({
         userId: decodeId,
         first_name,
@@ -67,6 +69,8 @@ export class StudentServices {
   async GetStudentByStudentId(id: string): Promise<IResponeUser> {
     try {
       const existingStudent = await this.StudentRepo.FindOneStudent(id);
+
+      logger.info(`Existing student ${existingStudent}`);
       if (!existingStudent) {
         throw new BaseCustomError("No student found!", StatusCode.NOT_FOUND);
       }

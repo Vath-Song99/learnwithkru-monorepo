@@ -41,7 +41,7 @@ export class StudentRepository {
       const student = await StudentModel.findOne({
         _id: studentId,
       });
-      return  student;
+      return student;
     } catch (error: unknown) {
       throw error;
     }
@@ -50,7 +50,7 @@ export class StudentRepository {
   async FindByUserId(userId: string) {
     try {
       const existStudent = await StudentModel.findOne({
-        userId: userId,
+        userId,
       });
       return existStudent;
     } catch (error: unknown) {

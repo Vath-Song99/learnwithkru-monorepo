@@ -165,8 +165,8 @@ const AboutForm = ({
       setFormData(userStorage);
     } else if (dataUser) {
       setFormData({
-        first_name: dataUser.firstname || "",
-        last_name: dataUser.lastname || "",
+        first_name: dataUser.first_name || "",
+        last_name: dataUser.last_name || "",
         email: dataUser.email || "",
         subject: "",
         phone_number: "",
@@ -196,7 +196,7 @@ const AboutForm = ({
                   placeholder="First name"
                   borderRadius="md"
                   borderSize="md"
-                  defaultValue={dataUser.firstname}
+                  defaultValue={dataUser.first_name}
                   className="border border-purple-500  outline-none text-xs  w-full sm:w-[240px]"
                   name="first_name"
                   value={formData.first_name}
@@ -218,7 +218,7 @@ const AboutForm = ({
                   borderSize="md"
                   className="border border-purple-500  w-full sm:w-[240px] outline-none text-xs"
                   name="last_name"
-                  defaultValue={dataUser.lastname}
+                  defaultValue={dataUser.last_name}
                   value={formData.last_name}
                   onChange={onChangeInput}
                 />
@@ -311,6 +311,7 @@ const AboutForm = ({
                   className="border border-purple-500  outline-none text-xs  w-full sm:w-[240px]"
                   name="email"
                   value={formData.email}
+                  disabled
                   onChange={onChangeInput}
                 />
                 {errors.email && (
