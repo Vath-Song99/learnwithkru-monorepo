@@ -126,10 +126,7 @@ export class SendVerifyEmailService {
         );
       }
 
-      // Mark user as verified
-      user.is_verified = true;
-      const newUser = await user.save();
-      const { _id, first_name, last_name, email } = newUser;
+      const { _id, first_name, last_name, email } = user;
 
       // Step 5: Create user in database user service
       const userData: IUser = {
@@ -149,6 +146,10 @@ export class SendVerifyEmailService {
           StatusCode.INTERNAL_SERVER_ERROR
         );
       }
+
+      // Mark user as verified
+      user.is_verified = true;
+      await user.save();
 
       // Step 6: Generate JWT token
       const jwtToken = await generateSignature({ _id: data._id.toString() });

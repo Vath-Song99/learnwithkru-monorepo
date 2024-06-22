@@ -11,6 +11,12 @@ interface ProxyConfig {
   [context: string]: Options<IncomingMessage, Response>;
 }
 
+declare module "express" {
+  interface Request {
+    session?: any; // Adjust the type based on your session configuration
+  }
+}
+
 interface NetworkError extends Error {
   code?: string;
 }
@@ -84,14 +90,25 @@ const proxyConfigs: ProxyConfig = {
             // Store JWT in session
             if (responseBody.token) {
               (req as Request).session!.jwt = responseBody.token;
-              res.cookie("persistent", responseBody.token, OptionCookie);
+              // res.cookie("persistent", responseBody.token, OptionCookie);
               delete responseBody.token;
             }
 
             if (responseBody.isLogout) {
-              res.clearCookie("persistent", OptionCookie);
-              res.clearCookie("session", OptionCookie);
-              res.clearCookie("session.sig", OptionCookie);
+              try {
+                // Manually clear the session data
+                (req as Request).session = null;
+
+                // Clear the session cookie
+                res.cookie("persistent", "", { expires: new Date(0) });
+
+                return res.end(); // End response after logout
+              } catch (error) {
+                console.error("Error clearing session:", error);
+                return res
+                  .status(500)
+                  .json({ message: "Error clearing session" });
+              }
             }
             // Modify response to send  the message to the client
             res.json({

@@ -15,7 +15,7 @@ export class RequestUserService {
     logger.info(`Attempting to create user at URL: ${url}`);
 
     try {
-      const { data } = await axios.post(
+      const res = await axios.post(
         url,
         {
           authId,
@@ -28,15 +28,14 @@ export class RequestUserService {
           headers: {
             "Content-Type": "application/json",
           },
-          timeout: 5000, // Set an appropriate timeout
         }
       );
 
-      if (!data) {
+      if (!res.data) {
         throw new ApiError("User service did not return data.");
       }
 
-      return data;
+      return res.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         logger.error("Axios Error in createUser() method:", error.message);

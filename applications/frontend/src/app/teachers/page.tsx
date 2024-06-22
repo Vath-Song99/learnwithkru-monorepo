@@ -22,11 +22,11 @@ const getUserData = async (): Promise<{
       headers: { Cookie: cookieString as string },
     });
 
-    if (res.data.errors) {
-      return { errors: res.data.errors, data: null };
+    if (res.data?.errors) {
+      return { errors: res.data?.errors, data: null };
     }
 
-    return { isAuth: true, data: res.data.data };
+    return { isAuth: true, data: res.data?.data };
   } catch (error: unknown) {
     console.error("Error fetching user data:", error);
     throw error;
@@ -62,7 +62,7 @@ async function getTeachersData({
     console.log("Api teacher Endpoint: ", API_ENDPOINT)
     const res = await axios.get(API_ENDPOINT);
 
-    return { data: { teachers: res.data.data, detail: res.data.detail } };
+    return { data: { teachers: res.data?.data, detail: res.data?.detail } };
   } catch (error: any) {
     console.error("Error fetching teachers data:", error.response.status);
 

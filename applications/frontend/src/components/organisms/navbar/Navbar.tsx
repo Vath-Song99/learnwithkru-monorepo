@@ -7,7 +7,8 @@ import { ButtonDropDown } from "@/components/molecules/button-dropdown";
 import { ProfileDropDown } from "@/components/molecules/profile-dropdown";
 import { Notification } from "@/components/organisms/notification";
 import { IUser } from "@/@types/user";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
 
 // langue
 const options = [
@@ -119,42 +120,34 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
   // login
   // logout
 
-  const handleLogout = async ()=> {
+  const handleLogout = async () => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
+    const url = `${apiUrl}/v1/auth/logout`;
+  
     try {
-      const apiUrl = "https://api.learnwithkru.com"
-      const url = `${apiUrl}/v1/auth/logout`;
-      const response = await axios.get(url, {
-        withCredentials: true,
-      });
-
-      if (response.data.errors && response.data.errors.length > 0) {
-        const errorMessage = `Server error response: ${response.data.errors.join(
-          ", "
-        )}`;
-        throw new Error(errorMessage);
-      }
+      await axios.get(url, { withCredentials: true });
       window.location.reload();
     } catch (error) {
-      logError(error);
-      throw error;
+      handleAxiosError(error, {
+        logError: (message: string) => {
+          // Custom logging implementation, e.g., sending logs to a server
+          console.log('Custom log:', message);
+        },
+        handleErrorResponse: (response) => {
+          // Custom response handling
+          console.log('Handling response:', response);
+          const errors = response?.data?.errors;
+          if (errors) {
+            console.error(errors.message);
+            throw errors;
+          }
+        },
+      });
     }
   };
-
-  const logError = (error: unknown): void => {
-    if (axios.isAxiosError(error)) {
-      const axiosError = error as AxiosError;
-      console.error(
-        "Axios error:",
-        axiosError.response?.data || axiosError.message
-      );
-    } else {
-      console.error("Unexpected error:", error);
-    }
-  };
-
-  const onLogoutClick =  () => {
-     handleLogout();
-
+  
+  const onLogoutClick = () => {
+    handleLogout();
   };
 
   return (
@@ -311,15 +304,35 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
         <div className="flex items-center justify-between w-full px-4 py-2">
           <div className="flex">
             <button className="">
-              {authState.isAuth ? (
-                <Image
-                  src={authState.user?.picture as string}
-                  alt="user's profile picture"
-                  width={500}
-                  height={500}
-                  className="w-10 rounded-full"
-                ></Image>
-              ) : (
+              {authState.isAuth ? 
+                (
+                  authState.user?.picture === null ? (
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                    />
+                  </svg>
+                  ):(
+                    <Image
+                    src={authState.user?.picture as string}
+                    alt="user's profile picture"
+                    width={500}
+                    height={500}
+                    className="w-10 rounded-full"
+                  ></Image>
+                  )
+                )
+              
+              : (
                 <div className="flex w-[30px] h-[30px] bg-gray-200 justify-center items-center rounded-md hover:bg-gray-200 hover:rounded-md">
                   {/* Account icon */}
                   <svg

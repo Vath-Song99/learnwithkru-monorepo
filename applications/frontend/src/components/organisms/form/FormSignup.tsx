@@ -40,6 +40,7 @@ const FormSignup = () => {
     const VERIFY_EMAIL_URL = `${baseUrl}/send-verify-email`;
   
     try {
+      setIsLoading(true)
       const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
       await axios.post(
         `${API_BASE_URL}/v1/auth/signup`,
@@ -82,7 +83,6 @@ const FormSignup = () => {
   ) => {
     try {
 
-      setIsLoading(true)
       e.preventDefault()
       console.log("Got Eventing", formData)
       // stept 3

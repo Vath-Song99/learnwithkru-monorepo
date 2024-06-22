@@ -1,11 +1,13 @@
 import { IUser, UserUpdate } from "../../@types/user.type";
 import { ApiError } from "../../error/base-custom-error";
+import { logger } from "../../utils/logger";
 import { UserModel } from "../models/user.model";
 
 export class UserRepository {
   async CreateUser({ first_name, last_name, email, authId, picture }: IUser) {
     try {
-      const newUser = await UserModel.create({
+      // Create user instance
+      const user = new UserModel({
         authId,
         first_name,
         last_name,
@@ -13,13 +15,22 @@ export class UserRepository {
         picture,
       });
 
-      console.log("This is repo data", newUser);
-      if (!newUser) {
-        throw new ApiError("Unable to create User in db!");
-      }
-      return await newUser.save();
+      // Save user to database
+      const newUser = await user.save();
+
+      // Log success
+      logger.info("User created successfully", { userId: newUser._id });
+
+      return newUser;
     } catch (error: unknown) {
-      throw error;
+      // Rethrow error for further handling
+      if (error instanceof ApiError) {
+        throw error;
+      } else {
+        throw new ApiError(
+          "An unexpected error occurred while creating the user"
+        );
+      }
     }
   }
 
