@@ -294,12 +294,6 @@ const UserUpdate: FC<UserDataProps> = ({ authState }) => {
 
                   <div className="flex justify-end gap-4">
                     <button
-                      className="flex justify-center items-center rounded border border-stroke py-2 px-3 text-sm font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                      type="submit"
-                    >
-                      Cancel
-                    </button>
-                    <button
                       className="bg-green-600  flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90"
                       type="submit"
                     >
@@ -399,12 +393,6 @@ const UserUpdate: FC<UserDataProps> = ({ authState }) => {
                     <p className="text-red-500 text-sm">{errors.picture}</p>
                   )}
                   <div className="flex justify-end gap-4 pt-1">
-                    <button
-                      className="flex justify-center items-center rounded border border-stroke py-2 px-3 text-sm font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                      type="submit"
-                    >
-                      Cancel
-                    </button>
                     <button
                       className="bg-green-600  flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90"
                       type="submit"
