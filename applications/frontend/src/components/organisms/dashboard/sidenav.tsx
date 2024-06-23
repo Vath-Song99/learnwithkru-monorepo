@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import NavLinks from './nav-links';
+// import NavLinks from './nav-links';
 interface SideNavProps {
   id: string;
 }
@@ -19,7 +19,7 @@ const SideNav: React.FC<SideNavProps> = ({ id }) => {
         </div>
       </Link>
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-        <NavLinks />
+        {/* <NavLinks /> */}
         <div className="hidden h-auto w-full grow rounded-md bg-white md:block"></div>
         <form>
           <button className="flex h-[48px] w-full grow items-center justify-center text-red-700 bg-red-100 p-3 text-sm font-medium md:flex-none md:justify-center md:p-2 md:px-3 rounded-lg">

@@ -65,7 +65,9 @@ export class UserController extends Controller {
     try {
       const service = new UserServices();
       const user = (await service.GetUserByUserId(userId)) as IUser;
-      return { message: "Success retrieve user", data: user };
+      return { message: "Success retrieve user", data: user
+        
+       };
     } catch (error: unknown) {
       throw error;
     }

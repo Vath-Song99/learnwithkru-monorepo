@@ -155,7 +155,7 @@ const FormLogin = () => {
             type="button"
             onClick={togglePasswordVisibility}
             className="absolute mr-3  right-2 top-2">
-            {showPassword ? (
+            { !showPassword ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -193,7 +193,7 @@ const FormLogin = () => {
         </div>
         {errors.password && (
           <div className="flexl justify-start">
-            <small className="mt-2" style={{ color: "red" }}>
+            <small className="mt-2 text-red-500" >
               {errors.password}
             </small>
           </div>
@@ -201,7 +201,7 @@ const FormLogin = () => {
 
 {error.server && (
           <div className="flexl justify-start">
-            <small className="mt-2" style={{ color: "red" }}>
+            <small className="mt-2 text-red-500" >
               {error.server}
             </small>
           </div>

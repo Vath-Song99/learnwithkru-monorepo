@@ -84,12 +84,10 @@ const FormSignup = () => {
     try {
       setIsLoading(true);
       e.preventDefault();
-      console.log("Got Eventing", formData);
       // stept 3
       await AuthValidateSchema.validate(formData, { abortEarly: false });
       await fetchSignupData();
 
-      console.log("was gone");
       // stept 4
       const authObject = {
         last_name: formData.last_name,
@@ -203,7 +201,7 @@ const FormSignup = () => {
               onClick={togglePasswordVisibility}
               className="absolute right-3 top-2"
             >
-              {showPassword ? (
+              { !showPassword ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

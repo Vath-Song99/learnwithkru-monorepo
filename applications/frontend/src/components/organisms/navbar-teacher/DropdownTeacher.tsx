@@ -1,7 +1,7 @@
 
 
 import { ITeacher } from "@/@types/teacher.type";
-import axios, { AxiosError } from "axios";
+// import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 interface ProfileDropDownProps {
@@ -12,10 +12,6 @@ interface ProfileDropDownProps {
   teacher: ITeacher;
 }
 
-type LogoutResponse = {
-  message: string;
-  errors?: string[];
-};
 
 const DropdownTeacher: React.FC<ProfileDropDownProps> = ({
   className,
@@ -50,33 +46,6 @@ const DropdownTeacher: React.FC<ProfileDropDownProps> = ({
     setIsOpen(false);
   };
 
-  // const handleLogout = async (url: string): Promise<LogoutResponse> => {
-  //   try {
-  //     const response = await axios.get<LogoutResponse>(url, { withCredentials: true });
-
-  //     if (response.data.errors && response.data.errors.length > 0) {
-  //       const errorMessage = `Server error response: ${response.data.errors.join(', ')}`;
-  //       throw new Error(errorMessage);
-  //     }
-
-  //     return response.data;
-  //   } catch (error) {
-  //     logError(error);
-  //     throw error;
-  //   }
-  // };
-
-  const logError = (error: unknown): void => {
-    if (axios.isAxiosError(error)) {
-      const axiosError = error as AxiosError;
-      console.error(
-        "Axios error:",
-        axiosError.response?.data || axiosError.message
-      );
-    } else {
-      console.error("Unexpected error:", error);
-    }
-  };
 
   return (
     <div className={`relative inline-block ${className}`} ref={dropdownRef}>
