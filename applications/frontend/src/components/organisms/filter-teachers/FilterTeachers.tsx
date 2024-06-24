@@ -1,8 +1,7 @@
 "use client";
 import { Filters } from "@/@types/filter";
-import { FilterDropdown, FilterDropdownPrice } from "@/components/molecules";
 import React, { useEffect, useState } from "react";
-
+import { DataFilter, PriceFilter } from "./Filter";
 const subjectDropdown = [
   { itemName: "All", id: 1 },
   { itemName: "English", id: 1 },
@@ -67,16 +66,14 @@ const FilterTeachers = () => {
     min_p: 0,
     max_p: 0,
   });
-
-
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
 
-    const subject = query.get('subject') || "";
-    const province = query.get('province') || "";
-    const time_available = query.get('time_available') || "";
-    const min_p = query.get('min_p') ? parseInt(query.get('min_p')!) : 0;
-    const max_p = query.get('max_p') ? parseInt(query.get('max_p')!) : 0;
+    const subject = query.get("subject") || "";
+    const province = query.get("province") || "";
+    const time_available = query.get("time_available") || "";
+    const min_p = query.get("min_p") ? parseInt(query.get("min_p")!) : 0;
+    const max_p = query.get("max_p") ? parseInt(query.get("max_p")!) : 0;
 
     setFilters({
       subject,
@@ -132,35 +129,38 @@ const FilterTeachers = () => {
     window.location.reload();
   };
 
-  const {min_p , max_p} = filters;
+  const { min_p, max_p } = filters;
 
   return (
     <div className=" w-full flex justify-center items-center rounded-sm  py-3 ">
       <div className="w-[80%] flex justify-between items-center flex-wrap px-1">
-        <FilterDropdown
-          nameDropdown="Subject"
-          itemsDropdown={subjectDropdown}
-          selectedValue={filters.subject}
-          onChange={(value) => handleFilterChange("subject", value)}
+
+      <DataFilter
+        itemsDropdown={subjectDropdown}
+        nameDropdown="Subject"
+        selectedValue={filters.subject}
+        onChange={(value: string) => handleFilterChange("subject", value)}
+      />
+
+        <DataFilter 
+        nameDropdown="Time available"
+        itemsDropdown={TimeDropDown}
+        selectedValue={filters.time_available}
+        onChange={(value: string )=>handleFilterChange("time_available",value)}
         />
-        <FilterDropdown
-          nameDropdown="Time available"
-          itemsDropdown={TimeDropDown}
-          selectedValue={filters.time_available}
-          onChange={(value) => handleFilterChange("time_available", value)}
-        />
-        <FilterDropdown
+      
+        <DataFilter
           nameDropdown="Province"
           itemsDropdown={ProvinceDropDown}
           selectedValue={filters.province}
-          onChange={(value) => handleFilterChange("province", value)}
+          onChange={(value: string ) => handleFilterChange("province", value)}
         />
-        <FilterDropdownPrice
-          nameDropdownPrice="Pricing"
-          selectedValue={{min_p, max_p}}
-          itemsDropdownPrice={pricingDropDown}
-          onChange={handlePriceChange}
-        />
+       <PriceFilter
+         itemsDropdownPrice={pricingDropDown}
+         selectedValue={{ min_p, max_p }}
+         onChange={handlePriceChange}
+         nameDropdownPrice="Pricing"
+       />
       </div>
     </div>
   );
