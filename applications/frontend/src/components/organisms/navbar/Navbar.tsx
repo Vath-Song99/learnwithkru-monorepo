@@ -7,8 +7,8 @@ import { ButtonDropDown } from "@/components/molecules/button-dropdown";
 import { ProfileDropDown } from "@/components/molecules/profile-dropdown";
 import { Notification } from "@/components/organisms/notification";
 import { IUser } from "@/@types/user";
-import axios, { AxiosError } from "axios";
-import { ITeacher } from "@/@types/teacher.type";
+import axios from "axios";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
 
 // langue
 const options = [
@@ -102,11 +102,9 @@ interface NavbarProps {
   setIsShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
   className?: string;
   authState: { isAuth: boolean; user: IUser | null };
-  teacher?: ITeacher;
-  isTeachers?: boolean;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ className, authState,teacher,isTeachers=false }) => {
+const Navbar: React.FC<NavbarProps> = ({ className, authState}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string | null>("Home");
   const handleItemClick = (item: string) => {
@@ -116,8 +114,7 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState,teacher,isTeachers
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
-  const handleChange = (value?: string) => {
-    console.log("Selected option:", value);
+  const handleChange = (_value?: string) => {
   };
   // login
   // logout
@@ -126,32 +123,21 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState,teacher,isTeachers
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
       const url = `${apiUrl}/v1/auth/logout`;
-      const response = await axios.get(url, {
+      await axios.get(url, {
         withCredentials: true,
       });
-
-      if (response.data.errors && response.data.errors.length > 0) {
-        const errorMessage = `Server error response: ${response.data.errors.join(
-          ", "
-        )}`;
-        throw new Error(errorMessage);
-      }
       window.location.reload();
     } catch (error) {
-      logError(error);
-      throw error;
-    }
-  };
+      handleAxiosError(error, {
+        handleErrorResponse: (response) =>{
+          const { errors } = response?.data;
 
-  const logError = (error: unknown): void => {
-    if (axios.isAxiosError(error)) {
-      const axiosError = error as AxiosError;
-      console.error(
-        "Axios error:",
-        axiosError.response?.data || axiosError.message
-      );
-    } else {
-      console.error("Unexpected error:", error);
+          if(errors){
+            throw errors
+          }
+        }
+      });
+      throw error
     }
   };
 
@@ -223,7 +209,7 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState,teacher,isTeachers
             <ProfileDropDown
             
               icon={
-                authState.user?.picture === null ? (
+                authState?.user?.picture === null ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -240,7 +226,7 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState,teacher,isTeachers
                   </svg>
                 ) : (
                   <Image
-                    src={authState.user?.picture as string}
+                    src={authState?.user?.picture as string}
                     alt="user's profile picture"
                     width={500}
                     height={500}
@@ -316,9 +302,9 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState,teacher,isTeachers
         <div className="flex items-center justify-between w-full px-4 py-2">
           <div className="flex">
             <button className="">
-              {authState.isAuth ? (
+              {authState?.isAuth ? (
                 <Image
-                  src={authState.user?.picture as string}
+                  src={authState?.user?.picture as string}
                   alt="user's profile picture"
                   width={500}
                   height={500}
@@ -395,7 +381,7 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState,teacher,isTeachers
         <div className="w-full h-[1.2px] bg-gray-200"></div>
         <nav className="flex w-full py-2 pr-5 flex-col items-start justify-start">
           <ul className="mx-5 w-full">
-            {authState.isAuth ? (
+            {authState?.isAuth ? (
               // is login
               <>
                 <li

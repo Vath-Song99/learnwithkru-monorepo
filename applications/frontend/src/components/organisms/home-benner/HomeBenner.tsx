@@ -2,7 +2,6 @@
 
 import { Typography } from "@/components/atoms";
 import React, { useState } from "react";
-import { VerifyLogin } from "../auth/VerifyLogin";
 import SignInModal from "@/components/molecules/modal/SigninModal";
 
 

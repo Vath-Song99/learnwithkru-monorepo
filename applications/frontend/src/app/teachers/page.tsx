@@ -1,34 +1,38 @@
+import { IAuth } from "@/@types/auth";
 import { ITeacher, PageDetails } from "@/@types/teacher.type";
-import { IUser } from "@/@types/user";
 import { Footer, Navbar, TeacherList } from "@/components";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
 import { notFound } from "next/navigation";
 
-const getUserData = async (): Promise<{
-  isAuth?: boolean;
-  errors?: string;
-  data: IUser | null;
-}> => {
+const getUserData = async (): Promise<IAuth> => {
   const cookieString = getCookieString();
-
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
   try {
     if (typeof cookieString === "object") {
       return cookieString;
     }
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
-    const res = await axios.get(`${apiUrl}/v1/users`, {
+    const res = await axios.get(`${apiUrl}/v1/users` , {
+
       withCredentials: true,
       headers: { Cookie: cookieString as string },
     });
 
-    if (res.data?.errors) {
-      return { errors: res.data?.errors, data: null };
-    }
+    return { isAuth: true, data: res.data.data };
 
-    return { isAuth: true, data: res.data?.data };
   } catch (error: unknown) {
-    console.error("Error fetching user data:", error);
+
+     handleAxiosError(error, {
+      handleErrorResponse: (response) =>{
+        
+        const { errors} = response.data;
+
+        if(errors){
+          return { isAuth: false , errors: errors?.message , data: null };
+        }
+      }
+     })
     throw error;
   }
 };
@@ -59,28 +63,24 @@ async function getTeachersData({
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
     const API_ENDPOINT = `${apiUrl}/v1/teachers?pageSize=6&pageNumber=${pageNumber}&name=${search_query}&province=${province}&subject=${subject}&time_available=${time_available}&min_p=${min_p}&max_p=${max_p}`;
-    console.log("Api teacher Endpoint: ", API_ENDPOINT)
     const res = await axios.get(API_ENDPOINT);
 
     return { data: { teachers: res.data?.data, detail: res.data?.detail } };
   } catch (error: any) {
-    console.error("Error fetching teachers data:", error.response.status);
 
-    // Check if error has a response object
-    if (error.response) {
-      const { status } = error.response;
 
-      // Handle 404 or 401 errors
-      if (status === 404 || status === 401) {
-        notFound();
-      }
-      // Handle 500 error
-      else if (status === 500) {
-        throw new Error("Something went wrong!");
-      }
+    handleAxiosError(error, {
+      handleErrorResponse(response) {
 
-      ;
-    }
+        if(response.status === 404  && response.status === 401){
+          return notFound()
+        }
+        const { errors } = response?.data;
+        if( errors ){
+          throw errors
+        }
+      },
+    })
     throw error;
   }
 }
@@ -107,7 +107,6 @@ const Page = async ({
     min_p,
     max_p,
   });
-  console.log(teachers)
   return (
     <div className="max-w-full grid gap-5">
       <div className="w-full flex justify-center items-center border shadow-sm">
