@@ -643,8 +643,39 @@
 				]
 			}
 		},
-		"/v1/teachers/update/{id}": {
-			"patch": {
+		"/v1/teachers/teacher-profile": {
+			"get": {
+				"operationId": "GetProfileTeacher",
+				"responses": {
+					"200": {
+						"description": "GET OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"$ref": "#/components/schemas/ITeacher"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/v1/teachers/update": {
+			"put": {
 				"operationId": "UpdateTeacher",
 				"responses": {
 					"201": {
@@ -671,16 +702,7 @@
 					}
 				},
 				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
+				"parameters": [],
 				"requestBody": {
 					"required": true,
 					"content": {

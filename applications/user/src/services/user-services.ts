@@ -32,7 +32,7 @@ export class UserServices {
       }
       // step 3
       const newUser = await this.UserRepo.CreateUser({
-        authId: authId as string,
+        authId,
         first_name,
         last_name,
         email,
@@ -102,9 +102,9 @@ export class UserServices {
     try {
       const existingUser = await this.UserRepo.FindUser(userId);
       if (existingUser) {
-        const { first_name, last_name, email, picture } = existingUser
+        const { first_name, last_name, email, picture } = existingUser;
 
-        return { data: { first_name, last_name, email, picture }};
+        return { data: { first_name, last_name, email, picture } };
       }
 
       const makeRequest = MakeRequest.GetInstance();
@@ -113,15 +113,28 @@ export class UserServices {
         return { data: this.extractUserProfile(existingTeacher) };
       }
 
-      const existingStudent = await makeRequest.getStudentProfile(userId);
-      if (existingStudent) {
-        return { data: this.extractUserProfile(existingStudent) };
-      }
-
       logger.error(`No User found for userId: ${userId}`);
       throw new ApiError("No User found!", StatusCode.NOT_FOUND);
-    } catch (error: unknown) {
+    } catch (error: any) {
       logger.error(`Error fetching user profile for userId: ${userId}`, error);
+      if (
+        error?.message.includes("'No teacher matches this ID!") ||
+        error?.code === 404
+      ) {
+        try {
+          const makeRequest = MakeRequest.GetInstance();
+          const existingStudent = await makeRequest.getStudentProfile(userId);
+          logger.info(
+            `here existing student ${JSON.stringify(existingStudent)}`
+          );
+          if (existingStudent) {
+            return { data: this.extractUserProfile(existingStudent) };
+          }
+        } catch (error: unknown) {
+          throw error;
+        }
+      }
+
       throw error;
     }
   }

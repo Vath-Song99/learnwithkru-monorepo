@@ -24,4 +24,5 @@ export const OptionSession: CookieSessionInterfaces.CookieSessionOptions = {
   }),
   domain: config.env !== "development" ? ".learnwithkru.com" : undefined, // Set domain in production, undefined in development
   path: "/",
+  overwrite: true,
 };

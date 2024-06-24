@@ -9,6 +9,7 @@ interface InputProps {
   value?: string | number;
   defaultValue?: string
   name?: string;
+  disabled?: boolean;
   borderColor?:
   | "phonenumberSize"
   | "file"
@@ -53,6 +54,7 @@ const InputForm: React.FC<InputProps> = ({
   value,
   name,
   ref,
+  disabled,
   onChange,
   defaultValue,
   accept,
@@ -179,6 +181,7 @@ const InputForm: React.FC<InputProps> = ({
       className={setClassName}
       onChange={onChange}
       checked={checked}
+      disabled={disabled}
       onKeyDown={onKeyEnter}
     />
   );

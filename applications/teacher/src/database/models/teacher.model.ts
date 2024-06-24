@@ -43,7 +43,7 @@ const teacherSchema = new Schema({
   province: {
     type: String,
     required: true,
-    index: true,
+    index: true,   
   },
   university: {
     type: String,
