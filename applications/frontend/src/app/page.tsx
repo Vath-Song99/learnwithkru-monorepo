@@ -28,7 +28,7 @@ const getUserData = async (): Promise<IAuth> => {
         const { errors} = response.data;
 
         if(errors){
-          return { errors: errors?.message , data: null };
+          return { isAuth: false , errors: errors?.message , data: null };
         }
       }
      })

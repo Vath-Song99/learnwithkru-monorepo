@@ -60,7 +60,9 @@ const BecomeTeacher: React.FC<BecomeTeacherProps> = ({ data }) => {
   };
 
   return (
-    <div className="w-full  pt-10 " >
+    <div className="w-full" >
+
+
         <TeacherNavbar className="w-[100%] flex justify-center items-center px-2 py-4 bg-[#F4F4F8] rounded-md">
           {pages.map((_, index) => (
 
@@ -120,9 +122,9 @@ const BecomeTeacher: React.FC<BecomeTeacherProps> = ({ data }) => {
           ))}
         </TeacherNavbar>
           <div className="w-full flex justify-center items-cente">
-          <div className="w-full sm:w-full md:w-[90%] lg:w-[90%] xl:w-[70%] pt-10">
+          <div className="w-full sm:w-full md:w-[90%] lg:w-[90%] xl:w-[70%] pt-5">
 
-<div className=" flex justify-center pt-10">
+<div className=" flex justify-center ">
   {pages[currentPage] == 0 && (
     <>
       <AboutForm

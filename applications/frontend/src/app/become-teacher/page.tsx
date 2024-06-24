@@ -1,6 +1,8 @@
 import { IAuth } from "@/@types/auth";
 import { BecomeTeacher } from "@/components";
-
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
+import Image
+ from "next/image";
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
 import React from "react";
@@ -14,33 +16,35 @@ export interface IUserBecomeTeacher {
 
 const getUserData = async (): Promise<IAuth> => {
   const cookieString = getCookieString();
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL ||  "https://api.learnwithkru.com";
-  
-  console.log(apiUrl)
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
   try {
     if (typeof cookieString === "object") {
       return cookieString;
     }
-    const res = await axios.get(`${apiUrl}/v1/users`, {
+    const res = await axios.get(`${apiUrl}/v1/users` , {
 
       withCredentials: true,
       headers: { Cookie: cookieString as string },
     });
 
-    if (res.data.errors) {
-      return { errors: res.data.errors, data: null };
-    }
-
     return { isAuth: true, data: res.data.data };
 
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.error("Axios error details:", error.response?.data);
-    }
+  } catch (error: unknown) {
 
+     handleAxiosError(error, {
+      handleErrorResponse: (response) =>{
+        
+        const { errors} = response.data;
+
+        if(errors){
+          return { isAuth: false , errors: errors?.message , data: null };
+        }
+      }
+     })
     throw error;
   }
 };
+
 
 const page = async () => {
   const { errors, data } = await getUserData();
@@ -55,6 +59,11 @@ const page = async () => {
 
   return (
     <div className="w-full ">
+      
+        <div className="w-full flex justify-between items-center px-5 ">
+              <Image className="w-36 h-16 object-cover" src={"/Logos/KruLogo.png"} width={500} height={500} alt="Learnwithkru Logo"></Image>
+              <Image className="w-10  rounded-full object-cover" src={data?.picture ? data?.picture : "https://www.svgrepo.com/show/384674/account-avatar-profile-user-11.svg"} width={500} height={500} alt="user's profile"></Image>
+        </div>
 
       <BecomeTeacher data={data} />
     </div>

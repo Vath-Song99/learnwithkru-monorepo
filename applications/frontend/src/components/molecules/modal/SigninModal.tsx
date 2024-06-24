@@ -71,27 +71,24 @@ export default function SignInModal({isPopup, isAuth, setIsPopup}:{isPopup: bool
           }
         );
         if(response.data.errors){
-          console.log("An error accor: ",response.data.errors)
           return false
         }
         router.push('/')
         // window.location.href = "http://localhost:8000/teacher-list"
       }  catch (error: unknown) {
         handleAxiosError(error, {
-          logError: (message: string) => {
-            // Custom logging implementation, e.g., sending logs to a server
-            console.log('Custom log:', message);
-          },
+        
           handleErrorResponse: (response) => {
             // Custom response handling
             const {errors}= response.data
             if(errors){
-              console.log(errors.message)
               setError({server: errors.message})
             }
             
           }
         });
+    }finally{
+      window.location.reload()
     }
   
     };
@@ -107,7 +104,6 @@ export default function SignInModal({isPopup, isAuth, setIsPopup}:{isPopup: bool
     setLocalStorage("user", authObject);
   };
 
-  console.log("Data", formData)
   return (
     <>
       {/* <button
