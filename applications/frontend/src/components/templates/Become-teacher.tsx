@@ -60,12 +60,13 @@ const BecomeTeacher: React.FC<BecomeTeacherProps> = ({ data }) => {
   };
 
   return (
-    <>
-      <div className="w-full sm:w-full md:w-[90%] lg:w-[90%] xl:w-[70%] h-screen pt-10">
+    <div className="w-full" >
+
+
         <TeacherNavbar className="w-[100%] flex justify-center items-center px-2 py-4 bg-[#F4F4F8] rounded-md">
           {pages.map((_, index) => (
-            // eslint-disable-next-line react/jsx-key
-            <TeacherNavbarComponent className=" w-full flex justify-start  lg:gap-x-16 px-1  items-center rounded-sm ">
+
+            <TeacherNavbarComponent key={index} className=" w-full flex justify-start  lg:gap-x-16 px-1  items-center rounded-sm ">
               <div
                 className={`w-[35px] h-[36px] ${currentPage >= index + 1 ? "bg-green-500 " : "bg-black"
                   } rounded-md text-white flex justify-center items-center`}
@@ -120,111 +121,115 @@ const BecomeTeacher: React.FC<BecomeTeacherProps> = ({ data }) => {
             </TeacherNavbarComponent>
           ))}
         </TeacherNavbar>
-        <div className=" flex justify-center pt-10">
-          {pages[currentPage] == 0 && (
-            <>
-              <AboutForm
-                buttonTitle="next"
-                description="Start creating your public tutor profile. Your progress will be automatically saved as you complete each section. You can return at any time to finish your registration"
-                title="About"
-                id="about"
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                pageIndex={pages}
-                setdataTutor={setdataTutor}
-                dataTutor={dataTutor}
-                dataUser={data}
-              />
-            </>
-          )}
-          {pages[currentPage] == 1 && (
-            <>
-              <ProfilePhotoTeachers
-                buttonTitle="Submit"
-                description="Choose a photo that will help learners get to know you."
-                title="Profile photo"
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-                pageIndex={pages}
-                setdataTutor={setdataTutor}
-                dataTutor={dataTutor}
-                dataUser={data}
+          <div className="w-full flex justify-center items-cente">
+          <div className="w-full sm:w-full md:w-[90%] lg:w-[90%] xl:w-[70%] pt-5">
 
-              />
-            </>
-          )}
-          {pages[currentPage] == 2 && (
-            <>
-              <BecomeTeacherForm
-                fileLabel="Please Input Your Degree To verify"
-                buttonTitle="next"
-                description="Do you have teaching certificates? If so, describe them to enhance your 
-                profile credibility and get more students."
-                title="Education"
-                checkboxtext="Don't have a Degree?"
-                id="education"
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                pageIndex={pages}
-                setdataTutor={setdataTutor}
-                dataTutor={dataTutor}
-                dataUser={data}
-              />
-            </>
-          )}
-          {pages[currentPage] == 3 && (
-            <>
-              <DescriptionForm
-                buttonTitle="next"
-                description="This info will go on your public profile. Write it in the language you’ll be teaching"
-                title="Profile Description"
-                checkboxtext={""}
-                id="description"
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                pageIndex={pages}
-                setdataTutor={setdataTutor}
-                dataTutor={dataTutor}
-                dataUser={data}
-              />
-            </>
-          )}
-          {pages[currentPage] == 4 && (
-            <>
-              <TimeAvailableForm
-                buttonTitle="next"
-                title="Time available"
-                description="This is table that you can see all time in a week and you can select what time you available "
-                setTimeAvailable="Set your Available"
-                setTimeDescription="Availability shows your potential working hours. Students can book lessons at these times."
-                id="available"
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                pageIndex={pages}
-                setdataTutor={setdataTutor}
-                dataTutor={dataTutor}
-                dataUser={data}
-              />
-            </>
-          )}
-          {pages[currentPage] == 5 && (
-            <>
-              <PricingForm
-                buttonTitle="Submit"
-                description="Fill your price per Hour. It will be shown in the profile’s list"
-                title="Pricing per hour"
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-                pageIndex={pages}
-                setdataTutor={setdataTutor}
-                dataTutor={dataTutor}
-                dataUser={data}
-              />
-            </>
-          )}
-        </div>
-      </div>
+<div className=" flex justify-center ">
+  {pages[currentPage] == 0 && (
+    <>
+      <AboutForm
+        buttonTitle="next"
+        description="Start creating your public tutor profile. Your progress will be automatically saved as you complete each section. You can return at any time to finish your registration"
+        title="About"
+        id="about"
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        pageIndex={pages}
+        setdataTutor={setdataTutor}
+        dataTutor={dataTutor}
+        dataUser={data}
+      />
     </>
+  )}
+  {pages[currentPage] == 1 && (
+    <>
+      <ProfilePhotoTeachers
+        buttonTitle="Submit"
+        description="Choose a photo that will help learners get to know you."
+        title="Profile photo"
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+        pageIndex={pages}
+        setdataTutor={setdataTutor}
+        dataTutor={dataTutor}
+        dataUser={data}
+
+      />
+    </>
+  )}
+  {pages[currentPage] == 2 && (
+    <>
+      <BecomeTeacherForm
+        fileLabel="Please Input Your Degree To verify"
+        buttonTitle="next"
+        description="Do you have teaching certificates? If so, describe them to enhance your 
+        profile credibility and get more students."
+        title="Education"
+        checkboxtext="Don't have a Degree?"
+        id="education"
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        pageIndex={pages}
+        setdataTutor={setdataTutor}
+        dataTutor={dataTutor}
+        dataUser={data}
+      />
+    </>
+  )}
+  {pages[currentPage] == 3 && (
+    <>
+      <DescriptionForm
+        buttonTitle="next"
+        description="This info will go on your public profile. Write it in the language you’ll be teaching"
+        title="Profile Description"
+        checkboxtext={""}
+        id="description"
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        pageIndex={pages}
+        setdataTutor={setdataTutor}
+        dataTutor={dataTutor}
+        dataUser={data}
+      />
+    </>
+  )}
+  {pages[currentPage] == 4 && (
+    <>
+      <TimeAvailableForm
+        buttonTitle="next"
+        title="Time available"
+        description="This is table that you can see all time in a week and you can select what time you available "
+        setTimeAvailable="Set your Available"
+        setTimeDescription="Availability shows your potential working hours. Students can book lessons at these times."
+        id="available"
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        pageIndex={pages}
+        setdataTutor={setdataTutor}
+        dataTutor={dataTutor}
+        dataUser={data}
+      />
+    </>
+  )}
+  {pages[currentPage] == 5 && (
+    <>
+      <PricingForm
+        buttonTitle="Submit"
+        description="Fill your price per Hour. It will be shown in the profile’s list"
+        title="Pricing per hour"
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+        pageIndex={pages}
+        setdataTutor={setdataTutor}
+        dataTutor={dataTutor}
+        dataUser={data}
+      />
+    </>
+  )}
+</div>
+</div>
+          </div>
+    </div>
   );
 };
 

@@ -7,7 +7,8 @@ import { ButtonDropDown } from "@/components/molecules/button-dropdown";
 import { ProfileDropDown } from "@/components/molecules/profile-dropdown";
 import { Notification } from "@/components/organisms/notification";
 import { IUser } from "@/@types/user";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
 
 // langue
 const options = [
@@ -103,7 +104,7 @@ interface NavbarProps {
   authState: { isAuth: boolean; user: IUser | null };
 }
 
-const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
+const Navbar: React.FC<NavbarProps> = ({ className, authState}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string | null>("Home");
   const handleItemClick = (item: string) => {
@@ -113,42 +114,30 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
-  const handleChange = (value?: string) => {
-    console.log("Selected option:", value);
+  const handleChange = (_value?: string) => {
   };
   // login
   // logout
 
   const handleLogout = async ()=> {
     try {
-      const apiUrl = "https://api.learnwithkru.com"
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
       const url = `${apiUrl}/v1/auth/logout`;
-      const response = await axios.get(url, {
+      await axios.get(url, {
         withCredentials: true,
       });
-
-      if (response.data.errors && response.data.errors.length > 0) {
-        const errorMessage = `Server error response: ${response.data.errors.join(
-          ", "
-        )}`;
-        throw new Error(errorMessage);
-      }
       window.location.reload();
     } catch (error) {
-      logError(error);
-      throw error;
-    }
-  };
+      handleAxiosError(error, {
+        handleErrorResponse: (response) =>{
+          const { errors } = response?.data;
 
-  const logError = (error: unknown): void => {
-    if (axios.isAxiosError(error)) {
-      const axiosError = error as AxiosError;
-      console.error(
-        "Axios error:",
-        axiosError.response?.data || axiosError.message
-      );
-    } else {
-      console.error("Unexpected error:", error);
+          if(errors){
+            throw errors
+          }
+        }
+      });
+      throw error
     }
   };
 
@@ -196,7 +185,8 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
             className="text-[#455445] text-sm hover:underline"
             href={"/teachers"}
           >
-            Find teacher
+            Find teacher 
+            
           </Link>
         </div>
       </div>
@@ -217,25 +207,14 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
             </div>
             <Notification className="hidden lg:inline lg:ml-7 lg:mt-2"></Notification>
             <ProfileDropDown
+            
               icon={
-                authState.user?.picture === null ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                    />
-                  </svg>
+                authState?.user?.picture === null ? (
+                  <Image className="object-cover w-10" src={"https://www.svgrepo.com/show/384674/account-avatar-profile-user-11.svg"} width={250} height={250} alt="No profile user"></Image>
+                 
                 ) : (
                   <Image
-                    src={authState.user?.picture as string}
+                    src={authState?.user?.picture as string}
                     alt="user's profile picture"
                     width={500}
                     height={500}
@@ -243,10 +222,10 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
                   ></Image>
                 )
               }
+              authState={authState}
               className="ml-10 hidden sm:hidden md:hidden xl:inline lg:inline"
-              onChange={handleChange}
-            >
-              {" "}
+              onChange={handleChange}            >
+             
             </ProfileDropDown>
           </div>
         </div>
@@ -310,51 +289,27 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
       >
         <div className="flex items-center justify-between w-full px-4 py-2">
           <div className="flex">
-            <button className="">
-              {authState.isAuth ? (
-                <Image
-                  src={authState.user?.picture as string}
-                  alt="user's profile picture"
-                  width={500}
-                  height={500}
-                  className="w-10 rounded-full"
-                ></Image>
-              ) : (
+          <button className="">
+              {authState.isAuth ? 
+                (
+                  authState.user?.picture === null ? (
+                    <Image className="object-cover w-10" src={"https://www.svgrepo.com/show/384674/account-avatar-profile-user-11.svg"} width={250} height={250} alt="No profile user"></Image>
+
+                  ):(
+                    <Image
+                    src={authState.user?.picture as string}
+                    alt="user's profile picture"
+                    width={500}
+                    height={500}
+                    className="w-10 rounded-full"
+                  ></Image>
+                  )
+                )
+              
+              : (
                 <div className="flex w-[30px] h-[30px] bg-gray-200 justify-center items-center rounded-md hover:bg-gray-200 hover:rounded-md">
                   {/* Account icon */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                  >
-                    <g
-                      fill="#0A0A0A"
-                      stroke="#A9A9A9"
-                      strokeDasharray="28"
-                      strokeDashoffset="28"
-                      strokeLinecap="round"
-                      strokeWidth="2"
-                    >
-                      <path d="M4 21V20C4 16.6863 6.68629 14 10 14H14C17.3137 14 20 16.6863 20 20V21">
-                        <animate
-                          fill="freeze"
-                          attributeName="stroke-dashoffset"
-                          dur="0.4s"
-                          values="28;0"
-                        />
-                      </path>
-                      <path d="M12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7C16 9.20914 14.2091 11 12 11Z">
-                        <animate
-                          fill="freeze"
-                          attributeName="stroke-dashoffset"
-                          begin="0.5s"
-                          dur="0.4s"
-                          values="28;0"
-                        />
-                      </path>
-                    </g>
-                  </svg>
+                  <Image className="object-cover w-10" src={"https://www.svgrepo.com/show/384674/account-avatar-profile-user-11.svg"} width={250} height={250} alt="No profile user"></Image>
                 </div>
               )}
             </button>
@@ -390,7 +345,7 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState }) => {
         <div className="w-full h-[1.2px] bg-gray-200"></div>
         <nav className="flex w-full py-2 pr-5 flex-col items-start justify-start">
           <ul className="mx-5 w-full">
-            {authState.isAuth ? (
+            {authState?.isAuth ? (
               // is login
               <>
                 <li

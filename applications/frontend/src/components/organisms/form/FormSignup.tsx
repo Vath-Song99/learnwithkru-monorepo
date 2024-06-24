@@ -9,10 +9,11 @@ import React, {
   useState,
 } from "react";
 import Link from "next/link";
-import axios  from "axios";
+import axios from "axios";
 import { setLocalStorage } from "@/utils/localStorage";
 import { AuthValidateSchema } from "@/schema/UserValidateSchema";
 import { handleAxiosError } from "@/utils/axiosErrorhandler";
+import { useRouter } from "next/navigation";
 // TODOLIST
 // handle values in a form create state is handle form
 // handle error in from  nad create state in handle error
@@ -29,67 +30,57 @@ const DEFAULT_FORM_VALUE = {
   password: "",
 };
 const FormSignup = () => {
-  const [errors, setErrors] = useState<{ [key: string]: string | undefined }>({});
+  const [errors, setErrors] = useState<{ [key: string]: string | undefined }>(
+    {}
+  );
+  const router = useRouter();
   const [error, setError] = useState<{ [key: string]: string | undefined }>({});
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<AuthForm>(DEFAULT_FORM_VALUE);
   const [rememberMe, setRememberMe] = useState(false);
-  const  fetchSignupData = async (): Promise<void> => {
-    const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:8000"
-    const VERIFY_EMAIL_URL = `${baseUrl}/send-verify-email`;
-  
+  const fetchSignupData = async (): Promise<void> => {
     try {
-      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
-      await axios.post(
-        `${API_BASE_URL}/v1/auth/signup`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-        window.location.href = VERIFY_EMAIL_URL;
+      setIsLoading(true);
+      const API_BASE_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      await axios.post(`${API_BASE_URL}/v1/auth/signup`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      router.push("/send-verify-email");
     } catch (error: unknown) {
       handleAxiosError(error, {
-        redirectUrls: {
-          'Verification email has been resent': VERIFY_EMAIL_URL,
-        },
-        logError: (message: string) => {
-          // Custom logging implementation, e.g., sending logs to a server
-          console.log('Custom log:', message);
-        },
+        
         handleErrorResponse: (response) => {
           // Custom response handling
-          console.log('Handling response:', response);
-          const {errors}= response.data
-          if(errors){
-            console.log(errors.message)
-            setError({server: errors.message})
+          const { errors } = response.data;
+          if (errors) {
+            if (
+              errors?.message?.includes("Verification email has been resent")
+            ) {
+              router.push("/send-verify-email");
+              return;
+            }
+            setError({ server: errors.message });
           }
-          
-        }
+        },
       });
-  }
-  finally{
-    setIsLoading(false)
-  }
-}
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (
     e: FormEvent<HTMLFormElement>
   ) => {
     try {
-
-      setIsLoading(true)
-      e.preventDefault()
-      console.log("Got Eventing", formData)
+      e.preventDefault();
       // stept 3
       await AuthValidateSchema.validate(formData, { abortEarly: false });
-      await fetchSignupData()
+      await fetchSignupData();
 
-      console.log("was gone")
       // stept 4
       const authObject = {
         last_name: formData.last_name,
@@ -119,7 +110,6 @@ const FormSignup = () => {
     setShowPassword(!showPassword);
   };
 
-  
   // stept 1
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -130,7 +120,6 @@ const FormSignup = () => {
     }
   };
 
-  console.log(errors)
   return (
     <div className="flex">
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -204,7 +193,7 @@ const FormSignup = () => {
               onClick={togglePasswordVisibility}
               className="absolute right-3 top-2"
             >
-              {showPassword ? (
+              { !showPassword ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -245,7 +234,7 @@ const FormSignup = () => {
           {errors.password && (
             <div className="flex justify-start">
               <small className="mt-2  h-2" style={{ color: "red" }}>
-                {errors.password }
+                {errors.password}
               </small>
             </div>
           )}
@@ -274,7 +263,7 @@ const FormSignup = () => {
           </Link>
         </div>
         <Button type="submit" radius="md" className="w-full py-2.5 text-sm">
-          { isLoading ? "Sig up  ....." : "Sign up"}
+          {isLoading ? "Sig up  ....." : "Sign up"}
         </Button>
       </form>
     </div>

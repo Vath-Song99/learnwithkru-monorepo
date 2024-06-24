@@ -805,21 +805,23 @@ const TimeAvailableForm = ({
                 <div className="flex flex-col mt-5 mb-10">
                   <div className="flex justify-end gap-4">
                     {currentPage > 0 && (
-                      <Button
-                        onClick={handleBack}
-                        radius="md"
-                        className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      >
-                        Back
-                      </Button>
+                      <button
+                      onClick={handleBack}
+                     type="submit"
+                    //  radius="md"
+                     className="  items-center bg-white border-gray-400  text-gray-500  hover:bg-violet-900 border  hover:text-white text-sm flex justify-center px-5 font-semibold py-2  rounded-lg focus:outline-none focus:shadow-outline tracking-widest"
+                     >
+                     Back
+                     </button>
                     )}
                     <Button
-                      type="submit"
-                      radius="md"
-                      className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                      Next
-                    </Button>
+    
+    type="submit"
+    radius="md"
+    className="  items-center bg-violet-900 hover:bg-white hover:border hover:border-gray-400  hover:text-gray-600 text-white text-sm flex justify-center px-10 font-semibold py-2  rounded focus:outline-none focus:shadow-outline tracking-widest"
+    >
+    Next
+    </Button>
                   </div>
                 </div>
               </form>

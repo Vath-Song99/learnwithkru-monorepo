@@ -31,6 +31,7 @@ function createConfig(configPath: string) {
     apiGateway: process.env.API_GATEWAY,
     authService: process.env.AUTH_SERVICE_GET,
     teacherService: process.env.TEACHER_SERVICE,
+    studentService: process.env.STUDENT_SERVICE
   };
 }
 

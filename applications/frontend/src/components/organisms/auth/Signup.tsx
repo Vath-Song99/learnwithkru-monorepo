@@ -27,7 +27,6 @@ const Signup = () => {
       await handleSigninWithGoogle();
     } catch (error) {
       setGoogleLoading(false);
-      console.error("Signin failed:", error);
       // You can add further user-friendly error handling here
     }
   };
@@ -37,10 +36,7 @@ const Signup = () => {
       setFacebookLoading(true);
       await handleSigninWithFacebook();
     } catch (error) {
-      setFacebookLoading(false);
-      console.error("Signin failed:", error);
-      // You can add further user-friendly error handling here
-    }
+      setFacebookLoading(false);    }
   };
 
   return (

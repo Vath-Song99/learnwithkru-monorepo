@@ -20,7 +20,7 @@ import {
   Request,
   Route,
   Path,
-  Patch,
+  Put,
 } from "tsoa";
 import { ITeacher, ITeacherUpdate } from "../@types/teacher.type";
 import { logger } from "../utils/logger";
@@ -119,18 +119,41 @@ export class TeacherController extends Controller {
       throw error;
     }
   }
-
-  @Middlewares(ValidateInput(updateTeacherSchemas))
-  @SuccessResponse(StatusCode.CREATED, "Updated")
-  @Patch(PATH_TEACHER.updateTeacher)
-  async UpdateTeacher(
-    @Path() id: string,
-    @Body() requestBody: ITeacherUpdate
+  @SuccessResponse(StatusCode.OK, "GET OK")
+  @Middlewares(authorize(["teacher"]))
+  @Get(PATH_TEACHER.teacherSettingProfile)
+  async GetProfileTeacher(
+    @Request() req: Express.Request
   ): Promise<{ message: string; data: ITeacher }> {
     try {
-      const service = new TeacherServices();
-      const updatedTeacher = await service.UpdateTeacher({ id, requestBody });
+      const teacherId = (req.user as DecodedUser).id;
+      logger.info(`Has retrieve teacherId ${teacherId}`)
+      const serivice = new TeacherServices();
+      const existingTeacher = await serivice.GetTeacher(teacherId);
 
+      return {
+        message: "Success Retrieved teacher",
+        data: existingTeacher.data,
+      };
+    } catch (error: unknown) {
+      throw error;
+    }
+  }
+
+  @SuccessResponse(StatusCode.CREATED, "Updated")
+  @Middlewares(ValidateInput(updateTeacherSchemas))
+  @Middlewares(authorize(["teacher"]))
+  @Put("/update")
+  async UpdateTeacher(
+    @Body() requestBody: ITeacherUpdate , @Request() req: Express.Request
+  ): Promise<{ message: string; data: ITeacher }> {
+    try {
+      const teacherId = (req.user as DecodedUser).id
+      console.log('user id', teacherId , 'request body ', requestBody)
+      const service = new TeacherServices();
+      const updatedTeacher = await service.UpdateTeacher({ id:teacherId, requestBody });
+      
+      logger.info(`Updated teacher ${updatedTeacher}`)
       return { message: "Success updated teacher", data: updatedTeacher.data };
     } catch (error: unknown) {
       throw error;

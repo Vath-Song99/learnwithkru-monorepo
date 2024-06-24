@@ -1,6 +1,8 @@
 // components/ProfileDropDown.tsx
 
-import axios, { AxiosError }  from "axios";
+import { IUser } from "@/@types/user";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
+import axios  from "axios";
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 interface ProfileDropDownProps {
@@ -8,18 +10,14 @@ interface ProfileDropDownProps {
   onChange?: (value?: string) => void;
   className?: string;
   icon?: React.ReactNode;
-
+  authState?: { isAuth: boolean; user: IUser | null };
 }
 
-
-type LogoutResponse = {
-  message: string;
-  errors?: string[];
-};
 
 const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
   className,
   icon,
+  authState,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -49,41 +47,34 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
     setIsOpen(false);
   };
 
+  const handleLogout = async () => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
+    const url = `${apiUrl}/v1/auth/logout`;
   
-  const handleLogout = async (url: string): Promise<LogoutResponse> => {
     try {
-      const response = await axios.get<LogoutResponse>(url, { withCredentials: true });
-  
-      if (response.data.errors && response.data.errors.length > 0) {
-        const errorMessage = `Server error response: ${response.data.errors.join(', ')}`;
-        throw new Error(errorMessage);
-      }
-  
-      return response.data;
-    } catch (error) {
-      logError(error);
-      throw error;
-    }
-  };
-  
-  const logError = (error: unknown): void => {
-    if (axios.isAxiosError(error)) {
-      const axiosError = error as AxiosError;
-      console.error("Axios error:", axiosError.response?.data || axiosError.message);
-    } else {
-      console.error("Unexpected error:", error);
-    }
-  };
-  
-  const onLogoutClick = async () => {
-    const url = 'http://localhost:3000/v1/auth/logout';
-    try {
-      await handleLogout(url);
+      await axios.get(url, { withCredentials: true });
       window.location.reload();
     } catch (error) {
-      // Handle the error appropriately
-      console.error("Logout failed:", error);
+      handleAxiosError(error, {
+        logError: (message: string) => {
+          // Custom logging implementation, e.g., sending logs to a server
+          console.log('Custom log:', message);
+        },
+        handleErrorResponse: (response) => {
+          // Custom response handling
+          console.log('Handling response:', response);
+          const errors = response?.data?.errors;
+          if (errors) {
+            console.error(errors.message);
+            throw errors;
+          }
+        },
+      });
     }
+  };
+  
+  const onLogoutClick = () => {
+    handleLogout();
   };
 
   return (
@@ -97,22 +88,23 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
       {isOpen && (
 
         <div className="absolute left-1/2 transform -translate-x-1/2  mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-
-          <div className=""></div>
-          <Link
-            href="/"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            onClick={handleItemClick}
-          >
-            Home
-          </Link>
-          <Link
-            href="/user-setting"
+          {authState?.isAuth && (
+              <Link
+            href="/update-user"
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             onClick={toggleDropDown}
           >
+            Profile
+          </Link>
+          )}
+              <Link
+               href={`/settings/about`}
+            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            onClick={handleItemClick}
+          >
             Settings
           </Link>
+           
           <Link
             href="/favorite"
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -120,21 +112,14 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
           >
             Favorite
           </Link>
-          <Link
-            href="/user-setting"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            onClick={toggleDropDown}
-          >
-            Profile
-          </Link>
+        
           <div className="border-t border-gray-200"></div>
-          <Link
-            href=""
-            className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+          <button
+            className="w-full block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
             onClick={onLogoutClick}
           >
             Logout
-          </Link>
+          </button>
         </div>
       )}
     </div>
