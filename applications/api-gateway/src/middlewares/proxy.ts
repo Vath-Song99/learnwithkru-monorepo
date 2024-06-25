@@ -90,7 +90,7 @@ const proxyConfigs: ProxyConfig = {
             // Store JWT in session
             if (responseBody.token) {
               (req as Request).session!.jwt = responseBody.token;
-              // res.cookie("persistent", responseBody.token, OptionCookie);
+              res.cookie("persistent", responseBody.token, OptionCookie);
               delete responseBody.token;
             }
 
@@ -98,7 +98,6 @@ const proxyConfigs: ProxyConfig = {
               try {
                 // Manually clear the session data
                 (req as Request).session = null;
-
                 // Clear the session cookie
                 res.cookie("persistent", "", { expires: new Date(0) });
 
