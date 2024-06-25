@@ -143,7 +143,6 @@ const Navbar: React.FC<NavbarProps> = ({ className, authState}) => {
 
   const onLogoutClick =  () => {
      handleLogout();
-
   };
 
   return (
