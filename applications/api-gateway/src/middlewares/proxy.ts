@@ -102,18 +102,20 @@ const proxyConfigs: ProxyConfig = {
             }
 
             if (responseBody.isLogout) {
-              try {
-                // Manually clear the session data
-                (req as Request).session = null;
-                // Clear the session cookie
-                res.clearCookie('persistent');
-
-                return res.end(); // End response after logout
-              } catch (error) {
-                console.error("Error clearing session:", error);
-                return res
-                  .status(500)
-                  .json({ message: "Error clearing session" });
+                // Clear the persistent cookie
+              res.clearCookie('persistent');
+              if((req as Request).session!.jwt){
+                try {
+                  // Manually clear the session data
+                  (req as Request).session = null;
+  
+                  return res.end(); // End response after logout
+                } catch (error) {
+                  logger.error("Error clearing session:", error);
+                  return res
+                    .status(500)
+                    .json({ message: "Error clearing session" });
+                }
               }
             }
             // Modify response to send  the message to the client
