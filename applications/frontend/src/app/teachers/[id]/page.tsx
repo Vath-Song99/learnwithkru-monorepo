@@ -71,8 +71,8 @@ async function getTeachersData(_id: string): Promise<ITeacherData> {
         
     handleAxiosError(error, {
         handleErrorResponse(response) {
-  
-          if(response.status === 404  && response.status === 401){
+
+          if(response.status === 404  || response.status === 401){
             return notFound()
           }
           const { errors } = response?.data;
@@ -101,10 +101,6 @@ const Page = async ({ params }: { params: { id: string } }) => {
                 </div>
             </div>
         )
-    }
-
-    if (!teachersResponse?.data) {
-        notFound();
     }
 
     const selectedTeacher = teachersResponse?.data;

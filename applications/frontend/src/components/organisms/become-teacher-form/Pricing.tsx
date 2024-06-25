@@ -108,13 +108,8 @@ const PricingForm = ({
             withCredentials: true,
           }
         );
-        console.log("Log respone: ", response)
-        if (response.data.errors) {
-          console.log("An error occurred: teachers ", response.data.errors);
-          return false;
-        }
    
-          router.push(`/teachers/${response.data.data._id}`);
+        router.push(`/teachers/${response.data.data._id}`);
         clearLocalStorage("priceTeacher")
         clearLocalStorage("aboutTeacher")
         clearLocalStorage("educationTeacher")
@@ -124,11 +119,8 @@ const PricingForm = ({
         clearLocalStorage("currentPage")
         
       } catch (error) {
-        console.log(error)
         handleAxiosError(error, {
-          logError: (message) =>{
-            console.log(`error message`, message)
-          },
+       
           handleErrorResponse(response) {
               const { errors } = response.data
 
