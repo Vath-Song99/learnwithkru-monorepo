@@ -52,28 +52,69 @@ export interface IAvailableDay {
   time: ITimeSlot;
 }
 
+// export interface ITeacher {
+//   isFavorite?: any;
+//   _id: any;
+//   first_name: string;
+//   last_name: string;
+//   email: string;
+//   picture: string;
+//   phone_number: string;
+//   subject: string;
+//   province: string; // Added to match teacherSchemas
+//   university: string;
+//   year_experience: number;
+//   type_degree: string;
+//   bio: string;
+//   motivation: string;
+//   date_available: IAvailableDay[]; // Adjusted to match nested structure in teacherSchemas
+//   price: number;
+//   certificate: string;
+//   video: string;
+//   teaching_experience: string;
+//   total_rating?: number;
+//   // is_degree?: boolean; // Optional, not defined in teacherSchemas
+//   // specialization?: string; // Optional, not defined in teacherSchemas
+//   // teacher_experience?: string; // Optional, not defined in teacherSchemas
+// }
+
+
+
+
 export interface ITeacher {
-  isFavorite?: any;
-  _id: any;
+  _id: string;
   first_name: string;
   last_name: string;
   email: string;
   picture: string;
   phone_number: string;
   subject: string;
-  province: string; // Added to match teacherSchemas
+  province: string;
   university: string;
   year_experience: number;
   type_degree: string;
   bio: string;
   motivation: string;
-  date_available: IAvailableDay[]; // Adjusted to match nested structure in teacherSchemas
+  date_available: IAvailableDay[];
   price: number;
   certificate: string;
   video: string;
   teaching_experience: string;
-  total_rating?: number;
-  // is_degree?: boolean; // Optional, not defined in teacherSchemas
-  // specialization?: string; // Optional, not defined in teacherSchemas
-  // teacher_experience?: string; // Optional, not defined in teacherSchemas
+  number_of_ratings: number;
+  total_rating: {
+    r1: number;
+    r2: number;
+    r3: number;
+    r4: number;
+    r5: number;
+  };
+  createdAt: string;
+  __v: number;
+}
+
+
+export interface ITeacherProp {
+  isAuth?: boolean;
+  errors?: string;
+  data: ITeacher | null;
 }
