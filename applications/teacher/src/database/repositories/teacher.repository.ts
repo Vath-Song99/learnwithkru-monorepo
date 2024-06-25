@@ -123,7 +123,7 @@ export class TeacherRepository {
     }
   }
 
-  async FindTeacherByUserID(userId: string): Promise<ITeacherDocs | null> {
+  async FindTeacherByUserId(userId: string): Promise<ITeacherDocs | null> {
     try {
       // Validate input
       if (!userId) {
@@ -200,6 +200,39 @@ export class TeacherRepository {
         throw error;
       }
       throw new ApiError("Somthing went wrong!");
+    }
+  }
+
+  async FindTeacherByUserIdAndTeacherId(id: string): Promise<ITeacherDocs | null> {
+    try {
+      // Validate input
+      if (!id) {
+        throw new ApiError(
+          "Invalid user ID parameter!",
+          StatusCode.BAD_REQUEST
+        );
+      }
+
+      // Fetch teacher by user ID from the database
+      const existTeacher = await teacherModel.findOne({ $or: [{ _id: id }, { userId: id }] }).exec();
+
+      // Log the operation
+      logger.info(
+        `Teacher with user ID ${id} ${existTeacher ? "found" : "not found"}`
+      );
+
+      return existTeacher;
+    } catch (error: unknown) {
+      // Log the error
+      logger.error("Error finding teacher by user ID:", error);
+
+      // Re-throw custom errors
+      if (error instanceof BaseCustomError) {
+        throw error;
+      }
+
+      // Throw a generic error for other cases
+      throw new ApiError("Something went wrong!");
     }
   }
 }

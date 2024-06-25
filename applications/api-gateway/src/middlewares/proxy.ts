@@ -106,7 +106,7 @@ const proxyConfigs: ProxyConfig = {
                 // Manually clear the session data
                 (req as Request).session = null;
                 // Clear the session cookie
-                res.cookie("persistent", "", { expires: new Date(0) });
+                res.clearCookie('persistent');
 
                 return res.end(); // End response after logout
               } catch (error) {
