@@ -129,7 +129,7 @@ __decorate([
 __decorate([
     (0, tsoa_1.SuccessResponse)(http_status_code_1.default.OK, "OK"),
     (0, tsoa_1.Get)(path_defs_1.PATH_USER.USER_PROFILE),
-    (0, tsoa_1.Middlewares)((0, authorize_1.authorize)(["user"])),
+    (0, tsoa_1.Middlewares)((0, authorize_1.authorize)(["user", "student", "teacher"])),
     __param(0, (0, tsoa_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

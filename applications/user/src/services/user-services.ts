@@ -2,6 +2,7 @@ import { IUser, UserProfile, UserUpdate } from "../@types/user.type";
 import { UserRepository } from "../database/repositories/user.repository";
 import { ApiError, BaseCustomError } from "../error/base-custom-error";
 import StatusCode from "../utils/http-status-code";
+import { MakeRequest } from "../utils/htttp-request";
 import { logger } from "../utils/logger";
 
 export class UserServices {
@@ -11,8 +12,8 @@ export class UserServices {
   }
   async CreateUser({
     authId,
-    firstname,
-    lastname,
+    first_name,
+    last_name,
     email,
     picture,
   }: IUser): Promise<IUser> {
@@ -31,9 +32,9 @@ export class UserServices {
       }
       // step 3
       const newUser = await this.UserRepo.CreateUser({
-        authId: authId as string,
-        firstname,
-        lastname,
+        authId,
+        first_name,
+        last_name,
         email,
         picture,
       });
@@ -100,32 +101,60 @@ export class UserServices {
   async GetUserProfile(userId: string): Promise<{ data: UserProfile }> {
     try {
       const existingUser = await this.UserRepo.FindUser(userId);
+      if (existingUser) {
+        const { first_name, last_name, email, picture } = existingUser;
 
-      if (!existingUser) {
-        throw new ApiError("No User found!", StatusCode.NOT_FOUND);
+        return { data: { first_name, last_name, email, picture } };
       }
-      const { firstname, lastname, email, picture } = existingUser;
 
-      const userData:UserProfile = {
-        firstname,
-        lastname,
-        email,
-        picture,
-      };
-      return { data: userData };
-    } catch (error: unknown) {
+      const makeRequest = MakeRequest.GetInstance();
+      const existingTeacher = await makeRequest.getTeacherProfile(userId);
+      if (existingTeacher) {
+        return { data: this.extractUserProfile(existingTeacher) };
+      }
+
+      logger.error(`No User found for userId: ${userId}`);
+      throw new ApiError("No User found!", StatusCode.NOT_FOUND);
+    } catch (error: any) {
+      logger.error(`Error fetching user profile for userId: ${userId}`, error);
+      if (
+        error?.message.includes("'No teacher matches this ID!") ||
+        error?.code === 404
+      ) {
+        try {
+          const makeRequest = MakeRequest.GetInstance();
+          const existingStudent = await makeRequest.getStudentProfile(userId);
+          logger.info(
+            `here existing student ${JSON.stringify(existingStudent)}`
+          );
+          if (existingStudent) {
+            return { data: this.extractUserProfile(existingStudent) };
+          }
+        } catch (error: unknown) {
+          throw error;
+        }
+      }
+
       throw error;
     }
   }
 
-  async UpdateUserByUserId(authId: string , userData: UserUpdate):Promise<{ data: IUser}>{
-    try{
+  private extractUserProfile(user: any): UserProfile {
+    console.log(user);
+    const { first_name, last_name, email, picture } = user.data;
+    return { first_name, last_name, email, picture };
+  }
 
+  async UpdateUserByUserId(
+    authId: string,
+    userData: UserUpdate
+  ): Promise<{ data: IUser }> {
+    try {
       const UpdateUser = await this.UserRepo.UpdateUser(authId, userData);
 
-      return {data: UpdateUser}
-    }catch(error: unknown){
-      throw error
+      return { data: UpdateUser };
+    } catch (error: unknown) {
+      throw error;
     }
   }
 }

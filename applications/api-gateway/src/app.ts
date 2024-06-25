@@ -5,7 +5,7 @@ import cookieSession from "cookie-session";
 import hpp from "hpp";
 import helmet from "helmet";
 import cors from "cors";
-import { applyRateLimit } from "./middlewares/rate-limit";
+// import { applyRateLimit } from "./middlewares/rate-limit";
 import applyProxy from "./middlewares/proxy";
 import { errorHandler } from "./middlewares/error-handler";
 import { StatusCode } from "./utils/consts";
@@ -39,9 +39,9 @@ app.use(helmet());
 // Only Allow Specific Origin to Access API Gateway (Frontend)
 // Mock getConfig function. Replace with your actual config logic.
 //config.env === "development" ? "*"
-console.log(config.clientUrl)
 const corsOptions = {
-  origin : config.clientUrl || "http://localhost:8000",
+  origin:
+    config.env === "development" ? "http://localhost:8000" : config.clientUrl,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -50,7 +50,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Apply Limit Request
-applyRateLimit(app);
+// applyRateLimit(app);
 
 // Hide Express Server Information
 app.disable("x-powered-by");

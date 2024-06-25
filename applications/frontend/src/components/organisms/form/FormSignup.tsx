@@ -9,10 +9,11 @@ import React, {
   useState,
 } from "react";
 import Link from "next/link";
-import axios  from "axios";
+import axios from "axios";
 import { setLocalStorage } from "@/utils/localStorage";
 import { AuthValidateSchema } from "@/schema/UserValidateSchema";
 import { handleAxiosError } from "@/utils/axiosErrorhandler";
+import { useRouter } from "next/navigation";
 // TODOLIST
 // handle values in a form create state is handle form
 // handle error in from  nad create state in handle error
@@ -23,63 +24,67 @@ import { handleAxiosError } from "@/utils/axiosErrorhandler";
 // handel with remember
 
 const DEFAULT_FORM_VALUE = {
-  lastname: "",
-  firstname: "",
+  last_name: "",
+  first_name: "",
   email: "",
   password: "",
 };
 const FormSignup = () => {
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [errors, setErrors] = useState<{ [key: string]: string | undefined }>(
+    {}
+  );
+  const router = useRouter();
+  const [error, setError] = useState<{ [key: string]: string | undefined }>({});
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<AuthForm>(DEFAULT_FORM_VALUE);
   const [rememberMe, setRememberMe] = useState(false);
-  const VERIFY_EMAIL_URL = "http://localhost:8000/send-verify-email";
-  const  fetchSignupData = async (): Promise<void> => {
-  
+  const fetchSignupData = async (): Promise<void> => {
     try {
-      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
-      await axios.post(
-        `${API_BASE_URL}/auth/signup`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-        window.location.href = VERIFY_EMAIL_URL;
+      setIsLoading(true);
+      const API_BASE_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      await axios.post(`${API_BASE_URL}/v1/auth/signup`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      router.push("/send-verify-email");
     } catch (error: unknown) {
       handleAxiosError(error, {
-        redirectUrls: {
-          'Verification email has been resent': VERIFY_EMAIL_URL,
-        },
-        logError: (message: string) => {
-          // Custom logging implementation, e.g., sending logs to a server
-          console.log('Custom log:', message);
-        },
+        
         handleErrorResponse: (response) => {
           // Custom response handling
-          console.log('Handling response:', response);
-        }
+          const { errors } = response.data;
+          if (errors) {
+            if (
+              errors?.message?.includes("Verification email has been resent")
+            ) {
+              router.push("/send-verify-email");
+              return;
+            }
+            setError({ server: errors.message });
+          }
+        },
       });
-  }
-}
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (
     e: FormEvent<HTMLFormElement>
   ) => {
     try {
-      e.preventDefault()
-      console.log("Got Eventing", formData)
+      e.preventDefault();
       // stept 3
       await AuthValidateSchema.validate(formData, { abortEarly: false });
-      await fetchSignupData()
+      await fetchSignupData();
 
-      console.log("was gone")
       // stept 4
       const authObject = {
-        lastname: formData.lastname,
-        firstname: formData.firstname,
+        last_name: formData.last_name,
+        first_name: formData.first_name,
         email: formData.email,
       };
       setLocalStorage("user", authObject);
@@ -105,7 +110,6 @@ const FormSignup = () => {
     setShowPassword(!showPassword);
   };
 
-  
   // stept 1
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -120,37 +124,37 @@ const FormSignup = () => {
     <div className="flex">
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <div className="flex flex-col">
-          <label htmlFor="">First Name:</label>
+          <label htmlFor="">First Name</label>
           <InputForm
             type="text"
             placeholder="First Name"
             className="border border-purple-500 rounded-md w-[360px] h-[40px] pl-3 outline-none text-xs"
-            name="firstname"
-            value={formData.firstname}
+            name="first_name"
+            value={formData.first_name}
             onChange={onChangeInput}
           />
-          {errors.firstname && (
+          {errors.first_name && (
             <div className="flex justify-start">
               <small className="mt-2" style={{ color: "red" }}>
-                {errors.firstname}
+                {errors.first_name}
               </small>
             </div>
           )}
         </div>
         <div className="flex flex-col">
-          <label htmlFor="">Last Name:</label>
+          <label htmlFor="">Last Name</label>
           <InputForm
             type="text"
             placeholder="Last Name"
             className="border border-purple-500 rounded-md w-[360px] h-[40px] pl-3 outline-none text-xs"
-            name="lastname"
-            value={formData.lastname}
+            name="last_name"
+            value={formData.last_name}
             onChange={onChangeInput}
           />
-          {errors.lastname && (
+          {errors.last_name && (
             <div className="flex justify-start">
               <small className="mt-2" style={{ color: "red" }}>
-                {errors.lastname}
+                {errors.last_name}
               </small>
             </div>
           )}
@@ -189,7 +193,7 @@ const FormSignup = () => {
               onClick={togglePasswordVisibility}
               className="absolute right-3 top-2"
             >
-              {showPassword ? (
+              { !showPassword ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -234,6 +238,13 @@ const FormSignup = () => {
               </small>
             </div>
           )}
+          {error.server && (
+            <div className="flex justify-start">
+              <small className="mt-2  h-2" style={{ color: "red" }}>
+                {error.server}
+              </small>
+            </div>
+          )}
         </div>
         <div className=" flex items-center  justify-between my-5 mb-[10px]">
           <div className="flex items-center gap-1">
@@ -252,7 +263,7 @@ const FormSignup = () => {
           </Link>
         </div>
         <Button type="submit" radius="md" className="w-full py-2.5 text-sm">
-          Sign up
+          {isLoading ? "Sig up  ....." : "Sign up"}
         </Button>
       </form>
     </div>

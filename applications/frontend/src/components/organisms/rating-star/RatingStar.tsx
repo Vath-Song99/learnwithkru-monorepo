@@ -1,43 +1,84 @@
 "use client";
+
 import { Button, Typography } from "@/components/atoms";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const RatingStar = () => {
+const RatingStar = ({ id }: { id: string }) => {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [rating, setRating] = useState(0);
+  const [feedback, setFeedback] = useState<string>('');
+  const [error, setError] = useState<{ [key: string]: string | undefined }>({});
+  const [isLoading, setLoading] = useState(false);
 
-  const togglePopup = () => {
-    setPopupOpen(!isPopupOpen);
+  const togglePopup =  () => {
+    setPopupOpen(true);
   };
+
+  const handleOnSubmit = async () =>{
+    await handleOnRating();
+
+    if(!error.serverError && isPopupOpen){
+     await setPopupOpen(false);
+    }
+
+  }
 
   const handleStarClick = (index: number) => {
     setRating(index + 1);
   };
 
   useEffect(() => {
-    if (isPopupOpen) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = ""
-    }
+    document.body.style.overflow = isPopupOpen ? "hidden" : "";
     return () => {
-      document.body.style.overflow = ""
-
-    }
+      document.body.style.overflow = "";
+    };
   }, [isPopupOpen]);
 
   const backgroundClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) {
       setPopupOpen(false);
     }
+  };
 
-  }
+  const handleOnRating = async () => {
+    setLoading(true);
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+      const response = await axios.post(
+        `${baseUrl}/v1/teachers/rate/${id}`,
+        { rating, feedback },
+        { withCredentials: true }
+      );
+
+      console.log("Response", response.data);
+      return response.data
+    } catch (error: unknown) {
+      handleAxiosError(error, {
+        logError: (message: string) => {
+          console.log('Unexpected error occurs: ', message);
+        },
+        
+        handleErrorResponse: (response) => {
+          console.log("Error respone: ", response.data)
+          const { errors } = response.data;
+          if (errors) {
+            console.log("handleOnRate occurs error", errors.message);
+            setError({ serverError: errors.message });
+          }
+        }
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const starsArray = Array.from({ length: 5 }, (_, index) => index);
 
   return (
-    <div >
-      <Button onClick={togglePopup} radius="md" className="w-[150px] h-[40px]">
+    <div>
+      <Button onClick={togglePopup} radius="sm" className="w-[300px] h-[40px]">
         Rate me
       </Button>
       {isPopupOpen && (
@@ -46,7 +87,7 @@ const RatingStar = () => {
             <Button
               colorScheme="tertiary"
               className="self-end"
-              onClick={togglePopup}
+              onClick={() => setPopupOpen(false)}
               radius="md"
             >
               <svg
@@ -67,7 +108,6 @@ const RatingStar = () => {
             <Typography className="md">
               Please Rate Your Educational Experience!!!
             </Typography>
-            {/* Star icons */}
             <div className="flex justify-center gap-5">
               {starsArray.map((index) => (
                 <svg
@@ -88,25 +128,29 @@ const RatingStar = () => {
                 </svg>
               ))}
             </div>
-            <form action="">
+            <form>
               <div>
                 <textarea
-                  name=""
-                  id=""
                   rows={3}
-                  cols={35}
-                  className="bg-gray-200 border rounded-lg p-5 focus:outline-none resize-none"
+                  cols={25}
+                  value={feedback}
+                  onChange={e => setFeedback(e.target.value)}
+                  className="bg-gray-200 border rounded-lg p-4 text-sm focus:outline-none resize-none"
                   placeholder="Tell Us More About Your Feedback"
                 ></textarea>
+                {error.serverError && (
+                  <p className="text-red-500 text-sm ">{error.serverError}</p>
+                )}
               </div>
             </form>
             <Button
               colorScheme="secondary"
               radius="md"
               className="w-[150px] h-[40px]"
-              onClick={togglePopup}
+              onClick={handleOnSubmit}
+              isDisabled={isLoading}
             >
-              Submit
+              {isLoading ? 'Submitting...' : 'Submit'}
             </Button>
           </div>
         </div>

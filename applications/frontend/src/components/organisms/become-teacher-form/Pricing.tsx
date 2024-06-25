@@ -17,6 +17,7 @@ import {
 } from "@/utils/localStorage";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
 
 const DEFAULT_FORM_VALUE = {
   price: "",
@@ -37,6 +38,7 @@ const PricingForm = ({
 }: BecomeTeacherFormTypes) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] = useState<PriceProps>(DEFAULT_FORM_VALUE);
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter();
 
   const onChangeInput = (
@@ -55,7 +57,7 @@ const PricingForm = ({
     e: FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-
+    setIsLoading(true)
     try {
       await PriceTeachers.validate(formData, { abortEarly: false });
       // Update dataTutor with the correct price
@@ -74,6 +76,7 @@ const PricingForm = ({
       setLocalStorageTeacher("priceTeacher", formData);
       setErrors({});
       // Add the teacher using the updated dataTutor
+
       addTeacher(updatedDataTutor);
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
@@ -93,11 +96,11 @@ const PricingForm = ({
       teacherData: BecomeTeacherType | PriceProps | undefined
     ) => {
       try {
-        const data = JSON.stringify(teacherData);
-        console.log("handle submit teacher teacherData", teacherData);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
+        const API_ENDPOINT = `${apiUrl}/v1/teachers/become-teacher`;
         const response = await axios.post(
-          "http://localhost:3000/v1/teachers/become-teacher",
-          data,
+          API_ENDPOINT,
+          teacherData,
           {
             headers: {
               "Content-Type": "application/json",
@@ -105,25 +108,30 @@ const PricingForm = ({
             withCredentials: true,
           }
         );
-        console.log("Log respone: ", response)
-        if (response.data.errors) {
-          console.log("An error occurred: teachers ", response.data.errors);
-          return false;
-        }
-        console.log("teacher", response.data);
-        router.push(`/teachers/${response.data.data.id}`);
+   
+        router.push(`/teachers/${response.data.data._id}`);
         clearLocalStorage("priceTeacher")
         clearLocalStorage("aboutTeacher")
         clearLocalStorage("educationTeacher")
         clearLocalStorage("descriptionTeacher")
         clearLocalStorage("timeAvailableTeacher")
         clearLocalStorage("ProfilePhoto")
+        clearLocalStorage("currentPage")
         
       } catch (error) {
-        console.error("Error occurred during submission:", error);
-        if (axios.isAxiosError(error)) {
-          console.error("Axios error response: teachers", error.response);
-        }
+        handleAxiosError(error, {
+       
+          handleErrorResponse(response) {
+              const { errors } = response.data
+
+              if(errors){
+            setErrors({serverError: errors.message})
+                
+              }
+          },
+        })
+      }finally{
+        setIsLoading(false)
       }
     };
     fetchData(teacher);
@@ -166,25 +174,36 @@ const PricingForm = ({
               {errors.price && (
                 <p className="text-red-500 text-xs">{errors.price}</p>
               )}
+                {
+                  errors.serverError && (
+                    <div className="flex flex-col">
+                    <small className="text-red-500 text-xs mt-2">
+                      {errors.serverError}
+                    </small>
+                    </div>
+                  )
+                }
             </div>
             <div className="flex flex-col mt-5">
               <div className="flex justify-start gap-4">
                 {currentPage > 0 && (
-                  <Button
-                    onClick={handleBack}
-                    radius="md"
-                    className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  >
-                    Back
-                  </Button>
-                )}
-                <Button
-                  type="submit"
-                  radius="md"
-                  className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                 <button
+                 onClick={handleBack}
+                type="submit"
+               //  radius="md"
+                className="  items-center bg-white border-gray-400  text-gray-500  hover:bg-violet-900 border  hover:text-white text-sm flex justify-center px-5 font-semibold py-2  rounded-lg focus:outline-none focus:shadow-outline tracking-widest"
                 >
-                  Submit
-                </Button>
+                Back
+                </button>
+               )}
+               <Button
+
+type="submit"
+radius="md"
+className="  items-center bg-violet-900 hover:bg-white hover:border hover:border-gray-400  hover:text-gray-600 text-white text-sm flex justify-center px-10 font-semibold py-2  rounded focus:outline-none focus:shadow-outline tracking-widest"
+>
+{isLoading ? "Submitting ..." : "Sumit"}
+</Button>
               </div>
             </div>
           </div>

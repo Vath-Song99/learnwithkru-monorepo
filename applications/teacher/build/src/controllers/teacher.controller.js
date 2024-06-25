@@ -33,6 +33,7 @@ const validate_input_1 = require("../middlewares/validate-input");
 const teacher_schema_1 = require("../schemas/teacher-schema");
 const tsoa_1 = require("tsoa");
 const logger_1 = require("../utils/logger");
+const rate_services_1 = require("../services/rate-services");
 let TeacherController = class TeacherController extends tsoa_1.Controller {
     TeacherList(queries) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -92,6 +93,51 @@ let TeacherController = class TeacherController extends tsoa_1.Controller {
             }
         });
     }
+    GetTeacher(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const serivice = new teacher_services_1.TeacherServices();
+                const existingTeacher = yield serivice.GetTeacher(id);
+                return {
+                    message: "Success Retrieved teacher",
+                    data: existingTeacher.data,
+                };
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
+    UpdateTeacher(id, requestBody) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const service = new teacher_services_1.TeacherServices();
+                const updatedTeacher = yield service.UpdateTeacher({ id, requestBody });
+                return { message: "Success updated teacher", data: updatedTeacher.data };
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
+    RateTeacher(teacherId, req, requestBody) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = req.user.id;
+                const { rating } = requestBody;
+                const service = new rate_services_1.RateService();
+                const data = yield service.CreateRate({
+                    user_id: userId,
+                    teacher_id: teacherId,
+                    rating: Number(rating),
+                });
+                return { message: "Success rate", data: { rating: data } };
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
 };
 exports.TeacherController = TeacherController;
 __decorate([
@@ -129,6 +175,35 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], TeacherController.prototype, "Login", null);
+__decorate([
+    (0, tsoa_1.SuccessResponse)(http_status_code_1.default.OK, "GET OK"),
+    (0, tsoa_1.Get)(path_defs_1.PATH_TEACHER.getTeacher),
+    __param(0, (0, tsoa_1.Path)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], TeacherController.prototype, "GetTeacher", null);
+__decorate([
+    (0, tsoa_1.Middlewares)((0, validate_input_1.ValidateInput)(teacher_schema_1.updateTeacherSchemas)),
+    (0, tsoa_1.SuccessResponse)(http_status_code_1.default.CREATED, "Updated"),
+    (0, tsoa_1.Patch)(path_defs_1.PATH_TEACHER.updateTeacher),
+    __param(0, (0, tsoa_1.Path)()),
+    __param(1, (0, tsoa_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], TeacherController.prototype, "UpdateTeacher", null);
+__decorate([
+    (0, tsoa_1.SuccessResponse)(http_status_code_1.default.CREATED, "Create Rate"),
+    (0, tsoa_1.Middlewares)((0, authorize_1.authorize)(["user", "student"])),
+    (0, tsoa_1.Post)(path_defs_1.PATH_RATE.CREATE),
+    __param(0, (0, tsoa_1.Path)()),
+    __param(1, (0, tsoa_1.Request)()),
+    __param(2, (0, tsoa_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", Promise)
+], TeacherController.prototype, "RateTeacher", null);
 exports.TeacherController = TeacherController = __decorate([
     (0, tsoa_1.Route)("/v1/teachers")
 ], TeacherController);

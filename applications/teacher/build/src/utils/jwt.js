@@ -40,7 +40,7 @@ const config = (0, config_1.default)(currentEnv);
 const generateSignature = (_a) => __awaiter(void 0, [_a], void 0, function* ({ _id, }) {
     const payloadData = {
         id: _id,
-        role: ["user", "student"],
+        role: ["user", "teacher"],
     };
     try {
         return yield jsonwebtoken_1.default.sign({ payload: payloadData }, privateKey, {

@@ -17,10 +17,13 @@ const DEFAULT_FORM_VALUE = {
   password: "",
 };
 import { useRouter } from "next/navigation";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
 
 const FormLogin = () => {
   const router = useRouter();
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [error , setError] = useState<{[key: string]: string}>({})
+  const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState<UsersFormLogin>(DEFAULT_FORM_VALUE);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -61,9 +64,10 @@ const FormLogin = () => {
     // stept 5
     const fetchData = async (usersData: UsersFormLogin) => {
       try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
         const data = JSON.stringify(usersData);
         const response = await axios.post(
-          "http://localhost:3000/v1/auth/login",
+          `${baseUrl}/v1/auth/login`,
           data,
           {
             headers: {
@@ -76,15 +80,28 @@ const FormLogin = () => {
           console.log("An error accor: ",response.data.errors)
           return false
         }
-        console.log(response.data);
         router.push('/')
         // window.location.href = "http://localhost:8000/teacher-list"
-      } catch (error) {
-        console.error('Error occurred during login:', error);
-    if (axios.isAxiosError(error)) {
-      console.error('Axios error response:', error.response);
+      }  catch (error: unknown) {
+        handleAxiosError(error, {
+          logError: (message: string) => {
+            // Custom logging implementation, e.g., sending logs to a server
+            console.log('Custom log:', message);
+          },
+          handleErrorResponse: (response) => {
+            // Custom response handling
+            const {errors}= response.data
+            if(errors){
+              console.log(errors.message)
+              setError({server: errors.message})
+            }
+            
+          }
+        });
     }
-      }
+    finally{
+      setIsLoading(false)
+    }
     };
     // stept 6
     if (!rememberMe) {
@@ -138,7 +155,7 @@ const FormLogin = () => {
             type="button"
             onClick={togglePasswordVisibility}
             className="absolute mr-3  right-2 top-2">
-            {showPassword ? (
+            { !showPassword ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -176,8 +193,16 @@ const FormLogin = () => {
         </div>
         {errors.password && (
           <div className="flexl justify-start">
-            <small className="mt-2" style={{ color: "red" }}>
+            <small className="mt-2 text-red-500" >
               {errors.password}
+            </small>
+          </div>
+        )}
+
+{error.server && (
+          <div className="flexl justify-start">
+            <small className="mt-2 text-red-500" >
+              {error.server}
             </small>
           </div>
         )}
@@ -201,7 +226,7 @@ const FormLogin = () => {
         type="submit"
         radius="md"
         className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[300px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ">
-        Log in
+        {isLoading ? 'Login...' : 'Login'}
       </Button>
     </form>
   );

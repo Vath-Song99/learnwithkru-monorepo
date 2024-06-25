@@ -62,15 +62,18 @@ const validatePassword = (_b) => __awaiter(void 0, [_b], void 0, function* ({ en
     }
 });
 exports.validatePassword = validatePassword;
-const decodedToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
+const decodedToken = (token) => {
     try {
-        const data = (yield jsonwebtoken_1.default.decode(token));
-        return data.payload;
+        const decoded = jsonwebtoken_1.default.decode(token);
+        if (!decoded || typeof decoded !== "object" || !("payload" in decoded)) {
+            throw new Error("Invalid token structure");
+        }
+        return decoded.payload;
     }
     catch (error) {
-        logger_1.logger.error("Unable to decode in decodeToken() method !", error);
-        throw new base_custom_error_1.ApiError("Can't Decode token!");
+        logger_1.logger.error("Unable to decode in decodeToken() method!", { token, error });
+        throw new base_custom_error_1.ApiError("Can't decode token!");
     }
-});
+};
 exports.decodedToken = decodedToken;
 //# sourceMappingURL=jwt.js.map

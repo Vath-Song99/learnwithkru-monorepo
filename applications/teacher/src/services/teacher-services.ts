@@ -204,12 +204,25 @@ We're thrilled to have you on board!
       if (teaching_experience)
         teacherObject.teaching_experience = teaching_experience;
 
+      logger.info(`update teacher obj ${teacherObject}`)
       const updatedTeacher = await this.teacherRepo.UpdateTeacher({
         id,
         teacherData: teacherObject,
       });
 
       return { data: updatedTeacher };
+    } catch (error: unknown) {
+      throw error;
+    }
+  }
+  async GetTeacherByUserId(id: string): Promise<{ data: ITeacher }> {
+    try {
+      const existingTeacher = await this.teacherRepo.FindTeacherByUserID(id);
+
+      if (!existingTeacher) {
+        throw new BaseCustomError("No teacher found!", StatusCode.NOT_FOUND);
+      }
+      return { data: existingTeacher };
     } catch (error: unknown) {
       throw error;
     }

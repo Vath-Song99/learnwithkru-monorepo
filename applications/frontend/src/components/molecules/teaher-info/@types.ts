@@ -10,4 +10,9 @@ export interface TeacherVideoTypes {
   students: number;
   ratings: number;
   classname?: string;
+  year_experience: number;
+  Province: string;
+  university: string;
+  type_degree: string;
+  id: string;
 }

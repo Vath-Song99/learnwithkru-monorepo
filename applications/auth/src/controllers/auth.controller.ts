@@ -20,6 +20,7 @@ import { OauthConfig } from "../utils/oauth-configs";
 import getConfig from "../utils/config";
 import { ApiError } from "../error/base-custom-error";
 import { decodedToken } from "../utils/jwt";
+import { logger } from "../utils/logger";
 
 const currentEnv = process.env.NODE_ENV || "development";
 const config = getConfig(currentEnv);
@@ -32,10 +33,10 @@ export class AuthController extends Controller {
   public async Singup(
     @Body() requestBody: UserSignup
   ): Promise<{ message: string }> {
-    const { firstname, lastname, email, password } = requestBody;
+    const { first_name, last_name, email, password } = requestBody;
     try {
       const authService = new AuthServices();
-      await authService.Signup({ firstname, lastname, email, password });
+      await authService.Signup({ first_name, last_name, email, password });
 
       return { message: "please verify your Email!" };
     } catch (error) {
@@ -52,10 +53,10 @@ export class AuthController extends Controller {
       const verifyService = new SendVerifyEmailService();
       const user = await verifyService.VerifyEmailToken(token);
 
-      const { firstname, lastname, email, picture } = user.data;
+      const { first_name, last_name, email, picture } = user.data;
       return {
         message: "Success verified",
-        data: { firstname, lastname, email, picture },
+        data: { first_name, last_name, email, picture },
         token: user.token,
       };
     } catch (error: unknown) {
@@ -88,10 +89,10 @@ export class AuthController extends Controller {
       const authService = new AuthServices();
       const user = await authService.Login(requestBody);
 
-      const { firstname, lastname, email, picture } = user.data as IUser;
+      const { first_name, last_name, email, picture } = user.data as IUser;
       return {
         message: "Success login",
-        data: { firstname, lastname, email, picture },
+        data: { first_name, last_name, email, picture },
         token: user.token,
       };
     } catch (error) {
@@ -135,13 +136,14 @@ export class AuthController extends Controller {
     @Query() code: string
   ): Promise<{ message: string; data: IUser; token: string }> {
     try {
+      logger.info(`Google code: ${code}`);
       const authService = new AuthServices();
       const user = await authService.SigninWithGoogleCallBack(code);
 
-      const { firstname, lastname, email, picture } = user.data;
+      const { first_name, last_name, email, picture } = user.data;
       return {
         message: "Success signup",
-        data: { firstname, lastname, email, picture },
+        data: { first_name, last_name, email, picture },
         token: user.token,
       };
     } catch (error) {
@@ -158,10 +160,11 @@ export class AuthController extends Controller {
       const authService = new AuthServices();
       const user = await authService.SigninWithFacebookCallBack(code);
 
-      const { firstname, lastname, email, picture } = user.data;
+      console.log("user: ", user);
+      const { first_name, last_name, email, picture } = user.data;
       return {
         message: "Success signup",
-        data: { firstname, lastname, email, picture },
+        data: { first_name, last_name, email, picture },
         token: user.token,
       };
     } catch (error) {

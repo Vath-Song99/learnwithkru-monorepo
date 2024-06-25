@@ -67,9 +67,11 @@ const DescriptionForm = ({
       await DescriptionTeachers.validate(formData, { abortEarly: false });
       setdataTutor((prev: BecomeTeacherData) => ({ ...prev, ...formData }));
       if (pageIndex !== undefined) {
-        setCurrentPage((prevPage) =>
-          Math.min(prevPage + 1, pageIndex.length - 1)
-        );
+        setCurrentPage((prevPage) => {
+          const newPage = prevPage + 1;
+          localStorage.setItem('currentPage', newPage.toString());
+          return newPage;
+        });
       }
       setLocalStorageTeacher("descriptionTeacher", formData);
       setErrors({});
@@ -99,7 +101,7 @@ const DescriptionForm = ({
   }, []);
 
   return (
-    <div className="w-[370px] sm:w-[460px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-auto flex flex-col items-center">
+    <div className="w-[370px] sm:w-[460px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-auto flex flex-col items-center ">
       <form onSubmit={handleSubmit}>
         <Typography
           align="left"
@@ -119,7 +121,7 @@ const DescriptionForm = ({
         <div className="flex flex-col items-start gap-4 py-5">
           <div className="flex flex-col items-end">
             <div className="flex justify-start">
-              <div className="flex flex-col w-20 sm:mt-[45px] mt-[40px]">
+              <div className="flex flex-col w-36 sm:mt-[45px] mt-[40px]">
                 <label htmlFor="bio" className="text-sm">
                   BIO
                 </label>
@@ -128,10 +130,10 @@ const DescriptionForm = ({
                 <textarea
                   id="bio"
                   name="bio"
-                  placeholder="at least 50 characters"
+                  placeholder="At least 40 characters"
                   onChange={onChangeInput}
                   value={formData.bio}
-                  className="outline-none w-[300px] sm:w-[350px] sm:h-[200px] h-[150px] px-2 py-1 text-sm border border-purple-500"
+                  className="outline-none w-[300px] sm:w-[380px] sm:h-[200px] h-[150px] p-2 text-sm border border-purple-500"
                 ></textarea>
                 {errors.bio && (
                   <div className="flex justify-start">
@@ -145,7 +147,7 @@ const DescriptionForm = ({
           </div>
           <div className="flex flex-col items-center">
             <div className="flex justify-start">
-              <div className="flex flex-col w-20 sm:mt-[45px] mt-[40px]">
+              <div className="flex flex-col w-36 sm:mt-[45px] mt-[40px]">
                 <label htmlFor="teachingExperience" className="text-sm">
                   Teaching Experience
                 </label>
@@ -154,10 +156,10 @@ const DescriptionForm = ({
                 <textarea
                   id="teaching_experience"
                   name="teaching_experience"
-                  placeholder="at least 40 characters"
+                  placeholder="At least 25 characters"
                   onChange={onChangeInput}
                   value={formData.teaching_experience}
-                  className="outline-none w-[300px] sm:w-[350px] h-[120px] px-2 py-1 text-sm border border-purple-500"
+                  className="outline-none w-[300px] sm:w-[380px] h-[120px] px-2 py-1 text-sm border border-purple-500"
                 ></textarea>
                 {errors.teaching_experience && (
                   <div className="flex justify-start">
@@ -171,7 +173,7 @@ const DescriptionForm = ({
           </div>
           <div className="flex flex-col items-center">
             <div className="flex justify-start">
-              <div className="flex flex-col w-20 sm:mt-[45px] mt-[40px]">
+              <div className="flex flex-col w-36 sm:mt-[45px] mt-[40px]">
                 <label htmlFor="motivatePotentail" className="text-sm">
                   Motivate Potential Study
                 </label>
@@ -180,10 +182,10 @@ const DescriptionForm = ({
                 <textarea
                   id="motivation"
                   name="motivation"
-                  placeholder="at least 40 characters"
+                  placeholder="At least 40 characters"
                   onChange={onChangeInput}
                   value={formData.motivation}
-                  className="outline-none w-[300px] sm:w-[350px] h-[120px] px-2 py-1 text-sm border border-purple-500"
+                  className="outline-none w-[300px] sm:w-[380px] h-[120px] px-2 py-1 text-sm border border-purple-500"
                 ></textarea>
                 {errors.motivation && (
                   <div className="flex justify-start">
@@ -196,11 +198,11 @@ const DescriptionForm = ({
             </div>
           </div>
           <div className="flex flex-col">
-            <label htmlFor="fileLabel" className="cursor-pointer mt-2">
+            <label htmlFor="fileLabel" className="text-sm tracking-wider cursor-pointer mt-2">
               Please input the video about yourself
               <div>
                 <span className="text-sm flex justify-center">{fileLabel}</span>
-                <label className="w-[380px] sm:w-[570px] h-27 flex flex-col items-center py-6 border-purple-500 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-gray-400">
+                <label className="w-[380px] sm:w-[570px] h-27 flex flex-col border border-purple-400 items-center py-6 bg-white text-blue rounded-lg tracking-wide  cursor-pointer hover:bg-blue hover:text-gray-400">
                   <svg
                     className="w-8 h-8"
                     fill="currentColor"
@@ -236,24 +238,26 @@ const DescriptionForm = ({
               </div>
             )}
           </div>
-          <div className="flex flex-col self-end">
+          <div className="flex flex-col self-end mt-5">
             <div className="flex justify-end gap-4">
               {currentPage > 0 && (
-                <Button
-                  onClick={handleBack}
-                  radius="md"
-                  className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
-                  Back
-                </Button>
-              )}
-              <Button
+                 <button
+                 onClick={handleBack}
                 type="submit"
-                radius="md"
-                className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >
-                Next
-              </Button>
+               //  radius="md"
+                className="  items-center bg-white border-gray-400  text-gray-500  hover:bg-violet-900 border  hover:text-white text-sm flex justify-center px-5 font-semibold py-2  rounded-lg focus:outline-none focus:shadow-outline tracking-widest"
+                >
+                Back
+                </button>
+               )}
+               <Button
+
+type="submit"
+radius="md"
+className="  items-center bg-violet-900 hover:bg-white hover:border hover:border-gray-400  hover:text-gray-600 text-white text-sm flex justify-center px-10 font-semibold py-2  rounded focus:outline-none focus:shadow-outline tracking-widest"
+>
+Next
+</Button>
             </div>
           </div>
         </div>

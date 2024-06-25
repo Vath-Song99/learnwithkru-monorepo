@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError } from "axios";
 
 interface HandleAxiosErrorOptions {
   redirectUrls?: { [key: string]: string };
@@ -10,7 +10,7 @@ export const handleAxiosError = (
   error: unknown,
   options: HandleAxiosErrorOptions = {}
 ) => {
-  const { redirectUrls, logError, handleErrorResponse } = options;
+  const { logError, handleErrorResponse } = options;
 
   const log = (message: string) => {
     if (logError) {
@@ -24,17 +24,6 @@ export const handleAxiosError = (
     const axiosError = error as AxiosError;
 
     if (axiosError.response) {
-      const responseData = axiosError.response.data as any;
-
-      if (redirectUrls) {
-        for (const [message, url] of Object.entries(redirectUrls)) {
-          if (responseData.errors?.message?.includes(message)) {
-            window.location.href = url;
-            return;
-          }
-        }
-      }
-
       if (handleErrorResponse) {
         handleErrorResponse(axiosError.response);
       } else {

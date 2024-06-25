@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect, ChangeEvent, FormEvent, FormEventHandler } from "react";
+import { useState , ChangeEvent, FormEvent, FormEventHandler } from "react";
 import { Button, InputForm, Typography } from "@/components/atoms";
 import TimeslotSelector from "@/components/molecules/timeslote/TimeSlot";
-import { getLocalStorageTeacher, setLocalStorageTeacher } from "@/utils/localStorage";
+import {  setLocalStorageTeacher } from "@/utils/localStorage";
 import { TimeAvailableFormTypes } from "./@types";
 
 export interface DataTimeProp {
@@ -221,41 +221,24 @@ const TimeAvailableForm = ({
       ];
 
       setDays(newDays);
-      setLocalStorageTeacher("timeAvailableTeacher", newDays);
+    //  setLocalStorageTeacher("timeAvailableTeacher", newDays);
       setdataTutor((prev: any) => ({ ...prev, date_available: newDays }));
 
       if (pageIndex !== undefined) {
-        setCurrentPage((prevPage) => Math.min(prevPage + 1, pageIndex.length - 1));
+        setCurrentPage((prevPage) => {
+          const newPage = prevPage + 1;
+          localStorage.setItem('currentPage', newPage.toString());
+          return newPage;
+        });
       }
 
       setIsFormComplete(true);
     } catch (error) {
-      console.error(error);
+      throw error
     }
   };
 
-  useEffect(() => {
-    const userStorage = getLocalStorageTeacher("timeAvailableTeacher") || [];
-    if (userStorage.length > 0) {
-      setDays(userStorage);
-      const initialWeeks = userStorage.reduce((acc: WeekData[], day: Day) => {
-        (acc[0] as any)[`${day.day}Data`] = day.time; // Use 'as any' to bypass TypeScript type checking
-        return acc;
-      }, initialWeeksState);
-      setWeek(initialWeeks);
-      setDaysOfWeek((prevState) =>
-        userStorage.reduce((acc: { [x: string]: boolean; }, day: { day: string | number; time: string | any[]; }) => {
-          acc[day.day] = day.time.length > 0;
-          return acc;
-        }, { ...prevState })
-      );
-    }
 
-    const storedDaysOfWeek = getLocalStorageTeacher("daysOfWeek");
-    if (storedDaysOfWeek) {
-      setDaysOfWeek(storedDaysOfWeek);
-    }
-  }, [initialWeeksState]);
   return (
     <div className="w-auto max-w-[200px] sm:max-w-[400px] flex flex-col">
       <div className="flex justify-center">
@@ -822,21 +805,23 @@ const TimeAvailableForm = ({
                 <div className="flex flex-col mt-5 mb-10">
                   <div className="flex justify-end gap-4">
                     {currentPage > 0 && (
-                      <Button
-                        onClick={handleBack}
-                        radius="md"
-                        className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      >
-                        Back
-                      </Button>
+                      <button
+                      onClick={handleBack}
+                     type="submit"
+                    //  radius="md"
+                     className="  items-center bg-white border-gray-400  text-gray-500  hover:bg-violet-900 border  hover:text-white text-sm flex justify-center px-5 font-semibold py-2  rounded-lg focus:outline-none focus:shadow-outline tracking-widest"
+                     >
+                     Back
+                     </button>
                     )}
                     <Button
-                      type="submit"
-                      radius="md"
-                      className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                      Next
-                    </Button>
+    
+    type="submit"
+    radius="md"
+    className="  items-center bg-violet-900 hover:bg-white hover:border hover:border-gray-400  hover:text-gray-600 text-white text-sm flex justify-center px-10 font-semibold py-2  rounded focus:outline-none focus:shadow-outline tracking-widest"
+    >
+    Next
+    </Button>
                   </div>
                 </div>
               </form>

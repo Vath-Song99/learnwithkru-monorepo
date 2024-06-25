@@ -3,7 +3,7 @@
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { TsoaRoute, fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { AuthController } from '../../controllers/auth.controller';
+import { AuthController } from './../../controllers/auth.controller';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
 
@@ -14,8 +14,8 @@ const models: TsoaRoute.Models = {
     "UserSignup": {
         "dataType": "refObject",
         "properties": {
-            "firstname": {"dataType":"string","required":true},
-            "lastname": {"dataType":"string","required":true},
+            "first_name": {"dataType":"string","required":true},
+            "last_name": {"dataType":"string","required":true},
             "email": {"dataType":"string"},
             "password": {"dataType":"string"},
         },
@@ -26,8 +26,8 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "authId": {"dataType":"string"},
-            "firstname": {"dataType":"string","required":true},
-            "lastname": {"dataType":"string","required":true},
+            "first_name": {"dataType":"string","required":true},
+            "last_name": {"dataType":"string","required":true},
             "email": {"dataType":"string"},
             "picture": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
         },

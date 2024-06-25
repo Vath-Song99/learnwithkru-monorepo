@@ -7,7 +7,6 @@ import {
   validationSchema,
   validationTeacher,
 } from "@/schema/editProfileSchema";
-import Link from "next/link";
 import { Select } from "../atoms/select/select";
 
 

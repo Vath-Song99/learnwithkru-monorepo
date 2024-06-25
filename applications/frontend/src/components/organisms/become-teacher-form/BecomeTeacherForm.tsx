@@ -70,7 +70,7 @@ const BecomeTeacherForm = ({
   pageIndex,
   setdataTutor,
 }: BecomeTeacherFormTypes) => {
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(true);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] =
     useState<BecomeTeacherData>(DEFAULT_FORM_VALUE);
@@ -181,7 +181,6 @@ const BecomeTeacherForm = ({
     const userStorage =
       getLocalStorageTeacher("educationTeacher") || DEFAULT_FORM_VALUE;
     setFormData(userStorage);
-    console.log("alete then beck ", userStorage.certificate);
     const userTrue = getLocalStorageTeacher("educationTrue") || false;
     setShowForm(userTrue);
   }, []);
@@ -226,14 +225,14 @@ const BecomeTeacherForm = ({
           </div>
         </div>
         <div className="w-full flex justify-center">
-          {!showForm ? (
-            <div className="flex justify-center sm:justify-start md:justify-center w-full mt-3">
+          {showForm ? (
+            <div className="flex  sm:justify-start w-full mt-3">
               <form
                 action=""
                 onSubmit={handleSubmitNoDegree}
                 className="w-full"
               >
-                <div className="w-full flex flex-col gap-4 pl-[30px] sm:pl-[5px] md:pl-[10px]">
+                <div className="w-full flex flex-col ">
                   <div className="flex flex-col w-[450px] sm:w-[450px]">
                     <InputForm
                       borderRadius="md"
@@ -241,26 +240,28 @@ const BecomeTeacherForm = ({
                       name="university"
                       type="hidden"
                       onChange={handleCheckboxChange}
-                      className="border border-purple-500 pl-3 outline-none text-xs"
+                      className="border border-purple-500  outline-none text-xs"
                     />
                   </div>
                   <div className="flex flex-col">
                     <div className="flex justify-center gap-4">
                       {currentPage > 0 && (
-                        <Button
-                          onClick={handleBack}
-                          radius="md"
-                          className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                          Back
-                        </Button>
-                      )}
-                      <Button
-                        type="submit"
-                        radius="md"
-                        className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                        <button
+                                        onClick={handleBack}
+                                       type="submit"
+                                      //  radius="md"
+                                       className="  items-center bg-white border-gray-400  text-gray-500  hover:bg-violet-900 border  hover:text-white text-sm flex justify-center px-5 font-semibold py-2  rounded-lg focus:outline-none focus:shadow-outline tracking-widest"
+                                       >
+                                       Back
+                                       </button>
+                                      )}
+                                      <Button
+                      
+                      type="submit"
+                      radius="md"
+                      className="  items-center bg-violet-900 hover:bg-white hover:border hover:border-gray-400  hover:text-gray-600 text-white text-sm flex justify-center px-10 font-semibold py-2  rounded focus:outline-none focus:shadow-outline tracking-widest"
                       >
-                        Next
+                      Next
                       </Button>
                     </div>
                   </div>
@@ -414,21 +415,23 @@ const BecomeTeacherForm = ({
                   <div className="flex flex-col">
                     <div className="flex justify-end gap-4">
                       {currentPage > 0 && (
-                        <Button
-                          onClick={handleBack}
-                          radius="md"
-                          className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                          Back
-                        </Button>
-                      )}
-                      <Button
-                        type="submit"
-                        radius="md"
-                        className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      >
-                        Next
-                      </Button>
+                                       <button
+                                       onClick={handleBack}
+                                      type="submit"
+                                     //  radius="md"
+                                      className="  items-center bg-white border-gray-400  text-gray-500  hover:bg-violet-900 border  hover:text-white text-sm flex justify-center px-5 font-semibold py-2  rounded-lg focus:outline-none focus:shadow-outline tracking-widest"
+                                      >
+                                      Back
+                                      </button>
+                                     )}
+                                     <Button
+                     
+                     type="submit"
+                     radius="md"
+                     className="  items-center bg-violet-900 hover:bg-white hover:border hover:border-gray-400  hover:text-gray-600 text-white text-sm flex justify-center px-10 font-semibold py-2  rounded focus:outline-none focus:shadow-outline tracking-widest"
+                     >
+                     Next
+                     </Button>
                     </div>
                   </div>
                 </div>

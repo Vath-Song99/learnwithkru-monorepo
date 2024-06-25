@@ -6,6 +6,7 @@ import axios from "axios";
 import { notFound } from "next/navigation";
 import React from "react";
 import Image from "next/image";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
 interface IAuth {
     isAuth?: boolean;
     errors?: string;
@@ -13,31 +14,39 @@ interface IAuth {
 }
 
 const getUserData = async (): Promise<IAuth> => {
+    const cookieString = getCookieString();
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
     try {
-        const cookieStringOrAuth = getCookieString();
-
-        if (typeof cookieStringOrAuth === "object") {
-            return cookieStringOrAuth;
-        }
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL_PROD || "https://api.learnwithkru.com";
-        const res = await axios.get(`${apiUrl}/v1/users`, {
-            withCredentials: true,
-            headers: { Cookie: cookieStringOrAuth },
-        });
-
-        if (res.data.errors) {
-            return { errors: res.data.errors, data: null };
-        }
-
-        return { isAuth: true, data: res.data.data };
+      if (typeof cookieString === "object") {
+        return cookieString;
+      }
+      const res = await axios.get(`${apiUrl}/v1/users` , {
+  
+        withCredentials: true,
+        headers: { Cookie: cookieString as string },
+      });
+  
+      return { isAuth: true, data: res.data.data };
+  
     } catch (error: unknown) {
-        console.error("Error fetching user data:", error);
-        throw error;
+  
+       handleAxiosError(error, {
+        handleErrorResponse: (response) =>{
+          
+          const { errors} = response.data;
+  
+          if(errors){
+            return { isAuth: false , errors: errors?.message , data: null };
+          }
+        }
+       })
+      throw error;
     }
-};
+  };
 interface ITeacherData {
     errors?: string;
     data: ITeacher | null;
+    isAuth?: boolean;
 }
 async function getTeachersData(_id: string): Promise<ITeacherData> {
     try {   
@@ -58,10 +67,23 @@ async function getTeachersData(_id: string): Promise<ITeacherData> {
         }
 
         return { data: res.data.data};
-    } catch (error: any) {
-        throw error;
+    } catch (error: unknown) {
+        
+    handleAxiosError(error, {
+        handleErrorResponse(response) {
+
+          if(response.status === 404  || response.status === 401){
+            return notFound()
+          }
+          const { errors } = response?.data;
+          if( errors ){
+            throw errors
+          }
+        },
+      })
+      throw error;
     }
-}
+    }
 
 const Page = async ({ params }: { params: { id: string } }) => {
     const { isAuth, data } = await getUserData();
@@ -81,18 +103,14 @@ const Page = async ({ params }: { params: { id: string } }) => {
         )
     }
 
-    if (!teachersResponse?.data) {
-        notFound();
-    }
-
     const selectedTeacher = teachersResponse?.data;
-
     return (
         <div className="">
             <div className="w-full flex justify-center items-center border shadow-sm">
-                <Navbar authState={{ isAuth: isAuth ?? false, user: data }} />
+                <Navbar authState={{ isAuth: isAuth ?? false, user: data }} 
+                />
             </div>
-            <div className="flex justify-center items-start">
+            <div className="w-full flex justify-center items-start">
                 <TeachersProfile teacher={selectedTeacher as ITeacher} />
             </div>
             <div className="w-full flex justify-center items-start bg-black">

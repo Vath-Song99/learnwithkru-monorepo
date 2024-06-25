@@ -11,6 +11,12 @@ interface ProxyConfig {
   [context: string]: Options<IncomingMessage, Response>;
 }
 
+declare module "express" {
+  interface Request {
+    session?: any; // Adjust the type based on your session configuration
+  }
+}
+
 interface NetworkError extends Error {
   code?: string;
 }
@@ -22,12 +28,14 @@ const config = getConfig(currentEnv);
 // 1. auth service
 // 2. student service
 // 3. teacher student
+// 4. user service
 
 // Define the proxy rules and targets
 const proxyConfigs: ProxyConfig = {
   [ROUTE_PATHS.AUTH_SERVICE]: {
     target: config.authServiceUrl as string,
     pathRewrite: (path, _req) => {
+      logger.info(`pathRewrite: ${path}`);
       return `${ROUTE_PATHS.AUTH_SERVICE}${path}`;
     },
     changeOrigin: true,
@@ -46,7 +54,10 @@ const proxyConfigs: ProxyConfig = {
 
         // Extract JWT token from session
         const token = expressReq.session!.jwt;
-        proxyReq.setHeader("Authorization", `Bearer ${token}`);
+        logger.info(`Proxy token : ${token}`);
+        if (token) {
+          proxyReq.setHeader("Authorization", `Bearer ${token}`);
+        }
       },
       proxyRes: (proxyRes, req, res) => {
         let originalBody: Buffer[] = [];
@@ -79,14 +90,25 @@ const proxyConfigs: ProxyConfig = {
             // Store JWT in session
             if (responseBody.token) {
               (req as Request).session!.jwt = responseBody.token;
-              res.cookie("persistent", responseBody.token, OptionCookie);
+              // res.cookie("persistent", responseBody.token, OptionCookie);
               delete responseBody.token;
             }
 
             if (responseBody.isLogout) {
-              res.clearCookie("persistent", OptionCookie);
-              res.clearCookie("session", OptionCookie);
-              res.clearCookie("session.sig", OptionCookie);
+              try {
+                // Manually clear the session data
+                (req as Request).session = null;
+
+                // Clear the session cookie
+                res.cookie("persistent", "", { expires: new Date(0) });
+
+                return res.end(); // End response after logout
+              } catch (error) {
+                console.error("Error clearing session:", error);
+                return res
+                  .status(500)
+                  .json({ message: "Error clearing session" });
+              }
             }
             // Modify response to send  the message to the client
             res.json({

@@ -9,18 +9,18 @@ const currentEnv = process.env.NODE_ENV || "development";
 const config = getConfig(currentEnv);
 
 export class RequestUserService {
-  async CreateUser({ authId, firstname, lastname, email, picture }: IUser) {
+  async CreateUser({ authId, first_name, last_name, email, picture }: IUser) {
     const url = `${config.userService}${PATH_SERVICE.USER.CREATE_USER}`;
     console.log(config.userService);
     logger.info(`Attempting to create user at URL: ${url}`);
 
     try {
-      const { data } = await axios.post(
+      const res = await axios.post(
         url,
         {
           authId,
-          firstname,
-          lastname,
+          first_name,
+          last_name,
           email,
           picture,
         },
@@ -28,15 +28,14 @@ export class RequestUserService {
           headers: {
             "Content-Type": "application/json",
           },
-          timeout: 5000, // Set an appropriate timeout
         }
       );
 
-      if (!data) {
+      if (!res.data) {
         throw new ApiError("User service did not return data.");
       }
 
-      return data;
+      return res.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         logger.error("Axios Error in createUser() method:", error.message);
@@ -107,7 +106,7 @@ export class RequestUserService {
     }
   }
 
-  async UpdateUser({ authId, firstname, lastname, email, picture }: IUser) {
+  async UpdateUser({ authId, first_name, last_name, email, picture }: IUser) {
     const url = `${config.userService}${PATH_SERVICE.USER.UPDATE_USER}/${authId}`;
     logger.info(`Attempting to create user at URL: ${url}`);
 
@@ -116,8 +115,8 @@ export class RequestUserService {
         url,
         {
           authId,
-          firstname,
-          lastname,
+          first_name,
+          last_name,
           email,
           picture,
         },

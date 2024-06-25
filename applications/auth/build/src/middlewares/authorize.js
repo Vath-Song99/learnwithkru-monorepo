@@ -18,25 +18,38 @@ const base_custom_error_1 = require("../error/base-custom-error");
 const http_status_code_1 = __importDefault(require("../utils/http-status-code"));
 const logger_1 = require("../utils/logger");
 const authorize = (requireRole) => {
-    return (req, _res, _next) => __awaiter(void 0, void 0, void 0, function* () {
+    return (req, _res, next) => __awaiter(void 0, void 0, void 0, function* () {
         var _a;
         try {
             const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
             const decoded = yield (0, jwt_1.decodedToken)(token);
             const { role } = decoded;
-            if (!requireRole.includes(role)) {
+            // const role = ["teacher", "user"];
+            logger_1.logger.info(`User Role ${Array.isArray(role) ? role.join(", ") : role} and requireRole ${requireRole} and is match ${Array.isArray(role)
+                ? role.some((r) => requireRole.includes(r))
+                : requireRole.includes(role)}`);
+            let hasRequiredRole;
+            if (Array.isArray(role)) {
+                hasRequiredRole = role.some((r) => requireRole.includes(r));
+            }
+            else {
+                hasRequiredRole = requireRole.includes(role);
+            }
+            if (!hasRequiredRole) {
                 throw new base_custom_error_1.BaseCustomError("Forbidden - Insufficient permissions", http_status_code_1.default.FORBIDDEN);
             }
             req.user = decoded;
-            logger_1.logger.info(`User with role '${role}' authorized for '${requireRole}' role`);
-            _next();
+            logger_1.logger.info(`User with role '${Array.isArray(role) ? role.join(", ") : role}' authorized for '${requireRole}' role`);
+            next();
         }
         catch (error) {
-            logger_1.logger.error('Authorization error:', error);
+            logger_1.logger.error("Authorization error:", error);
             if (error instanceof base_custom_error_1.BaseCustomError) {
-                _next(error);
+                next(error);
             }
-            _next(new base_custom_error_1.ApiError("Unauthorized - Invalid token", http_status_code_1.default.UNAUTHORIZED));
+            else {
+                next(new base_custom_error_1.ApiError("Unauthorized - Invalid token", http_status_code_1.default.UNAUTHORIZED));
+            }
         }
     });
 };

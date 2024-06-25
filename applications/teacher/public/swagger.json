@@ -90,6 +90,32 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ITotalRating": {
+				"properties": {
+					"r1": {
+						"type": "number",
+						"format": "double"
+					},
+					"r2": {
+						"type": "number",
+						"format": "double"
+					},
+					"r3": {
+						"type": "number",
+						"format": "double"
+					},
+					"r4": {
+						"type": "number",
+						"format": "double"
+					},
+					"r5": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ITeacher": {
 				"properties": {
 					"first_name": {
@@ -123,6 +149,9 @@
 					"type_degree": {
 						"type": "string"
 					},
+					"certificate": {
+						"type": "string"
+					},
 					"bio": {
 						"type": "string"
 					},
@@ -139,14 +168,18 @@
 						"type": "number",
 						"format": "double"
 					},
-					"certificate": {
-						"type": "string"
-					},
 					"video": {
 						"type": "string"
 					},
 					"teaching_experience": {
 						"type": "string"
+					},
+					"total_rating": {
+						"$ref": "#/components/schemas/ITotalRating"
+					},
+					"number_of_ratings": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"required": [
@@ -157,14 +190,10 @@
 					"phone_number",
 					"subject",
 					"province",
-					"university",
-					"year_experience",
-					"type_degree",
 					"bio",
 					"motivation",
 					"date_available",
 					"price",
-					"certificate",
 					"video",
 					"teaching_experience"
 				],
@@ -259,6 +288,13 @@
 					},
 					"teaching_experience": {
 						"type": "string"
+					},
+					"total_rating": {
+						"$ref": "#/components/schemas/ITotalRating"
+					},
+					"number_of_rating": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"type": "object",
@@ -607,8 +643,39 @@
 				]
 			}
 		},
-		"/v1/teachers/update/{id}": {
-			"patch": {
+		"/v1/teachers/teacher-profile": {
+			"get": {
+				"operationId": "GetProfileTeacher",
+				"responses": {
+					"200": {
+						"description": "GET OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"$ref": "#/components/schemas/ITeacher"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/v1/teachers/update": {
+			"put": {
 				"operationId": "UpdateTeacher",
 				"responses": {
 					"201": {
@@ -635,10 +702,64 @@
 					}
 				},
 				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ITeacherUpdate"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v1/teachers/rate/{teacherId}": {
+			"post": {
+				"operationId": "RateTeacher",
+				"responses": {
+					"201": {
+						"description": "Create Rate",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"properties": {
+												"feedback": {
+													"type": "string"
+												},
+												"rating": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"feedback",
+												"rating"
+											],
+											"type": "object"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
-						"name": "id",
+						"name": "teacherId",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -650,7 +771,19 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/ITeacherUpdate"
+								"properties": {
+									"feedback": {
+										"type": "string"
+									},
+									"rating": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"rating"
+								],
+								"type": "object"
 							}
 						}
 					}

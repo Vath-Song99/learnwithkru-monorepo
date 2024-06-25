@@ -132,6 +132,8 @@ const FilterTeachers = () => {
     window.location.reload();
   };
 
+  const {min_p , max_p} = filters;
+
   return (
     <div className=" w-full flex justify-center items-center rounded-sm  py-3 ">
       <div className="w-[80%] flex justify-between items-center flex-wrap px-1">
@@ -142,7 +144,7 @@ const FilterTeachers = () => {
           onChange={(value) => handleFilterChange("subject", value)}
         />
         <FilterDropdown
-          nameDropdown="Time_available"
+          nameDropdown="Time available"
           itemsDropdown={TimeDropDown}
           selectedValue={filters.time_available}
           onChange={(value) => handleFilterChange("time_available", value)}
@@ -155,6 +157,7 @@ const FilterTeachers = () => {
         />
         <FilterDropdownPrice
           nameDropdownPrice="Pricing"
+          selectedValue={{min_p, max_p}}
           itemsDropdownPrice={pricingDropDown}
           onChange={handlePriceChange}
         />

@@ -16,6 +16,7 @@ import {
 } from "tsoa";
 import { authorize } from "../middlewares/authorize";
 import { DecodedUser } from "../@types/express-extend.type";
+import { logger } from "../utils/logger";
 
 @Route("/v1/users")
 export class UserController extends Controller {
@@ -24,14 +25,14 @@ export class UserController extends Controller {
   async Createuser(
     @Body() requestBody: IUser
   ): Promise<{ message: string; data: IUser }> {
-    const { authId, firstname, lastname, email, picture } = requestBody;
+    const { authId, first_name, last_name, email, picture } = requestBody;
     try {
       console.log("This is authId", authId);
       const service = new UserServices();
       const newUser = await service.CreateUser({
         authId,
-        firstname,
-        lastname,
+        first_name,
+        last_name,
         email,
         picture,
       });
@@ -64,7 +65,9 @@ export class UserController extends Controller {
     try {
       const service = new UserServices();
       const user = (await service.GetUserByUserId(userId)) as IUser;
-      return { message: "Success retrieve user", data: user };
+      return { message: "Success retrieve user", data: user
+        
+       };
     } catch (error: unknown) {
       throw error;
     }
@@ -78,9 +81,13 @@ export class UserController extends Controller {
   ): Promise<{ message: string; data: UserProfile }> {
     try {
       const userId = (req.user as DecodedUser).id as string;
+      logger.info(`Has retrived userId ${userId}`);
       const service = new UserServices();
-      const { data } = await service.GetUserProfile(userId);
-      return { message: "Success retrived", data };
+      const respone = await service.GetUserProfile(userId);
+
+      logger.info(`User data ${JSON.stringify(respone.data)}`);
+
+      return { message: "Success retrived", data: respone.data };
     } catch (error: unknown) {
       throw error;
     }

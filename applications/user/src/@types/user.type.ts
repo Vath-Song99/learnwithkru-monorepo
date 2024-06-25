@@ -1,21 +1,20 @@
 export interface IUser {
   authId?: string;
-  firstname: string;
-  lastname: string;
+  first_name: string;
+  last_name: string;
   email?: string;
   picture: string | null;
 }
 
-
-export interface UserProfile{
-  firstname: string;
-  lastname: string;
+export interface UserProfile {
+  first_name: string;
+  last_name: string;
   email?: string;
   picture: string | null;
 }
 
 export interface UserUpdate {
-  firstname?: string;
-  lastname?: string;
-  picture?: string
+  first_name?: string;
+  last_name?: string;
+  picture?: string;
 }

@@ -1,7 +1,7 @@
 import { z } from "zod";
 const userValidateSchema = z.object({
-  firstname: z.string().min(3).max(25),
-  lastname: z.string().min(3).max(25),
+  first_name: z.string().min(3).max(25),
+  last_name: z.string().min(3).max(25),
   email: z.string().email(),
   password: z
     .string()
@@ -10,7 +10,6 @@ const userValidateSchema = z.object({
       /^(?=.*\d)(?=.*[a-z]).{8,}$/,
       "Password must contain at least one lowercase letter and one number"
     ),
-    
 });
 
 export { userValidateSchema };
@@ -23,7 +22,7 @@ const authLoginSchema = z.object({
     .regex(
       /^(?=.*\d)(?=.*[a-z]).{8,}$/,
       "Password must contain at least one lowercase letter and one number"
-    ),    
+    ),
 });
 
 export { authLoginSchema };

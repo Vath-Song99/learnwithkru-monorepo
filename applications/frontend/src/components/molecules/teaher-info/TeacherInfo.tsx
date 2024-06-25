@@ -4,13 +4,13 @@ import { TeacherInfoTypes } from "./@types";
 
 const TeacherInfo = ({ aboutMe, className, description, education }: TeacherInfoTypes) => {
   return (
-    <div className={` flex flex-col ${className}`}>
-      <div className="  flex flex-col justify-center md:justify-start lg:justify-center w-[320px] md:w-[500px] lg:w-[500px]">
-        <Typography className="" align="left" fontSize="lg">
+    <div className={`pt-10 w-[500px]  flex flex-col gap-y-5  justify-center md:justify-start   h-auto ${className}`}>
+      <div className=" flex flex-col ">
+        <Typography className="tracking-tight font-extrabold" align="left" fontSize="lg">
           About me
         </Typography>
         <Typography
-          className="text-gray-800 text-wrap  pt-1 w-[450px] sm:w-[450px] md:w-[450px] lg:w-[600px] "
+          className="text-gray-800 text-wrap  pt-1"
           align="left"
           tags="p"
           fontSize="sm"
@@ -18,12 +18,12 @@ const TeacherInfo = ({ aboutMe, className, description, education }: TeacherInfo
           {aboutMe}
         </Typography>
       </div>
-      <div className=" flex flex-col justify-center md:justify-start lg:justify-start w-[320px] md:w-[500px] lg:w-[500px]">
-        <Typography className="" align="left" fontSize="lg">
+      <div className=" flex flex-col ">
+        <Typography className="tracking-tight font-extrabold" align="left" fontSize="lg">
           Description
         </Typography>
         <Typography
-          className="text-gray-800 text-wrap pt-1  w-[450px] sm:w-[450px] md:w-[450px] lg:w-[600px]"
+          className="text-gray-800 text-wrap pt-1 "
           align="left"
           tags="p"
           fontSize="sm"
@@ -33,12 +33,12 @@ const TeacherInfo = ({ aboutMe, className, description, education }: TeacherInfo
         </Typography>
 
       </div>
-      <div className=" flex flex-col justify-center md:justify-start lg:justify-start w-[300px] md:w-[500px] lg:w-[500px]  ">
-        <Typography className="" align="left" fontSize="lg">
+      <div className=" flex flex-col   ">
+        <Typography className="tracking-tight font-extrabold" align="left" fontSize="lg">
           Education
         </Typography>
         <Typography
-          className="text-gray-800 text-wrap pt-1  w-[450px] sm:w-[450px] md:w-[450px] lg:w-[600px]"
+          className="text-gray-800 text-wrap pt-1 "
           align="left"
           tags="p"
           fontSize="sm"

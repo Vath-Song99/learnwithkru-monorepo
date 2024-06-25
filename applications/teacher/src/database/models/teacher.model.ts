@@ -43,7 +43,7 @@ const teacherSchema = new Schema({
   province: {
     type: String,
     required: true,
-    index: true,
+    index: true,   
   },
   university: {
     type: String,
@@ -52,6 +52,9 @@ const teacherSchema = new Schema({
     type: Number,
   },
   type_degree: {
+    type: String,
+  },
+  certificate: {
     type: String,
   },
   bio: {
@@ -89,9 +92,6 @@ const teacherSchema = new Schema({
     required: true,
     index: true,
   },
-  certificate: {
-    type: String,
-  },
   video: {
     type: String,
     required: true,
@@ -105,6 +105,14 @@ const teacherSchema = new Schema({
     minlength: 25,
     maxlength: 150,
   },
+  total_rating: {
+    r1: { type: Number, default: 0 },
+    r2: { type: Number, default: 0 },
+    r3: { type: Number, default: 0 },
+    r4: { type: Number, default: 0 },
+    r5: { type: Number, default: 0 },
+  },
+  number_of_ratings: { type: Number, default: 0 },
 });
 
 const teacherModel = mongoose.model<ITeacherDocs>("teachers", teacherSchema);

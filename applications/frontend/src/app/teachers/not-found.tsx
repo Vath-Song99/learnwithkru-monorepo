@@ -1,4 +1,4 @@
-import { IUser } from "@/@types/user";
+import { IAuth } from "@/@types/auth";
 import {
   FilterTeachers,
   Footer,
@@ -6,39 +6,42 @@ import {
   SearchInput,
   Typography,
 } from "@/components";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
 import Image from "next/image";
 
-const getUserData = async (): Promise<{
-  isAuth?: boolean;
-  errors?: string;
-  data: IUser | null;
-}> => {
+const getUserData = async (): Promise<IAuth> => {
   const cookieString = getCookieString();
-
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
   try {
-    
-    if(typeof cookieString === 'object'){
-      return cookieString
+    if (typeof cookieString === "object") {
+      return cookieString;
     }
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
-
     const res = await axios.get(`${apiUrl}/v1/users` , {
+
       withCredentials: true,
-      headers: { Cookie: cookieString },
+      headers: { Cookie: cookieString as string },
     });
 
-    if (res.data.errors) {
-      return { errors: res.data.errors, data: null };
-    }
-
     return { isAuth: true, data: res.data.data };
+
   } catch (error: unknown) {
-    console.error("Error fetching user data:", error);
+
+     handleAxiosError(error, {
+      handleErrorResponse: (response) =>{
+        
+        const { errors} = response.data;
+
+        if(errors){
+          return { isAuth: false , errors: errors?.message , data: null };
+        }
+      }
+     })
     throw error;
   }
 };
+
 export default async function NotFound() {
   const { isAuth, data } = await getUserData();
 

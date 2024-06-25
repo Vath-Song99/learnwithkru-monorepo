@@ -1,10 +1,8 @@
 import { logger } from '@notifications/utils/logger';
 import client, { Channel, Connection } from 'amqplib';
-import {
-  consumeAuthEmailMessages,
-  consumeNotificationMessages,
-} from './email-consumer';
+import { consumeAuthEmailMessages } from './email-consumer';
 import getConfig from '@notifications/utils/config';
+import { consumeNotificationMessages } from './notification-consumer';
 
 const currentEnv = process.env.NODE_ENV || 'development';
 const config = getConfig(currentEnv);

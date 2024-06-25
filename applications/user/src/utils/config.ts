@@ -12,6 +12,7 @@ function createConfig(configPath: string) {
     "LOG_LEVEL",
     "AUTH_SERVICE_GET",
     "API_GATEWAY",
+    "TEACHER_SERVICE",
   ];
   const missingConfig = requiredConfig.filter((key) => !process.env[key]);
 
@@ -29,6 +30,8 @@ function createConfig(configPath: string) {
     logLevel: process.env.LOG_LEVEL,
     apiGateway: process.env.API_GATEWAY,
     authService: process.env.AUTH_SERVICE_GET,
+    teacherService: process.env.TEACHER_SERVICE,
+    studentService: process.env.STUDENT_SERVICE
   };
 }
 

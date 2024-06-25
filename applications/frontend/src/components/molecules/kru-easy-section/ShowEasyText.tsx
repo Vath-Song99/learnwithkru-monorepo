@@ -3,9 +3,9 @@ import { Typography } from "@/components";
 
 const ShowEasyText: React.FC = ({ }) => {
   return (
-    <div className="w-full flex justify-center items-center py-10 ">
+    <div className="w-full flex justify-center items-center py-12 ">
       <div className="w-[80%] grid gap-5 md:grid-flow-col md:gap-10">
-        <div className="bg-[#F0F7FF] rounded-md">
+        <div className="h-auto flex flex-col gap-y-6 py-2  px-5 bg-[#F0F7FF] rounded-md">
           <Typography className="" fontSize="lg" variant="bold">
             Scheduling
           </Typography>
@@ -16,7 +16,7 @@ const ShowEasyText: React.FC = ({ }) => {
           </article>
         </div>
 
-        <div className="bg-[#F0F7FF] rounded-md">
+        <div className="h-auto flex flex-col gap-y-6 py-2  px-5 bg-[#F0F7FF] rounded-md">
           <Typography className="" fontSize="lg" variant="bold">
             Search and Filters
           </Typography>
@@ -26,7 +26,7 @@ const ShowEasyText: React.FC = ({ }) => {
           </article>
         </div>
 
-        <div className="bg-[#F0F7FF] rounded-md">
+        <div className="h-auto flex flex-col gap-y-6 py-2  px-5 bg-[#F0F7FF] rounded-md">
           <Typography className="" fontSize="lg" variant="bold">
             Reviews and Ratings
           </Typography>

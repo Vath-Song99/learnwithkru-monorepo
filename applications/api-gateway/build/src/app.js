@@ -38,8 +38,9 @@ app.use((0, hpp_1.default)());
 app.use((0, helmet_1.default)());
 // Only Allow Specific Origin to Access API Gateway (Frontend)
 // Mock getConfig function. Replace with your actual config logic.
+//config.env === "development" ? "*"
 const corsOptions = {
-    origin: config.env === "development" ? "*" : config.clientUrl,
+    origin: config.env === "development" ? "http://localhost:8000" : config.clientUrl,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -67,7 +68,7 @@ app.use("*", (req, res, _next) => {
         .status(consts_1.StatusCode.NotFound)
         .json({ message: "The endpoint called does not exist." });
 });
-// Erorr handler
+// Erorr handlers
 app.use(error_handler_1.errorHandler);
 exports.default = app;
 //# sourceMappingURL=app.js.map

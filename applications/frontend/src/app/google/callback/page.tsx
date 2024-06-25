@@ -1,5 +1,6 @@
 "use client";
 
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
 import axios from "axios";
 import { notFound, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
@@ -32,11 +33,22 @@ const CallbackRedirect = () => {
           if (res.data.status === 400 || res.data.status === 404) {
             notFound(); // Use notFound directly
           }
-        }           router.push("/teachers"); // Use router.push directly
+        }
+        router.push("/teachers"); // Use router.push directly
 
       } catch (error) {
         console.error("Error:", error); // Log error
-        // Handle error cases here, e.g., redirect to error page or show error message
+        handleAxiosError(error, {
+          logError: (message: string) => {
+            // Custom logging implementation, e.g., sending logs to a server
+            console.log('Custom log:', message);
+          },
+          handleErrorResponse: (response) => {
+            // Custom response handling
+            console.log('Handling response:', response);
+            throw response
+          }
+        });
       } finally {
         setIsLoading(false); // Set isLoading to false when request completes (whether success or error)
       }

@@ -1,9 +1,10 @@
-
+import { IResponeUser } from "../@types/user.type";
 import { StudentRepository } from "../database/repositories/student.repository";
 import { BaseCustomError } from "../error/base-custom-error";
 import StatusCode from "../utils/http-status-code";
 import { getUserById } from "../utils/htttp-request";
 import { generateSignature } from "../utils/jwt";
+import { logger } from "../utils/logger";
 import { IStudentDecoded } from "./@types/student-service";
 
 export class StudentServices {
@@ -22,7 +23,7 @@ export class StudentServices {
     try {
       const existingStudent = await this.StudentRepo.FindOneStudent(decodeId);
 
-      console.log("This error :",existingStudent)
+      console.log("This error :", existingStudent);
       if (existingStudent) {
         throw new BaseCustomError(
           "you're already student",
@@ -31,16 +32,18 @@ export class StudentServices {
       }
       const data = await getUserById(decodeId);
 
-      const { firstname, lastname, email } = data;
+      console.log(data);
+      const { first_name, last_name, email, picture } = data.data;
       const newStudent = await this.StudentRepo.CreateStudent({
         userId: decodeId,
-        firstname,
-        lastname,
+        first_name,
+        last_name,
         email: email as string,
         school_name,
         education,
         grade,
         student_card,
+        picture,
       });
 
       const token = await generateSignature({ _id: newStudent._id.toString() });
@@ -50,14 +53,37 @@ export class StudentServices {
     }
   }
 
-  async Login(userId: string):Promise<{ token: string}>{
-    try{
+  async Login(userId: string): Promise<{ token: string }> {
+    try {
       const existingStudent = await this.StudentRepo.FindOneStudent(userId);
 
-      const token = await generateSignature({_id: existingStudent!._id.toString()})
-      return {token}
-    }catch(error: unknown){
-      throw error
+      const token = await generateSignature({
+        _id: existingStudent!._id.toString(),
+      });
+      return { token };
+    } catch (error: unknown) {
+      throw error;
+    }
+  }
+
+  async GetStudentByStudentId(id: string): Promise<IResponeUser> {
+    try {
+      const existingStudent = await this.StudentRepo.FindOneStudent(id);
+
+      logger.info(`Existing student ${existingStudent}`);
+      if (!existingStudent) {
+        throw new BaseCustomError("No student found!", StatusCode.NOT_FOUND);
+      }
+      const { first_name, last_name, email, picture } =
+        existingStudent as IResponeUser;
+      return {
+        first_name,
+        last_name,
+        email,
+        picture,
+      };
+    } catch (error: unknown) {
+      throw error;
     }
   }
 }
