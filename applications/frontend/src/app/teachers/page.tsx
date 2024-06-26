@@ -71,8 +71,9 @@ async function getTeachersData({
 
     handleAxiosError(error, {
       handleErrorResponse(response) {
+        
 
-        if(response.status === 404  && response.status === 401){
+        if(response.status === 404  || response.status === 401){
           return notFound()
         }
         const { errors } = response?.data;

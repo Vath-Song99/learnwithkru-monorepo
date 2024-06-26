@@ -181,7 +181,6 @@ const BecomeTeacherForm = ({
     const userStorage =
       getLocalStorageTeacher("educationTeacher") || DEFAULT_FORM_VALUE;
     setFormData(userStorage);
-    console.log("alete then beck ", userStorage.certificate);
     const userTrue = getLocalStorageTeacher("educationTrue") || false;
     setShowForm(userTrue);
   }, []);

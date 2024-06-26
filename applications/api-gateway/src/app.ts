@@ -41,7 +41,7 @@ app.use(helmet());
 //config.env === "development" ? "*"
 const corsOptions = {
   origin:
-    config.env === "development" ? "http://localhost:8000" : config.clientUrl,
+  config.env === "development" ? "http://localhost:8000" : config.clientUrl,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],

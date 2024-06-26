@@ -77,7 +77,7 @@ export class TeacherServices {
   ): Promise<{ data: ITeacherDocs; token: string }> {
     try {
       const teacherData = { userId, ...requestBody };
-      const existTeacher = await this.teacherRepo.FindTeacherByUserID(userId);
+      const existTeacher = await this.teacherRepo.FindTeacherByUserIdAndTeacherId(userId);
 
       logger.info(`Existing teacher: ${existTeacher}`);
       if (existTeacher) {
@@ -125,7 +125,7 @@ We're thrilled to have you on board!
 
   async Login(userId: string): Promise<{ token: string }> {
     try {
-      const existingTeacher = await this.teacherRepo.FindTeacherByUserID(
+      const existingTeacher = await this.teacherRepo.FindTeacherByUserId(
         userId
       );
       const token = await generateSignature({
@@ -217,7 +217,7 @@ We're thrilled to have you on board!
   }
   async GetTeacherByUserId(id: string): Promise<{ data: ITeacher }> {
     try {
-      const existingTeacher = await this.teacherRepo.FindTeacherByUserID(id);
+      const existingTeacher = await this.teacherRepo.FindTeacherByUserId(id);
 
       if (!existingTeacher) {
         throw new BaseCustomError("No teacher found!", StatusCode.NOT_FOUND);
