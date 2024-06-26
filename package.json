@@ -7,9 +7,12 @@
   "author": "Smoeury Songvat <vatgaming287@gmail.com>",
   "private": true,
   "workspaces": {
-    "packages":["applications/*",  "!applications/frontend"]
+    "packages": [
+      "applications/*",
+      "!applications/frontend"
+    ]
   },
-  "scripts": {  
+  "scripts": {
     "build:docker": "docker-compose up --build",
     "start:docker": "docker-compose up",
     "stop:docker": "docker-compose stop",
@@ -39,9 +42,12 @@
     "build:teacher-service": "yarn workspace teacher-service build",
     "build:user-service": "yarn workspace user-service build",
     "build:all-service": "concurrently \"yarn build:api-gateway\" \"yarn build:auth-service\" \"yarn build:notificaton-service\" \"yarn build:student-service\" \"yarn build:teacher-service\" \"yarn build:user-service\"",
-    "ec2:instance": "ssh -i './scripts/Learnwithkru.pem' ubuntu@ec2-18-212-209-156.compute-1.amazonaws.com" 
+    "ec2:instance": "ssh -i './scripts/Learnwithkru.pem' ubuntu@ec2-18-212-209-156.compute-1.amazonaws.com"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "@mui/material": "^5.15.20"
   }
 }
