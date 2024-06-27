@@ -5,18 +5,25 @@ export interface IQueries {
   subject?: string;
   time_available?: string;
   province?: string;
-  min_p?: number;
-  max_p?: number;
+  min_p?: number | null;
+  max_p?: number | null;
 }
 
-type FilterCondition = {
+export type FilterCondition = {
   [key: string]: any; // Allow any key with any value type for flexibility
 };
 
-export type Filter = {
-  $or?: FilterCondition[];
-  "date_available.day"?: string;
+export interface Filter {
+  $or?: Array<{
+    first_name?: RegExp;
+    last_name?: RegExp;
+    subject?: RegExp;
+  }>;
   province?: string;
-  pricing?: {  $gte: number,  $lte: number  };
+  "date_available.day"?: RegExp;
+  price?: {
+    $gte?: number;
+    $lte?: number;
+  };
   subject?: string;
-};
+}

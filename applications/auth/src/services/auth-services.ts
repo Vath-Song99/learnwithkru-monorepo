@@ -249,7 +249,9 @@ export class AuthServices {
     try {
       //step 1
       const config = await OauthConfig.getInstance();
-      const data: TokenResponse |undefined = await config.FacebookStrategy(code);
+      const data: TokenResponse | undefined = await config.FacebookStrategy(
+        code
+      );
       const { access_token } = data!;
 
       //step 2

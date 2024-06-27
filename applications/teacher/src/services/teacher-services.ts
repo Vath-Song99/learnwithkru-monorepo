@@ -32,36 +32,64 @@ export class TeacherServices {
         pageSize = 10,
       } = queries as IQueries;
       const skip = (pageNumber - 1) * pageSize;
-
       const filter: Filter = {};
 
+      // Case-insensitive regex search for name-related fields
       if (name) {
         const regex = new RegExp(name, "i");
         filter.$or = [
           { first_name: regex },
           { last_name: regex },
-          { province: regex },
-          { "date_available.day": regex },
-          { "date_available.time.start": regex },
-          { "date_available.time.end": regex },
-          { pricing: regex }, // Adjust if pricing is not a string
           { subject: regex },
         ];
-      } // Case-insensitive regex search
-      if (province) filter.province = province;
-      if (time_available) filter["date_available.day"] = time_available;
-      if (min_p && max_p)
-        filter.pricing = { $gte: Number(min_p), $lte: Number(max_p) }; // Adjust as necessary
-      if (subject) filter.subject = subject;
+      }
+
+      // Exact match for province
+      if (province) {
+        filter.province = province;
+      }
+
+      // Handling date and time availability
+      if (time_available) {
+        const regex = new RegExp(time_available, "i");
+        filter["date_available.day"] = regex;
+        // Note: Adjust the time filter as needed. Example assuming `start` and `end` times are required.
+      }
+
+      // Numeric range filter for pricing
+      if (min_p != null || max_p != null || min_p || max_p) {
+        filter.price = {};
+        if (min_p != null && min_p !== 0) {
+          filter.price.$gte = Number(min_p);
+        }
+        if (max_p != null && max_p !== 0) {
+          filter.price.$lte = Number(max_p);
+        }
+        // If filter.price is empty, delete it
+        if (Object.keys(filter.price).length === 0) {
+          delete filter.price;
+        }
+      }
+
+      // Exact match for subject
+      if (subject) {
+        filter.subject = subject;
+      }
+      // Determine if any filter has been set
+      const hasFilter = Object.keys(filter).length > 0;
+
+      // Query the repository with the constructed filter
       const { totalTeachers, data } = await this.teacherRepo.FindAllTeachers(
         {
           pageSize,
           skip,
         },
-        filter
+        hasFilter ? filter : {}
       );
+
+      // Return the paginated response
       return {
-        totalTeachers: totalTeachers,
+        totalTeachers,
         totalPages: Math.ceil(totalTeachers / pageSize),
         currentPage: pageNumber,
         data,
@@ -77,7 +105,8 @@ export class TeacherServices {
   ): Promise<{ data: ITeacherDocs; token: string }> {
     try {
       const teacherData = { userId, ...requestBody };
-      const existTeacher = await this.teacherRepo.FindTeacherByUserIdAndTeacherId(userId);
+      const existTeacher =
+        await this.teacherRepo.FindTeacherByUserIdAndTeacherId(userId);
 
       logger.info(`Existing teacher: ${existTeacher}`);
       if (existTeacher) {
@@ -204,7 +233,7 @@ We're thrilled to have you on board!
       if (teaching_experience)
         teacherObject.teaching_experience = teaching_experience;
 
-      logger.info(`update teacher obj ${teacherObject}`)
+      logger.info(`update teacher obj ${teacherObject}`);
       const updatedTeacher = await this.teacherRepo.UpdateTeacher({
         id,
         teacherData: teacherObject,

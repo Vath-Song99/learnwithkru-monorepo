@@ -66,7 +66,7 @@ const PricingForm = ({
         price: parseInt(formData.price as string, 10),
       };
       setdataTutor(updatedDataTutor);
-
+      
       // Proceed to the next page if applicable
       if (pageIndex !== undefined) {
         setCurrentPage((prevPage) =>
@@ -108,7 +108,7 @@ const PricingForm = ({
             withCredentials: true,
           }
         );
-   
+
         router.push(`/teachers/${response.data.data._id}`);
         clearLocalStorage("priceTeacher")
         clearLocalStorage("aboutTeacher")
@@ -117,20 +117,20 @@ const PricingForm = ({
         clearLocalStorage("timeAvailableTeacher")
         clearLocalStorage("ProfilePhoto")
         clearLocalStorage("currentPage")
-        
+
       } catch (error) {
         handleAxiosError(error, {
-       
-          handleErrorResponse(response) {
-              const { errors } = response.data
 
-              if(errors){
-            setErrors({serverError: errors.message})
-                
-              }
+          handleErrorResponse(response) {
+            const { errors } = response.data
+
+            if (errors) {
+              setErrors({ serverError: errors.message })
+
+            }
           },
         })
-      }finally{
+      } finally {
         setIsLoading(false)
       }
     };
@@ -174,36 +174,36 @@ const PricingForm = ({
               {errors.price && (
                 <p className="text-red-500 text-xs">{errors.price}</p>
               )}
-                {
-                  errors.serverError && (
-                    <div className="flex flex-col">
+              {
+                errors.serverError && (
+                  <div className="flex flex-col">
                     <small className="text-red-500 text-xs mt-2">
                       {errors.serverError}
                     </small>
-                    </div>
-                  )
-                }
+                  </div>
+                )
+              }
             </div>
             <div className="flex flex-col mt-5">
               <div className="flex justify-start gap-4">
                 {currentPage > 0 && (
-                 <button
-                 onClick={handleBack}
-                type="submit"
-               //  radius="md"
-                className="  items-center bg-white border-gray-400  text-gray-500  hover:bg-violet-900 border  hover:text-white text-sm flex justify-center px-5 font-semibold py-2  rounded-lg focus:outline-none focus:shadow-outline tracking-widest"
-                >
-                Back
-                </button>
-               )}
-               <Button
+                  <button
+                    onClick={handleBack}
+                    type="submit"
+                    //  radius="md"
+                    className="  items-center bg-white border-gray-400  text-gray-500  hover:bg-violet-900 border  hover:text-white text-sm flex justify-center px-5 font-semibold py-2  rounded-lg focus:outline-none focus:shadow-outline tracking-widest"
+                  >
+                    Back
+                  </button>
+                )}
+                <Button
 
-type="submit"
-radius="md"
-className="  items-center bg-violet-900 hover:bg-white hover:border hover:border-gray-400  hover:text-gray-600 text-white text-sm flex justify-center px-10 font-semibold py-2  rounded focus:outline-none focus:shadow-outline tracking-widest"
->
-{isLoading ? "Submitting ..." : "Sumit"}
-</Button>
+                  type="submit"
+                  radius="md"
+                  className="  items-center bg-violet-900 hover:bg-white hover:border hover:border-gray-400  hover:text-gray-600 text-white text-sm flex justify-center px-10 font-semibold py-2  rounded focus:outline-none focus:shadow-outline tracking-widest"
+                >
+                  {isLoading ? "Submitting ..." : "Submit"}
+                </Button>
               </div>
             </div>
           </div>

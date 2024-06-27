@@ -4,7 +4,7 @@ import { TeacherInfoTypes } from "./@types";
 
 const TeacherInfo = ({ aboutMe, className, description, education }: TeacherInfoTypes) => {
   return (
-    <div className={`pt-10 w-[500px]  flex flex-col gap-y-5  justify-center md:justify-start   h-auto ${className}`}>
+    <div className={`pt-10 w-[500px] pl-10 md:pl-0 lg:pl-0  flex flex-col gap-y-5  justify-center md:justify-start   h-auto ${className}`}>
       <div className=" flex flex-col ">
         <Typography className="tracking-tight font-extrabold" align="left" fontSize="lg">
           About me

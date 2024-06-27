@@ -52,11 +52,16 @@ const ProvinceDropDown = [
 ];
 
 const pricingDropDown = [
-  { id: 1, minPrice: 5, maxPrice: 70 },
-  { id: 2, minPrice: 10, maxPrice: 20 },
-  { id: 3, minPrice: 20, maxPrice: 30 },
-  { id: 4, minPrice: 30, maxPrice: 40 },
-  { id: 5, minPrice: 40, maxPrice: 70 },
+  { id: 1, minPrice: 0, maxPrice: 70 },
+  { id: 2, minPrice: 1, maxPrice: 10 },
+  { id: 3, minPrice: 10, maxPrice: 20 },
+  { id: 4, minPrice: 20, maxPrice: 30 },
+  { id: 5, minPrice: 30, maxPrice: 40 },
+  { id: 6, minPrice: 40, maxPrice: 50 },
+  { id: 7, minPrice: 50, maxPrice: 60 },
+  { id: 8, minPrice: 60, maxPrice: 70 },
+
+
 ];
 
 const FilterTeachers = () => {
@@ -67,8 +72,6 @@ const FilterTeachers = () => {
     min_p: 0,
     max_p: 0,
   });
-
-
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
 
@@ -107,6 +110,8 @@ const FilterTeachers = () => {
     });
   };
 
+
+
   const updateQueryParams = (filters: Filters) => {
     const queryParameters: Record<string, string> = {};
 
@@ -119,20 +124,22 @@ const FilterTeachers = () => {
     if (filters.time_available) {
       queryParameters.time_available = filters.time_available;
     }
-    if (filters.min_p !== undefined && filters.min_p !== null) {
+    if (filters.min_p !== undefined && filters.min_p !== null || filters.min_p === 0) {
       queryParameters.min_p = filters.min_p.toString();
     }
-    if (filters.max_p !== undefined && filters.max_p !== null) {
+    if (filters.max_p !== undefined && filters.max_p !== null || filters.max_p === 0) {
       queryParameters.max_p = filters.max_p.toString();
     }
 
-    const query = new URLSearchParams(queryParameters).toString();
+    const hasFilter = Object.keys(filters).length > 0;
+
+    const query = new URLSearchParams(hasFilter ? queryParameters : '').toString();
 
     window.history.replaceState(null, "", `?${query}`);
     window.location.reload();
   };
 
-  const {min_p , max_p} = filters;
+  const { min_p, max_p } = filters;
 
   return (
     <div className=" w-full flex justify-center items-center rounded-sm  py-3 ">
@@ -157,7 +164,7 @@ const FilterTeachers = () => {
         />
         <FilterDropdownPrice
           nameDropdownPrice="Pricing"
-          selectedValue={{min_p, max_p}}
+          selectedValue={{ min_p, max_p }}
           itemsDropdownPrice={pricingDropDown}
           onChange={handlePriceChange}
         />

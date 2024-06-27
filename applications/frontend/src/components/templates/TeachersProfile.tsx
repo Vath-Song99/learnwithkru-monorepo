@@ -15,7 +15,7 @@ const TeachersProfile: React.FC<TeachersProfileProps> = ({ teacher }) => {
   const date_available = teacher.date_available;
   return (
     <div className="w-full md:w-[65%] flex  flex-col gap-y-10 pb-10">
-      <div className="flex justify-between lg:flex-row">
+      <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row justify-between ">
         <div className=" flex flex-col  md:justify-end lg:justify-start ">
           <Profile
             first_name={teacher.first_name}
@@ -26,7 +26,7 @@ const TeachersProfile: React.FC<TeachersProfileProps> = ({ teacher }) => {
             phonenumber={teacher.phone_number}
           />
           <TeacherInfo
-            className="mt-5 text-wrap "
+            className="mt-5  text-wrap  "
             aboutMe={teacher.bio}
             description={teacher.motivation}
             education={teacher.teaching_experience}
@@ -46,7 +46,7 @@ const TeachersProfile: React.FC<TeachersProfileProps> = ({ teacher }) => {
       </div>
 
       <div>
-      <TimeAvailableTable date_available={date_available}/>
+        <TimeAvailableTable date_available={date_available} />
 
       </div>
     </div>

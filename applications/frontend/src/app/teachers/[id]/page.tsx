@@ -3,10 +3,10 @@ import { IUser } from "@/@types/user";
 import { Footer, Navbar, TeachersProfile } from "@/components";
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
-import { notFound } from "next/navigation";
 import React from "react";
 import Image from "next/image";
 import { handleAxiosError } from "@/utils/axiosErrorhandler";
+import notFound from "../not-found";
 interface IAuth {
     isAuth?: boolean;
     errors?: string;

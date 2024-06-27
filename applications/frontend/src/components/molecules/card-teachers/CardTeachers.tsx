@@ -3,7 +3,7 @@ import { ITeacher } from "@/@types/teacher.type";
 import { Typography } from "@/components/atoms";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 interface CardTeacherProps {
   items: ITeacher;
@@ -12,48 +12,53 @@ interface CardTeacherProps {
 const CardTeachers: React.FC<CardTeacherProps> = ({
   items,
 }) => {
-  const { _id, first_name, last_name, picture, subject, bio, price , total_rating } = items;
+  const { _id, first_name, last_name, picture, subject, bio, price, total_rating } = items;
   const fullname = `${first_name} ${last_name}`;
+  const [isBioExpanded, setIsBioExpanded] = useState(false);
 
   const getStarType = (starIndex: number) => {
     if (total_rating as number >= starIndex + 1) {
-        return 'full';
+      return 'full';
     } else if (total_rating as number > starIndex && total_rating as number < starIndex + 1) {
-        return 'half';
+      return 'half';
     } else {
-        return 'empty';
+      return 'empty';
     }
-};
+  };
 
-const renderStar = (starType: string) => {
+  const renderStar = (starType: string) => {
     switch (starType) {
-        case 'full':
-            return (
-                <svg className="w-3 h-3 text-yellow-300 cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                </svg>
-            );
-        case 'half':
-            return (
-                <svg className="w-3 h-3 text-yellow-300 cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                    <defs>
-                        <linearGradient id="halfGradient">
-                            <stop offset="50%" stopColor="currentColor" />
-                            <stop offset="50%" stopColor="transparent" />
-                        </linearGradient>
-                    </defs>
-                    <path fill="url(#halfGradient)" d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                </svg>
-            );
-        case 'empty':
-        default:
-            return (
-                <svg className="w-3 h-3 text-gray-300 cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                </svg>
-            );
+      case 'full':
+        return (
+          <svg className="w-3 h-3 text-yellow-300 cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+          </svg>
+        );
+      case 'half':
+        return (
+          <svg className="w-3 h-3 text-yellow-300 cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+            <defs>
+              <linearGradient id="halfGradient">
+                <stop offset="50%" stopColor="currentColor" />
+                <stop offset="50%" stopColor="transparent" />
+              </linearGradient>
+            </defs>
+            <path fill="url(#halfGradient)" d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+          </svg>
+        );
+      case 'empty':
+      default:
+        return (
+          <svg className="w-3 h-3 text-gray-300 cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+          </svg>
+        );
     }
-};
+  };
+
+  const toggleBio = () => {
+    setIsBioExpanded(!isBioExpanded);
+  };
   return (
     <div className="w-full  lg:w-[49%] flex  justify-evenly sm:justify-around border-[1.5px] px-1 md:px-0  shadow-sm pt-2 pb-1 md:py-3 hover:border-3 hover:border-[#455445] ">
       <div className="flex flex-col items-center gap-1 justify-center md:justify-start w-[100px]  sm:w-[130px] md:w-[140px] lg:w-[120px]">
@@ -92,13 +97,13 @@ const renderStar = (starType: string) => {
           {/* <Typography className="text-xs ">{rateStars}</Typography> */}
 
 
-         <div className="flex">
-         {[0, 1, 2, 3, 4].map((starIndex) => (
-             <div key={starIndex} >
-                 {renderStar(getStarType(starIndex))}
-             </div>
-         ))}
-     </div>
+          <div className="flex">
+            {[0, 1, 2, 3, 4].map((starIndex) => (
+              <div key={starIndex} >
+                {renderStar(getStarType(starIndex))}
+              </div>
+            ))}
+          </div>
 
         </div>
 
@@ -140,24 +145,19 @@ const renderStar = (starType: string) => {
 
         {/* Description */}
 
-        <article className="text-xs text-[#455445] truncate md:text-clip">
-          {bio}
+
+        <article className="w-full h-auto text-wrap text-xs text-[#455445]">
+          {isBioExpanded ? bio : `${bio.substring(0, 70)}...`}
           <span>
-            <Link
-              href={""}
-              className="hidden md:block text-xs text-gray-900 font-medium underline  "
+            <button
+              onClick={toggleBio}
+              className="hidden md:block text-xs text-gray-900 font-medium underline "
             >
-              Read more
-            </Link>
+              {isBioExpanded ? "See less" : "Read more"}
+            </button>
           </span>
         </article>
 
-        <Link
-          href={""}
-          className="md:hidden text-xs text-gray-900 font-medium underline  "
-        >
-          Read more
-        </Link>
 
         {/* pricing */}
 
