@@ -52,18 +52,26 @@ const degreeData = {
   ],
 };
 
-interface EducationProps {
-  teacher: ITeacher;
-}
+// interface EducationProps {
+//   teacher: ITeacher;
+// }
 
-const Education: FC<EducationProps> = ({ teacher }) => {
+const Education = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [formData, setFormData] =
+  // const [formData, setFormData] =
+  //   useState<BecomeTeacherData>({
+  //     university: teacher.university || "",
+  //     year_experience: teacher.year_experience !== undefined ? String(teacher.year_experience) : "",
+  //     type_degree: teacher.type_degree || "",
+  //     certificate: teacher.certificate || "",
+  //   });
+
+    const [formData, setFormData] =
     useState<BecomeTeacherData>({
-      university: teacher.university || "",
-      year_experience: teacher.year_experience !== undefined ? String(teacher.year_experience) : "",
-      type_degree: teacher.type_degree || "",
-      certificate: teacher.certificate || "",
+      university: "",
+      year_experience:  "",
+      type_degree: "",
+      certificate: "",
     });
   const inputFileRef = useRef<HTMLInputElement>(null);
 
@@ -103,13 +111,6 @@ const Education: FC<EducationProps> = ({ teacher }) => {
       await teachersExperience.validate(formData, { abortEarly: false });
       setErrors({});
       //    const year_experience = parseInt(formData.year_experience);
-      //   setdataTutor((prev: any) => ({
-      //     ...prev,
-      //     university: formData.university,
-      //     type_degree: formData.type_degree,
-      //     certificate: formData.certificate,
-      //     year_experience: year_experience,
-      //   }));
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const newErrors: { [key: string]: string } = {};
@@ -124,7 +125,7 @@ const Education: FC<EducationProps> = ({ teacher }) => {
   };
 
   return (
-    <div className="h-auto w-[350px] sm:w-[800px] md:w-[800px] lg:w-[800px] xl:w-[1000px] flex justify-center">
+    <div className="h-auto w-[350px]  sm:w-[580px] flex justify-center">
       <div className="flex flex-col w-full sm:w-[90%] md:w-[80%] lg:w-[60%] xl:w-[50%] h-auto">
         <div className="flex flex-col justify-start items-start">
           <div className="flex justify-start sm:justify-start">
@@ -135,15 +136,6 @@ const Education: FC<EducationProps> = ({ teacher }) => {
               className="w-auto"
             >
               Teaching Certification
-            </Typography>
-          </div>
-          <div className="mt-2">
-            <Typography
-              fontSize="sm"
-              align="left"
-              className="flex text-wrap w-full"
-            >
-         This info will go on your public profile. Write it in the language you’ll be teaching
             </Typography>
           </div>
         </div>

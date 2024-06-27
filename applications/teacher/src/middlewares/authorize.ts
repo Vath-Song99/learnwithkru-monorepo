@@ -15,6 +15,7 @@ export const authorize = (requireRole: string[]) => {
       const token = req.headers.authorization?.split(" ")[1] as string;
       const decoded = await decodedToken(token);
 
+      console.log(decoded);
       const { role } = decoded;
       // const role = ["teacher", "user"];
 

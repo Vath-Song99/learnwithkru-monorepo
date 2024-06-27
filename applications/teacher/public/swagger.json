@@ -643,7 +643,7 @@
 				]
 			}
 		},
-		"/v1/teachers/teacher-profile": {
+		"/v1/teachers/profile": {
 			"get": {
 				"operationId": "GetProfileTeacher",
 				"responses": {

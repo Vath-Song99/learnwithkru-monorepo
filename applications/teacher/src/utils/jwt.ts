@@ -14,6 +14,7 @@ const privateKey = fs.readFileSync(privateKeyPath, "utf8");
 export const decodedToken = async (token: string) => {
   try {
     const data = (await jwt.decode(token)) as JwtPayload;
+
     return data.payload;
   } catch (error: unknown) {
     logger.error("Unable to decode in decodeToken() method !", error);
@@ -24,17 +25,13 @@ export const decodedToken = async (token: string) => {
 const currentEnv = process.env.NODE_ENV || "development";
 const config = getConfig(currentEnv);
 
-export const generateSignature = async ({
-  _id,
-}: {
-  _id: string;
-}): Promise<string> => {
+export const generateSignature = ({ _id }: { _id: string }): string => {
   const payloadData = {
     id: _id,
     role: ["user", "teacher"],
   };
   try {
-    return await jwt.sign({ payload: payloadData }, privateKey, {
+    return jwt.sign({ payload: payloadData }, privateKey, {
       expiresIn: config.jwtExpiresIn!,
       algorithm: "RS256",
     });

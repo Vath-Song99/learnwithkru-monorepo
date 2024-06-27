@@ -2,7 +2,7 @@ import StatusCode from "../utils/http-status-code";
 import { TeacherServices } from "../services/teacher-services";
 import { IQueries } from "../@types/queries.type";
 import { PATH_TEACHER } from "../routes/path-defs";
-import { authorize } from "../middlewares/authorize";
+import { RequestWithUser, authorize } from "../middlewares/authorize";
 import { ValidateInput } from "../middlewares/validate-input";
 import {
   teacherSchemas,
@@ -126,10 +126,10 @@ export class TeacherController extends Controller {
     @Request() req: Express.Request
   ): Promise<{ message: string; data: ITeacher }> {
     try {
-      const teacherId = (req.user as DecodedUser).id;
-      logger.info(`Has retrieve teacherId ${teacherId}`)
+      const teacherDecoded = (req as RequestWithUser).user as DecodedUser;
+      logger.info(`data ${teacherDecoded.id}`);
       const serivice = new TeacherServices();
-      const existingTeacher = await serivice.GetTeacher(teacherId);
+      const existingTeacher = await serivice.GetTeacher(teacherDecoded.id);
 
       return {
         message: "Success Retrieved teacher",
@@ -145,15 +145,19 @@ export class TeacherController extends Controller {
   @Middlewares(authorize(["teacher"]))
   @Put("/update")
   async UpdateTeacher(
-    @Body() requestBody: ITeacherUpdate , @Request() req: Express.Request
+    @Body() requestBody: ITeacherUpdate,
+    @Request() req: Express.Request
   ): Promise<{ message: string; data: ITeacher }> {
     try {
-      const teacherId = (req.user as DecodedUser).id
-      console.log('user id', teacherId , 'request body ', requestBody)
+      const teacherId = (req.user as DecodedUser).id;
+      console.log("user id", teacherId, "request body ", requestBody);
       const service = new TeacherServices();
-      const updatedTeacher = await service.UpdateTeacher({ id:teacherId, requestBody });
-      
-      logger.info(`Updated teacher ${updatedTeacher}`)
+      const updatedTeacher = await service.UpdateTeacher({
+        id: teacherId,
+        requestBody,
+      });
+
+      logger.info(`Updated teacher ${updatedTeacher}`);
       return { message: "Success updated teacher", data: updatedTeacher.data };
     } catch (error: unknown) {
       throw error;

@@ -16,6 +16,7 @@ import { handleAxiosError } from "@/utils/axiosErrorhandler";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { AboutTeacher, TeacherUpdate } from "@/schema/TeacherUpdate";
+import UnstyledButtonsIntroduction from "../Teacher/Buttonmui";
 
 const data = {
   subjects: [
@@ -181,7 +182,7 @@ const About: FC<DescriptionProps> = ({ teacher }) => {
     
     >
       <Typography align="left" fontSize="lg" variant="bold" className="py-2">
-        About
+        About 
       </Typography>
       <Typography align="left" fontSize="sm" className="py-2">
       Start creating your public tutor profile. Your progress will be automatically saved as you complete each section. You can return at any time to finish your registration
@@ -220,6 +221,7 @@ const About: FC<DescriptionProps> = ({ teacher }) => {
                   value={formData.last_name}
                   onChange={onChangeInput}
                 />
+              
                 {errors.last_name && (
                   <div className="flex justify-start">
                     <small className="mt-2" style={{ color: "red" }}>

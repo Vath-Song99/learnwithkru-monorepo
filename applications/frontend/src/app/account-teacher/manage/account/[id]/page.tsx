@@ -1,7 +1,6 @@
 import { ITeacher } from "@/@types/teacher.type";
 import { Footer } from "@/components";
 import AccountSettingsForm from "@/components/organisms/dashboard/AccountSettingsForm";
-import NavLinksAccount from "@/components/organisms/dashboard/NavLinksAccount";
 import { NavbarTeachers } from "@/components/organisms/navbar-teacher";
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
@@ -50,7 +49,6 @@ const Page = async ({ params }: { params: { id: string } }) => {
       </div>
       <div className="container xl:max-w-[1200px] bg-[#F8F9FA] rounded-xl mt-5 px-10 py-5">
         <div className="flex flex-row">
-          <NavLinksAccount id={id} />
         </div>
         <div className="flex flex-col">
           <AccountSettingsForm teacher={selectedTeacher as ITeacher} />

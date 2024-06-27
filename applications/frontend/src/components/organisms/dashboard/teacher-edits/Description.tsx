@@ -62,7 +62,7 @@ const Description: FC<DescriptionProps> = ({ teacher }) => {
   };
 
   return (
-    <div className="w-[370px] sm:w-[460px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-auto flex flex-col items-center">
+    <div className="w-[370px] sm:w-[460px] md:w-[600px]  h-auto flex flex-col items-center">
       <form onSubmit={handleSubmit}>
         <Typography
           align="left"
@@ -71,13 +71,6 @@ const Description: FC<DescriptionProps> = ({ teacher }) => {
           className="py-2 sm:pl-0 flex justify-start w-full"
         >
           Profile Description
-        </Typography>
-        <Typography
-          align="left"
-          fontSize="sm"
-          className="py-2 sm:pl-0 flex justify-start"
-        >
-          This info will go on your public profile. Write it in the language you&apos;ll be teaching.
         </Typography>
         <div className="flex flex-col items-start gap-4 py-5">
           <div className="flex flex-col items-end">

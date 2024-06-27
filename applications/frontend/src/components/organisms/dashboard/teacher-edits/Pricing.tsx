@@ -15,14 +15,14 @@ interface PriceProps {
   price: string | number;
   
 }
-interface EducationProps {
-  teacher: ITeacher;
-}
+// interface EducationProps {
+//   teacher: ITeacher;
+// }
 
-const Pricing: FC<EducationProps> = ({ teacher }) => {
+const Pricing = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] = useState<PriceProps>({
-    price: teacher.price || ""
+    price: ""
   });
 
   const onChangeInput = (
@@ -58,13 +58,10 @@ const Pricing: FC<EducationProps> = ({ teacher }) => {
   };
 
   return (
-    <div className="flex flex-col w-[80%] justify-center items-center px-4 sm:w-[60%] md:w-[80%] lg:w-[60%] xl:w-[60%]">
+    <div className="flex flex-col w-[490px] sm:w-[620px] justify-center items-center p-2 bg-white rounded-lg ">
       <div className="flex flex-col">
         <Typography align="left" fontSize="lg" variant="bold" className="py-4">
           Pricing per hour
-        </Typography>
-        <Typography align="left" fontSize="sm" className="py-2">
-        Fill your price per Hour. It will be shown in the profile’s lis
         </Typography>
         <form onSubmit={handleSubmit} className="">
           <div className="flex flex-col">

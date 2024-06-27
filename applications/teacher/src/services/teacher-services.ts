@@ -77,7 +77,8 @@ export class TeacherServices {
   ): Promise<{ data: ITeacherDocs; token: string }> {
     try {
       const teacherData = { userId, ...requestBody };
-      const existTeacher = await this.teacherRepo.FindTeacherByUserIdAndTeacherId(userId);
+      const existTeacher =
+        await this.teacherRepo.FindTeacherByUserIdAndTeacherId(userId);
 
       logger.info(`Existing teacher: ${existTeacher}`);
       if (existTeacher) {
@@ -89,7 +90,7 @@ export class TeacherServices {
 
       const newTeacher = await this.teacherRepo.CreateTeacher(teacherData);
 
-      const token = await generateSignature({
+      const token =  generateSignature({
         _id: newTeacher._id!.toString(),
       });
 
@@ -106,7 +107,6 @@ Start exploring and discovering all the features we have to offer. Should you ha
 We're thrilled to have you on board!
       `,
       });
-
       return { data: newTeacher, token };
     } catch (error: unknown) {
       throw error;
@@ -139,6 +139,8 @@ We're thrilled to have you on board!
 
   async GetTeacher(id: string): Promise<{ data: ITeacher }> {
     try {
+      logger.info(`Has retrieved ID ${id}`);
+
       const existingTeacher = await this.teacherRepo.FindTeacherById({ id });
 
       if (!existingTeacher) {
@@ -204,7 +206,7 @@ We're thrilled to have you on board!
       if (teaching_experience)
         teacherObject.teaching_experience = teaching_experience;
 
-      logger.info(`update teacher obj ${teacherObject}`)
+      logger.info(`update teacher obj ${teacherObject}`);
       const updatedTeacher = await this.teacherRepo.UpdateTeacher({
         id,
         teacherData: teacherObject,

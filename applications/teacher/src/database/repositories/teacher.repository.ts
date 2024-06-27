@@ -5,6 +5,7 @@ import { logger } from "../../utils/logger";
 import teacherModel, { ITeacherDocs } from "../models/teacher.model";
 import { ITeacher, ITeacherUpdate } from "../../@types/teacher.type";
 import { Filter } from "../../@types/queries.type";
+import { ObjectId } from "mongodb";
 export class TeacherRepository {
   constructor() {}
 
@@ -98,7 +99,9 @@ export class TeacherRepository {
       }
 
       // Fetch teacher by ID from the database
-      const teacher = await teacherModel.findById({ _id: id }).exec();
+      const teacher = await teacherModel
+        .findOne({ _id: new ObjectId(id) })
+        .exec();
 
       // Check if a teacher was found
       if (!teacher) {
@@ -111,7 +114,7 @@ export class TeacherRepository {
       return teacher;
     } catch (error: unknown) {
       // Log the error
-      logger.error("Error finding teacher by ID:", error);
+      logger.error(`Error finding teacher by ID: ${id}`, { error });
 
       // Re-throw custom errors
       if (error instanceof BaseCustomError) {
@@ -203,7 +206,9 @@ export class TeacherRepository {
     }
   }
 
-  async FindTeacherByUserIdAndTeacherId(id: string): Promise<ITeacherDocs | null> {
+  async FindTeacherByUserIdAndTeacherId(
+    id: string
+  ): Promise<ITeacherDocs | null> {
     try {
       // Validate input
       if (!id) {
@@ -214,7 +219,9 @@ export class TeacherRepository {
       }
 
       // Fetch teacher by user ID from the database
-      const existTeacher = await teacherModel.findOne({ $or: [{ _id: id }, { userId: id }] }).exec();
+      const existTeacher = await teacherModel
+        .findOne({ $or: [{ _id: id }, { userId: id }] })
+        .exec();
 
       // Log the operation
       logger.info(

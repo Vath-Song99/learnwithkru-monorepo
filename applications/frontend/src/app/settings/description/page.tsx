@@ -1,64 +1,97 @@
-
+// pages/teachers.tsx
 import { ITeacher } from "@/@types/teacher.type";
-import { Footer } from "@/components";
-import { Description } from "@/components/organisms/dashboard/teacher-edits";
-import NavLinksSubTeachers from "@/components/organisms/dashboard/teacher-edits/nav-side-link";
-import { NavbarTeachers } from "@/components/organisms/navbar-teacher";
+import DefaultLayout from "@/components/organisms/dashboard/DefaultLayout";
+import { ProfileTeacher } from "@/components/organisms/dashboard/profile-teacher/ProfileTeacher";
+import UpdateTeacher from "@/components/organisms/dashboard/profile-teacher/UpdateTeacher";
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
-
+import { Container, Grid } from "@mui/material";
+import { IAuth } from "@/@types/auth";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
+import { Description } from "@/components/organisms/dashboard/teacher-edits/Description";
 
 interface ITeacherData {
   errors?: string;
   data: ITeacher | null;
   isAuth?: boolean;
 }
-async function getTeachersData(_id: string): Promise<ITeacherData> {
-  try {   
+
+const getUserData = async (): Promise<IAuth> => {
+  const cookieString = getCookieString();
+  const apiUrl =
+    process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
+  try {
+    if (typeof cookieString === "object") {
+      return cookieString;
+    }
+    const res = await axios.get(`${apiUrl}/v1/users`, {
+      withCredentials: true,
+      headers: { Cookie: cookieString as string },
+    });
+
+    return { isAuth: true, data: res.data.data };
+  } catch (error: unknown) {
+    handleAxiosError(error, {
+      handleErrorResponse: (response) => {
+        const { errors } = response.data;
+
+        if (errors) {
+          return { isAuth: false, errors: errors?.message, data: null };
+        }
+      },
+    });
+    throw error;
+  }
+};
+
+async function getTeachersData(): Promise<ITeacherData> {
+  try {
     const cookieStringOrAuth = getCookieString();
 
     if (typeof cookieStringOrAuth === "object") {
       return { errors: "Not authenticated", data: null };
     }
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
-    const API_ENDPOINT = `${apiUrl}/v1/teachers/${_id}`;
+    const apiUrl =
+      process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
+    const API_ENDPOINT = `${apiUrl}/v1/teachers/`;
     const res = await axios.get(API_ENDPOINT, {
       withCredentials: true,
       headers: { Cookie: cookieStringOrAuth },
     });
 
     if (res.data.errors) {
-      return {  errors: res.data.errors, data: null };
+      return { errors: res.data.errors, data: null };
     }
 
-    return { isAuth: true,data: res.data.data};
+    return { isAuth: true, data: res.data.data };
   } catch (error: any) {
     throw error;
   }
 }
 
-const Page = async ({ params }: { params: { id: string } }) => {
-  const id = params.id as string;
-  const teachersResponse = await getTeachersData(id);
+const Page = async () => {
+  const teachersResponse = await getTeachersData();
   const selectedTeacher = teachersResponse?.data;
-  const isTeachers = teachersResponse?.isAuth;
+  const { isAuth, errors, data } = await getUserData();
+
+  if (errors) {
+    return (
+      <div className="w-full flex justify-center pt-10">
+        <div className="flex justify-center items-center min-h-screen">
+          <h1 className="">{errors}</h1>
+        </div>
+      </div>
+    );
+  }
   return (
-    <>
-     <div className="w-full flex justify-center items-center border shadow-sm">
-          <NavbarTeachers teacher={selectedTeacher as ITeacher } isTeachers={isTeachers as boolean}  />
-        </div>
-      <div className="container xl:max-w-[1200px] bg-[#F8F9FA] rounded-xl mt-5 px-10 py-5">
-        <div className="flex flex-row">
-          <NavLinksSubTeachers id={id} />
-        </div>
-        <div className="flex flex-col">
-          <Description teacher={selectedTeacher as ITeacher}  />
-        </div>
-      </div>
-      <div className="w-full flex justify-center items-start bg-black">
-        <Footer />
-      </div>
-    </>
+    <div className="w-full flex justify-center p-8">
+      <Grid item xs={12} md={7} className="bg-white shadow-md p-4">
+        <Description teacher={selectedTeacher} />
+      </Grid>
+      <Grid item xs={12} md={5} className="bg-white shadow-md p-4">
+        <UpdateTeacher />
+      </Grid>
+    </div>
   );
 };
 
