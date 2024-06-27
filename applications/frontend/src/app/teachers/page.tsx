@@ -91,7 +91,9 @@ const Page = async ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
+  //auth
   const { isAuth, data } = await getUserData();
+  
   const search_query = (searchParams.search_query as string) || "";
   const pageNumber = Number(searchParams.pageNumber as string) || 1;
   const province = (searchParams.province as string) || "";
