@@ -54,17 +54,17 @@ const proxyConfigs: ProxyConfig = {
 
         const session = expressReq.session?.jwt;
         const persistent = expressReq.cookies?.persistent;
-      
+
         if (session) {
           logger.info(`Proxy session: ${session}`);
           proxyReq.setHeader("Authorization", `Bearer ${session}`);
         } else if (persistent) {
           logger.info(`Proxy using persistent cookie: ${persistent}`);
           proxyReq.setHeader("Authorization", `Bearer ${persistent}`);
-        } else {
-          logger.error("Neither session nor persistent cookie available for proxy request.");
-          // Handle this scenario as per your application's requirements (e.g., throw an error, handle differently)
         }
+        logger.info(
+          "Neither session nor persistent cookie available for proxy request."
+        );
       },
       proxyRes: (proxyRes, req, res) => {
         let originalBody: Buffer[] = [];
@@ -102,13 +102,13 @@ const proxyConfigs: ProxyConfig = {
             }
 
             if (responseBody.isLogout) {
-                // Clear the persistent cookie
-              res.clearCookie('persistent');
-              if((req as Request).session!.jwt){
+              // Clear the persistent cookie
+              res.clearCookie("persistent");
+              if ((req as Request).session!.jwt) {
                 try {
                   // Manually clear the session data
                   (req as Request).session = null;
-  
+
                   return res.end(); // End response after logout
                 } catch (error) {
                   logger.error("Error clearing session:", error);

@@ -13,10 +13,10 @@ interface ITeacherData {
   isAuth?: boolean;
 }
 async function getTeachersData(_id: string): Promise<ITeacherData> {
-  try {   
+  try {
     const cookieStringOrAuth = getCookieString();
 
-    if (typeof cookieStringOrAuth === "object") {
+    if (typeof cookieStringOrAuth !== "string") {
       return { errors: "Not authenticated", data: null };
     }
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
@@ -27,10 +27,10 @@ async function getTeachersData(_id: string): Promise<ITeacherData> {
     });
 
     if (res.data.errors) {
-      return {  errors: res.data.errors, data: null };
+      return { errors: res.data.errors, data: null };
     }
 
-    return { isAuth: true,data: res.data.data};
+    return { isAuth: true, data: res.data.data };
   } catch (error: any) {
     throw error;
   }
@@ -44,16 +44,16 @@ const Page = async ({ params }: { params: { id: string } }) => {
   const isTeachers = teachersResponse?.isAuth;
   return (
     <>
-       <div className="w-full flex justify-center items-center border shadow-sm">
-          <NavbarTeachers teacher={selectedTeacher as ITeacher } isTeachers={isTeachers as boolean}  />
-        </div>
+      <div className="w-full flex justify-center items-center border shadow-sm">
+        <NavbarTeachers teacher={selectedTeacher as ITeacher} isTeachers={isTeachers as boolean} />
+      </div>
       <div className="container bg-[#F8F9FA] rounded-xl mt-5 px-10 py-5">
-       
+
         <div className="flex flex-row">
           <NavLinksSubTeachers id={id} />
         </div>
         <div className="flex flex-col">
-          <About teacher={selectedTeacher as ITeacher}  />
+          <About teacher={selectedTeacher as ITeacher} />
         </div>
       </div>
       <div className="w-full flex justify-center items-start bg-black">

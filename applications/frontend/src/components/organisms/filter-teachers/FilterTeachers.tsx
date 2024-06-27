@@ -52,11 +52,16 @@ const ProvinceDropDown = [
 ];
 
 const pricingDropDown = [
-  { id: 1, minPrice: 0, maxPrice: 10 },
-  { id: 2, minPrice: 10, maxPrice: 20 },
-  { id: 3, minPrice: 20, maxPrice: 30 },
-  { id: 4, minPrice: 30, maxPrice: 40 },
-  { id: 5, minPrice: 40, maxPrice: 70 },
+  { id: 1, minPrice: 0, maxPrice: 70 },
+  { id: 2, minPrice: 1, maxPrice: 10 },
+  { id: 3, minPrice: 10, maxPrice: 20 },
+  { id: 4, minPrice: 20, maxPrice: 30 },
+  { id: 5, minPrice: 30, maxPrice: 40 },
+  { id: 6, minPrice: 40, maxPrice: 50 },
+  { id: 7, minPrice: 50, maxPrice: 60 },
+  { id: 8, minPrice: 60, maxPrice: 70 },
+
+
 ];
 
 const FilterTeachers = () => {
@@ -67,8 +72,6 @@ const FilterTeachers = () => {
     min_p: 0,
     max_p: 0,
   });
-
-
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
 
@@ -106,6 +109,8 @@ const FilterTeachers = () => {
       return updatedFilters;
     });
   };
+
+
 
   const updateQueryParams = (filters: Filters) => {
     const queryParameters: Record<string, string> = {};

@@ -14,10 +14,11 @@
   },
   "scripts": {
     "build:docker": "docker-compose up --build",
-    "start:docker": "docker-compose up",
+    "start:docker": "docker compose up",
     "stop:docker": "docker-compose stop",
     "build-up:docker": "docker-compose up --build",
     "restart:docker": "docker-compose restart",
+    "clear:docker": "docker container prune",
     "start:app": "yarn workspace learnwithkru-application start:dev",
     "start:api-gateway": "yarn workspace api-gateway start:dev",
     "start:auth-service": "yarn workspace authentication-service start:dev",

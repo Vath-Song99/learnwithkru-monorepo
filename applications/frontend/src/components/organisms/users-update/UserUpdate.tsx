@@ -131,7 +131,7 @@ const UserUpdate: FC<UserDataProps> = ({ authState }) => {
           <div className="col-span-5 xl:col-span-3">
             <div className="rounded-sm border border-stroke bg-white shadow-default">
               <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
-                <h3 className="font-medium text-black dark:text-white">
+                <h3 className="font-medium text-black ">
                   Personal account
                 </h3>
               </div>
@@ -144,7 +144,7 @@ const UserUpdate: FC<UserDataProps> = ({ authState }) => {
                   <div className="mb-5.5 flex flex-col justify-between gap-5.5 sm:flex-row">
                     <div className="w-full sm:w-[45%]">
                       <label
-                        className=" block text-sm font-medium text-black dark:text-white"
+                        className=" block text-sm font-medium text-black "
                         htmlFor="fullName"
                       >
                         First Name
@@ -177,7 +177,7 @@ const UserUpdate: FC<UserDataProps> = ({ authState }) => {
                         </span>
                         {authState.isAuth && (
                           <input
-                            className="w-full rounded border border-stroke bg-gray py-3 px-8 text-sm text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                            className="w-full rounded border border-stroke bg-gray py-3 px-8 text-sm text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:focus:border-primary"
                             type="text"
                             name="first_name"
                             value={formData.first_name}
@@ -195,7 +195,7 @@ const UserUpdate: FC<UserDataProps> = ({ authState }) => {
 
                     <div className="w-full sm:w-[45%]">
                       <label
-                        className=" block text-sm font-medium text-black dark:text-white"
+                        className=" block text-sm font-medium text-black"
                         htmlFor="fullName"
                       >
                         Last Name
@@ -247,7 +247,7 @@ const UserUpdate: FC<UserDataProps> = ({ authState }) => {
 
                   <div className="mb-5.5">
                     <label
-                      className=" block text-sm font-medium text-black dark:text-white"
+                      className=" block text-sm font-medium text-black "
                       htmlFor="emailAddress"
                     >
                       Email Address
@@ -280,7 +280,7 @@ const UserUpdate: FC<UserDataProps> = ({ authState }) => {
                       </span>
                       {authState.isAuth && (
                         <input
-                          className="w-full rounded border border-stroke bg-gray py-3 px-8 pr-4.5 text-sm text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                          className="w-full rounded border border-stroke bg-gray py-3 px-8 pr-4.5 text-sm text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4  dark:focus:border-primary"
                           type="text"
                           name="email"
                           value={formData.email}
@@ -294,7 +294,7 @@ const UserUpdate: FC<UserDataProps> = ({ authState }) => {
 
                   <div className="flex justify-end gap-4">
                     <button
-                      className="flex justify-center items-center rounded border border-stroke py-2 px-3 text-sm font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+                      className="flex justify-center items-center rounded border border-stroke py-2 px-3 text-sm font-medium text-black hover:shadow-1 dark:border-strokedark "
                       type="submit"
                     >
                       Cancel
@@ -313,7 +313,7 @@ const UserUpdate: FC<UserDataProps> = ({ authState }) => {
           <div className="col-span-5 xl:col-span-2">
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
-                <h3 className="font-medium text-black dark:text-white">
+                <h3 className="font-medium text-black ">
                   profile
                 </h3>
               </div>

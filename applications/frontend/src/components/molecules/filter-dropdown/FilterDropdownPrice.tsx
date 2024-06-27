@@ -55,7 +55,9 @@ const FilterDropdownPrice: React.FC<FilterDropdownPriceProps> = ({
       >
         {itemsDropdownPrice.map((item) => (
           <option key={item.id} value={item.id}>
-            ${item.minPrice} - ${item.maxPrice}
+            {
+              item.minPrice === 0 && item.maxPrice === 70 ? "All" : `$${item.minPrice} - $${item.maxPrice}`
+            }
           </option>
         ))}
       </Select>
