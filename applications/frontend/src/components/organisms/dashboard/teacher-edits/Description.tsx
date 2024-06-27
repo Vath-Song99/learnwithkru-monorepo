@@ -77,7 +77,7 @@ const Description: FC<DescriptionProps> = ({ teacher }) => {
           fontSize="sm"
           className="py-2 sm:pl-0 flex justify-start"
         >
-          This info will go on your public profile. Write it in the language you'll be teaching.
+          This info will go on your public profile. Write it in the language you&apos;ll be teaching.
         </Typography>
         <div className="flex flex-col items-start gap-4 py-5">
           <div className="flex flex-col items-end">

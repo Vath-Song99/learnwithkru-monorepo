@@ -1,6 +1,8 @@
 "use client";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React from "react";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 interface ItemListProps {
   setPageNumber: React.Dispatch<React.SetStateAction<number>>;
@@ -14,46 +16,22 @@ const ItemList: React.FC<ItemListProps> = ({
   totalPages,
 }) => {
   const pathName = usePathname();
-  const searchParams = useSearchParams();
 
-  const searchValue = searchParams.get("search_query");
-  console.log(searchValue);
-
-  const handlePreviousPage = () => {
-    setPageNumber((prev) => Math.max(prev - 1, 1));
+  const handlePageChange = (_event: React.ChangeEvent<unknown>, page: number) => {
+    setPageNumber(page);
     const params = new URLSearchParams(window.location.search);
-    params.set("pageNumber", (pageNumber - 1).toString());
+    params.set("pageNumber", page.toString());
     window.location.href = `${pathName}?${params.toString()}`;
   };
 
-  const handleNextPage = () => {
-    if (totalPages > pageNumber) {
-      setPageNumber((prev) => prev + 1);
-      const params = new URLSearchParams(window.location.search);
-      params.set("pageNumber", (pageNumber + 1).toString());
-      window.location.href = `${pathName}?${params.toString()}`;
-    }
-  };
-
   return (
-    <div className="flex justify-center items-center space-x-4">
-      <button
-        onClick={handlePreviousPage}
-        disabled={pageNumber === 1}
-        className="px-4 py-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50"
-      >
-        Previous
-      </button>
-      <span className="px-4 py-2">{pageNumber}</span>
-      <button
-        onClick={handleNextPage}
-        disabled={totalPages <= pageNumber}
-        className="px-4 py-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50"
-      >
-        Next
-      </button>
+    <div className="w-full flex justify-center items-center pt-3" >
+      <Stack  spacing={2}>
+      <Pagination onChange={handlePageChange} count={totalPages} variant="outlined" shape="rounded" page={pageNumber} />
+    </Stack>
     </div>
   );
+
 };
 
 export { ItemList };

@@ -41,6 +41,7 @@ const FormSignup = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const fetchSignupData = async (): Promise<void> => {
     try {
+      setIsLoading(true);
       const API_BASE_URL =
         process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
       await axios.post(`${API_BASE_URL}/v1/auth/signup`, formData, {
@@ -52,15 +53,9 @@ const FormSignup = () => {
     } catch (error: unknown) {
       handleAxiosError(error, {
         
-        logError: (message: string) => {
-          // Custom logging implementation, e.g., sending logs to a server
-          console.log("Custom log:", message);
-        },
         handleErrorResponse: (response) => {
           // Custom response handling
-          console.log("Handling response:", response);
           const { errors } = response.data;
-
           if (errors) {
             if (
               errors?.message?.includes("Verification email has been resent")
@@ -68,7 +63,6 @@ const FormSignup = () => {
               router.push("/send-verify-email");
               return;
             }
-            console.log(errors.message);
             setError({ server: errors.message });
           }
         },
@@ -82,14 +76,11 @@ const FormSignup = () => {
     e: FormEvent<HTMLFormElement>
   ) => {
     try {
-      setIsLoading(true);
       e.preventDefault();
-      console.log("Got Eventing", formData);
       // stept 3
       await AuthValidateSchema.validate(formData, { abortEarly: false });
       await fetchSignupData();
 
-      console.log("was gone");
       // stept 4
       const authObject = {
         last_name: formData.last_name,
@@ -129,7 +120,6 @@ const FormSignup = () => {
     }
   };
 
-  console.log(errors);
   return (
     <div className="flex">
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -203,7 +193,7 @@ const FormSignup = () => {
               onClick={togglePasswordVisibility}
               className="absolute right-3 top-2"
             >
-              {showPassword ? (
+              { !showPassword ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

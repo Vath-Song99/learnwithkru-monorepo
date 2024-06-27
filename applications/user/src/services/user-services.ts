@@ -32,7 +32,7 @@ export class UserServices {
       }
       // step 3
       const newUser = await this.UserRepo.CreateUser({
-        authId: authId as string,
+        authId,
         first_name,
         last_name,
         email,

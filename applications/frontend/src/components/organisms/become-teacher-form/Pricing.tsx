@@ -38,6 +38,7 @@ const PricingForm = ({
 }: BecomeTeacherFormTypes) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [formData, setFormData] = useState<PriceProps>(DEFAULT_FORM_VALUE);
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter();
 
   const onChangeInput = (
@@ -56,7 +57,7 @@ const PricingForm = ({
     e: FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-
+    setIsLoading(true)
     try {
       await PriceTeachers.validate(formData, { abortEarly: false });
       // Update dataTutor with the correct price
@@ -107,13 +108,8 @@ const PricingForm = ({
             withCredentials: true,
           }
         );
-        console.log("Log respone: ", response)
-        if (response.data.errors) {
-          console.log("An error occurred: teachers ", response.data.errors);
-          return false;
-        }
    
-          router.push(`/teachers/${response.data.data._id}`);
+        router.push(`/teachers/${response.data.data._id}`);
         clearLocalStorage("priceTeacher")
         clearLocalStorage("aboutTeacher")
         clearLocalStorage("educationTeacher")
@@ -123,11 +119,8 @@ const PricingForm = ({
         clearLocalStorage("currentPage")
         
       } catch (error) {
-        console.log(error)
         handleAxiosError(error, {
-          logError: (message) =>{
-            console.log(`error message`, message)
-          },
+       
           handleErrorResponse(response) {
               const { errors } = response.data
 
@@ -137,6 +130,8 @@ const PricingForm = ({
               }
           },
         })
+      }finally{
+        setIsLoading(false)
       }
     };
     fetchData(teacher);
@@ -192,21 +187,23 @@ const PricingForm = ({
             <div className="flex flex-col mt-5">
               <div className="flex justify-start gap-4">
                 {currentPage > 0 && (
-                  <Button
-                    onClick={handleBack}
-                    radius="md"
-                    className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  >
-                    Back
-                  </Button>
-                )}
-                <Button
-                  type="submit"
-                  radius="md"
-                  className="hover:bg-violet-700 text-white text-[16px] flex justify-center w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                 <button
+                 onClick={handleBack}
+                type="submit"
+               //  radius="md"
+                className="  items-center bg-white border-gray-400  text-gray-500  hover:bg-violet-900 border  hover:text-white text-sm flex justify-center px-5 font-semibold py-2  rounded-lg focus:outline-none focus:shadow-outline tracking-widest"
                 >
-                  Submit
-                </Button>
+                Back
+                </button>
+               )}
+               <Button
+
+type="submit"
+radius="md"
+className="  items-center bg-violet-900 hover:bg-white hover:border hover:border-gray-400  hover:text-gray-600 text-white text-sm flex justify-center px-10 font-semibold py-2  rounded focus:outline-none focus:shadow-outline tracking-widest"
+>
+{isLoading ? "Submitting ..." : "Sumit"}
+</Button>
               </div>
             </div>
           </div>

@@ -94,7 +94,7 @@ export class AuthServices {
       const googleConfig = await OauthConfig.getInstance();
       const tokenResponse = await googleConfig.GoogleStrategy(code);
 
-      const accessToken = tokenResponse.access_token;
+      const accessToken = tokenResponse!.access_token;
 
       const userInfoResponse = await googleConfig.GoogleAccessInfo(accessToken);
       const { given_name, family_name, email, id, verified_email, picture } =
@@ -249,8 +249,8 @@ export class AuthServices {
     try {
       //step 1
       const config = await OauthConfig.getInstance();
-      const data: TokenResponse = await config.FacebookStrategy(code);
-      const { access_token } = data;
+      const data: TokenResponse |undefined = await config.FacebookStrategy(code);
+      const { access_token } = data!;
 
       //step 2
       const profile = await config.FacebookAccessInfo(access_token);

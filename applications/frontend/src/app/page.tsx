@@ -1,5 +1,6 @@
 import { IAuth } from "@/@types/auth";
 import { Homepage, Navbar } from "@/components";
+import { handleAxiosError } from "@/utils/axiosErrorhandler";
 import { getCookieString } from "@/utils/getCookieString";
 import axios from "axios";
 
@@ -7,7 +8,6 @@ import axios from "axios";
 const getUserData = async (): Promise<IAuth> => {
   const cookieString = getCookieString();
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
-  console.log(apiUrl)
   try {
     if (typeof cookieString === "object") {
       return cookieString;
@@ -17,18 +17,21 @@ const getUserData = async (): Promise<IAuth> => {
       withCredentials: true,
       headers: { Cookie: cookieString as string },
     });
-    
-    if (res.data.errors) {
-      return { errors: res.data.errors, data: null };
-    }
 
     return { isAuth: true, data: res.data.data };
 
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.error("Axios error details:", error.response?.data);
-    }
+  } catch (error: unknown) {
 
+     handleAxiosError(error, {
+      handleErrorResponse: (response) =>{
+        
+        const { errors} = response.data;
+
+        if(errors){
+          return { isAuth: false , errors: errors?.message , data: null };
+        }
+      }
+     })
     throw error;
   }
 };

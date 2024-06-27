@@ -1,12 +1,28 @@
+"use client"
+
 import { Typography } from "@/components/atoms";
-import React from "react";
-import { VerifyLogin } from "../auth/VerifyLogin";
+import React, { useState } from "react";
+import SignInModal from "@/components/molecules/modal/SigninModal";
+import { useRouter } from "next/navigation";
 
 
 const HomeBenner = ({ className, isAuth }: { className?: string, isAuth: boolean }) => {
+  const router = useRouter();
 
+  const [isTeacherOpen, setIsTeacheOpen] = useState(false);
+  const [ isStudentOpen, setIsStudentOpen] = useState(false);
 
-
+  const handleTeacherToggle = () =>{
+    if(!isAuth){
+      return setIsTeacheOpen(true)
+    }
+    router.push("/become-teacher")
+  }
+  const handleStudentToggle = () =>{
+    if(!isAuth){
+      return setIsStudentOpen(true)
+    }
+    router.push("/become-student")  }
   return (
     <div
       className={`w-full h-auto flex justify-center  py-14  bg-[#F6FAFC]  ${className}`} //list card
@@ -80,7 +96,24 @@ const HomeBenner = ({ className, isAuth }: { className?: string, isAuth: boolean
             </Typography>
 
             <div className="w-full flex justify-end items-center">
-              <VerifyLogin isAuth={isAuth} type="teacher" />
+            <button onClick={handleTeacherToggle}>
+            <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="w-7 h-7 bg-[#E9E9E9] rounded-full hover:bg-white cursor-pointer"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+        />
+      </svg>
+            </button>
+              <SignInModal isPopup={isTeacherOpen} setIsPopup={setIsTeacheOpen} isAuth={isAuth}/>
+              {/* <VerifyLogin isAuth={isAuth} type="teacher" /> */}
             </div>
           </div>
 
@@ -122,7 +155,23 @@ const HomeBenner = ({ className, isAuth }: { className?: string, isAuth: boolean
             </Typography>
 
             <div className="w-full flex justify-end items-center">
-              <VerifyLogin isAuth={isAuth} type="student" />
+            <button onClick={handleStudentToggle}>
+            <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="w-7 h-7 bg-[#E9E9E9] rounded-full hover:bg-white cursor-pointer"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+        />
+      </svg>
+            </button>
+              <SignInModal isPopup={isStudentOpen} setIsPopup={setIsStudentOpen} isAuth={isAuth}/>
             </div>
           </div>
         </div>

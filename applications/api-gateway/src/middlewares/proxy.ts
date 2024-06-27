@@ -11,6 +11,12 @@ interface ProxyConfig {
   [context: string]: Options<IncomingMessage, Response>;
 }
 
+declare module "express" {
+  interface Request {
+    session?: any; // Adjust the type based on your session configuration
+  }
+}
+
 interface NetworkError extends Error {
   code?: string;
 }
@@ -46,11 +52,18 @@ const proxyConfigs: ProxyConfig = {
         logger.info(`Headers Sent: ${JSON.stringify(proxyReq.getHeaders())}`);
         const expressReq = req as Request;
 
-        // Extract JWT token from session
-        const token = expressReq.session!.jwt;
-        logger.info(`Proxy token : ${token}`);
-        if (token) {
-          proxyReq.setHeader("Authorization", `Bearer ${token}`);
+        const session = expressReq.session?.jwt;
+        const persistent = expressReq.cookies?.persistent;
+      
+        if (session) {
+          logger.info(`Proxy session: ${session}`);
+          proxyReq.setHeader("Authorization", `Bearer ${session}`);
+        } else if (persistent) {
+          logger.info(`Proxy using persistent cookie: ${persistent}`);
+          proxyReq.setHeader("Authorization", `Bearer ${persistent}`);
+        } else {
+          logger.error("Neither session nor persistent cookie available for proxy request.");
+          // Handle this scenario as per your application's requirements (e.g., throw an error, handle differently)
         }
       },
       proxyRes: (proxyRes, req, res) => {
@@ -89,9 +102,21 @@ const proxyConfigs: ProxyConfig = {
             }
 
             if (responseBody.isLogout) {
-              res.clearCookie("persistent", OptionCookie);
-              res.clearCookie("session", OptionCookie);
-              res.clearCookie("session.sig", OptionCookie);
+                // Clear the persistent cookie
+              res.clearCookie('persistent');
+              if((req as Request).session!.jwt){
+                try {
+                  // Manually clear the session data
+                  (req as Request).session = null;
+  
+                  return res.end(); // End response after logout
+                } catch (error) {
+                  logger.error("Error clearing session:", error);
+                  return res
+                    .status(500)
+                    .json({ message: "Error clearing session" });
+                }
+              }
             }
             // Modify response to send  the message to the client
             res.json({
