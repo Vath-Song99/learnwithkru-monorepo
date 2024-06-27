@@ -51,9 +51,7 @@ export class TeacherServices {
 
       // Handling date and time availability
       if (time_available) {
-        console.log(time_available);
         const regex = new RegExp(time_available, "i");
-
         filter["date_available.day"] = regex;
         // Note: Adjust the time filter as needed. Example assuming `start` and `end` times are required.
       }
@@ -80,7 +78,6 @@ export class TeacherServices {
       // Determine if any filter has been set
       const hasFilter = Object.keys(filter).length > 0;
 
-      console.log("here price: ", filter);
       // Query the repository with the constructed filter
       const { totalTeachers, data } = await this.teacherRepo.FindAllTeachers(
         {

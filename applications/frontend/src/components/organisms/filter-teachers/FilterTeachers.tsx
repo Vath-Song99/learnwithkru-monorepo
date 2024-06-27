@@ -124,14 +124,16 @@ const FilterTeachers = () => {
     if (filters.time_available) {
       queryParameters.time_available = filters.time_available;
     }
-    if (filters.min_p !== undefined && filters.min_p !== null) {
+    if (filters.min_p !== undefined && filters.min_p !== null || filters.min_p === 0) {
       queryParameters.min_p = filters.min_p.toString();
     }
-    if (filters.max_p !== undefined && filters.max_p !== null) {
+    if (filters.max_p !== undefined && filters.max_p !== null || filters.max_p === 0) {
       queryParameters.max_p = filters.max_p.toString();
     }
 
-    const query = new URLSearchParams(queryParameters).toString();
+    const hasFilter = Object.keys(filters).length > 0;
+
+    const query = new URLSearchParams(hasFilter ? queryParameters : '').toString();
 
     window.history.replaceState(null, "", `?${query}`);
     window.location.reload();
