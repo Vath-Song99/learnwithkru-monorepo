@@ -83,9 +83,9 @@ const proxyConfigs: ProxyConfig = {
           };
 
           try {
-            console.log("body string", bodyString);
+            logger.info(`body string ${bodyString}`);
             responseBody = JSON.parse(bodyString);
-            console.log("ResponeBody:", responseBody);
+            logger.info(`ResponeBody: ${responseBody}`);
             // If Response Error, Not Modified Response
             if (responseBody.errors) {
               return res.status(proxyRes.statusCode!).json(responseBody);
