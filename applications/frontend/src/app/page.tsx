@@ -36,6 +36,7 @@ const getUserData = async (): Promise<IAuth> => {
   }
 };
 
+// root
 const Page = async () => {
   const { isAuth, errors, data } = await getUserData();
 
