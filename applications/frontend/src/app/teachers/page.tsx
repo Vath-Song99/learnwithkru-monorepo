@@ -61,6 +61,7 @@ async function getTeachersData({
 
 > {
   try {
+    //end poirnt
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.learnwithkru.com";
     const API_ENDPOINT = `${apiUrl}/v1/teachers?pageSize=6&pageNumber=${pageNumber}&name=${search_query}&province=${province}&subject=${subject}&time_available=${time_available}&min_p=${min_p}&max_p=${max_p}`;
     const res = await axios.get(API_ENDPOINT);
