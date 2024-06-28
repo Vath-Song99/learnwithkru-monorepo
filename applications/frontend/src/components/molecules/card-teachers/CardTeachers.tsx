@@ -12,7 +12,7 @@ interface CardTeacherProps {
 const CardTeachers: React.FC<CardTeacherProps> = ({
   items,
 }) => {
-  const { _id, first_name, last_name, picture, subject, bio, price, total_rating } = items;
+  const { _id, first_name, last_name, picture, subject, bio, price, total_rating ,phone_number } = items;
   const fullname = `${first_name} ${last_name}`;
   const [isBioExpanded, setIsBioExpanded] = useState(false);
 
@@ -85,9 +85,9 @@ const CardTeachers: React.FC<CardTeacherProps> = ({
           </Typography>
           <div className="flex items-center">
           </div>
-          <button className="hidden md:block py-1 px-2 text-xs bg-[#007C00] text-white hover:bg-white hover:border hover:text-[#455445] hover:border-[#007C00]">
+          <Link href={`https://t.me/+855${String(Number(phone_number))}`} className="hidden md:block py-1 px-2 text-xs bg-[#007C00] text-white hover:bg-white hover:border hover:text-[#455445] hover:border-[#007C00]">
             Send Message
-          </button>
+          </Link>
         </div>
 
         {/* Stars */}
